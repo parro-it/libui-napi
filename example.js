@@ -1,10 +1,14 @@
-const {start, init, onShouldQuit, stop, newWindow, windowShow} = require('./')
+const {start, init, onShouldQuit, stop, windowNew, windowShow, windowOnClosing, windowClose} = require('./');
 
 init();
 onShouldQuit(() => {
 	stop();
 });
-const win = newWindow("Test Window", 800, 600, false);
+const win = windowNew("Test Window", 800, 600, false);
+windowOnClosing(win, () => {
+	console.log('closing');
+	windowClose(win);
+});
 windowShow(win, 42)
 start();
 

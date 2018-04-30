@@ -1,7 +1,38 @@
 #include <ui.h>
-#include "core.h"
+#include "ui_node.h"
 
-static napi_value newWindow (napi_env env, napi_callback_info info) {
+
+static int windowOnClosing_cb(uiWindow *win, void *data) {
+	napi_value result;
+
+	struct callback_args *args = (struct callback_args *) data;
+	napi_env env = args->env;
+
+	CALL_CB(args->cb_ref, args->context, result, 0);
+	return 0;
+}
+
+static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
+	napi_status status;
+
+	INIT_ARGS(2);
+
+	ARG_POINTER(uiWindow, win, 0);
+
+	napi_async_context async_context;
+	napi_ref cb_ref;
+	struct callback_args *args;
+
+	CREATE_ASYNC_CONTEXT(async_context, windowOnClosing);
+	CREATE_CB_REF(cb_ref, 1);
+	CREATE_CB_ARGS(args, async_context, cb_ref);
+
+	uiWindowOnClosing(win, windowOnClosing_cb, args);
+
+	return NULL;
+}
+
+static napi_value windowNew (napi_env env, napi_callback_info info) {
 	INIT_ARGS(4);
 
 	ARG_STRING(title, 0);
@@ -11,12 +42,7 @@ static napi_value newWindow (napi_env env, napi_callback_info info) {
 
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
 	free(title);
-
-	napi_value napi_win;
-	napi_status status = napi_create_external(env, win, NULL, NULL, &napi_win);
-	CHECK_STATUS_THROW(status, napi_create_external);
-
-	return napi_win;
+	RETURN_EXTERNAL(win);
 }
 
 
@@ -36,7 +62,8 @@ static napi_value windowShow (napi_env env, napi_callback_info info) {
 
 
 void _libui_init_window (napi_env env, napi_value exports) {
-	LIBUI_EXPORT(newWindow);
+	LIBUI_EXPORT(windowNew);
 	LIBUI_EXPORT(windowShow);
 	LIBUI_EXPORT(windowClose);
+	LIBUI_EXPORT(windowOnClosing);
 }
