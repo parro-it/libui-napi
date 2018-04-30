@@ -5,6 +5,6 @@ onShouldQuit(() => {
 	stop();
 });
 const win = newWindow("Test Window", 800, 600, false);
-windowShow(win)
+windowShow(win, 42)
 start();
 
