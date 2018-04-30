@@ -2,17 +2,7 @@
 #include "core.h"
 
 static napi_value newWindow (napi_env env, napi_callback_info info) {
-	napi_value argv[4];
-	size_t argc = 4;
-
-	napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
-
-	if (argc < 4) {
-		napi_throw_error(env, "EINVAL", "Too few arguments");
-		return NULL;
-	}
-
-	napi_status status;
+	INIT_ARGS(4);
 
 	ARG_STRING(title, 0);
 	ARG_INT32(width, 1);
@@ -23,28 +13,24 @@ static napi_value newWindow (napi_env env, napi_callback_info info) {
 	free(title);
 
 	napi_value napi_win;
-	status = napi_create_external(env, win, NULL, NULL, &napi_win);
+	napi_status status = napi_create_external(env, win, NULL, NULL, &napi_win);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
 	return napi_win;
 }
 
+
+static napi_value windowClose (napi_env env, napi_callback_info info) {
+	INIT_ARGS(1);
+	ARG_POINTER(uiControl, win, 0);
+	uiControlDestroy(win);
+	return NULL;
+}
+
 static napi_value windowShow (napi_env env, napi_callback_info info) {
-	napi_value argv[1];
-	size_t argc = 1;
-
-	napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
-
-	if (argc < 1) {
-		napi_throw_error(env, "EINVAL", "Too few arguments");
-		return NULL;
-	}
-
-	uiWindow *win;
-	napi_status status = napi_get_value_external(env, argv[0], (void **) &win);
-	CHECK_STATUS_THROW(status, napi_get_value_external);
-
-	uiControlShow(uiControl(win));
+	INIT_ARGS(1);
+	ARG_POINTER(uiControl, win, 0);
+	uiControlShow(win);
 	return NULL;
 }
 
@@ -52,4 +38,5 @@ static napi_value windowShow (napi_env env, napi_callback_info info) {
 void _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(newWindow);
 	LIBUI_EXPORT(windowShow);
+	LIBUI_EXPORT(windowClose);
 }

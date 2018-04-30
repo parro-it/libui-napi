@@ -35,7 +35,6 @@ static int onShouldQuit_cb(void *data) {
 	status = napi_get_reference_value(env, args->cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, 0);
 
-
 	status = napi_make_callback(
 		env,
 		args->context,
@@ -74,20 +73,12 @@ static napi_value init (napi_env env, napi_callback_info info) {
 }
 
 static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
-	napi_value argv[1];
-	size_t argc = 1;
-	napi_status status = napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
-	CHECK_STATUS_THROW(status, napi_get_cb_info);
+	napi_status status;
 
-	if (argc < 1) {
-		napi_throw_error(env, "EINVAL", "callback argument is required.");
-		return NULL;
-	}
-
+	INIT_ARGS(1);
 	napi_value async_resource_name;
 	status = napi_create_string_utf8(env, "onShouldQuit", NAPI_AUTO_LENGTH, &async_resource_name);
 	CHECK_STATUS_THROW(status, napi_create_string_utf8);
-
 
 	napi_async_context async_context;
 	status = napi_async_init(env, NULL, async_resource_name, &async_context);
