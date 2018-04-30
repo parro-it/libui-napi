@@ -1,39 +1,55 @@
-/*
-#include <node_api.h>
-#include <stdio.h>
 #include <ui.h>
+#include "core.h"
 
-napi_value main (napi_env env, napi_callback_info info) {
-  napi_value argv[1];
-  size_t argc = 1;
+static napi_value newWindow (napi_env env, napi_callback_info info) {
+	napi_value argv[4];
+	size_t argc = 4;
 
-  napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
+	napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
 
-  if (argc < 1) {
-    napi_throw_error(env, "EINVAL", "Too few arguments");
-    return NULL;
-  }
+	if (argc < 4) {
+		napi_throw_error(env, "EINVAL", "Too few arguments");
+		return NULL;
+	}
 
-  char str[1024];
-  size_t str_len;
+	napi_status status;
 
-  if (napi_get_value_string_utf8(env, argv[0], (char *) &str, 1024, &str_len) != napi_ok) {
-    napi_throw_error(env, "EINVAL", "Expected string");
-    return NULL;
-  }
+	ARG_STRING(title, 0);
+	ARG_INT32(width, 1);
+	ARG_INT32(height, 2);
+	ARG_BOOL(has_menubar, 3);
 
-  printf("Printed from C: %s\n", str);
+	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
+	free(title);
 
-  return NULL;
+	napi_value napi_win;
+	status = napi_create_external(env, win, NULL, NULL, &napi_win);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	return napi_win;
+}
+
+static napi_value windowShow (napi_env env, napi_callback_info info) {
+	napi_value argv[1];
+	size_t argc = 1;
+
+	napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
+
+	if (argc < 1) {
+		napi_throw_error(env, "EINVAL", "Too few arguments");
+		return NULL;
+	}
+
+	uiWindow *win;
+	napi_status status = napi_get_value_external(env, argv[0], (void **) &win);
+	CHECK_STATUS_THROW(status, napi_get_value_external);
+
+	uiControlShow(uiControl(win));
+	return NULL;
 }
 
 
-napi_value init_all (napi_env env, napi_value exports) {
-  napi_value print_fn;
-  napi_create_function(env, NULL, 0, print, NULL, &print_fn);
-  napi_set_named_property(env, exports, "print", print_fn);
-  return exports;
+void _libui_init_window (napi_env env, napi_value exports) {
+	LIBUI_EXPORT(newWindow);
+	LIBUI_EXPORT(windowShow);
 }
-
-NAPI_MODULE(NODE_GYP_MODULE_NAME, init_all)
-*/

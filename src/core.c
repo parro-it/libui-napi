@@ -1,4 +1,3 @@
-#include <node_api.h>
 #include <string.h>
 #include <ui.h>
 #include <stdlib.h>
@@ -63,7 +62,7 @@ static int onShouldQuit_cb(void *data) {
 	return 0;
 }
 
-napi_value init (napi_env env, napi_callback_info info) {
+static napi_value init (napi_env env, napi_callback_info info) {
 	uiInitOptions o;
 	memset(&o, 0, sizeof(uiInitOptions));
 	const char *err = uiInit(&o);
@@ -74,8 +73,7 @@ napi_value init (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-
-napi_value onShouldQuit (napi_env env, napi_callback_info info) {
+static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 	napi_value argv[1];
 	size_t argc = 1;
 	napi_status status = napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
@@ -85,7 +83,6 @@ napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 		napi_throw_error(env, "EINVAL", "callback argument is required.");
 		return NULL;
 	}
-
 
 	napi_value async_resource_name;
 	status = napi_create_string_utf8(env, "onShouldQuit", NAPI_AUTO_LENGTH, &async_resource_name);
@@ -110,24 +107,19 @@ napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-napi_value start (napi_env env, napi_callback_info info) {
+static napi_value start (napi_env env, napi_callback_info info) {
 	uiMain();
 	return NULL;
 }
 
-napi_value stop (napi_env env, napi_callback_info info) {
+static napi_value stop (napi_env env, napi_callback_info info) {
 	uiQuit();
 	return NULL;
 }
 
-
-napi_value init_all (napi_env env, napi_value exports) {
+void _libui_init_core (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(onShouldQuit);
 	LIBUI_EXPORT(start);
 	LIBUI_EXPORT(init);
 	LIBUI_EXPORT(stop);
-
-	return exports;
 }
-
-NAPI_MODULE(NODE_GYP_MODULE_NAME, init_all)
