@@ -7,7 +7,8 @@ const {
 	windowShow,
 	windowOnClosing,
 	windowClose,
-	windowGetTitle
+	windowGetTitle,
+	windowSetTitle
 } = require('./');
 
 init();
@@ -17,6 +18,9 @@ onShouldQuit(() => {
 const win = windowNew("Test Window", 800, 600, false);
 
 windowOnClosing(win, () => {
+	if (windowGetTitle(win) == "Test Window") {
+		return windowSetTitle(win, "Riprova");
+	}
 	console.log('closing', windowGetTitle(win));
 	windowClose(win);
 	stop();

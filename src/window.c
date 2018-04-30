@@ -96,13 +96,13 @@ static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
 }
 
 static napi_value windowSetTitle (napi_env env, napi_callback_info info) {
-
+	INIT_ARGS(2);
+	ARG_POINTER(struct windowHandle, handle, 0);
+	ARG_STRING(title, 1);
+	uiWindowSetTitle(handle->win, title);
+	free(title);
+	return NULL;
 }
-/*
-void UiWindow::setTitle(std::string title) {
-	uiWindowSetTitle(win, title.c_str());
-}
-*/
 
 static napi_value windowShow (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
@@ -118,4 +118,6 @@ void _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(windowClose);
 	LIBUI_EXPORT(windowOnClosing);
 	LIBUI_EXPORT(windowGetTitle);
+	LIBUI_EXPORT(windowSetTitle);
+
 }
