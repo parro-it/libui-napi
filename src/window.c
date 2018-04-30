@@ -76,6 +76,34 @@ static napi_value windowClose (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
+
+static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct windowHandle, handle, 0);
+	char *char_ptr = uiWindowTitle(handle->win);
+	napi_value result;
+
+	napi_status status = napi_create_string_utf8(
+		env,
+		char_ptr,
+		NAPI_AUTO_LENGTH,
+		&result
+	);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	uiFreeText(char_ptr);
+	return result;
+}
+
+static napi_value windowSetTitle (napi_env env, napi_callback_info info) {
+
+}
+/*
+void UiWindow::setTitle(std::string title) {
+	uiWindowSetTitle(win, title.c_str());
+}
+*/
+
 static napi_value windowShow (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct windowHandle, handle, 0);
@@ -89,4 +117,5 @@ void _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(windowShow);
 	LIBUI_EXPORT(windowClose);
 	LIBUI_EXPORT(windowOnClosing);
+	LIBUI_EXPORT(windowGetTitle);
 }
