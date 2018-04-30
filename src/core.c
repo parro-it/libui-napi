@@ -25,7 +25,7 @@ static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 	struct callback_args *args;
 
 	CREATE_ASYNC_CONTEXT(async_context, onShouldQuit);
-	CREATE_CB_REF(cb_ref, 0);
+	ARG_CB_REF(cb_ref, 0);
 
 	CREATE_CB_ARGS(args, async_context, cb_ref);
 
