@@ -1,7 +1,9 @@
+/*
 #include <node_api.h>
 #include <stdio.h>
+#include <ui.h>
 
-napi_value print (napi_env env, napi_callback_info info) {
+napi_value main (napi_env env, napi_callback_info info) {
   napi_value argv[1];
   size_t argc = 1;
 
@@ -34,3 +36,4 @@ napi_value init_all (napi_env env, napi_value exports) {
 }
 
 NAPI_MODULE(NODE_GYP_MODULE_NAME, init_all)
+*/

@@ -1,3 +1,7 @@
-var example = require('./')
+const {start, init, onShouldQuit, stop} = require('./')
 
-example('hello world')
+init();
+onShouldQuit(() => {
+	stop();
+});
+start();
