@@ -21,16 +21,15 @@ test_script:
   - npm test
 
 after_test:
-  - ps: If ($env:nodejs_version -eq "Current") { npm run prebuildify }
+  - 7z a -ttar $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM).tar *.*
+  - 7z a -tgzip $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM).tar.gz $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM).tar
 
 artifacts:
-  - path: prebuilds
-    name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
-    type: zip
+  - path: '**\*.tar.gz'
 
 deploy:
   - provider: GitHub
-    artifact: /.*\.zip/
+    artifact: /.*\.gz/
     draft: false
     prerelease: true
     auth_token:
