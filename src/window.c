@@ -47,7 +47,7 @@ static void window_on_destroy(uiControl *control) {
 	}
 }
 
-void on_window_collected(napi_env env, void* finalize_data, void* finalize_hint) {
+static void on_window_collected(napi_env env, void* finalize_data, void* finalize_hint) {
 	struct windowHandle *handle = (struct windowHandle *) finalize_data;
 	if (handle->is_destroyed) {
 		free(handle);

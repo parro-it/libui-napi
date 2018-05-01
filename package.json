@@ -1,8 +1,7 @@
 {
-  "name": "a-napi-example",
+  "name": "libui-napi",
   "version": "1.0.0",
-  "description": "An example Node.js n-api module",
-  "main": "index.js",
+  "description": "Experimental bindings for libui wusing n-api",
   "dependencies": {
     "node-gyp-build": "^3.3.0"
   },
@@ -24,14 +23,7 @@
     "test": "tape test.js",
     "prebuild": "prebuildify --napi"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mafintosh/a-napi-example.git"
-  },
-  "author": "Mathias Buus (@mafintosh)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mafintosh/a-napi-example/issues"
-  },
-  "homepage": "https://github.com/mafintosh/a-napi-example"
+  "repository": "parro-it/libui-napi",
+  "author": "Andrea Parodi (andrea@parro.it)",
+  "license": "MIT"
 }
