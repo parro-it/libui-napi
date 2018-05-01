@@ -28,7 +28,7 @@
 					"<(module_root_dir)/libui.so"
 				],
 				'include_dirs': [
-					'<!@(pkg-config gtk+3.0 --cflags-only-I | sed s/-I//g)'
+					'<!@(pkg-config gtk+-3.0 --cflags-only-I | sed s/-I//g)'
 				]
 			}],
 			["OS=='mac'", {
