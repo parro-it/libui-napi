@@ -4,11 +4,10 @@ skip_branch_with_pr: true
 
 environment:
   matrix:
-    - nodejs_version: "Current"
+    - nodejs_version: "10"
 
 configuration: Release
 platform:
-  - x86
   - x64
 
 install:
