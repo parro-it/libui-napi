@@ -1,21 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-- node
+  - node
+
 addons:
   apt:
-    sources:
-    - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
-    - gcc-4.8-multilib
-    - g++-4.8-multilib
-    - gcc-multilib
-    - g++-multilib
-    - libgtk-3-dev
+      - libgtk-3-dev
 os:
 - osx
 - linux
+
 before_deploy:
 - ARCHIVE_NAME="${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME-`uname -m`.tar"
 - npm run prebuild
