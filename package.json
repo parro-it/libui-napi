@@ -31,7 +31,7 @@
     "build": "node-gyp-build",
     "install": "npm run download-libui && npm run build",
     "test": "tape test.js",
-    "prebuild": "prebuildify --napi"
+    "prebuildify": "prebuildify --napi"
   },
   "repository": "parro-it/libui-napi",
   "author": "Andrea Parodi (andrea@parro.it)",
