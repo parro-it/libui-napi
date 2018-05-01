@@ -1,8 +1,9 @@
-var tape = require('tape')
-var print = require('./')
+var tape = require('tape');
+const {init} = require('./');
 
-tape('does not crash', function (t) {
-  print('hello from test')
-  t.pass('did not crash')
-  t.end()
-})
+
+tape('does not crash', t => {
+	init();
+	t.pass('did not crash');
+	t.end();
+});
