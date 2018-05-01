@@ -1,11 +1,8 @@
 #include <ui.h>
 #include "ui_node.h"
+#include "window.h"
 
-struct windowHandle {
-	uiWindow *win;
-	struct callback_args *onClosingArgs;
-	struct callback_args *onContentSizeChangedArgs;
-};
+struct WindowMap controls_map;
 
 static int windowOnClosing_cb(uiWindow *win, void *data) {
 	napi_value result;
@@ -31,11 +28,32 @@ static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
 	ARG_CB_REF(cb_ref, 1);
 	CREATE_CB_ARGS(args, async_context, cb_ref);
 
-	handle->onClosingArgs = args;
+	handle->onClosing_args = args;
 
 	uiWindowOnClosing(handle->win, windowOnClosing_cb, args);
 
 	return NULL;
+}
+
+static void window_on_destroy(uiControl *control) {
+	struct windowHandle *handle;
+	win_map_get(&controls_map, control, &handle);
+	handle->original_destroy(control);
+	win_map_remove(&controls_map, control);
+	if (handle->is_garbage_collected) {
+		free(handle);
+	} else {
+		handle->is_destroyed = true;
+	}
+}
+
+void on_window_collected(napi_env env, void* finalize_data, void* finalize_hint) {
+	struct windowHandle *handle = (struct windowHandle *) finalize_data;
+	if (handle->is_destroyed) {
+		free(handle);
+	} else {
+		handle->is_garbage_collected = true;
+	}
 }
 
 static napi_value windowNew (napi_env env, napi_callback_info info) {
@@ -47,29 +65,31 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 	ARG_BOOL(has_menubar, 3);
 
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
-	free(title);
 	struct windowHandle *handle = calloc(1, sizeof(struct windowHandle));
 	handle->win = win;
+	handle->original_destroy = uiControl(win)->Destroy;
+	uiControl(win)->Destroy = window_on_destroy;
+	win_map_insert(&controls_map, handle, uiControl(win));
 
-	// TODO: add callback to free handle
-	// when external is freed and window is destroyed
-	RETURN_EXTERNAL(handle);
+	free(title);
+
+	RETURN_EXTERNAL(handle, on_window_collected);
 }
 
 
 static napi_value windowClose (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct windowHandle, handle, 0);
-	if (handle->onClosingArgs != NULL) {
+	if (handle->onClosing_args != NULL) {
 		uint32_t new_ref_count;
 		napi_status status = napi_reference_unref(
 			env,
-			handle->onClosingArgs->cb_ref,
+			handle->onClosing_args->cb_ref,
 			&new_ref_count
 		);
 		CHECK_STATUS_THROW(status, napi_create_external);
-		free(handle->onClosingArgs);
-		handle->onClosingArgs = NULL;
+		free(handle->onClosing_args);
+		handle->onClosing_args = NULL;
 
 	}
 	uiControlDestroy(uiControl(handle->win));

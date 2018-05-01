@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "ui_node.h"
+#include "window.h"
 
 
 static int onShouldQuit_cb(void *data) {
@@ -42,6 +43,7 @@ static napi_value init (napi_env env, napi_callback_info info) {
 		napi_throw_error(env, NULL, err);
 		uiFreeInitError(err);
 	}
+	controls_map = win_map_create(0, 1);
 	return NULL;
 }
 
