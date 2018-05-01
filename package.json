@@ -16,7 +16,8 @@
     "tar": "^4.4.1"
   },
   "scripts": {
-    "download-libui": "node --experimental-modules tools/libui-download.mjs",
+    "start": "node example.js",
+    "download-libui": "node tools/libui-download.js",
     "clean": "rm -rf prebuilds; rm -rf build; rm *.h *.node libui.*; rm -rf node_modules;",
     "build": "node-gyp-build",
     "install": "npm run download-libui && npm run build",

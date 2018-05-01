@@ -1,14 +1,13 @@
-import fs from 'fs/promises';
-import _fs from 'fs';
-import os from 'os';
-import path from 'path';
-import mkdirp from 'mkdirp';
-import homePath from 'home-path';
-import mv from 'mv';
-import _debug from 'debug';
-import https from 'https';
-import tar from 'tar';
-import utils from 'util';
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const mkdirp = require('mkdirp');
+const homePath = require('home-path');
+const mv = require('mv');
+const _debug = require('debug');
+const https = require('https');
+const tar = require('tar');
+const utils = require('util');
 
 const mkdir = utils.promisify(mkdirp)
 const debug = _debug('libui-download');
@@ -17,7 +16,7 @@ const requestHttps = url => new Promise((resolve, reject) => {
 	req.on('error', reject);
 });
 
-const pathExists = fs.access;
+const pathExists = utils.promisify(fs.access);
 
 function nodePlatformToOS(arch) {
 	switch (arch) {
@@ -118,7 +117,7 @@ async function download(opts) {
 
 	debug(`Https request for ${url} ok with code 200.`);
 
-	const fileWrite = res.pipe(_fs.createWriteStream(target));
+	const fileWrite = res.pipe(fs.createWriteStream(target));
 
 	return await new Promise(async(resolve, reject) => {
 
