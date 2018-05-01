@@ -3,17 +3,17 @@
   "version": "0.1.12",
   "description": "Experimental bindings for libui using n-api",
   "dependencies": {
+    "home-path": "^1.0.5",
+    "mkdirp": "^0.5.1",
+    "mv": "^2.1.1",
+    "tar": "^4.4.1",
     "node-gyp": "^3.6.2"
   },
   "libui": "alpha3.5-master-002",
   "devDependencies": {
-    "debug": "^3.1.0",
-    "home-path": "^1.0.5",
-    "mkdirp": "^0.5.1",
-    "mv": "^2.1.1",
     "rimraf": "^2.6.2",
-    "tape": "^4.9.0",
-    "tar": "^4.4.1"
+    "debug": "^3.1.0",
+    "tape": "^4.9.0"
   },
   "engines": {
     "node": ">=10"
