@@ -9,7 +9,7 @@ const {
 	windowClose,
 	windowGetTitle,
 	windowSetTitle
-} = require('./');
+} = require('libui-napi');
 
 init();
 onShouldQuit(() => {

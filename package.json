@@ -19,7 +19,7 @@
     "node": ">=10"
   },
   "files": [
-    "list-sources.js",
+    "tools",
     "index.js",
     "src",
     "binding.gyp"

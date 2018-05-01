@@ -1,0 +1,11 @@
+{
+  "name": "empty-window",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "Andrea Parodi <andrea@parro.it>",
+  "license": "MIT"
+}
