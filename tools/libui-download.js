@@ -16,7 +16,7 @@ const requestHttps = url => new Promise((resolve, reject) => {
 	req.on('error', reject);
 });
 
-const pathExists = utils.promisify(fs.access);
+const pathExists = utils.promisify(fs.exists);
 
 function nodePlatformToOS(arch) {
 	switch (arch) {
@@ -74,6 +74,7 @@ async function download(opts) {
 	}
 	const url = buildUrl(opts, filename);
 	const cache = cacheDir(opts.cache);
+	const actualCache = await mkCacheDir(cache);
 
 	debug('info', {cache: cache, filename: filename, url: url});
 
@@ -88,7 +89,6 @@ async function download(opts) {
 	debug('creating cache/tmp dirs');
 
 	// otherwise download it
-	const actualCache = await mkCacheDir(cache);
 	cachedZip = path.join(actualCache, filename); // in case cache dir changed
 
 	// download to tmpdir
