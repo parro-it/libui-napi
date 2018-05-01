@@ -10,6 +10,7 @@ node_js:
 addons:
   apt:
     packages:
+      - gtk+3.0
       - xvfb
 os:
 - osx
