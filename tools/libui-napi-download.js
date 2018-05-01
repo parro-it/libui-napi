@@ -10,7 +10,7 @@ const tar = require('tar');
 const utils = require('util');
 
 const mkdir = utils.promisify(mkdirp)
-const debug = _debug('libui-download');
+const debug = _debug('libui-napi-download');
 const requestHttps = url => new Promise((resolve, reject) => {
 	const req = https.get(url, resolve);
 	req.on('error', reject);
@@ -21,7 +21,7 @@ const pathExists = utils.promisify(fs.exists);
 function nodePlatformToOS(arch) {
 	switch (arch) {
 		case 'darwin': return 'osx';
-		case 'win32': return 'windows';
+		case 'win32': return 'win';
 		case 'linux': return 'linux';
 		default: throw new Error('Unknown platform ' + arch);
 	}
@@ -29,7 +29,7 @@ function nodePlatformToOS(arch) {
 
 function cacheDir(opts = {}) {
 	var homeDir = homePath();
-	return opts.cache || path.join(homeDir, './.libui');
+	return opts.cache || path.join(homeDir, './.libui-napi');
 }
 
 async function mkCacheDir(cache) {
@@ -43,7 +43,7 @@ async function mkCacheDir(cache) {
 		}
 
 		// try local folder if homedir is off limits (e.g. some linuxes return '/' as homedir)
-		var localCache = path.resolve('./.libui');
+		var localCache = path.resolve('./.libui-napi');
 
 		await mkdir(localCache);
 		return localCache;
@@ -54,7 +54,7 @@ function buildUrl(opts, filename) {
 	var url = process.env.NPM_CONFIG_LIBUI_MIRROR ||
 		process.env.LIBUI_MIRROR ||
 		opts.mirror ||
-		'https://github.com/parro-it/libui/releases/download/';
+		'https://github.com/parro-it/libui-napi/releases/download/';
 
 	url += process.env.LIBUI_CUSTOM_DIR || opts.customDir || opts.version;
 	url += '/';
@@ -64,14 +64,16 @@ function buildUrl(opts, filename) {
 
 async function download(opts) {
 	const platform = nodePlatformToOS(opts.platform || os.platform());
-	const arch = opts.arch || os.arch();
+	let arch = opts.arch || os.arch();
+	if (platform !== 'win' && arch === 'x64') {
+		arch = 'x86_64';
+	}
+	opts.version = 'v' + opts.version;
 	const version = opts.version;
 	const symbols = opts.symbols || false;
-	const filename = 'libui-shared-' + platform + '-' + arch + '-' + version + (symbols ? '-symbols' : '') + '.tar.gz';
 
-	if (!version) {
-		throw new Error('must specify needed version of libui in package.json');
-	}
+	const filename = `${version}-${platform}-${arch}.tar.gz`;
+
 	const url = buildUrl(opts, filename);
 	const cache = cacheDir(opts.cache);
 	const actualCache = await mkCacheDir(cache);
@@ -94,7 +96,7 @@ async function download(opts) {
 	// download to tmpdir
 	var tmpdir = path.join(
 		os.tmpdir(),
-		'libui-tmp-download-' + process.pid + '-' + Date.now()
+		'libui-napi-tmp-download-' + process.pid + '-' + Date.now()
 	);
 
 	await mkdir(tmpdir);
@@ -138,10 +140,10 @@ async function download(opts) {
 }
 
 async function main() {
-	const zipPath = await download({version: process.env.npm_package_libui});
+	const zipPath = await download({version: process.env.npm_package_version});
 	console.log('Downloaded zip:', zipPath);
 	await tar.extract({file: zipPath});
-	console.log('Libui binaries extracted to:', process.cwd());
+	console.log('Libui-napi binaries extracted to:', process.cwd());
 }
 
 main().catch(err => {
