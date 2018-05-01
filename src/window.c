@@ -1,5 +1,5 @@
 #include <ui.h>
-#include "ui_node.h"
+#include "uinode.h"
 #include "window.h"
 
 struct WindowMap controls_map;

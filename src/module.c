@@ -1,4 +1,4 @@
-#include "ui_node.h"
+#include "uinode.h"
 
 static napi_value init_all (napi_env env, napi_value exports) {
 	_libui_init_core(env, exports);

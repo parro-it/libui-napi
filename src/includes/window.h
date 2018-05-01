@@ -3,7 +3,7 @@
 
 #include <ui.h>
 #include <map_template.h>
-#include "ui_node.h"
+#include "uinode.h"
 
 extern struct WindowMap controls_map;
 
