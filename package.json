@@ -1,6 +1,6 @@
 {
   "name": "libui-napi",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Experimental bindings for libui using n-api",
   "dependencies": {
     "node-gyp": "^3.6.2"
