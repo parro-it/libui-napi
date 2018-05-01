@@ -9,6 +9,6 @@
   "author": "Andrea Parodi <andrea@parro.it>",
   "license": "MIT",
   "dependencies": {
-    "libui-napi": "^0.1.10"
+    "libui-napi": "^0.1.11"
   }
 }
