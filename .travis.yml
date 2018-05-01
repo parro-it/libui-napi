@@ -12,6 +12,7 @@ addons:
     - g++-4.8-multilib
     - gcc-multilib
     - g++-multilib
+    - libgtk-3-dev
 os:
 - osx
 - linux
