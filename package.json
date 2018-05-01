@@ -18,6 +18,12 @@
   "engines": {
     "node": ">=10"
   },
+  "files": [
+    "list-sources.js",
+    "index.js",
+    "src",
+    "binding.gyp"
+  ],
   "scripts": {
     "start": "node example.js",
     "download-libui": "node tools/libui-download.js",
