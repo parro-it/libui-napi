@@ -25,7 +25,7 @@
     "binding.gyp"
   ],
   "scripts": {
-    "start": "node example.js",
+    "start": "node --expose-gc example.js",
     "download-libui": "node tools/libui-download.js",
     "download-libui-napi": "node tools/libui-napi-download.js",
     "clean": "rimraf build *.h *.node libui.* node_modules",

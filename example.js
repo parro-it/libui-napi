@@ -19,23 +19,30 @@ init();
 onShouldQuit(() => {
 	stop();
 });
-const win = windowNew("Test Window", 800, 600, false);
-windowSetChild(win, multilineEntryNew());
 
-windowOnContentSizeChanged(win, () => {
-	const size = windowGetContentSize(win);
-	console.log(`size changed to ${size.width}x${size.height}`);
-});
+function createWindow() {
+	const win = windowNew("Test Window", 800, 600, false);
+	windowSetChild(win, multilineEntryNew());
 
-windowOnClosing(win, () => {
-	if (windowGetTitle(win) == "Test Window") {
-		return windowSetTitle(win, "Riprova");
-	}
-	console.log('closing', windowGetTitle(win));
-	windowClose(win);
-	stop();
-});
+	windowOnContentSizeChanged(win, () => {
+		const size = windowGetContentSize(win);
+		console.log(`size changed to ${size.width}x${size.height}`);
+	});
 
-windowShow(win, 42)
+	windowOnClosing(win, () => {
+		if (windowGetTitle(win) == "Test Window") {
+			return windowSetTitle(win, "Riprova");
+		}
+		console.log('closing', windowGetTitle(win));
+		windowClose(win);
+		stop();
+	});
+
+	return win;
+}
+
+const win = createWindow();
+global.gc();
+windowShow(win);
 start();
 
