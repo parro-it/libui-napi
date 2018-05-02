@@ -3,6 +3,7 @@
 static napi_value init_all (napi_env env, napi_value exports) {
 	_libui_init_core(env, exports);
 	_libui_init_window(env, exports);
+	_libui_init_multilineEntry(env, exports);
 	return exports;
 }
 

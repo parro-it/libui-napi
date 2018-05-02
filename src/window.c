@@ -2,6 +2,7 @@
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
+#include "values.h"
 
 typedef void (*window_event_cb_t)(uiWindow *win, void *data);
 
@@ -105,12 +106,31 @@ static napi_value windowShow (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
+static napi_value windowSetChild (napi_env env, napi_callback_info info) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_POINTER(struct control_handle, child, 1);
+	uiWindowSetChild(uiWindow(handle->control), child->control);
+	return NULL;
+}
+
+static napi_value windowGetContentSize (napi_env env, napi_callback_info info) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct control_handle, handle, 0);
+
+	int width = 0;
+	int height = 0;
+	uiWindowContentSize(uiWindow(handle->control), &width, &height);
+	return make_size(env, width, height);
+}
 
 void _libui_init_window (napi_env env, napi_value exports) {
+	LIBUI_EXPORT(windowSetChild);
 	LIBUI_EXPORT(windowNew);
 	LIBUI_EXPORT(windowShow);
 	LIBUI_EXPORT(windowClose);
 	LIBUI_EXPORT(windowOnClosing);
+	LIBUI_EXPORT(windowGetContentSize);
 	LIBUI_EXPORT(windowOnContentSizeChanged);
 	LIBUI_EXPORT(windowGetTitle);
 	LIBUI_EXPORT(windowSetTitle);

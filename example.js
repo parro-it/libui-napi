@@ -9,7 +9,10 @@ const {
 	windowClose,
 	windowGetTitle,
 	windowSetTitle,
-	windowOnContentSizeChanged
+	windowOnContentSizeChanged,
+	windowGetContentSize,
+	multilineEntryNew,
+	windowSetChild
 } = require('.');
 
 init();
@@ -17,9 +20,11 @@ onShouldQuit(() => {
 	stop();
 });
 const win = windowNew("Test Window", 800, 600, false);
+windowSetChild(win, multilineEntryNew());
 
 windowOnContentSizeChanged(win, () => {
-	console.log("windowOnContentSizeChanged");
+	const size = windowGetContentSize(win);
+	console.log(`size changed to ${size.width}x${size.height}`);
 });
 
 windowOnClosing(win, () => {
