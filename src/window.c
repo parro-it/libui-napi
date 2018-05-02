@@ -1,33 +1,26 @@
 #include <ui.h>
 #include "uinode.h"
 #include "window.h"
+#include "events.h"
 
 struct WindowMap controls_map;
 
 static int windowOnClosing_cb(uiWindow *win, void *data) {
-	napi_value result;
 	struct callback_args *args = (struct callback_args *) data;
-	napi_env env = args->env;
-
-	CALL_CB(args->cb_ref, args->context, result, 0);
+	napi_value result = raise_event(args);
 	return 0;
 }
 
 static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
-	napi_status status;
-
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct windowHandle, handle, 0);
-
-	napi_async_context async_context;
-	napi_ref cb_ref;
-	struct callback_args *args;
-
-	CREATE_ASYNC_CONTEXT(async_context, windowOnClosing);
 	ARG_CB_REF(cb_ref, 1);
-	CREATE_CB_ARGS(args, async_context, cb_ref);
 
+	struct callback_args *args = create_event(env, cb_ref, "onClosing");
+	if (args == NULL) {
+		return NULL;
+	}
 	handle->onClosing_args = args;
 
 	uiWindowOnClosing(handle->win, windowOnClosing_cb, args);

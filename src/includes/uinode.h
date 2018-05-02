@@ -91,6 +91,14 @@
 		} \
 	}
 
+
+#define ARG_CB_REF(ARG_NAME, ARG_IDX) \
+	napi_ref ARG_NAME; \
+	{ \
+		napi_status status = napi_create_reference(env, argv[ARG_IDX], 1, &ARG_NAME); \
+		CHECK_STATUS_THROW(status, napi_create_reference); \
+	}
+
 #define RETURN_EXTERNAL(POINTER, FINALIZE_CB) \
 	{ \
 		napi_value ret; \
@@ -112,74 +120,6 @@
 		napi_fatal_exception(env, error); \
 		return ERROR_RET; \
 	}
-
-#define ARG_CB_REF(CB_REF, ARG_IDX) \
-	{ \
-		status = napi_create_reference(env, argv[ARG_IDX], 1, &CB_REF); \
-		CHECK_STATUS_THROW(status, napi_create_reference); \
-	}
-
-#define CREATE_ASYNC_CONTEXT(CONTEXT_VAR, EVENT_NAME) \
-	{ \
-		napi_value async_resource_name; \
-		status = napi_create_string_utf8(env, #EVENT_NAME, NAPI_AUTO_LENGTH, &async_resource_name); \
-		CHECK_STATUS_THROW(status, napi_create_string_utf8); \
-		status = napi_async_init(env, NULL, async_resource_name, &CONTEXT_VAR); \
-		CHECK_STATUS_THROW(status, napi_async_init); \
-	}
-
-#define CALL_CB(CB_REF, ASYNC_CONTEXT, RESULT, ERROR_RET) \
-	{ \
-		napi_value resource_object; \
-		napi_callback_scope scope; \
-		napi_value cb; \
-		napi_status status = napi_create_object(env, &resource_object); \
-		CHECK_STATUS_UNCAUGHT(status, napi_create_object, ERROR_RET); \
-		\
-		status = napi_open_callback_scope( \
-			env, \
-			resource_object, \
-			ASYNC_CONTEXT, \
-			&scope \
-		); \
-		CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, ERROR_RET); \
-		\
-		status = napi_get_reference_value(env, CB_REF, &cb); \
-		CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, ERROR_RET); \
-		\
-		status = napi_make_callback( \
-			env, \
-			ASYNC_CONTEXT, \
-			resource_object, \
-			cb, \
-			ERROR_RET, \
-			NULL, \
-			&RESULT \
-		); \
-		if (status == napi_pending_exception) { \
-			napi_value last_exception; \
-			napi_get_and_clear_last_exception(env, &last_exception); \
-			napi_fatal_exception(env, last_exception); \
-			return ERROR_RET; \
-		} \
-		CHECK_STATUS_UNCAUGHT(status, napi_make_callback, ERROR_RET); \
-		status = napi_close_callback_scope(env, scope); \
-		CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, ERROR_RET); \
-	}
-
-#define CREATE_CB_ARGS(ARGS, ASYNC_CONTEXT, CB_REF) \
-	{ \
-		ARGS = calloc(1, sizeof(struct callback_args)); \
-		ARGS->cb_ref = CB_REF; \
-		ARGS->env = env; \
-		ARGS->context = ASYNC_CONTEXT; \
-	}
-
-struct callback_args {
-	napi_ref cb_ref;
-	napi_env env;
-	napi_async_context context;
-};
 
 void _libui_init_window (napi_env env, napi_value exports);
 void _libui_init_core (napi_env env, napi_value exports);

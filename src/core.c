@@ -4,31 +4,25 @@
 #include <stdio.h>
 #include "uinode.h"
 #include "window.h"
+#include "events.h"
 
 
 static int onShouldQuit_cb(void *data) {
-	napi_value result;
 
 	struct callback_args *args = (struct callback_args *)data;
-	napi_env env = args->env;
+	raise_event(args);
 
-	CALL_CB(args->cb_ref, args->context, result, 0);
 	return 0;
 }
 
 static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
-	napi_status status;
-
 	INIT_ARGS(1);
-
-	napi_async_context async_context;
-	napi_ref cb_ref;
-	struct callback_args *args;
-
-	CREATE_ASYNC_CONTEXT(async_context, onShouldQuit);
 	ARG_CB_REF(cb_ref, 0);
 
-	CREATE_CB_ARGS(args, async_context, cb_ref);
+	struct callback_args *args = create_event(env, cb_ref, "onShouldQuit");
+	if (args == NULL) {
+		return NULL;
+	}
 
 	uiOnShouldQuit(onShouldQuit_cb, args);
 
