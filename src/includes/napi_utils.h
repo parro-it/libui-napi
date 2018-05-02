@@ -1,5 +1,5 @@
-#ifndef __LIBUI_NODE_H__
-#define __LIBUI_NODE_H__
+#ifndef __LIBUI_NODE_UTILS_H__
+#define __LIBUI_NODE_UTILS_H__
 
 #include <node_api.h>
 #include <stdlib.h>
