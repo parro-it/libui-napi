@@ -1,39 +1,42 @@
 #include <ui.h>
 #include "uinode.h"
-#include "window.h"
+#include "control.h"
 #include "events.h"
 
-struct WindowMap controls_map;
+struct ctrl_map controls_map;
 
 static int windowOnClosing_cb(uiWindow *win, void *data) {
-	struct callback_args *args = (struct callback_args *) data;
-	napi_value result = raise_event(args);
+	struct event_t *event = (struct event_t *) data;
+	fire_event(event);
 	return 0;
 }
 
 static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(struct windowHandle, handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_CB_REF(cb_ref, 1);
 
-	struct callback_args *args = create_event(env, cb_ref, "onClosing");
-	if (args == NULL) {
+	struct event_t *event = create_event(env, cb_ref, "onClosing");
+	if (event == NULL) {
 		return NULL;
 	}
-	handle->onClosing_args = args;
 
-	uiWindowOnClosing(handle->win, windowOnClosing_cb, args);
+	install_event(handle->events, event);
+
+	uiWindowOnClosing(uiWindow(handle->control), windowOnClosing_cb, event);
 
 	return NULL;
 }
 
 static void window_on_destroy(uiControl *control) {
-	struct windowHandle *handle;
-	win_map_get(&controls_map, control, &handle);
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, control, &handle);
 	handle->original_destroy(control);
-	win_map_remove(&controls_map, control);
+	ctrl_map_remove(&controls_map, control);
+	clear_all_events(handle->events);
 	if (handle->is_garbage_collected) {
+		free(handle->events);
 		free(handle);
 	} else {
 		handle->is_destroyed = true;
@@ -41,8 +44,9 @@ static void window_on_destroy(uiControl *control) {
 }
 
 static void on_window_collected(napi_env env, void* finalize_data, void* finalize_hint) {
-	struct windowHandle *handle = (struct windowHandle *) finalize_data;
+	struct control_handle *handle = (struct control_handle *) finalize_data;
 	if (handle->is_destroyed) {
+		free(handle->events);
 		free(handle);
 	} else {
 		handle->is_garbage_collected = true;
@@ -58,11 +62,13 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 	ARG_BOOL(has_menubar, 3);
 
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
-	struct windowHandle *handle = calloc(1, sizeof(struct windowHandle));
-	handle->win = win;
+
+	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
+	handle->events = calloc(1, sizeof(struct events_list));
+	handle->control = uiControl(win);
 	handle->original_destroy = uiControl(win)->Destroy;
 	uiControl(win)->Destroy = window_on_destroy;
-	win_map_insert(&controls_map, handle, uiControl(win));
+	ctrl_map_insert(&controls_map, handle, uiControl(win));
 
 	free(title);
 
@@ -72,28 +78,16 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 
 static napi_value windowClose (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct windowHandle, handle, 0);
-	if (handle->onClosing_args != NULL) {
-		uint32_t new_ref_count;
-		napi_status status = napi_reference_unref(
-			env,
-			handle->onClosing_args->cb_ref,
-			&new_ref_count
-		);
-		CHECK_STATUS_THROW(status, napi_create_external);
-		free(handle->onClosing_args);
-		handle->onClosing_args = NULL;
-
-	}
-	uiControlDestroy(uiControl(handle->win));
+	ARG_POINTER(struct control_handle, handle, 0);
+	uiControlDestroy(handle->control);
 	return NULL;
 }
 
 
 static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct windowHandle, handle, 0);
-	char *char_ptr = uiWindowTitle(handle->win);
+	ARG_POINTER(struct control_handle, handle, 0);
+	char *char_ptr = uiWindowTitle(uiWindow(handle->control));
 	napi_value result;
 
 	napi_status status = napi_create_string_utf8(
@@ -110,17 +104,17 @@ static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
 
 static napi_value windowSetTitle (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct windowHandle, handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(title, 1);
-	uiWindowSetTitle(handle->win, title);
+	uiWindowSetTitle(uiWindow(handle->control), title);
 	free(title);
 	return NULL;
 }
 
 static napi_value windowShow (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct windowHandle, handle, 0);
-	uiControlShow(uiControl(handle->win));
+	ARG_POINTER(struct control_handle, handle, 0);
+	uiControlShow(handle->control);
 	return NULL;
 }
 

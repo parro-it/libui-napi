@@ -1,7 +1,6 @@
 #include "events.h"
 
-
-napi_value raise_event(struct callback_args *event) {
+napi_value fire_event(struct event_t *event) {
 	napi_status status;
 	napi_env env = event->env;
 
@@ -49,7 +48,7 @@ napi_value raise_event(struct callback_args *event) {
 }
 
 
-struct callback_args *create_event(napi_env env, napi_ref cb_ref, const char *name) {
+struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	napi_status status;
 
 	napi_value async_resource_name;
@@ -60,10 +59,73 @@ struct callback_args *create_event(napi_env env, napi_ref cb_ref, const char *na
 	status = napi_async_init(env, NULL, async_resource_name, &async_context);
 	CHECK_STATUS_THROW(status, napi_async_init);
 
-	struct callback_args *args = calloc(1, sizeof(struct callback_args));
+	struct event_t *args = calloc(1, sizeof(struct event_t));
 	args->cb_ref = cb_ref;
 	args->env = env;
 	args->context = async_context;
 
 	return args;
+}
+
+napi_value clear_event(struct event_t *event) {
+	uint32_t new_ref_count;
+	napi_env env = event->env;
+	napi_status status = napi_reference_unref(
+		env,
+		event->cb_ref,
+		&new_ref_count
+	);
+	CHECK_STATUS_THROW(status, napi_reference_unref);
+
+	free(event);
+	return NULL;
+}
+
+
+static struct events_node *new_events_node(struct event_t *event) {
+	struct events_node *new_node = malloc(sizeof(struct events_node));
+	new_node->next = NULL;
+	new_node->event = event;
+	return new_node;
+}
+
+void install_event(struct events_list *events, struct event_t *event) {
+	if (events->events_head == NULL) {
+		// First event for this control
+		struct events_node *new_node = new_events_node(event);
+		events->events_head = new_node;
+		events->events_tail = new_node;
+		return;
+	}
+
+	// TODO: we need to remove existing events_node for the same event
+	// and support NULL event to only remove event.
+
+	// Control already has other events. Append to tail
+	struct events_node *new_node = new_events_node(event);
+	events->events_tail->next = new_node;
+
+	// set this node as the new tail
+	events->events_tail = new_node;
+}
+
+
+void clear_all_events(struct events_list *events) {
+	if (events->events_head == NULL) {
+		// This control has no events
+		return;
+	}
+
+	struct events_node *node = events->events_head;
+	struct events_node *node_to_free;
+
+	while (node != NULL) {
+		clear_event(node->event);
+		node_to_free = node;
+		node = node->next;
+		free(node_to_free);
+	}
+
+	events->events_head = NULL;
+	events->events_tail = NULL;
 }

@@ -18,4 +18,4 @@ int pointer_cmp ( const uiControl * key0, const uiControl *key1 ) {
 
 
 // In ONE c file:
-_IMPLEMENT_MAP(struct windowHandle *, uiControl *, struct WindowMap, win_map, pointer_cmp, pointer_hash)
+_IMPLEMENT_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map, pointer_cmp, pointer_hash)
