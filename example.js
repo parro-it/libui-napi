@@ -8,7 +8,8 @@ const {
 	windowOnClosing,
 	windowClose,
 	windowGetTitle,
-	windowSetTitle
+	windowSetTitle,
+	windowOnContentSizeChanged
 } = require('.');
 
 init();
@@ -16,6 +17,10 @@ onShouldQuit(() => {
 	stop();
 });
 const win = windowNew("Test Window", 800, 600, false);
+
+windowOnContentSizeChanged(win, () => {
+	console.log("windowOnContentSizeChanged");
+});
 
 windowOnClosing(win, () => {
 	if (windowGetTitle(win) == "Test Window") {

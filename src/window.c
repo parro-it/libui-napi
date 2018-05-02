@@ -3,10 +3,30 @@
 #include "control.h"
 #include "events.h"
 
-static int windowOnClosing_cb(uiWindow *win, void *data) {
+typedef void (*window_event_cb_t)(uiWindow *win, void *data);
+
+static int window_event_cb(uiWindow *win, void *data) {
 	struct event_t *event = (struct event_t *) data;
 	fire_event(event);
 	return 0;
+}
+
+static napi_value windowOnContentSizeChanged (napi_env env, napi_callback_info info) {
+	INIT_ARGS(2);
+
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CB_REF(cb_ref, 1);
+
+	struct event_t *event = create_event(env, cb_ref, "onContentSizeChanged");
+	if (event == NULL) {
+		return NULL;
+	}
+
+	install_event(handle->events, event);
+
+	uiWindowOnContentSizeChanged(uiWindow(handle->control), (window_event_cb_t) window_event_cb, event);
+
+	return NULL;
 }
 
 static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
@@ -22,7 +42,7 @@ static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnClosing(uiWindow(handle->control), windowOnClosing_cb, event);
+	uiWindowOnClosing(uiWindow(handle->control), window_event_cb, event);
 
 	return NULL;
 }
@@ -91,6 +111,7 @@ void _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(windowShow);
 	LIBUI_EXPORT(windowClose);
 	LIBUI_EXPORT(windowOnClosing);
+	LIBUI_EXPORT(windowOnContentSizeChanged);
 	LIBUI_EXPORT(windowGetTitle);
 	LIBUI_EXPORT(windowSetTitle);
 }
