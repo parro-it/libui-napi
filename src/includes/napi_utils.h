@@ -6,20 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define LIBUI_EXPORT(FN) \
-	napi_value FN##_fn; \
-	napi_create_function(env, #FN, NAPI_AUTO_LENGTH, FN, NULL, & FN##_fn); \
-	napi_set_named_property(env, exports, #FN, FN##_fn)
-
-#define CHECK_STATUS_THROW(STATUS, FN) \
-	if (STATUS != napi_ok) { \
-		const napi_extended_error_info* result; \
-		napi_get_last_error_info(env, &result); \
-		char err[1024]; \
-		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code, result->error_message); \
-		napi_throw_error(env, NULL, err); \
-		return NULL; \
-	}
+// function arguments
 
 #define INIT_ARGS(ARGS_COUNT) \
 	napi_value argv[ARGS_COUNT]; \
@@ -91,7 +78,6 @@
 		} \
 	}
 
-
 #define ARG_CB_REF(ARG_NAME, ARG_IDX) \
 	napi_ref ARG_NAME; \
 	{ \
@@ -99,12 +85,33 @@
 		CHECK_STATUS_THROW(status, napi_create_reference); \
 	}
 
+// return values
+
 #define RETURN_EXTERNAL(POINTER, FINALIZE_CB) \
 	{ \
 		napi_value ret; \
 		napi_status status = napi_create_external(env, POINTER, FINALIZE_CB, NULL, &ret); \
 		CHECK_STATUS_THROW(status, napi_create_external); \
 		return ret; \
+	}
+
+// function export
+
+#define LIBUI_EXPORT(FN) \
+	napi_value FN##_fn; \
+	napi_create_function(env, #FN, NAPI_AUTO_LENGTH, FN, NULL, & FN##_fn); \
+	napi_set_named_property(env, exports, #FN, FN##_fn)
+
+// errors checking
+
+#define CHECK_STATUS_THROW(STATUS, FN) \
+	if (STATUS != napi_ok) { \
+		const napi_extended_error_info* result; \
+		napi_get_last_error_info(env, &result); \
+		char err[1024]; \
+		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code, result->error_message); \
+		napi_throw_error(env, NULL, err); \
+		return NULL; \
 	}
 
 #define CHECK_STATUS_UNCAUGHT(STATUS, FN, ERROR_RET) \
@@ -121,6 +128,8 @@
 		return ERROR_RET; \
 	}
 
+// individual modules init
+// TODO: move to individual headers
 void _libui_init_window (napi_env env, napi_value exports);
 void _libui_init_core (napi_env env, napi_value exports);
 

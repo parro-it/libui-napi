@@ -2,7 +2,7 @@
 #define __LIBUI_NODE_EVENTS_H__
 
 #include <ui.h>
-#include "uinode.h"
+#include "napi_utils.h"
 #include "control.h"
 
 /*

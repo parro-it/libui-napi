@@ -3,7 +3,7 @@
 
 #include <ui.h>
 #include <map_template.h>
-#include "uinode.h"
+#include "napi_utils.h"
 #include "events.h"
 
 extern struct ctrl_map controls_map;
@@ -19,7 +19,7 @@ struct control_handle {
 	struct events_list *events;
 };
 
-
+napi_value control_handle_new(napi_env env, uiControl *control);
 
 _DECLARE_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map)
 

@@ -1,9 +1,7 @@
 #include <ui.h>
-#include "uinode.h"
+#include "napi_utils.h"
 #include "control.h"
 #include "events.h"
-
-struct ctrl_map controls_map;
 
 static int windowOnClosing_cb(uiWindow *win, void *data) {
 	struct event_t *event = (struct event_t *) data;
@@ -29,29 +27,6 @@ static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static void window_on_destroy(uiControl *control) {
-	struct control_handle *handle;
-	ctrl_map_get(&controls_map, control, &handle);
-	handle->original_destroy(control);
-	ctrl_map_remove(&controls_map, control);
-	clear_all_events(handle->events);
-	if (handle->is_garbage_collected) {
-		free(handle->events);
-		free(handle);
-	} else {
-		handle->is_destroyed = true;
-	}
-}
-
-static void on_window_collected(napi_env env, void* finalize_data, void* finalize_hint) {
-	struct control_handle *handle = (struct control_handle *) finalize_data;
-	if (handle->is_destroyed) {
-		free(handle->events);
-		free(handle);
-	} else {
-		handle->is_garbage_collected = true;
-	}
-}
 
 static napi_value windowNew (napi_env env, napi_callback_info info) {
 	INIT_ARGS(4);
@@ -62,17 +37,9 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 	ARG_BOOL(has_menubar, 3);
 
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
-
-	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
-	handle->events = calloc(1, sizeof(struct events_list));
-	handle->control = uiControl(win);
-	handle->original_destroy = uiControl(win)->Destroy;
-	uiControl(win)->Destroy = window_on_destroy;
-	ctrl_map_insert(&controls_map, handle, uiControl(win));
-
 	free(title);
 
-	RETURN_EXTERNAL(handle, on_window_collected);
+	return control_handle_new(env, uiControl(win));
 }
 
 
