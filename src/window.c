@@ -111,6 +111,7 @@ static napi_value windowSetChild (napi_env env, napi_callback_info info) {
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	uiWindowSetChild(uiWindow(handle->control), child->control);
+	add_child(handle, child);
 	return NULL;
 }
 
