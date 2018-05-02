@@ -64,6 +64,9 @@ void add_child(struct control_handle *control, struct control_handle *child) {
 		return;
 	}
 
+	// TODO: add a reference to child control to
+	// avoid it being GCed
+
 	// Control already has other children. Append to tail
 	struct children_node *new_node = new_child_node(child);
 	control->children->children_tail->next = new_node;
@@ -73,6 +76,8 @@ void add_child(struct control_handle *control, struct control_handle *child) {
 }
 
 void clear_control(struct control_handle *control) {
+	// TODO: release reference to child control to
+	// allow ii being GCed
 }
 
 void clear_children(struct control_handle *control) {
