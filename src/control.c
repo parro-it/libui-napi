@@ -1,3 +1,4 @@
+#include "napi_utils.h"
 #include "control.h"
 #include "events.h"
 

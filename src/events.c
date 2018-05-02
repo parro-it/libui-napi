@@ -44,6 +44,8 @@ napi_value fire_event(struct event_t *event) {
 	status = napi_close_callback_scope(env, scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
 
+	DEBUG("Event fired");
+
 	return result;
 }
 
@@ -59,12 +61,13 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	status = napi_async_init(env, NULL, async_resource_name, &async_context);
 	CHECK_STATUS_THROW(status, napi_async_init);
 
-	struct event_t *args = calloc(1, sizeof(struct event_t));
-	args->cb_ref = cb_ref;
-	args->env = env;
-	args->context = async_context;
+	struct event_t *event = calloc(1, sizeof(struct event_t));
+	event->cb_ref = cb_ref;
+	event->env = env;
+	event->context = async_context;
 
-	return args;
+	DEBUG_F("Create event %p", event);
+	return event;
 }
 
 napi_value clear_event(struct event_t *event) {
@@ -78,6 +81,8 @@ napi_value clear_event(struct event_t *event) {
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 
 	free(event);
+
+	DEBUG_F("Destroy event %p", event);
 	return NULL;
 }
 

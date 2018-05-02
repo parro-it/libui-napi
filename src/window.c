@@ -93,5 +93,4 @@ void _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(windowOnClosing);
 	LIBUI_EXPORT(windowGetTitle);
 	LIBUI_EXPORT(windowSetTitle);
-
 }

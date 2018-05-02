@@ -128,6 +128,18 @@
 		return ERROR_RET; \
 	}
 
+// debug
+
+#define UI_NODE_DEBUG
+
+#ifdef UI_NODE_DEBUG
+	#define DEBUG(msg) fprintf(stderr, msg "\n")
+	#define DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
+#else
+	#define DEBUG(msg) ;
+	#define DEBUG_F(msg, ...) ;
+#endif
+
 // individual modules init
 // TODO: move to individual headers
 void _libui_init_window (napi_env env, napi_value exports);

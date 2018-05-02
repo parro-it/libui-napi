@@ -6,11 +6,10 @@
 #include "control.h"
 #include "events.h"
 
-
 static int onShouldQuit_cb(void *data) {
 
-	struct event_t *args = (struct event_t *)data;
-	fire_event(args);
+	struct event_t *event = (struct event_t *)data;
+	fire_event(event);
 
 	return 0;
 }
@@ -19,12 +18,12 @@ static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_CB_REF(cb_ref, 0);
 
-	struct event_t *args = create_event(env, cb_ref, "onShouldQuit");
-	if (args == NULL) {
+	struct event_t *event = create_event(env, cb_ref, "onShouldQuit");
+	if (event == NULL) {
 		return NULL;
 	}
 
-	uiOnShouldQuit(onShouldQuit_cb, args);
+	uiOnShouldQuit(onShouldQuit_cb, event);
 
 	return NULL;
 }
