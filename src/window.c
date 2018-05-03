@@ -4,6 +4,8 @@
 #include "events.h"
 #include "values.h"
 
+static const char* MODULE = "Window";
+
 typedef void (*window_event_cb_t)(uiWindow *win, void *data);
 
 static int window_event_cb(uiWindow *win, void *data) {
@@ -12,7 +14,7 @@ static int window_event_cb(uiWindow *win, void *data) {
 	return 0;
 }
 
-static napi_value windowOnContentSizeChanged (napi_env env, napi_callback_info info) {
+static napi_value onContentSizeChanged (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
@@ -30,7 +32,7 @@ static napi_value windowOnContentSizeChanged (napi_env env, napi_callback_info i
 	return NULL;
 }
 
-static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
+static napi_value onClosing (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
@@ -49,7 +51,7 @@ static napi_value windowOnClosing (napi_env env, napi_callback_info info) {
 }
 
 
-static napi_value windowNew (napi_env env, napi_callback_info info) {
+static napi_value create (napi_env env, napi_callback_info info) {
 	INIT_ARGS(4);
 
 	ARG_STRING(title, 0);
@@ -64,7 +66,7 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 }
 
 
-static napi_value windowClose (napi_env env, napi_callback_info info) {
+static napi_value close (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlDestroy(handle->control);
@@ -72,7 +74,7 @@ static napi_value windowClose (napi_env env, napi_callback_info info) {
 }
 
 
-static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
+static napi_value getTitle (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	char *char_ptr = uiWindowTitle(uiWindow(handle->control));
@@ -90,7 +92,7 @@ static napi_value windowGetTitle (napi_env env, napi_callback_info info) {
 	return result;
 }
 
-static napi_value windowSetTitle (napi_env env, napi_callback_info info) {
+static napi_value setTitle (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(title, 1);
@@ -99,14 +101,14 @@ static napi_value windowSetTitle (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value windowShow (napi_env env, napi_callback_info info) {
+static napi_value show (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlShow(handle->control);
 	return NULL;
 }
 
-static napi_value windowSetChild (napi_env env, napi_callback_info info) {
+static napi_value setChild (napi_env env, napi_callback_info info) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
@@ -115,7 +117,7 @@ static napi_value windowSetChild (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value windowGetContentSize (napi_env env, napi_callback_info info) {
+static napi_value getContentSize (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 
@@ -125,14 +127,16 @@ static napi_value windowGetContentSize (napi_env env, napi_callback_info info) {
 	return make_size(env, width, height);
 }
 
-void _libui_init_window (napi_env env, napi_value exports) {
-	LIBUI_EXPORT(windowSetChild);
-	LIBUI_EXPORT(windowNew);
-	LIBUI_EXPORT(windowShow);
-	LIBUI_EXPORT(windowClose);
-	LIBUI_EXPORT(windowOnClosing);
-	LIBUI_EXPORT(windowGetContentSize);
-	LIBUI_EXPORT(windowOnContentSizeChanged);
-	LIBUI_EXPORT(windowGetTitle);
-	LIBUI_EXPORT(windowSetTitle);
+napi_value _libui_init_window (napi_env env, napi_value exports) {
+	DEFINE_MODULE();
+	LIBUI_EXPORT(setChild);
+	LIBUI_EXPORT(create);
+	LIBUI_EXPORT(show);
+	LIBUI_EXPORT(close);
+	LIBUI_EXPORT(onClosing);
+	LIBUI_EXPORT(getContentSize);
+	LIBUI_EXPORT(onContentSizeChanged);
+	LIBUI_EXPORT(getTitle);
+	LIBUI_EXPORT(setTitle);
+	return module;
 }

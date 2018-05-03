@@ -1,41 +1,30 @@
 const {
-	start,
-	init,
-	onShouldQuit,
-	stop,
-	windowNew,
-	windowShow,
-	windowOnClosing,
-	windowClose,
-	windowGetTitle,
-	windowSetTitle,
-	windowOnContentSizeChanged,
-	windowGetContentSize,
-	multilineEntryNew,
-	windowSetChild
+	App,
+	Window,
+	MultilineEntry
 } = require('.');
 
-init();
-onShouldQuit(() => {
-	stop();
+App.init();
+App.onShouldQuit(() => {
+	App.stop();
 });
 
 function createWindow() {
-	const win = windowNew("Test Window", 800, 600, false);
-	windowSetChild(win, multilineEntryNew());
+	const win = Window.create("Test Window", 800, 600, false);
+	Window.setChild(win, MultilineEntry.create());
 
-	windowOnContentSizeChanged(win, () => {
-		const size = windowGetContentSize(win);
+	Window.onContentSizeChanged(win, () => {
+		const size = Window.getContentSize(win);
 		console.log(`size changed to ${size.width}x${size.height}`);
 	});
 
-	windowOnClosing(win, () => {
-		if (windowGetTitle(win) == "Test Window") {
-			return windowSetTitle(win, "Riprova");
+	Window.onClosing(win, () => {
+		if (Window.getTitle(win) == "Test Window") {
+			return Window.setTitle(win, "Riprova");
 		}
-		console.log('closing', windowGetTitle(win));
-		windowClose(win);
-		stop();
+		console.log('closing', Window.getTitle(win));
+		Window.close(win);
+		App.stop();
 		global.gc();
 	});
 
@@ -44,8 +33,8 @@ function createWindow() {
 
 const win = createWindow();
 global.gc();
-windowShow(win);
-start();
+Window.show(win);
+App.start();
 global.gc();
 
 

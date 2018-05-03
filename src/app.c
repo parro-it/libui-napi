@@ -6,11 +6,11 @@
 #include "control.h"
 #include "events.h"
 
-static int onShouldQuit_cb(void *data) {
+static const char* MODULE = "App";
 
+static int onShouldQuit_cb(void *data) {
 	struct event_t *event = (struct event_t *)data;
 	fire_event(event);
-
 	return 0;
 }
 
@@ -50,9 +50,11 @@ static napi_value stop (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-void _libui_init_core (napi_env env, napi_value exports) {
+napi_value _libui_init_core (napi_env env, napi_value exports) {
+	DEFINE_MODULE();
 	LIBUI_EXPORT(onShouldQuit);
 	LIBUI_EXPORT(start);
 	LIBUI_EXPORT(init);
 	LIBUI_EXPORT(stop);
+	return module;
 }

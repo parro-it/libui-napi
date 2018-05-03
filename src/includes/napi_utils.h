@@ -99,9 +99,22 @@
 // function export
 
 #define LIBUI_EXPORT(FN) \
-	napi_value FN##_fn; \
-	napi_create_function(env, #FN, NAPI_AUTO_LENGTH, FN, NULL, & FN##_fn); \
-	napi_set_named_property(env, exports, #FN, FN##_fn)
+	{ \
+		napi_value func; \
+		napi_status status = napi_create_function(env, #FN, NAPI_AUTO_LENGTH, FN, NULL, & func); \
+		CHECK_STATUS_THROW(status, napi_create_function); \
+		status = napi_set_named_property(env, module, #FN, func); \
+		CHECK_STATUS_THROW(status, napi_set_named_property); \
+	} \
+
+#define DEFINE_MODULE() \
+	napi_value module; \
+	{ \
+		napi_status status = napi_create_object(env, &module); \
+		CHECK_STATUS_THROW(status, napi_create_object); \
+		status = napi_set_named_property(env, exports, MODULE, module); \
+		CHECK_STATUS_THROW(status, napi_set_named_property); \
+	}
 
 // errors checking
 
@@ -140,11 +153,5 @@
 	#define DEBUG(msg) ;
 	#define DEBUG_F(msg, ...) ;
 #endif
-
-// individual modules init
-// TODO: move to individual headers
-void _libui_init_window (napi_env env, napi_value exports);
-void _libui_init_core (napi_env env, napi_value exports);
-void _libui_init_multilineEntry (napi_env env, napi_value exports);
 
 #endif
