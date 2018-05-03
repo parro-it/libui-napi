@@ -30,8 +30,8 @@ struct children_node {
 	of children of a control.
 */
 struct children_list {
-	struct children_node *children_head;
-	struct children_node *children_tail;
+	struct children_node *head;
+	struct children_node *tail;
 };
 
 struct control_handle {
@@ -48,14 +48,14 @@ struct control_handle {
 
 
 /*
-	add a new child into a control handle.
+	add a new child into a control handle children_list.
 */
-napi_value add_child(struct control_handle *control, struct control_handle *child);
+napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child);
 
 /*
-	remove and decrement references for all children of a control.
+	remove and decrement references for all children of a control children_list.
 */
-napi_value clear_children(struct control_handle *control);
+napi_value clear_children(napi_env env, struct children_list *list);
 
 /*
 	create a new handle structure representing a control.

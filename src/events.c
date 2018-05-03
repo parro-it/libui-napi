@@ -99,11 +99,11 @@ static struct events_node *new_events_node(struct event_t *event) {
 }
 
 void install_event(struct events_list *events, struct event_t *event) {
-	if (events->events_head == NULL) {
+	if (events->head == NULL) {
 		// First event for this control
 		struct events_node *new_node = new_events_node(event);
-		events->events_head = new_node;
-		events->events_tail = new_node;
+		events->head = new_node;
+		events->tail = new_node;
 		return;
 	}
 
@@ -112,20 +112,20 @@ void install_event(struct events_list *events, struct event_t *event) {
 
 	// Control already has other events. Append to tail
 	struct events_node *new_node = new_events_node(event);
-	events->events_tail->next = new_node;
+	events->tail->next = new_node;
 
 	// set this node as the new tail
-	events->events_tail = new_node;
+	events->tail = new_node;
 }
 
 
 void clear_all_events(struct events_list *events) {
-	if (events->events_head == NULL) {
+	if (events->head == NULL) {
 		// This control has no events
 		return;
 	}
 
-	struct events_node *node = events->events_head;
+	struct events_node *node = events->head;
 	struct events_node *node_to_free;
 
 	while (node != NULL) {
@@ -135,6 +135,6 @@ void clear_all_events(struct events_list *events) {
 		free(node_to_free);
 	}
 
-	events->events_head = NULL;
-	events->events_tail = NULL;
+	events->head = NULL;
+	events->tail = NULL;
 }

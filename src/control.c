@@ -10,7 +10,7 @@ static void control_on_destroy(uiControl *control) {
 	handle->original_destroy(control);
 	ctrl_map_remove(&controls_map, control);
 	clear_all_events(handle->events);
-	clear_children(handle);
+	clear_children(handle->env, handle->children);
 
 	DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
 	if (handle->is_garbage_collected) {
@@ -58,8 +58,7 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl
 	return handle_external;
 }
 
-napi_value add_child(struct control_handle *control, struct control_handle *child) {
-	napi_env env = control->env;
+napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child) {
 
 	struct children_node *new_node = malloc(sizeof(struct children_node));
 	new_node->next = NULL;
@@ -68,32 +67,30 @@ napi_value add_child(struct control_handle *control, struct control_handle *chil
 	napi_status status = napi_create_reference(env, child->external, 1, &(new_node->ctrl_ref));
 	CHECK_STATUS_THROW(status, napi_create_reference);
 
-	if (control->children->children_head == NULL) {
+	if (list->head == NULL) {
 		// First child for this control
-		control->children->children_head = new_node;
-		control->children->children_tail = new_node;
+		list->head = new_node;
+		list->tail = new_node;
 		return NULL;
 	}
 
 	// Control already has other children. Append to tail
-	control->children->children_tail->next = new_node;
+	list->tail->next = new_node;
 
 	// set this node as the new tail
-	control->children->children_tail = new_node;
+	list->tail = new_node;
 
 	return NULL;
 }
 
 
-napi_value clear_children(struct control_handle *control) {
-	if (control->children->children_head == NULL) {
+napi_value clear_children(napi_env env, struct children_list *list) {
+	if (list->head == NULL) {
 		// This control has no events
 		return NULL;
 	}
 
-	napi_env env = control->env;
-
-	struct children_node *node = control->children->children_head;
+	struct children_node *node = list->head;
 	struct children_node *node_to_free;
 
 	while (node != NULL) {
@@ -103,16 +100,16 @@ napi_value clear_children(struct control_handle *control) {
 			node->ctrl_ref,
 			&new_ref_count
 		);
-		DEBUG_F("new reference count for %p: %d", node->handle, new_ref_count);
 		CHECK_STATUS_THROW(status, napi_reference_unref);
+		DEBUG_F("new reference count for %p: %d", node->handle, new_ref_count);
 
 		node_to_free = node;
 		node = node->next;
 		free(node_to_free);
 	}
 
-	control->children->children_head = NULL;
-	control->children->children_tail = NULL;
+	list->head = NULL;
+	list->tail = NULL;
 
 	return NULL;
 }

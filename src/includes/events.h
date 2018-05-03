@@ -19,8 +19,8 @@ struct events_node {
 	of events in a control.
 */
 struct events_list {
-	struct events_node *events_head;
-	struct events_node *events_tail;
+	struct events_node *head;
+	struct events_node *tail;
 };
 
 /*
