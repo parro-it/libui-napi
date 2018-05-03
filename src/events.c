@@ -21,6 +21,8 @@ napi_value fire_event(struct event_t *event) {
 	status = napi_get_reference_value(env, event->cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, NULL);
 
+	DEBUG_F("Firing event %s %p", event->name, event);
+
 	napi_value result;
 	status = napi_make_callback(
 		env,
@@ -44,7 +46,8 @@ napi_value fire_event(struct event_t *event) {
 	status = napi_close_callback_scope(env, scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
 
-	DEBUG("Event fired");
+	DEBUG("Fired event");
+
 
 	return result;
 }
@@ -63,10 +66,11 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 
 	struct event_t *event = calloc(1, sizeof(struct event_t));
 	event->cb_ref = cb_ref;
+	event->name = name;
 	event->env = env;
 	event->context = async_context;
 
-	DEBUG_F("Create event %p", event);
+	DEBUG_F("Create event %s %p", event->name, event);
 	return event;
 }
 
@@ -82,7 +86,7 @@ napi_value clear_event(struct event_t *event) {
 
 	free(event);
 
-	DEBUG_F("Destroy event %p", event);
+	DEBUG_F("Destroy event %s %p", event->name, event);
 	return NULL;
 }
 

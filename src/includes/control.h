@@ -37,6 +37,7 @@ struct children_list {
 struct control_handle {
 	napi_env env;
 	napi_value external;
+	const char* ctrl_type_name;
 	bool is_destroyed;
 	bool is_garbage_collected;
 	destroy_cb original_destroy;
@@ -59,7 +60,7 @@ napi_value clear_children(struct control_handle *control);
 /*
 	create a new handle structure representing a control.
 */
-napi_value control_handle_new(napi_env env, uiControl *control);
+napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl_type_name);
 
 _DECLARE_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map)
 

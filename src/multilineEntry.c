@@ -6,7 +6,7 @@
 
 static napi_value multilineEntryNew (napi_env env, napi_callback_info info) {
 	uiControl *ctrl = uiControl(uiNewNonWrappingMultilineEntry());
-	return control_handle_new(env, ctrl);
+	return control_handle_new(env, ctrl, "multilineEntry");
 }
 
 void _libui_init_multilineEntry (napi_env env, napi_value exports) {

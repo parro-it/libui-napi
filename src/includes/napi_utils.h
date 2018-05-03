@@ -86,7 +86,7 @@
 	}
 
 // return values
-
+/*
 #define RETURN_EXTERNAL(POINTER, FINALIZE_CB) \
 	{ \
 		napi_value ret; \
@@ -94,6 +94,7 @@
 		CHECK_STATUS_THROW(status, napi_create_external); \
 		return ret; \
 	}
+*/
 
 // function export
 

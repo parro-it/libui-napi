@@ -45,6 +45,8 @@ struct event_t {
 		debuggers to provide async stack trace for the call.
 	*/
 	napi_async_context context;
+
+	const char *name;
 };
 
 /*

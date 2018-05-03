@@ -60,7 +60,7 @@ static napi_value windowNew (napi_env env, napi_callback_info info) {
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
 	free(title);
 
-	return control_handle_new(env, uiControl(win));
+	return control_handle_new(env, uiControl(win), "window");
 }
 
 

@@ -12,12 +12,12 @@ static void control_on_destroy(uiControl *control) {
 	clear_all_events(handle->events);
 	clear_children(handle);
 
-	DEBUG_F("Control %p destroyed.", handle);
+	DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
 	if (handle->is_garbage_collected) {
 		free(handle->children);
 		free(handle->events);
 		free(handle);
-		DEBUG_F("Control %p freed.", handle);
+		DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_destroyed = true;
 	}
@@ -25,27 +25,29 @@ static void control_on_destroy(uiControl *control) {
 
 static void on_control_gc(napi_env env, void* finalize_data, void* finalize_hint) {
 	struct control_handle *handle = (struct control_handle *) finalize_data;
-	DEBUG_F("Control %p garbage collected.", handle);
+	DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
 
 	if (handle->is_destroyed) {
+		free(handle->children);
 		free(handle->events);
 		free(handle);
-		DEBUG_F("Control %p freed.", handle);
+		DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_garbage_collected = true;
 	}
 }
 
-napi_value control_handle_new(napi_env env, uiControl *control) {
+napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl_type_name) {
 	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
 	handle->env = env;
 	handle->events = calloc(1, sizeof(struct events_list));
 	handle->children = calloc(1, sizeof(struct children_list));
 	handle->control = control;
+	handle->ctrl_type_name = ctrl_type_name;
 	handle->original_destroy = control->Destroy;
 	control->Destroy = control_on_destroy;
 	ctrl_map_insert(&controls_map, handle, control);
-	DEBUG_F("Control %p created.", handle);
+	DEBUG_F("%s %p created.", handle->ctrl_type_name, handle);
 
 	napi_value handle_external;
 	napi_status status = napi_create_external(env, handle, on_control_gc, NULL, &handle_external);
