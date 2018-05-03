@@ -145,6 +145,22 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 }
 
 
+napi_value destroy_all_children(napi_env env, struct children_list *list) {
+	if (list->head == NULL) {
+		// This control has no children
+		return NULL;
+	}
+
+	struct children_node *node = list->head;
+
+	while (node != NULL) {
+		uiControlDestroy(node->handle->control);
+		node = node->next;
+	}
+
+	return NULL;
+}
+
 napi_value clear_children(napi_env env, struct children_list *list) {
 	if (list->head == NULL) {
 		// This control has no children

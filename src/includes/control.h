@@ -72,6 +72,11 @@ struct children_list *create_children_list();
 */
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child);
 
+/*
+	loop over each control in the list destroying them.
+*/
+napi_value destroy_all_children(napi_env env, struct children_list *list);
+
 
 _DECLARE_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map)
 

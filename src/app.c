@@ -49,6 +49,7 @@ static napi_value start (napi_env env, napi_callback_info info) {
 }
 
 static napi_value stop (napi_env env, napi_callback_info info) {
+	destroy_all_children(env, visible_windows);
 	clear_children(env, visible_windows);
 	visible_windows = NULL;
 	uiQuit();

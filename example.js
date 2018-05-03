@@ -7,6 +7,7 @@ const {
 App.init();
 App.onShouldQuit(() => {
 	App.stop();
+	global.gc();
 });
 
 function createWindow() {
