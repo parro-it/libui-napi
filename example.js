@@ -36,6 +36,7 @@ function createWindow() {
 		console.log('closing', windowGetTitle(win));
 		windowClose(win);
 		stop();
+		global.gc();
 	});
 
 	return win;
@@ -45,4 +46,6 @@ const win = createWindow();
 global.gc();
 windowShow(win);
 start();
+global.gc();
+
 

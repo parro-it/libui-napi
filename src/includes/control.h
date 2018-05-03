@@ -15,6 +15,12 @@ typedef void (*destroy_cb)(uiControl *);
 	of children of a control.
 */
 struct children_node {
+	/*
+		A reference to the JavaScript object that wrap the handle pointer,
+		It prevent the JavaScript object to be garbage collected, and is
+		released when the control is destroyed.
+	 */
+	napi_ref ctrl_ref;
 	struct control_handle *handle;
 	struct children_node *next;
 };
@@ -29,6 +35,8 @@ struct children_list {
 };
 
 struct control_handle {
+	napi_env env;
+	napi_value external;
 	bool is_destroyed;
 	bool is_garbage_collected;
 	destroy_cb original_destroy;
@@ -41,12 +49,12 @@ struct control_handle {
 /*
 	add a new child into a control handle.
 */
-void add_child(struct control_handle *control, struct control_handle *child);
+napi_value add_child(struct control_handle *control, struct control_handle *child);
 
 /*
 	remove and decrement references for all children of a control.
 */
-void clear_children(struct control_handle *control);
+napi_value clear_children(struct control_handle *control);
 
 /*
 	create a new handle structure representing a control.

@@ -38,6 +38,7 @@ static void on_control_gc(napi_env env, void* finalize_data, void* finalize_hint
 
 napi_value control_handle_new(napi_env env, uiControl *control) {
 	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
+	handle->env = env;
 	handle->events = calloc(1, sizeof(struct events_list));
 	handle->children = calloc(1, sizeof(struct children_list));
 	handle->control = control;
@@ -45,52 +46,64 @@ napi_value control_handle_new(napi_env env, uiControl *control) {
 	control->Destroy = control_on_destroy;
 	ctrl_map_insert(&controls_map, handle, control);
 	DEBUG_F("Control %p created.", handle);
-	RETURN_EXTERNAL(handle, on_control_gc)
+
+	napi_value handle_external;
+	napi_status status = napi_create_external(env, handle, on_control_gc, NULL, &handle_external);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	handle->external = handle_external;
+
+	return handle_external;
 }
 
-static struct children_node *new_child_node(struct control_handle *handle) {
+napi_value add_child(struct control_handle *control, struct control_handle *child) {
+	napi_env env = control->env;
+
 	struct children_node *new_node = malloc(sizeof(struct children_node));
 	new_node->next = NULL;
-	new_node->handle = handle;
-	return new_node;
-}
+	new_node->handle = child;
 
-void add_child(struct control_handle *control, struct control_handle *child) {
+	napi_status status = napi_create_reference(env, child->external, 1, &(new_node->ctrl_ref));
+	CHECK_STATUS_THROW(status, napi_create_reference);
+
 	if (control->children->children_head == NULL) {
 		// First child for this control
-		struct children_node *new_node = new_child_node(control);
 		control->children->children_head = new_node;
 		control->children->children_tail = new_node;
-		return;
+		return NULL;
 	}
 
-	// TODO: add a reference to child control to
-	// avoid it being GCed
-
 	// Control already has other children. Append to tail
-	struct children_node *new_node = new_child_node(child);
 	control->children->children_tail->next = new_node;
 
 	// set this node as the new tail
 	control->children->children_tail = new_node;
+
+	return NULL;
 }
 
-void clear_control(struct control_handle *control) {
-	// TODO: release reference to child control to
-	// allow ii being GCed
-}
 
-void clear_children(struct control_handle *control) {
+napi_value clear_children(struct control_handle *control) {
 	if (control->children->children_head == NULL) {
 		// This control has no events
-		return;
+		return NULL;
 	}
+
+	napi_env env = control->env;
 
 	struct children_node *node = control->children->children_head;
 	struct children_node *node_to_free;
 
 	while (node != NULL) {
-		clear_control(node->handle);
+		uint32_t new_ref_count;
+		napi_status status = napi_reference_unref(
+			env,
+			node->ctrl_ref,
+			&new_ref_count
+		);
+		DEBUG_F("new reference count for %p: %d", node->handle, new_ref_count);
+		CHECK_STATUS_THROW(status, napi_reference_unref);
+
 		node_to_free = node;
 		node = node->next;
 		free(node_to_free);
@@ -98,4 +111,6 @@ void clear_children(struct control_handle *control) {
 
 	control->children->children_head = NULL;
 	control->children->children_tail = NULL;
+
+	return NULL;
 }
