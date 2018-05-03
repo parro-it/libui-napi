@@ -26,7 +26,7 @@
     "binding.gyp"
   ],
   "scripts": {
-    "docs": "jsdoc2md -f js/window.js",
+    "docs": "jsdoc2md -f js/window.js > docs/window.md",
     "start": "node --expose-gc example.js",
     "download-libui": "node tools/libui-download.js",
     "download-libui-napi": "node tools/libui-napi-download.js",
