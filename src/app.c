@@ -8,6 +8,8 @@
 
 static const char* MODULE = "App";
 
+struct children_list* visible_windows = NULL;
+
 static int onShouldQuit_cb(void *data) {
 	struct event_t *event = (struct event_t *)data;
 	fire_event(event);
@@ -37,6 +39,7 @@ static napi_value init (napi_env env, napi_callback_info info) {
 		uiFreeInitError(err);
 	}
 	controls_map = ctrl_map_create(0, 1);
+	visible_windows = create_children_list();
 	return NULL;
 }
 
@@ -46,6 +49,8 @@ static napi_value start (napi_env env, napi_callback_info info) {
 }
 
 static napi_value stop (napi_env env, napi_callback_info info) {
+	clear_children(env, visible_windows);
+	visible_windows = NULL;
 	uiQuit();
 	return NULL;
 }

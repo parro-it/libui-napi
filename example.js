@@ -10,8 +10,10 @@ App.onShouldQuit(() => {
 });
 
 function createWindow() {
-	const win = Window.create("Test Window", 800, 600, false);
-	Window.setChild(win, MultilineEntry.create());
+	let win = Window.create("Test Window", 800, 600, false);
+
+	const entry = MultilineEntry.create();
+	Window.setChild(win, entry);
 
 	Window.onContentSizeChanged(win, () => {
 		const size = Window.getContentSize(win);
@@ -24,17 +26,17 @@ function createWindow() {
 		}
 		console.log('closing', Window.getTitle(win));
 		Window.close(win);
+		win = null;
 		App.stop();
 		global.gc();
 	});
 
-	return win;
+	Window.show(win);
+	global.gc();
+	App.start();
 }
 
-const win = createWindow();
-global.gc();
-Window.show(win);
-App.start();
+createWindow();
 global.gc();
 
 

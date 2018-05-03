@@ -1,4 +1,4 @@
-#include "window.h"
+#include "control.h"
 
 // A hash function for whatever type is used as KEYS
 static unsigned pointer_hash(const uiControl *control)

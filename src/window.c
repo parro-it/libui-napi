@@ -3,6 +3,7 @@
 #include "control.h"
 #include "events.h"
 #include "values.h"
+#include "app.h"
 
 static const char* MODULE = "Window";
 
@@ -70,6 +71,7 @@ static napi_value close (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlDestroy(handle->control);
+	remove_child(env, visible_windows, handle);
 	return NULL;
 }
 
@@ -105,6 +107,7 @@ static napi_value show (napi_env env, napi_callback_info info) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlShow(handle->control);
+	add_child(env, visible_windows, handle);
 	return NULL;
 }
 
@@ -113,6 +116,7 @@ static napi_value setChild (napi_env env, napi_callback_info info) {
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	uiWindowSetChild(uiWindow(handle->control), child->control);
+	clear_children(env, handle->children);
 	add_child(env, handle->children, child);
 	return NULL;
 }
