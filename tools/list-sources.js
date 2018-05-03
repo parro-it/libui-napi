@@ -3,7 +3,7 @@ const {platform} = require('os')
 
 function listDir(dir) {
 	readdirSync(dir)
-		.filter(f => f.endsWith('.c'))
+		.filter(f => f.endsWith('.c') || f.endsWith('.m'))
 		.forEach(f => console.log(`${dir}/${f}`));
 }
 

@@ -1,5 +1,5 @@
-#ifndef __LIBUI_NODE_WINDOWS_H__
-#define __LIBUI_NODE_WINDOWS_H__
+#ifndef LIBUI_NODE_WINDOWS_H__
+#define LIBUI_NODE_WINDOWS_H__
 
 #include "control.h"
 

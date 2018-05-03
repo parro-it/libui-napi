@@ -4,6 +4,10 @@ napi_value fire_event(struct event_t *event) {
 	napi_status status;
 	napi_env env = event->env;
 
+	napi_handle_scope handle_scope;
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
+
 	napi_value resource_object;
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
@@ -45,6 +49,9 @@ napi_value fire_event(struct event_t *event) {
 
 	status = napi_close_callback_scope(env, scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
 
 	DEBUG("Fired event");
 

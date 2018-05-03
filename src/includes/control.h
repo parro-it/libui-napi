@@ -1,5 +1,5 @@
-#ifndef __LIBUI_NODE_CONTROL_H__
-#define __LIBUI_NODE_CONTROL_H__
+#ifndef LIBUI_NODE_CONTROL_H__
+#define LIBUI_NODE_CONTROL_H__
 
 #include <ui.h>
 #include <map_template.h>

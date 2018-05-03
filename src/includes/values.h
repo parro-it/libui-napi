@@ -1,5 +1,5 @@
-#ifndef __LIBUI_NODE_VALUES_H__
-#define __LIBUI_NODE_VALUES_H__
+#ifndef LIBUI_NODE_VALUES_H__
+#define LIBUI_NODE_VALUES_H__
 
 #include "napi_utils.h"
 

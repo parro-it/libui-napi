@@ -1,5 +1,5 @@
-#ifndef __LIBUI_NODE_UTILS_H__
-#define __LIBUI_NODE_UTILS_H__
+#ifndef LIBUI_NODE_UTILS_H__
+#define LIBUI_NODE_UTILS_H__
 
 #include <node_api.h>
 #include <stdlib.h>
@@ -144,9 +144,9 @@
 
 // debug
 
-#define UI_NODE_DEBUG
+#define UI_NODE_DEBUG 1
 
-#ifdef UI_NODE_DEBUG
+#if UI_NODE_DEBUG
 	#define DEBUG(msg) fprintf(stderr, msg "\n")
 	#define DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
 #else
