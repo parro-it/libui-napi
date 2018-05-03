@@ -1,9 +1,9 @@
 var tape = require('tape');
-const {init} = require('./');
+const {App} = require('./');
 
 
 tape('does not crash', t => {
-	init();
+	App.init();
 	t.pass('did not crash');
 	t.end();
 });
