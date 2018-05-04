@@ -44,30 +44,11 @@ static napi_value init (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value start (napi_env env, napi_callback_info info) {
-	startLoop();
-	return NULL;
-}
 
-static napi_value stop (napi_env env, napi_callback_info info) {
-	destroy_all_children(env, visible_windows);
-	clear_children(env, visible_windows);
-	visible_windows = NULL;
-	stopLoop();
-	return NULL;
-}
-
-static napi_value priv_wakeupBackgroundThread (napi_env env, napi_callback_info info) {
-	wakeupBackgroundThread();
-	return NULL;
-}
 
 napi_value _libui_init_core (napi_env env, napi_value exports) {
 	DEFINE_MODULE();
-	LIBUI_EXPORT(priv_wakeupBackgroundThread);
 	LIBUI_EXPORT(onShouldQuit);
-	LIBUI_EXPORT(start);
 	LIBUI_EXPORT(init);
-	LIBUI_EXPORT(stop);
 	return module;
 }

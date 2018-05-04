@@ -1,6 +1,9 @@
 #include <stdbool.h>
 #include "event-loop.h"
 #include "napi_utils.h"
+#include "app.h"
+
+static const char* MODULE = "EventLoop";
 
 _Atomic(bool) running;
 
@@ -242,13 +245,7 @@ void startLoop() {
 	DEBUG("redrawTimer...\n");
 }
 
-// this function signal make background
-// to stop awaiting node events, allowing it
-// to update the list of handles it's
-// awaiting for.
-void wakeupBackgroundThread() {
-	uv_async_send(&keepAliveTimer);
-}
+
 
 /* This function start the event loop and exit immediately */
 void stopLoop() {
@@ -259,3 +256,32 @@ void stopLoop() {
 
 }
 
+static napi_value start (napi_env env, napi_callback_info info) {
+	startLoop();
+	return NULL;
+}
+
+static napi_value stop (napi_env env, napi_callback_info info) {
+	destroy_all_children(env, visible_windows);
+	clear_children(env, visible_windows);
+	visible_windows = NULL;
+	stopLoop();
+	return NULL;
+}
+
+// this function signal make background
+// to stop awaiting node events, allowing it
+// to update the list of handles it's
+// awaiting for.
+static napi_value wakeupBackgroundThread (napi_env env, napi_callback_info info) {
+	uv_async_send(&keepAliveTimer);
+	return NULL;
+}
+
+napi_value _libui_init_event_loop (napi_env env, napi_value exports) {
+	DEFINE_MODULE();
+	LIBUI_EXPORT(wakeupBackgroundThread);
+	LIBUI_EXPORT(start);
+	LIBUI_EXPORT(stop);
+	return module;
+}

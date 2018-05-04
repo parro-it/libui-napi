@@ -8,7 +8,6 @@ int uiEventsPending();
 int uiLoopWakeup();
 int waitForNodeEvents(uv_loop_t *loop, int timeout);
 
-void wakeupBackgroundThread();
 void stopLoop();
 void startLoop();
 
