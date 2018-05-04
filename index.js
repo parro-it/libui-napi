@@ -9,7 +9,7 @@ let asyncHook = null;
 module.exports = libui;
 
 libui.App.start = () => {
-	asyncHook = async_hooks.createHook({init});
+	asyncHook = async_hooks.createHook({init: initAsyncResource});
 
 	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
 	// action after running the constructor, and must be explicitly run to begin
@@ -35,7 +35,7 @@ libui.App.stop = () => {
 // is created. It's used to signal the background
 // thread to stop awaiting calls and upgrade it's list of handles
 // it's awaiting for.
-function init(asyncId, type, triggerAsyncId, resource) {
+function initAsyncResource(asyncId, type, triggerAsyncId, resource) {
 	if (wakingup) {
 		return;
 	}

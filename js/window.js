@@ -1,15 +1,4 @@
-const {
-	windowNew,
-	windowShow,
-	windowOnClosing,
-	windowClose,
-	windowGetTitle,
-	windowSetTitle,
-	windowOnContentSizeChanged,
-	windowGetContentSize,
-	multilineEntryNew,
-	windowSetChild
-} = require('..');
+const {Window} = require('..');
 
 /**
  * The UiWindow class is responsible to show and manage native windows.
@@ -27,7 +16,7 @@ class UiWindow {
 	 * @return {UiWindow} new instance.
 	 */
 	constructor(title, width, height, hasMenubar) {
-		this.handle = windowNew(title, width, height, hasMenubar);
+		this.handle = Window.create(title, width, height, hasMenubar);
 	}
 
 	/**
@@ -36,7 +25,7 @@ class UiWindow {
 	 * @return {undefined}
 	 */
 	show() {
-
+		return Window.show(this.handle);
 	}
 
 	/**
@@ -47,7 +36,7 @@ class UiWindow {
 	 * @return {undefined}
 	 */
 	onClosing(callback) {
-
+		Window.onClosing(this.handle, callback);
 	}
 
 	/**
@@ -58,7 +47,7 @@ class UiWindow {
 	 * @return {undefined}
 	 */
 	onContentSizeChanged(callback) {
-
+		Window.onContentSizeChanged(this.handle, callback);
 	}
 
 	/**
@@ -67,7 +56,7 @@ class UiWindow {
 	 * @return {undefined}
 	 */
 	close() {
-
+		Window.close(this.handle);
 	}
 
 	/**
@@ -76,11 +65,11 @@ class UiWindow {
 	 * @return {string}
 	 */
 	get title() {
-
+		return Window.getTitle(this.handle);
 	}
 
-	set title(val) {
-
+	set title(value) {
+		Window.setTitle(this.handle, value);
 	}
 
 	/**
@@ -91,25 +80,63 @@ class UiWindow {
 	 * @return {{width: number, height: number}}
 	 */
 	get contentSize() {
-
+		return Window.getContentSize(this.handle);
 	}
 
-	set contentSize(val) {
-
-	}
-
-	set child(val) {
-
+	set contentSize({width, height}) {
+		Window.setContentSize(this.handle, width, height);
 	}
 
 	/**
-	 * Set or return the control to show in this window content area.
+	 * Set the control to show in this window content area.
 	 * UiWindow instances can contain only one control. If you need
 	 * more, you have to use [Containers](containers.md).
 	 *
-	 * @return {UiControl}
+	 * @param {UiControl} control - the control to add as child.
+	 * @param {boolean} stretchy - whever the control should fill all the available space.
 	 */
-	get child() {
+	setChild(control, stretchy) {
+		Window.setChild(this.handle, control);
+	}
 
+	/**
+	 * When true, an internal margin is added to the window.
+	 *
+	 * @return {boolean}
+	 */
+	get margined() {
+		return Window.getMargined(this.handle);
+	}
+
+	set margined(value) {
+		Window.setMargined(this.handle, value);
+	}
+
+	/**
+	 * When true, the window is displayed borderless.
+	 *
+	 * @return {boolean}
+	 */
+	get borderless() {
+		return Window.getBorderless(this.handle);
+	}
+
+	set borderless(value) {
+		Window.setBorderless(this.handle, value);
+	}
+
+	/**
+	 * When true, the window is displayed full screen.
+	 *
+	 * @return {boolean}
+	 */
+	get fullscreen() {
+		return Window.getFullscreen(this.handle);
+	}
+
+	set fullscreen(value) {
+		Window.setFullscreen(this.handle, value);
 	}
 }
+
+module.exports = {UiWindow};

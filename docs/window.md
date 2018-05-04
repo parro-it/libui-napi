@@ -11,11 +11,14 @@ more than one, you have to use [Containers](containers.md).
     * [new UiWindow(title, width, height, hasMenubar)](#new_UiWindow_new)
     * [.title](#UiWindow+title) ⇒ <code>string</code>
     * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
-    * [.child](#UiWindow+child) ⇒ <code>UiControl</code>
+    * [.margined](#UiWindow+margined) ⇒ <code>boolean</code>
+    * [.borderless](#UiWindow+borderless) ⇒ <code>boolean</code>
+    * [.fullscreen](#UiWindow+fullscreen) ⇒ <code>boolean</code>
     * [.show()](#UiWindow+show) ⇒ <code>undefined</code>
     * [.onClosing(callback)](#UiWindow+onClosing) ⇒ <code>undefined</code>
     * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged) ⇒ <code>undefined</code>
     * [.close()](#UiWindow+close) ⇒ <code>undefined</code>
+    * [.setChild(control, stretchy)](#UiWindow+setChild)
 
 <a name="new_UiWindow_new"></a>
 
@@ -44,12 +47,22 @@ Window decoration size are excluded. This mean that if you set window
 size to 0,0 you still see title bar and OS window buttons.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+child"></a>
+<a name="UiWindow+margined"></a>
 
-### uiWindow.child ⇒ <code>UiControl</code>
-Set or return the control to show in this window content area.
-UiWindow instances can contain only one control. If you need
-more, you have to use [Containers](containers.md).
+### uiWindow.margined ⇒ <code>boolean</code>
+When true, an internal margin is added to the window.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+borderless"></a>
+
+### uiWindow.borderless ⇒ <code>boolean</code>
+When true, the window is displayed borderless.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+fullscreen"></a>
+
+### uiWindow.fullscreen ⇒ <code>boolean</code>
+When true, the window is displayed full screen.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+show"></a>
@@ -88,3 +101,17 @@ content size change.
 Close the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+setChild"></a>
+
+### uiWindow.setChild(control, stretchy)
+Set the control to show in this window content area.
+UiWindow instances can contain only one control. If you need
+more, you have to use [Containers](containers.md).
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| control | <code>UiControl</code> | the control to add as child. |
+| stretchy | <code>boolean</code> | whever the control should fill all the available space. |
+
