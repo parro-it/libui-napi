@@ -96,7 +96,7 @@ class UiWindow {
 	 * @param {boolean} stretchy - whever the control should fill all the available space.
 	 */
 	setChild(control, stretchy) {
-		Window.setChild(this.handle, control);
+		Window.setChild(this.handle, control.handle);
 	}
 
 	/**

@@ -2,7 +2,7 @@ const {Box} = require('..');
 
 class UiBox {
 	constructor(handle) {
-		this.handle = Window.create(title, width, height, hasMenubar);
+		this.handle = handle;
 	}
 
 	/**
@@ -24,7 +24,7 @@ class UiBox {
 	 * @return {undefined}
 	 */
 	append(control, stretchy) {
-		Box.append(this.handle, control, stretchy);
+		Box.append(this.handle, control.handle, stretchy);
 	}
 
 	/**

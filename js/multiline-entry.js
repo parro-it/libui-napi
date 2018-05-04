@@ -38,7 +38,7 @@ class UiMultilineEntry {
 	 * @return {undefined}
 	 */
 	append(text) {
-		Box.append(this.handle, text);
+		MultilineEntry.append(this.handle, text);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class UiMultilineEntry {
 	 * @return {undefined}
 	 */
 	onChanged(callback) {
-		Window.onChanged(this.handle, callback);
+		MultilineEntry.onChanged(this.handle, callback);
 	}
 }
 

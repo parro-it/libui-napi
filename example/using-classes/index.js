@@ -21,7 +21,7 @@ function createWindow() {
 	entry.text = "A test line\n";
 	entry.append("A second test line\n");
 	entry.onChanged(() => {
-		const msg = `Text changed to ${MultilineEntry.getText(entry)}`;
+		const msg = `Text changed to ${entry.text}`;
 		console.log(msg);
 		logEntry.append(msg + '\n');
 	});
