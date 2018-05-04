@@ -32,6 +32,7 @@ deploy:
   file: "$ARCHIVE_NAME"
   skip_cleanup: true
   on:
+    branch: release
     tags: true
     node: node
   api_key:
