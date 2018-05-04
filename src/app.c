@@ -17,7 +17,7 @@ static int onShouldQuit_cb(void *data) {
 	return 0;
 }
 
-static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(onShouldQuit) {
 	INIT_ARGS(1);
 	ARG_CB_REF(cb_ref, 0);
 
@@ -31,7 +31,7 @@ static napi_value onShouldQuit (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value init (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(init) {
 	uiInitOptions o;
 	memset(&o, 0, sizeof(uiInitOptions));
 	const char *err = uiInit(&o);
@@ -43,8 +43,6 @@ static napi_value init (napi_env env, napi_callback_info info) {
 	visible_windows = create_children_list();
 	return NULL;
 }
-
-
 
 napi_value _libui_init_core (napi_env env, napi_value exports) {
 	DEFINE_MODULE();

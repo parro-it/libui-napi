@@ -77,6 +77,16 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 */
 napi_value destroy_all_children(napi_env env, struct children_list *list);
 
+/*
+	c callback to register libui event
+*/
+int control_event_cb(void *ctrl, void *data);
+
+/*
+	cast to correct callback type expected by libui to prevent
+	warnings
+*/
+#define CALLBACK_OF(CTRL_TYPE, CB) ((void (*)(CTRL_TYPE *ctrl, void *data)) CB)
 
 _DECLARE_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map)
 

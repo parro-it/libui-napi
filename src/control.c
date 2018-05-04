@@ -4,6 +4,12 @@
 
 struct ctrl_map controls_map;
 
+int control_event_cb(void *ctrl, void *data) {
+	struct event_t *event = (struct event_t *) data;
+	fire_event(event);
+	return 0;
+}
+
 static void control_on_destroy(uiControl *control) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, control, &handle);

@@ -98,6 +98,8 @@
 
 // function export
 
+#define LIBUI_FUNCTION(FN_NAME) static napi_value FN_NAME (napi_env env, napi_callback_info info)
+
 #define LIBUI_EXPORT(FN) \
 	{ \
 		napi_value func; \
@@ -153,5 +155,10 @@
 	#define DEBUG(msg) ;
 	#define DEBUG_F(msg, ...) ;
 #endif
+
+// return values
+
+napi_value make_bool(napi_env env, bool value);
+napi_value make_utf8_string(napi_env env, const char *char_ptr);
 
 #endif

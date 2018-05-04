@@ -261,12 +261,12 @@ void stopLoop() {
 
 }
 
-static napi_value start (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(start) {
 	startLoop();
 	return NULL;
 }
 
-static napi_value stop (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(stop) {
 	destroy_all_children(env, visible_windows);
 	clear_children(env, visible_windows);
 	visible_windows = NULL;
@@ -278,7 +278,7 @@ static napi_value stop (napi_env env, napi_callback_info info) {
 // to stop awaiting node events, allowing it
 // to update the list of handles it's
 // awaiting for.
-static napi_value wakeupBackgroundThread (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(wakeupBackgroundThread) {
 	uv_async_send(&keepAliveTimer);
 	return NULL;
 }

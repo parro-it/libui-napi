@@ -15,7 +15,7 @@ static int window_event_cb(uiWindow *win, void *data) {
 	return 0;
 }
 
-static napi_value onContentSizeChanged (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(onContentSizeChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
@@ -33,7 +33,7 @@ static napi_value onContentSizeChanged (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value onClosing (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(onClosing) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
@@ -51,8 +51,7 @@ static napi_value onClosing (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-
-static napi_value create (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(create) {
 	INIT_ARGS(4);
 
 	ARG_STRING(title, 0);
@@ -66,8 +65,7 @@ static napi_value create (napi_env env, napi_callback_info info) {
 	return control_handle_new(env, uiControl(win), "window");
 }
 
-
-static napi_value close (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(close) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlDestroy(handle->control);
@@ -75,8 +73,7 @@ static napi_value close (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-
-static napi_value getTitle (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(getTitle) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	char *char_ptr = uiWindowTitle(uiWindow(handle->control));
@@ -88,13 +85,13 @@ static napi_value getTitle (napi_env env, napi_callback_info info) {
 		NAPI_AUTO_LENGTH,
 		&result
 	);
-	CHECK_STATUS_THROW(status, napi_create_external);
+	CHECK_STATUS_THROW(status, napi_create_string_utf8);
 
 	uiFreeText(char_ptr);
 	return result;
 }
 
-static napi_value setTitle (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(setTitle) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(title, 1);
@@ -103,7 +100,7 @@ static napi_value setTitle (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value show (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(show) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 	uiControlShow(handle->control);
@@ -111,7 +108,7 @@ static napi_value show (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value setChild (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(setChild) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
@@ -121,7 +118,7 @@ static napi_value setChild (napi_env env, napi_callback_info info) {
 	return NULL;
 }
 
-static napi_value getContentSize (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(getContentSize) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
 
@@ -131,12 +128,63 @@ static napi_value getContentSize (napi_env env, napi_callback_info info) {
 	return make_size(env, width, height);
 }
 
-static napi_value setContentSize (napi_env env, napi_callback_info info) {
+LIBUI_FUNCTION(setContentSize) {
 	INIT_ARGS(3);
 	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_INT32(width, 1);
 	ARG_INT32(height, 2);
 	uiWindowSetContentSize(uiWindow(handle->control), width, height);
+	return NULL;
+}
+
+LIBUI_FUNCTION(getFullscreen) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct control_handle, handle, 0);
+
+	bool value = uiWindowFullscreen(uiWindow(handle->control));
+	return make_bool(env, value);
+}
+
+LIBUI_FUNCTION(setFullscreen) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_BOOL(value, 1);
+
+	uiWindowSetFullscreen(uiWindow(handle->control), value);
+	return NULL;
+}
+
+LIBUI_FUNCTION(getBorderless) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct control_handle, handle, 0);
+
+	bool value = uiWindowBorderless(uiWindow(handle->control));
+	return make_bool(env, value);
+}
+
+LIBUI_FUNCTION(setBorderless) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_BOOL(value, 1);
+
+	uiWindowSetBorderless(uiWindow(handle->control), value);
+	return NULL;
+}
+
+LIBUI_FUNCTION(getMargined) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct control_handle, handle, 0);
+
+	bool value = uiWindowMargined(uiWindow(handle->control));
+	return make_bool(env, value);
+}
+
+LIBUI_FUNCTION(setMargined) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_BOOL(value, 1);
+
+	uiWindowSetMargined(uiWindow(handle->control), value);
 	return NULL;
 }
 
@@ -150,6 +198,12 @@ napi_value _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(getContentSize);
 	LIBUI_EXPORT(setContentSize);
 	LIBUI_EXPORT(onContentSizeChanged);
+	LIBUI_EXPORT(getMargined);
+	LIBUI_EXPORT(setMargined);
+	LIBUI_EXPORT(getBorderless);
+	LIBUI_EXPORT(setBorderless);
+	LIBUI_EXPORT(getFullscreen);
+	LIBUI_EXPORT(setFullscreen);
 	LIBUI_EXPORT(getTitle);
 	LIBUI_EXPORT(setTitle);
 	return module;
