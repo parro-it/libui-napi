@@ -1,7 +1,8 @@
 const {
 	App,
 	Window,
-	MultilineEntry
+	MultilineEntry,
+	Box
 } = require('.');
 
 App.init();
@@ -12,14 +13,24 @@ App.onShouldQuit(() => {
 
 function createWindow() {
 	let win = Window.create("Test Window", 800, 600, false);
+	Window.setMargined(win, true);
+	const logEntry = MultilineEntry.create();
 
 	const entry = MultilineEntry.create();
 	MultilineEntry.setText(entry, "A test line\n");
 	MultilineEntry.append(entry, "A second test line\n");
 	MultilineEntry.onChanged(entry, () => {
-		console.log(`Text changed to ${MultilineEntry.getText(entry)}`);
+		const msg = `Text changed to ${MultilineEntry.getText(entry)}`;
+		console.log(msg);
+		MultilineEntry.append(logEntry, msg + '\n');
 	});
-	Window.setChild(win, entry);
+
+	const box = Box.createHorizontal();
+	Box.setPadded(box, true);
+	Box.append(box, entry, true);
+	Box.append(box, logEntry, true);
+
+	Window.setChild(win, box);
 
 	Window.onContentSizeChanged(win, () => {
 		const size = Window.getContentSize(win);
@@ -28,7 +39,7 @@ function createWindow() {
 	let step = 0;
 	Window.onClosing(win, () => {
 		if (Window.getTitle(win) == "Test Window") {
-			setInterval(() => {
+			let interval = setInterval(() => {
 				if (step === 0){
 					Window.setContentSize(win, 400, 300);
 				}
@@ -46,6 +57,11 @@ function createWindow() {
 				if (step === 4){
 					Window.setBorderless(win, false);
 				}
+
+				if (step > 4){
+					clearInterval(interval);
+				}
+
 				step++;
 
 				console.log({
@@ -53,14 +69,15 @@ function createWindow() {
 					Fullscreen: Window.getFullscreen(win),
 					Borderless: Window.getBorderless(win),
 				});
-			}, 3000);
-			return Window.setTitle(win, "Riprova");
+			}, 1000);
+			Box.deleteAt(box, 1);
+			return Window.setTitle(win, "Wait some seconds please...");
 		}
 		console.log('closing', Window.getTitle(win));
 		Window.close(win);
 		win = null;
 		App.stop();
-		global.gc();
+
 	});
 
 	Window.show(win);
@@ -68,6 +85,8 @@ function createWindow() {
 
 createWindow();
 App.start();
-global.gc();
+setInterval(() => {
+	global.gc();
+}, 10);
 
 

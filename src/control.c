@@ -196,3 +196,47 @@ napi_value clear_children(napi_env env, struct children_list *list) {
 
 	return NULL;
 }
+
+napi_value remove_child_at(napi_env env, struct children_list *list, int index_to_remove) {
+	if (list->head == NULL) {
+		return NULL;
+	}
+
+	struct children_node *node = list->head;
+	struct children_node *prev_node = NULL;
+	int i = 0;
+	while (node != NULL) {
+		if (i == index_to_remove){
+			uint32_t new_ref_count;
+			napi_status status = napi_reference_unref(
+				env,
+				node->handle->ctrl_ref,
+				&new_ref_count
+			);
+			CHECK_STATUS_THROW(status, napi_reference_unref);
+			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle, new_ref_count);
+
+			if (node == list->head) {
+				// removing first child
+				list->head = node->next;
+			}
+
+			if (node == list->tail) {
+				// removing last child
+				list->tail = prev_node;
+			}
+
+			if (prev_node != NULL) {
+				prev_node->next = node->next;
+			}
+
+			free(node);
+
+			return NULL;
+		}
+
+		prev_node = node;
+		node = node->next;
+	}
+	return NULL;
+}

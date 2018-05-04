@@ -68,9 +68,15 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl
 struct children_list *create_children_list();
 
 /*
-	remove and decrement a child of a control children_list.
+	remove and decrement a child of a control contained in a children_list.
 */
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child);
+
+/*
+	remove and decrement a child of a control contained at a specified position of a children_list.
+*/
+napi_value remove_child_at(napi_env env, struct children_list *list, int index);
+
 
 /*
 	loop over each control in the list destroying them.
