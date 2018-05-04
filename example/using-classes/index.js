@@ -34,12 +34,12 @@ function createWindow() {
 	win.setChild(box);
 
 	win.onContentSizeChanged(() => {
-		const size = win.getContentSize();
+		const size = win.contentSize;
 		console.log(`size changed to ${size.width}x${size.height}`);
 	});
 	let step = 0;
 	win.onClosing(() => {
-		if (win.getTitle() == "Test Window") {
+		if (win.title == "Test Window") {
 			let interval = setInterval(() => {
 				if (step === 0){
 					win.contentSize = {width: 400, height: 300};
