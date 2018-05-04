@@ -20,7 +20,7 @@
 				},
 			}],
 			["OS=='linux'", {
-				"cflags": ["-fvisibility=hidden" ,"-std=c11"],
+				"cflags": ["-fvisibility=hidden" ,"-std=gnu11"],
 				'ldflags': [
 					"-Wl,-rpath,'$$ORIGIN',-rpath,<(module_root_dir)",
 				],
