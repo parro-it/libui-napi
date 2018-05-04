@@ -38,7 +38,7 @@ LIBUI_FUNCTION(onClosing) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnClosing(uiWindow(handle->control), CALLBACK_OF(uiWindow, control_event_cb), event);
+	uiWindowOnClosing(uiWindow(handle->control), INT_CALLBACK_OF(uiWindow, control_event_cb), event);
 
 	return NULL;
 }

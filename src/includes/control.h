@@ -93,6 +93,7 @@ int control_event_cb(void *ctrl, void *data);
 	warnings
 */
 #define CALLBACK_OF(CTRL_TYPE, CB) ((void (*)(CTRL_TYPE *ctrl, void *data)) CB)
+#define INT_CALLBACK_OF(CTRL_TYPE, CB) ((int (*)(CTRL_TYPE *ctrl, void *data)) CB)
 
 _DECLARE_MAP(struct control_handle *, uiControl *, struct ctrl_map, ctrl_map)
 
