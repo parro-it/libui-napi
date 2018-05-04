@@ -131,6 +131,15 @@ static napi_value getContentSize (napi_env env, napi_callback_info info) {
 	return make_size(env, width, height);
 }
 
+static napi_value setContentSize (napi_env env, napi_callback_info info) {
+	INIT_ARGS(3);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_INT32(width, 1);
+	ARG_INT32(height, 2);
+	uiWindowSetContentSize(uiWindow(handle->control), width, height);
+	return NULL;
+}
+
 napi_value _libui_init_window (napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(setChild);
@@ -139,6 +148,7 @@ napi_value _libui_init_window (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(close);
 	LIBUI_EXPORT(onClosing);
 	LIBUI_EXPORT(getContentSize);
+	LIBUI_EXPORT(setContentSize);
 	LIBUI_EXPORT(onContentSizeChanged);
 	LIBUI_EXPORT(getTitle);
 	LIBUI_EXPORT(setTitle);

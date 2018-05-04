@@ -10,7 +10,6 @@ App.onShouldQuit(() => {
 	global.gc();
 });
 
-let wins = 0;
 function createWindow() {
 	let win = Window.create("Test Window", 800, 600, false);
 
@@ -24,6 +23,10 @@ function createWindow() {
 
 	Window.onClosing(win, () => {
 		if (Window.getTitle(win) == "Test Window") {
+			setTimeout(() => {
+				Window.setContentSize(win, 400, 300);
+				global.gc();
+			}, 3000);
 			return Window.setTitle(win, "Riprova");
 		}
 		console.log('closing', Window.getTitle(win));
@@ -36,14 +39,6 @@ function createWindow() {
 	Window.show(win);
 
 
-	setTimeout(() => {
-		if (wins >= 100) return;
-		Window.close(win);
-		global.gc();
-		win = null;
-		console.log(wins++);
-		createWindow();
-	}, 100);
 }
 
 createWindow();
