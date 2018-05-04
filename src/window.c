@@ -7,14 +7,6 @@
 
 static const char* MODULE = "Window";
 
-typedef void (*window_event_cb_t)(uiWindow *win, void *data);
-
-static int window_event_cb(uiWindow *win, void *data) {
-	struct event_t *event = (struct event_t *) data;
-	fire_event(event);
-	return 0;
-}
-
 LIBUI_FUNCTION(onContentSizeChanged) {
 	INIT_ARGS(2);
 
@@ -28,7 +20,7 @@ LIBUI_FUNCTION(onContentSizeChanged) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnContentSizeChanged(uiWindow(handle->control), (window_event_cb_t) window_event_cb, event);
+	uiWindowOnContentSizeChanged(uiWindow(handle->control), CALLBACK_OF(uiWindow, control_event_cb), event);
 
 	return NULL;
 }
@@ -46,7 +38,7 @@ LIBUI_FUNCTION(onClosing) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnClosing(uiWindow(handle->control), window_event_cb, event);
+	uiWindowOnClosing(uiWindow(handle->control), CALLBACK_OF(uiWindow, control_event_cb), event);
 
 	return NULL;
 }
