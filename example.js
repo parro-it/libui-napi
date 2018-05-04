@@ -10,6 +10,7 @@ App.onShouldQuit(() => {
 	global.gc();
 });
 
+let wins = 0;
 function createWindow() {
 	let win = Window.create("Test Window", 800, 600, false);
 
@@ -33,11 +34,20 @@ function createWindow() {
 	});
 
 	Window.show(win);
-	global.gc();
-	App.start();
+
+
+	setTimeout(() => {
+		if (wins >= 100) return;
+		Window.close(win);
+		global.gc();
+		win = null;
+		console.log(wins++);
+		createWindow();
+	}, 100);
 }
 
 createWindow();
+App.start();
 global.gc();
 
 
