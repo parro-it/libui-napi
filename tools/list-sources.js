@@ -9,3 +9,4 @@ function listDir(dir) {
 
 listDir('src');
 listDir(`src/arch/${platform()}`);
+console.log(platform())

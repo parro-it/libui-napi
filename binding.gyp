@@ -9,15 +9,7 @@
 			["OS=='win'", {
 				"libraries": [
 					"<(module_root_dir)/libui.lib"
-				],
-				'msvs_settings': {
-					'VCCLCompilerTool': {
-						'AdditionalOptions': [
-							'/MD',
-							'/LD'
-						]
-					}
-				},
+				]
 			}],
 			["OS=='linux'", {
 				"cflags": ["-fvisibility=hidden" ,"-std=gnu11"],

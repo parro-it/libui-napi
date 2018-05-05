@@ -18,7 +18,7 @@ int waitForNodeEvents(uv_loop_t *loop, int timeout) {
 	ULONG_PTR key;
 	OVERLAPPED *overlapped;
 
-	struct _internal_uv_loop_s *_loop = (_internal_uv_loop_s *)loop;
+	struct _internal_uv_loop_s *_loop = (struct _internal_uv_loop_s *)loop;
 
 	if (timeout == -1) {
 		timeout = INFINITE;

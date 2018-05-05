@@ -5,9 +5,9 @@
 
 static const char* MODULE = "EventLoop";
 
-bool _Atomic running;
+atomic_bool running;
 
-bool _Atomic mainThreadStillWaitingGuiEvents;
+atomic_bool mainThreadStillWaitingGuiEvents;
 
 static uv_mutex_t mainThreadWaitingGuiEvents;
 static uv_mutex_t mainThreadAwakenFromBackground;

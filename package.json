@@ -6,8 +6,8 @@
     "home-path": "^1.0.5",
     "mkdirp": "^0.5.1",
     "mv": "^2.1.1",
-    "tar": "^4.4.1",
-    "node-gyp": "^3.6.2"
+    "node-gyp": "^3.6.2",
+    "tar": "^4.4.1"
   },
   "libui": "alpha3.5-master-002",
   "devDependencies": {
