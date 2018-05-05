@@ -20,6 +20,7 @@ test_script:
   - npm test
 
 after_test:
+  - dir /S
   - 7z a -ttar %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar node_libui.node
   - 7z a -tgzip %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar.gz %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar
 
