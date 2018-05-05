@@ -20,9 +20,8 @@ test_script:
   - npm test
 
 after_test:
-  - dir
-  - 7z a -ttar %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar node_libui.node
-  - 7z a -tgzip %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar.gz %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar
+  - IF "%APPVEYOR_REPO_TAG_NAME%"!="" 7z a -ttar %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar node_libui.node
+  - IF "%APPVEYOR_REPO_TAG_NAME%"!="" 7z a -tgzip %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar.gz %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar
 
 artifacts:
   - path: '**\*.tar.gz'
