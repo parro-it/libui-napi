@@ -69,7 +69,7 @@ class UiWindow {
 	}
 
 	set title(value) {
-		Window.setTitle(this.handle, value);
+		Window.setTitle(this.handle, String(value));
 	}
 
 	/**
@@ -96,7 +96,7 @@ class UiWindow {
 	 * @param {boolean} stretchy - whever the control should fill all the available space.
 	 */
 	setChild(control, stretchy) {
-		Window.setChild(this.handle, control.handle);
+		Window.setChild(this.handle, control.handle, Boolean(stretchy));
 	}
 
 	/**
@@ -109,7 +109,7 @@ class UiWindow {
 	}
 
 	set margined(value) {
-		Window.setMargined(this.handle, value);
+		Window.setMargined(this.handle, Boolean(value));
 	}
 
 	/**
@@ -122,7 +122,7 @@ class UiWindow {
 	}
 
 	set borderless(value) {
-		Window.setBorderless(this.handle, value);
+		Window.setBorderless(this.handle, Boolean(value));
 	}
 
 	/**
@@ -135,7 +135,7 @@ class UiWindow {
 	}
 
 	set fullscreen(value) {
-		Window.setFullscreen(this.handle, value);
+		Window.setFullscreen(this.handle, Boolean(value));
 	}
 }
 

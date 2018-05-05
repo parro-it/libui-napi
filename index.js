@@ -6,7 +6,15 @@ delete libui.EventLoop;
 let wakingup = false
 let asyncHook = null;
 
+
 module.exports = libui;
+const {UiWindow} = require('./js/window');
+const {UiVerticalBox} = require('./js/vertical-box');
+const {UiHorizontalBox} = require('./js/horizontal-box');
+const {UiMultilineEntry} = require('./js/multiline-entry');
+Object.assign(libui, {UiWindow, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+
+libui.App.init();
 
 libui.App.start = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
