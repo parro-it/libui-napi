@@ -108,6 +108,10 @@ async function download(opts) {
 	const target = path.join(tmpdir, filename);
 
 	const resRedirect = await requestHttps(url);
+	if (resRedirect.statusCode === 404) {
+		throw new Error(`Prebuilt binaries not found for your platform and architecture.`);
+	}
+
 	if (resRedirect.statusCode !== 302) {
 		throw new Error(`Https request failed for ${url} with code ${resRedirect.statusCode}: resource not found.`);
 	}
@@ -122,7 +126,7 @@ async function download(opts) {
 
 	const fileWrite = res.pipe(fs.createWriteStream(target));
 
-	return await new Promise(async(resolve, reject) => {
+	return new Promise(async(resolve, reject) => {
 
 		const finish = () => {
 			debug('end stream reached', target, cachedZip);
@@ -154,7 +158,6 @@ async function main() {
 }
 
 main().catch(err => {
-	console.error(err.code);
-	console.error(err.stack);
+	console.error(err.message);
 	process.exit(1);
 });

@@ -33,7 +33,7 @@
     "download-libui-napi": "node tools/libui-napi-download.js",
     "clean": "rimraf build *.h *.node libui.* node_modules",
     "build": "node-gyp configure build",
-    "install": "npm run download-libui && npm run download-libui-napi || npm run build",
+    "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
     "test": "tape test.js"
   },
   "repository": "parro-it/libui-napi",
