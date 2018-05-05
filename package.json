@@ -1,6 +1,6 @@
 {
   "name": "libui-napi",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "Experimental bindings for libui using n-api",
   "dependencies": {
     "home-path": "^1.0.5",
