@@ -8,7 +8,9 @@ const {
 App.init();
 App.onShouldQuit(() => {
 	App.stop();
-	global.gc();
+	if(global.gc){
+		global.gc();
+	}
 });
 
 function createWindow() {
@@ -86,7 +88,9 @@ function createWindow() {
 createWindow();
 App.start();
 setInterval(() => {
-	global.gc();
+	if(global.gc){
+		global.gc();
+	}
 }, 10);
 
 
