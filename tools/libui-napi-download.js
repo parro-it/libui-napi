@@ -8,6 +8,7 @@ const _debug = require('debug');
 const https = require('https');
 const tar = require('tar');
 const utils = require('util');
+const isCI = require('is-ci');
 
 const mkdir = utils.promisify(mkdirp)
 const debug = _debug('libui-napi-download');
@@ -140,6 +141,12 @@ async function download(opts) {
 }
 
 async function main() {
+
+	if (isCI) {
+		console.log('Running on a CI server, force rebuild.');
+		process.exit(1);
+	}
+
 	const zipPath = await download({version: process.env.npm_package_version});
 	console.log('Downloaded zip:', zipPath);
 	await tar.extract({file: zipPath});
@@ -147,6 +154,7 @@ async function main() {
 }
 
 main().catch(err => {
+	console.error(err.code);
 	console.error(err.stack);
 	process.exit(1);
 });
