@@ -1,11 +1,11 @@
-#include <ui.h>
+#include "ui.h"
 #include "napi_utils.h"
+#include "app.h"
 #include "control.h"
 #include "events.h"
 #include "values.h"
-#include "app.h"
 
-static const char* MODULE = "Window";
+static const char *MODULE = "Window";
 
 LIBUI_FUNCTION(onContentSizeChanged) {
 	INIT_ARGS(2);
@@ -20,7 +20,8 @@ LIBUI_FUNCTION(onContentSizeChanged) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnContentSizeChanged(uiWindow(handle->control), CALLBACK_OF(uiWindow, control_event_cb), event);
+	uiWindowOnContentSizeChanged(uiWindow(handle->control), CALLBACK_OF(uiWindow, control_event_cb),
+								 event);
 
 	return NULL;
 }
@@ -38,7 +39,8 @@ LIBUI_FUNCTION(onClosing) {
 
 	install_event(handle->events, event);
 
-	uiWindowOnClosing(uiWindow(handle->control), INT_CALLBACK_OF(uiWindow, control_event_cb), event);
+	uiWindowOnClosing(uiWindow(handle->control), INT_CALLBACK_OF(uiWindow, control_event_cb),
+					  event);
 
 	return NULL;
 }
@@ -71,12 +73,7 @@ LIBUI_FUNCTION(getTitle) {
 	char *char_ptr = uiWindowTitle(uiWindow(handle->control));
 	napi_value result;
 
-	napi_status status = napi_create_string_utf8(
-		env,
-		char_ptr,
-		NAPI_AUTO_LENGTH,
-		&result
-	);
+	napi_status status = napi_create_string_utf8(env, char_ptr, NAPI_AUTO_LENGTH, &result);
 	CHECK_STATUS_THROW(status, napi_create_string_utf8);
 
 	uiFreeText(char_ptr);
@@ -180,7 +177,7 @@ LIBUI_FUNCTION(setMargined) {
 	return NULL;
 }
 
-napi_value _libui_init_window (napi_env env, napi_value exports) {
+napi_value _libui_init_window(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(setChild);
 	LIBUI_EXPORT(create);

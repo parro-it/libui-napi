@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 
-
-
 struct _internal_uv_loop_s {
 	/* User data - use this for whatever. */
 	void *data;

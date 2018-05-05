@@ -24,8 +24,7 @@ int waitForNodeEvents(uv_loop_t *loop, int timeout) {
 		timeout = INFINITE;
 	}
 
-	int ret = GetQueuedCompletionStatus(_loop->iocp, &bytes, &key, &overlapped,
-										timeout);
+	int ret = GetQueuedCompletionStatus(_loop->iocp, &bytes, &key, &overlapped, timeout);
 
 	// Does we need to requeue the queued completions?
 	// this happen to be same code used by Electron

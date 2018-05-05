@@ -26,10 +26,8 @@ napi_value make_size(napi_env env, uint32_t width, uint32_t height) {
 }
 
 /*
-napi_value from_size(napi_env env, napi_value size, uint32_t *width, uint32_t *height) {
-	napi_value width_js;
-	napi_value height_js;
-	napi_status status;
+napi_value from_size(napi_env env, napi_value size, uint32_t *width, uint32_t
+*height) { napi_value width_js; napi_value height_js; napi_status status;
 
 	status = napi_get_named_property(env, size, "width", &width_js);
 	CHECK_STATUS_THROW(status, napi_get_named_property);
