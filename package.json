@@ -1,31 +1,20 @@
 {
   "name": "libui-napi",
+  "author": "Andrea Parodi (andrea@parro.it)",
   "version": "0.1.20",
   "description": "Experimental bindings for libui using n-api",
-  "dependencies": {
-    "home-path": "^1.0.5",
-    "is-ci": "^1.1.0",
-    "mkdirp": "^0.5.1",
-    "mv": "^2.1.1",
-    "node-gyp": "^3.6.2",
-    "tar": "^4.4.1"
-  },
-  "libui": "alpha3.5-master-002",
-  "devDependencies": {
-    "debug": "^3.1.0",
-    "jsdoc-to-markdown": "^4.0.1",
-    "rimraf": "^2.6.2",
-    "tape": "^4.9.0"
-  },
+  "repository": "parro-it/libui-napi",
+  "license": "MIT",
+  "keywords": [
+    "libui",
+    "desktop",
+    "multiplatform",
+    "GUI"
+  ],
   "engines": {
     "node": ">=8"
   },
-  "files": [
-    "tools",
-    "index.js",
-    "src",
-    "binding.gyp"
-  ],
+  "libui": "alpha3.5-master-002",
   "scripts": {
     "docs": "sh tools/docs.sh",
     "start": "node --expose-gc example.js",
@@ -34,9 +23,30 @@
     "clean": "rimraf build *.h *.node libui.* node_modules",
     "build": "node-gyp configure build",
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
-    "test": "tape test.js"
+    "test": "tape test.js",
+    "precommit": "check-clang-format \"'npm run lint'\"",
+    "lint": "clang-format -i --glob='{src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js}'"
   },
-  "repository": "parro-it/libui-napi",
-  "author": "Andrea Parodi (andrea@parro.it)",
-  "license": "MIT"
+  "dependencies": {
+    "home-path": "^1.0.5",
+    "is-ci": "^1.1.0",
+    "mkdirp": "^0.5.1",
+    "mv": "^2.1.1",
+    "node-gyp": "^3.6.2",
+    "tar": "^4.4.1"
+  },
+  "devDependencies": {
+    "clang-format": "^1.2.3",
+    "debug": "^3.1.0",
+    "husky": "^0.14.3",
+    "jsdoc-to-markdown": "^4.0.1",
+    "rimraf": "^2.6.2",
+    "tape": "^4.9.0"
+  },
+  "files": [
+    "tools",
+    "index.js",
+    "src",
+    "binding.gyp"
+  ]
 }
