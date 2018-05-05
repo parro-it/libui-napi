@@ -6,6 +6,8 @@ static napi_value init_all (napi_env env, napi_value exports) {
 	_libui_init_multilineEntry(env, exports);
 	_libui_init_event_loop(env, exports);
 	_libui_init_box(env, exports);
+	_libui_init_slider(env, exports);
+
 	return exports;
 }
 

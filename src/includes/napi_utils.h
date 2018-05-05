@@ -159,6 +159,7 @@
 // return values
 
 napi_value make_bool(napi_env env, bool value);
+napi_value make_int32(napi_env env, int value);
 napi_value make_utf8_string(napi_env env, const char *char_ptr);
 
 #endif
