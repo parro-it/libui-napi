@@ -1,14 +1,13 @@
 const {
-	App,
+	startLoop,
+	stopLoop,
+	onShouldQuit
 } = require('../..');
 
-const {UiWindow} = require('../../js/window');
-const {UiHorizontalBox} = require('../../js/horizontal-box');
-const {UiMultilineEntry} = require('../../js/multiline-entry');
+const {UiWindow, UiHorizontalBox, UiMultilineEntry} = require('../..');
 
-App.init();
-App.onShouldQuit(() => {
-	App.stop();
+onShouldQuit(() => {
+	stopLoop();
 	global.gc();
 });
 
@@ -27,7 +26,7 @@ function createWindow() {
 	});
 
 	const box = new UiHorizontalBox();
-	box.setPadded(true);
+	box.padded = true;
 	box.append(entry, true);
 	box.append(logEntry, true);
 
@@ -77,14 +76,14 @@ function createWindow() {
 		console.log('closing', win.title);
 		win.close();
 		win = null;
-		App.stop();
+		stopLoop();
 	});
 
 	win.show();
 }
 
 createWindow();
-App.start();
+startLoop();
 setInterval(() => {
 	global.gc();
 }, 10);

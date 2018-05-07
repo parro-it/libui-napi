@@ -24,7 +24,7 @@ toggleBtn.onClicked(() => {
 });
 
 const box = new libui.UiVerticalBox();
-box.setPadded(true);
+box.padded = true;
 box.append(combo);
 box.append(toggleBtn);
 win.setChild(box);

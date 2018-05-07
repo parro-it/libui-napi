@@ -32,6 +32,8 @@ Object.assign(libui, {UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearch
 
 libui.App.init();
 
+libui.onShouldQuit = libui.App.onShouldQuit;
+
 libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
 

@@ -51,7 +51,7 @@ toggleReadOnlyBtn.onClicked(() => {
 toolbar.append(toggleReadOnlyBtn, false);
 
 const box = new libui.UiVerticalBox();
-box.setPadded(true);
+box.padded = true;
 box.append(entry);
 box.append(entrySearch);
 box.append(entryPassword);
