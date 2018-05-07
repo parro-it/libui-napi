@@ -23,9 +23,8 @@ LIBUI_FUNCTION(getMargined) {
 }
 
 LIBUI_FUNCTION(create) {
-	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
-	ARG_STRING(title, 1);
+	INIT_ARGS(1);
+	ARG_STRING(title, 0);
 	uiControl *ctrl = uiControl(uiNewGroup(title));
 	return control_handle_new(env, ctrl, "group");
 }
