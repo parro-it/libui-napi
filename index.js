@@ -7,6 +7,7 @@ let wakingup = false;
 let asyncHook = null;
 
 module.exports = libui;
+const {UiCheckbox} = require('./js/checkbox');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -15,7 +16,7 @@ const {UiLabel} = require('./js/label');
 const {UiVerticalBox} = require('./js/vertical-box');
 const {UiHorizontalBox} = require('./js/horizontal-box');
 const {UiMultilineEntry} = require('./js/multiline-entry');
-Object.assign(libui, {UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+Object.assign(libui, {UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
 
 libui.App.init();
 

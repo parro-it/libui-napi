@@ -8,7 +8,7 @@ A multiline text entry.
 * [UiMultilineEntry](#UiMultilineEntry)
     * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
     * [.text](#UiMultilineEntry+text) ⇒ <code>string</code>
-    * [.getReadOnly()](#UiMultilineEntry+getReadOnly) ⇒ <code>boolean</code>
+    * [.readOnly](#UiMultilineEntry+readOnly) ⇒ <code>boolean</code>
     * [.append(text)](#UiMultilineEntry+append) ⇒ <code>undefined</code>
     * [.onChanged(callback)](#UiMultilineEntry+onChanged) ⇒ <code>undefined</code>
 
@@ -23,12 +23,12 @@ Create a new UiMultilineEntry object.
 Set or return the the content of the multiline entry.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
-<a name="UiMultilineEntry+getReadOnly"></a>
+<a name="UiMultilineEntry+readOnly"></a>
 
-### uiMultilineEntry.getReadOnly() ⇒ <code>boolean</code>
+### uiMultilineEntry.readOnly ⇒ <code>boolean</code>
 Whether the user is allowed to change the entry text.
 
-**Kind**: instance method of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
+**Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 <a name="UiMultilineEntry+append"></a>
 
 ### uiMultilineEntry.append(text) ⇒ <code>undefined</code>

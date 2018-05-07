@@ -9,4 +9,5 @@
 * [UiLabel](label.md)
 * [UiForm](form.md)
 * [UiButton](button.md)
+* [UiCheckbox](checkbox.md)
 

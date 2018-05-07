@@ -28,11 +28,11 @@ class UiMultilineEntry {
 	 * Whether the user is allowed to change the entry text.
 	 * @return {boolean}
 	 */
-	getReadOnly() {
+	get readOnly() {
 		return MultilineEntry.getReadOnly(this.handle);
 	}
 
-	setReadOnly(value) {
+	set readOnly(value) {
 		MultilineEntry.setReadOnly(this.handle, value);
 	}
 

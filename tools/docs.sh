@@ -6,5 +6,6 @@ jsdoc2md -f js/slider.js > docs/slider.md
 jsdoc2md -f js/label.js > docs/label.md
 jsdoc2md -f js/form.js > docs/form.md
 jsdoc2md -f js/button.js > docs/button.md
+jsdoc2md -f js/checkbox.js > docs/checkbox.md
 
 

@@ -9,7 +9,7 @@ class UiButton {
 	 * @return {UiButton}
 	 */
 	constructor(label) {
-		this.handle = Button.create(label);
+		this.handle = Button.create(String(label));
 	}
 
 	/**
@@ -21,7 +21,7 @@ class UiButton {
 	}
 
 	set text(value) {
-		Button.setText(this.handle, value);
+		Button.setText(this.handle, String(value));
 	}
 
 	/**
