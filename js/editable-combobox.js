@@ -36,7 +36,8 @@ class UiEditableCombobox {
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the text changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onChanged(callback) {

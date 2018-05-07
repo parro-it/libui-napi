@@ -27,9 +27,11 @@ class UiSlider {
 	}
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the slider value changed.
+	 * Add a listener to the `changed` event. Emitted whenever the slider value
+	 * changed.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onChanged(callback) {

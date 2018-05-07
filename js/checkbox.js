@@ -37,9 +37,11 @@ class UiCheckbox {
 	}
 
 	/**
-	 * Add a listener to the `toggled` event. Emitted whenever the control checked state change.
+	 * Add a listener to the `toggled` event. Emitted whenever the control
+	 * checked state change.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onToggled(callback) {

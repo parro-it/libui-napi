@@ -34,9 +34,11 @@ class UiCombobox {
 	}
 
 	/**
-	 * Add a listener to the `selected` event. Emitted whenever the selected item changes.
+	 * Add a listener to the `selected` event. Emitted whenever the selected
+	 * item changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onSelected(callback) {

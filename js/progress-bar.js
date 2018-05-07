@@ -13,7 +13,8 @@ class UiProgressBar {
 	}
 
 	/**
-	 * The current position of the progress bar. Could be setted to -1 to create an indeterminate progress bar.
+	 * The current position of the progress bar. Could be setted to -1 to create
+	 * an indeterminate progress bar.
 	 * @return {number}
 	 */
 	get value() {

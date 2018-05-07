@@ -34,9 +34,11 @@ class UiRadioButtons {
 	}
 
 	/**
-	 * Add a listener to the `selected` event. Emitted whenever the selected option changes.
+	 * Add a listener to the `selected` event. Emitted whenever the selected
+	 * option changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onSelected(callback) {

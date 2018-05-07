@@ -12,7 +12,8 @@ class UiWindow {
 	 * @param {string} title - text to show in window title bar.
 	 * @param {number} width - width of window in pixels.
 	 * @param {number} height -  height of window in pixels.
-	 * @param {boolean} hasMenubar - specify that this window has a menu bar. See [Menu](#menubar).
+	 * @param {boolean} hasMenubar - specify that this window has a menu bar.
+	 * See [Menu](#menubar).
 	 * @return {UiWindow} new instance.
 	 */
 	constructor(title, width, height, hasMenubar) {
@@ -29,10 +30,12 @@ class UiWindow {
 	}
 
 	/**
-	 * Add a listener to the `closing` event. This event is emitted when the OS window close
-	 * button is clicked. You are responsible to close the window in response to this event.
+	 * Add a listener to the `closing` event. This event is emitted when the OS
+	 * window close button is clicked. You are responsible for closing the
+	 * window in response to this event.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onClosing(callback) {
@@ -40,10 +43,11 @@ class UiWindow {
 	}
 
 	/**
-	 * Add a listener to the `contentSizeChanged` event. This event is emitted when window
-	 * content size change.
+	 * Add a listener to the `contentSizeChanged` event. This event is emitted
+	 * when window content size change.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onContentSizeChanged(callback) {
@@ -93,7 +97,8 @@ class UiWindow {
 	 * more, you have to use [Containers](containers.md).
 	 *
 	 * @param {UiControl} control - the control to add as child.
-	 * @param {boolean} stretchy - whever the control should fill all the available space.
+	 * @param {boolean} stretchy - whever the control should fill all the
+	 * available space.
 	 */
 	setChild(control, stretchy) {
 		Window.setChild(this.handle, control.handle, Boolean(stretchy));

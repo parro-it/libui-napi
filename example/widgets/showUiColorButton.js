@@ -1,12 +1,8 @@
 const libui = require('../..');
 
 const colors = [
-	{r: 1, g: 0, b: 0, a: 1},
-	{r: 0, g: 1, b: 0, a: 1},
-	{r: 0, g: 0, b: 1, a: 1},
-	{r: 1, g: 0, b: 0, a: 0.3},
-	{r: 0, g: 1, b: 0, a: 0.3},
-	{r: 0, g: 0, b: 1, a: 0.3}
+	{r: 1, g: 0, b: 0, a: 1}, {r: 0, g: 1, b: 0, a: 1}, {r: 0, g: 0, b: 1, a: 1},
+	{r: 1, g: 0, b: 0, a: 0.3}, {r: 0, g: 1, b: 0, a: 0.3}, {r: 0, g: 0, b: 1, a: 0.3}
 ];
 
 const win = new libui.UiWindow('UiColorButton example', 320, 60, true);

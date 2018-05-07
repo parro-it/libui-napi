@@ -46,9 +46,11 @@ class UiMultilineEntry {
 	}
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the entry content changed.
+	 * Add a listener to the `changed` event. Emitted whenever the entry content
+	 * changed.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onChanged(callback) {

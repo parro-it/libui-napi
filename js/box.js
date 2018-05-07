@@ -20,7 +20,8 @@ class UiBox {
 	/**
 	 * Append a new child control as the last one.
 	 * @param  {UiControl} control - the control to add as child.
-	 * @param  {boolean} stretchy - whever the control should fill all the available space.
+	 * @param  {boolean} stretchy - whever the control should fill all the
+	 * available space.
 	 * @return {undefined}
 	 */
 	append(control, stretchy) {

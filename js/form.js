@@ -28,7 +28,8 @@ class UiForm {
 	 * Append a new child control as last field with specified label.
 	 * @param  {string} label - the text to use as label of the field.
 	 * @param  {UiControl} control - the control to add as child.
-	 * @param  {boolean} stretchy - whever the control should fill all the available space.
+	 * @param  {boolean} stretchy - whever the control should fill all the
+	 * available space.
 	 * @return {undefined}
 	 */
 	append(label, control, stretchy) {
