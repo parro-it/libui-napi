@@ -9,5 +9,6 @@ jsdoc2md -f js/button.js > docs/button.md
 jsdoc2md -f js/checkbox.js > docs/checkbox.md
 jsdoc2md -f js/combobox.js > docs/combobox.md
 jsdoc2md -f js/color-button.js > docs/color-button.md
-
-
+jsdoc2md -f js/date-picker.js js/date-time-picker-base.js > docs/date-picker.md
+jsdoc2md -f js/time-picker.js js/date-time-picker-base.js > docs/time-picker.md
+jsdoc2md -f js/date-time-picker.js js/date-time-picker-base.js > docs/date-time-picker.md

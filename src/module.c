@@ -13,7 +13,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_checkbox(env, exports);
 	_libui_init_colorbutton(env, exports);
 	_libui_init_combobox(env, exports);
-
+	_libui_init_datetimepicker(env, exports);
 	return exports;
 }
 
