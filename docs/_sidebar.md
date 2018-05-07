@@ -8,4 +8,5 @@
 * [UiSlider](slider.md)
 * [UiLabel](label.md)
 * [UiForm](form.md)
+* [UiButton](button.md)
 
