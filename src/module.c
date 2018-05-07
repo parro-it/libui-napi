@@ -19,6 +19,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_group(env, exports);
 	_libui_init_progressbar(env, exports);
 	_libui_init_radiobuttons(env, exports);
+	_libui_init_separator(env, exports);
 	return exports;
 }
 
