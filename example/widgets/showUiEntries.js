@@ -55,6 +55,7 @@ box.padded = true;
 box.append(entry);
 box.append(entrySearch);
 box.append(entryPassword);
+box.append(new libui.UiHorizontalSeparator());
 box.append(toolbar);
 win.setChild(box);
 

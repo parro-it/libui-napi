@@ -22,3 +22,5 @@
 * [UiGroup](group.md)
 * [UiProgressBar](progress-bar.md)
 * [UiRadioButtons](radio-buttons.md)
+* [UiHorizontalSeparator](horizontal-separator.md)
+* [UiVerticalSeparator](vertical-separator.md)

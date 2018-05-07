@@ -4,7 +4,7 @@ const {
 	onShouldQuit
 } = require('../..');
 
-const {UiWindow, UiHorizontalBox, UiMultilineEntry} = require('../..');
+const {UiWindow, UiHorizontalBox, UiMultilineEntry, UiVerticalSeparator} = require('../..');
 
 onShouldQuit(() => {
 	stopLoop();
@@ -28,6 +28,7 @@ function createWindow() {
 	const box = new UiHorizontalBox();
 	box.padded = true;
 	box.append(entry, true);
+	box.append(new UiVerticalSeparator(), false);
 	box.append(logEntry, true);
 
 	win.setChild(box);

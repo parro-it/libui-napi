@@ -19,3 +19,5 @@ jsdoc2md -f js/entry.js js/entry-base.js > docs/entry.md
 jsdoc2md -f js/group.js > docs/group.md
 jsdoc2md -f js/progress-bar.js > docs/progress-bar.md
 jsdoc2md -f js/radio-buttons.js > docs/radio-buttons.md
+jsdoc2md -f js/vertical-separator.js > docs/vertical-separator.md
+jsdoc2md -f js/horizontal-separator.js > docs/horizontal-separator.md

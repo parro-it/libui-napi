@@ -28,8 +28,10 @@ const {UiDateTimePicker} = require('./js/date-time-picker');
 const {UiGroup} = require('./js/group');
 const {UiProgressBar} = require('./js/progress-bar');
 const {UiRadioButtons} = require('./js/radio-buttons');
+const {UiHorizontalSeparator} = require('./js/horizontal-separator');
+const {UiVerticalSeparator} = require('./js/vertical-separator');
 
-Object.assign(libui, {UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+Object.assign(libui, {UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
 
 libui.App.init();
 
