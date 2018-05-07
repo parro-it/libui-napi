@@ -16,11 +16,11 @@ class UiForm {
 	 * If true, the container insert some space between children.
 	 * @return {boolean}
 	 */
-	getPadded() {
+	get padded() {
 		return Form.getPadded(this.handle);
 	}
 
-	setPadded(value) {
+	set padded(value) {
 		Form.setPadded(this.handle, Boolean(value));
 	}
 
