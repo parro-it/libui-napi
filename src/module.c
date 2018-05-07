@@ -17,6 +17,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_editablecombobox(env, exports);
 	_libui_init_entry(env, exports);
 	_libui_init_group(env, exports);
+	_libui_init_progressbar(env, exports);
 	return exports;
 }
 
