@@ -6,10 +6,16 @@ A multiline text entry.
 **Kind**: global class  
 
 * [UiMultilineEntry](#UiMultilineEntry)
+    * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
     * [.text](#UiMultilineEntry+text) ⇒ <code>string</code>
     * [.getReadOnly()](#UiMultilineEntry+getReadOnly) ⇒ <code>boolean</code>
     * [.append(text)](#UiMultilineEntry+append) ⇒ <code>undefined</code>
     * [.onChanged(callback)](#UiMultilineEntry+onChanged) ⇒ <code>undefined</code>
+
+<a name="new_UiMultilineEntry_new"></a>
+
+### new UiMultilineEntry()
+Create a new UiMultilineEntry object.
 
 <a name="UiMultilineEntry+text"></a>
 

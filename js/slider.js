@@ -5,6 +5,7 @@ const {Slider} = require('..');
  */
 class UiSlider {
 	/**
+	 * Create a new UiSlider object.
 	 * @param  {number} min - minimum allowed value of the slider.
 	 * @param  {number} max - maximum allowed value of the slider.
 	 * @return {UiSlider}

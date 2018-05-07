@@ -6,3 +6,5 @@
 * [UiVerticalBox](horizontal-box.md)
 * [UiHorizontalBox](vertical-box.md)
 * [UiSlider](slider.md)
+* [UiLabel](label.md)
+

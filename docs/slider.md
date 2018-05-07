@@ -3,7 +3,7 @@
 ## UiSlider
 Horizontal slide to set numerical values.
 
-**Kind**: global class
+**Kind**: global class  
 
 * [UiSlider](#UiSlider)
     * [new UiSlider(min, max)](#new_UiSlider_new)
@@ -13,6 +13,8 @@ Horizontal slide to set numerical values.
 <a name="new_UiSlider_new"></a>
 
 ### new UiSlider(min, max)
+Create a new UiSlider object.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -24,13 +26,13 @@ Horizontal slide to set numerical values.
 ### uiSlider.value ⇒ <code>number</code>
 Set or return the the content of the multiline entry.
 
-**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
 <a name="UiSlider+onChanged"></a>
 
 ### uiSlider.onChanged(callback) ⇒ <code>undefined</code>
 Add a listener to the `changed` event. Emitted whenever the slider value changed.
 
-**Kind**: instance method of [<code>UiSlider</code>](#UiSlider)
+**Kind**: instance method of [<code>UiSlider</code>](#UiSlider)  
 
 | Param | Type | Description |
 | --- | --- | --- |

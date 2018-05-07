@@ -7,9 +7,15 @@ A container that stacks its chidren vertically.
 **Extends**: <code>UiBox</code>  
 
 * [UiVerticalBox](#UiVerticalBox) ⇐ <code>UiBox</code>
+    * [new UiVerticalBox()](#new_UiVerticalBox_new)
     * [.getPadded()](#UiBox+getPadded) ⇒ <code>boolean</code>
     * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
+
+<a name="new_UiVerticalBox_new"></a>
+
+### new UiVerticalBox()
+Create a new UiVerticalBox object.
 
 <a name="UiBox+getPadded"></a>
 

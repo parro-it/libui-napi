@@ -7,9 +7,15 @@ A container that stacks its chidren horizontally.
 **Extends**: <code>UiBox</code>  
 
 * [UiHorizontalBox](#UiHorizontalBox) ⇐ <code>UiBox</code>
+    * [new UiHorizontalBox()](#new_UiHorizontalBox_new)
     * [.getPadded()](#UiBox+getPadded) ⇒ <code>boolean</code>
     * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
+
+<a name="new_UiHorizontalBox_new"></a>
+
+### new UiHorizontalBox()
+Create a new UiHorizontalBox object.
 
 <a name="UiBox+getPadded"></a>
 

@@ -14,7 +14,7 @@ class UiBox {
 	}
 
 	setPadded(value) {
-		Box.setPadded(this.handle, value);
+		Box.setPadded(this.handle, Boolean(value));
 	}
 
 	/**
@@ -24,7 +24,7 @@ class UiBox {
 	 * @return {undefined}
 	 */
 	append(control, stretchy) {
-		Box.append(this.handle, control.handle, stretchy);
+		Box.append(this.handle, control.handle, Boolean(stretchy));
 	}
 
 	/**

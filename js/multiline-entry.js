@@ -4,6 +4,10 @@ const {MultilineEntry} = require('..');
  * A multiline text entry.
  */
 class UiMultilineEntry {
+	/**
+	 * Create a new UiMultilineEntry object.
+	 * @return {UiMultilineEntry}
+	 */
 	constructor() {
 		this.handle = MultilineEntry.create();
 	}

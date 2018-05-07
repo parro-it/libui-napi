@@ -5,6 +5,10 @@ const {UiBox} = require('./box');
  * @extends UiBox
  */
 class UiHorizontalBox extends UiBox {
+	/**
+	 * Create a new UiHorizontalBox object.
+	 * @return {UiHorizontalBox}
+	 */
 	constructor() {
 		super(Box.createHorizontal());
 	}
