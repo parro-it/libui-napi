@@ -18,8 +18,8 @@ Create a new UiSpinbox object.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>number</code> | minimum allowed value of the spinbox. |
-| max | <code>number</code> | maximum allowed value of the spinbox. |
+| min | <code>number</code> | minimum value of the spinbox. |
+| max | <code>number</code> | maximum value of the spinbox. |
 
 <a name="UiSpinbox+value"></a>
 

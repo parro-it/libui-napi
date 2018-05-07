@@ -1,6 +1,7 @@
 const {startLoop, stopLoop, onShouldQuit} = require('../..');
 
-const {UiWindow, UiHorizontalBox, UiMultilineEntry, UiVerticalSeparator} = require('../..');
+const {UiWindow, UiHorizontalBox, UiMultilineEntry, UiVerticalSeparator} =
+	require('../..');
 
 onShouldQuit(() => {
 	stopLoop();
