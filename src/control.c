@@ -139,6 +139,32 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 
 	return NULL;
 }
+napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
+						int index) {
+	struct children_node *new_node = malloc(sizeof(struct children_node));
+	new_node->next = NULL;
+	new_node->handle = child;
+
+	uint32_t new_ref_count;
+	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
+	CHECK_STATUS_THROW(status, napi_reference_unref);
+
+	int i = 0;
+	if (list->head != NULL && i < index) {
+		// First child for this control
+		list->head = new_node;
+		list->tail = new_node;
+		return NULL;
+	}
+
+	// Control already has other children. Append to tail
+	list->tail->next = new_node;
+
+	// set this node as the new tail
+	list->tail = new_node;
+
+	return NULL;
+}
 
 napi_value destroy_all_children(napi_env env, struct children_list *list) {
 	if (list->head == NULL) {

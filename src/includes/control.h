@@ -52,6 +52,12 @@ struct control_handle {
 napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child);
 
 /*
+	add a new child into a control handle children_list at a specified position
+*/
+napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
+						int index);
+
+/*
 	remove and decrement references for all children of a control children_list.
 */
 napi_value clear_children(napi_env env, struct children_list *list);
