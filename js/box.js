@@ -9,11 +9,11 @@ class UiBox {
 	 * If true, the container insert some space between children.
 	 * @return {boolean}
 	 */
-	getPadded() {
+	get padded() {
 		return Box.getPadded(this.handle);
 	}
 
-	setPadded(value) {
+	set padded(value) {
 		Box.setPadded(this.handle, Boolean(value));
 	}
 
