@@ -26,13 +26,13 @@ Set or return the the content of the multiline entry.
 <a name="UiMultilineEntry+readOnly"></a>
 
 ### uiMultilineEntry.readOnly ⇒ <code>boolean</code>
-Whether the user is allowed to change the entry text.
+Whether the user is allowed to change the entry's contents.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 <a name="UiMultilineEntry+append"></a>
 
 ### uiMultilineEntry.append(text) ⇒ <code>undefined</code>
-Append specified text to the entry content.
+Append the specified text to the entry's contents.
 
 **Kind**: instance method of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 
@@ -43,7 +43,8 @@ Append specified text to the entry content.
 <a name="UiMultilineEntry+onChanged"></a>
 
 ### uiMultilineEntry.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the entry content changed.
+Add a listener to the `changed` event. Emitted whenever the entry's contents
+changed.
 
 **Kind**: instance method of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 

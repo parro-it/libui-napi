@@ -1,7 +1,7 @@
 <a name="UiRadioButtons"></a>
 
 ## UiRadioButtons
-A widget that represent a group of radio options.
+A widget that represents a group of single-choise options.
 
 **Kind**: global class  
 
@@ -19,13 +19,13 @@ Create a new UiRadioButtons object.
 <a name="UiRadioButtons+selected"></a>
 
 ### uiRadioButtons.selected ⇒ <code>string</code>
-Return or set the current selected item by index.
+Return or set the currently selected item by index.
 
 **Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
 <a name="UiRadioButtons+append"></a>
 
 ### uiRadioButtons.append(text) ⇒ <code>undefined</code>
-Append a new radio option as last one with specified text.
+Append a new radio option as the last item with the specified text.
 
 **Kind**: instance method of [<code>UiRadioButtons</code>](#UiRadioButtons)  
 
@@ -36,7 +36,8 @@ Append a new radio option as last one with specified text.
 <a name="UiRadioButtons+onSelected"></a>
 
 ### uiRadioButtons.onSelected(callback) ⇒ <code>undefined</code>
-Add a listener to the `selected` event. Emitted whenever the selected option changes.
+Add a listener to the `selected` event. Emitted whenever the selected
+option changes.
 
 **Kind**: instance method of [<code>UiRadioButtons</code>](#UiRadioButtons)  
 

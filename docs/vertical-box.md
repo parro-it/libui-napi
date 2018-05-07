@@ -1,7 +1,7 @@
 <a name="UiVerticalBox"></a>
 
 ## UiVerticalBox ⇐ <code>UiBox</code>
-A container that stacks its chidren vertically.
+A container that stacks its children vertically.
 
 **Kind**: global class  
 **Extends**: <code>UiBox</code>  
@@ -20,19 +20,19 @@ Create a new UiVerticalBox object.
 <a name="UiBox+padded"></a>
 
 ### uiVerticalBox.padded ⇒ <code>boolean</code>
-If true, the container insert some space between children.
+If true, the container inserts some space between children.
 
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
 <a name="UiBox+append"></a>
 
 ### uiVerticalBox.append(control, stretchy) ⇒ <code>undefined</code>
-Append a new child control as the last one.
+Append a new child control as the last child.
 
 **Kind**: instance method of [<code>UiVerticalBox</code>](#UiVerticalBox)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| control | <code>UiControl</code> | the control to add as child. |
+| control | <code>UiControl</code> | the control to add as a child. |
 | stretchy | <code>boolean</code> | whever the control should fill all the available space. |
 
 <a name="UiBox+deleteAt"></a>

@@ -1,7 +1,8 @@
 <a name="UiPasswordEntry"></a>
 
 ## UiPasswordEntry ⇐ <code>UiEntryBase</code>
-A single line text entry widget that mask the input, useful to edit passwords or other sensible data.
+A single line text entry widget that hides the input, useful for passwords
+and other sensible data.
 
 **Kind**: global class  
 **Extends**: <code>UiEntryBase</code>  
@@ -26,13 +27,14 @@ Set or return the the content of the entry.
 <a name="UiEntryBase+readOnly"></a>
 
 ### uiPasswordEntry.readOnly ⇒ <code>boolean</code>
-Whether the user is allowed to change the entry text.
+Whether the user is allowed to change the entry's contents.
 
 **Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
 <a name="UiEntryBase+onChanged"></a>
 
 ### uiPasswordEntry.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the entry content changed.
+Add a listener to the `changed` event. Emitted whenever the entry contents
+changed.
 
 **Kind**: instance method of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
 

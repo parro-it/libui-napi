@@ -1,7 +1,8 @@
 const {EditableCombobox} = require('..');
 
 /**
- * A drop down combo box that allow selection from list or free text entry.
+ * A drop down combo box that allows to select an item from list or to specify a custom
+ * value.
  */
 class UiEditableCombobox {
 	/**
@@ -26,7 +27,7 @@ class UiEditableCombobox {
 
 	/**
 	 * Append a new text item to the drop down list.
-	 * @param  {string} text - the text to append.
+	 * @param  {string} text - the item to append.
 	 * @return {undefined}
 	 */
 	append(text) {
@@ -34,9 +35,10 @@ class UiEditableCombobox {
 	}
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the text changes.
+	 * Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onChanged(callback) {

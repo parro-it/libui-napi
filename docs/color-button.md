@@ -25,7 +25,7 @@ Set or return the ColorButton color value.
 
 ### uiColorButton.onChanged(callback) ⇒ <code>undefined</code>
 Add a listener to the `changed` event. Emitted whenever the user
-change the control selected color.
+changed the selected color.
 
 **Kind**: instance method of [<code>UiColorButton</code>](#UiColorButton)  
 

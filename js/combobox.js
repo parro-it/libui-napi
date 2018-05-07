@@ -26,7 +26,7 @@ class UiCombobox {
 
 	/**
 	 * Append a new text item to the drop down list.
-	 * @param  {string} text - the text to append.
+	 * @param  {string} text - the item to append.
 	 * @return {undefined}
 	 */
 	append(text) {
@@ -34,9 +34,11 @@ class UiCombobox {
 	}
 
 	/**
-	 * Add a listener to the `selected` event. Emitted whenever the selected item changes.
+	 * Add a listener to the `selected` event. Emitted whenever the selected
+	 * item changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onSelected(callback) {

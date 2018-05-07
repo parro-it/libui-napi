@@ -13,7 +13,7 @@ class UiButton {
 	}
 
 	/**
-	 * Set or return the static text of the button.
+	 * Set or return the text of the button.
 	 * @return {string}
 	 */
 	get text() {
@@ -27,7 +27,8 @@ class UiButton {
 	/**
 	 * Emitted when the button is clicked
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onClicked(callback) {
