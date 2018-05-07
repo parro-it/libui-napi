@@ -3,7 +3,7 @@
 #include "control.h"
 #include "events.h"
 
-static const char* MODULE = "Form";
+static const char *MODULE = "Form";
 
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(4);
@@ -51,7 +51,7 @@ LIBUI_FUNCTION(create) {
 	return control_handle_new(env, ctrl, "form");
 }
 
-napi_value _libui_init_form (napi_env env, napi_value exports) {
+napi_value _libui_init_form(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(getPadded);
@@ -60,4 +60,3 @@ napi_value _libui_init_form (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(deleteAt);
 	return module;
 }
-

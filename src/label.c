@@ -3,7 +3,7 @@
 #include "control.h"
 #include "events.h"
 
-static const char* MODULE = "Label";
+static const char *MODULE = "Label";
 
 LIBUI_FUNCTION(create) {
 	INIT_ARGS(1);
@@ -31,7 +31,7 @@ LIBUI_FUNCTION(getText) {
 	return result;
 }
 
-napi_value _libui_init_label (napi_env env, napi_value exports) {
+napi_value _libui_init_label(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(getText);

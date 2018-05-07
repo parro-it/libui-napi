@@ -1,10 +1,10 @@
-#include <ui.h>
 #include <stdbool.h>
+#include <ui.h>
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
 
-static const char* MODULE = "Slider";
+static const char *MODULE = "Slider";
 
 LIBUI_FUNCTION(create) {
 	INIT_ARGS(2);
@@ -27,15 +27,10 @@ LIBUI_FUNCTION(onChanged) {
 
 	install_event(handle->events, event);
 
-	uiSliderOnChanged(
-		uiSlider(handle->control),
-		CALLBACK_OF(uiSlider, control_event_cb),
-		event
-	);
+	uiSliderOnChanged(uiSlider(handle->control), CALLBACK_OF(uiSlider, control_event_cb), event);
 
 	return NULL;
 }
-
 
 LIBUI_FUNCTION(setValue) {
 	INIT_ARGS(2);
@@ -54,7 +49,7 @@ LIBUI_FUNCTION(getValue) {
 	return make_int32(env, value);
 }
 
-napi_value _libui_init_slider (napi_env env, napi_value exports) {
+napi_value _libui_init_slider(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(getValue);

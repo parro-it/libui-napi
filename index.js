@@ -6,7 +6,6 @@ delete libui.EventLoop;
 let wakingup = false;
 let asyncHook = null;
 
-
 module.exports = libui;
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
