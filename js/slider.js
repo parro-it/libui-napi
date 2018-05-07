@@ -15,7 +15,7 @@ class UiSlider {
 	}
 
 	/**
-	 * Set or return the the content of the multiline entry.
+	 * Set or return the the content of the slider.
 	 * @return {number}
 	 */
 	get value() {
@@ -23,7 +23,7 @@ class UiSlider {
 	}
 
 	set value(value) {
-		Slider.setValue(this.handle, value);
+		Slider.setValue(this.handle, Number(value));
 	}
 
 	/**

@@ -24,6 +24,11 @@ entrySearch.onChanged(() => {
 	console.log(`The search entry text has changed to: ${entrySearch.text}`);
 });
 
+const spinbox = new libui.UiSpinbox(0, 20);
+spinbox.onChanged(() => {
+	console.log(`The spinbox value has changed to: ${spinbox.text}`);
+});
+
 const toolbar = new libui.UiHorizontalBox();
 let i = 0;
 const setEntryBtn = new libui.UiButton('Set entry');
@@ -42,6 +47,12 @@ setPasswordBtn.onClicked(() => {
 });
 toolbar.append(setPasswordBtn, false);
 
+const setSpinboxBtn = new libui.UiButton('Set number');
+setSpinboxBtn.onClicked(() => {
+	spinbox.value = i++;
+});
+toolbar.append(setSpinboxBtn, false);
+
 const toggleReadOnlyBtn = new libui.UiButton('Set ReadOnly');
 toggleReadOnlyBtn.onClicked(() => {
 	entry.readOnly = !entry.readOnly;
@@ -55,6 +66,9 @@ box.padded = true;
 box.append(entry);
 box.append(entrySearch);
 box.append(entryPassword);
+box.append(new libui.UiHorizontalSeparator());
+box.append(spinbox);
+
 box.append(new libui.UiHorizontalSeparator());
 box.append(toolbar);
 win.setChild(box);

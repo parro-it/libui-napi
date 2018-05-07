@@ -24,7 +24,7 @@ Create a new UiSlider object.
 <a name="UiSlider+value"></a>
 
 ### uiSlider.value ⇒ <code>number</code>
-Set or return the the content of the multiline entry.
+Set or return the the content of the slider.
 
 **Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
 <a name="UiSlider+onChanged"></a>

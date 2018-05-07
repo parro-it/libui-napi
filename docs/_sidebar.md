@@ -20,6 +20,7 @@
 * [UiPasswordEntry](password-entry.md)
 * [UiSearchEntry](search-entry.md)
 * [UiGroup](group.md)
+* [UiSpinbox](spinbox.md)
 * [UiProgressBar](progress-bar.md)
 * [UiRadioButtons](radio-buttons.md)
 * [UiHorizontalSeparator](horizontal-separator.md)
