@@ -17,8 +17,9 @@ const {UiVerticalBox} = require('./js/vertical-box');
 const {UiHorizontalBox} = require('./js/horizontal-box');
 const {UiMultilineEntry} = require('./js/multiline-entry');
 const {UiColorButton} = require('./js/color-button');
+const {UiCombobox} = require('./js/combobox');
 
-Object.assign(libui, {UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+Object.assign(libui, {UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
 
 libui.App.init();
 
