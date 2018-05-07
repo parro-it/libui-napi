@@ -21,6 +21,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_radiobuttons(env, exports);
 	_libui_init_separator(env, exports);
 	_libui_init_spinbox(env, exports);
+	_libui_init_tab(env, exports);
 	return exports;
 }
 
