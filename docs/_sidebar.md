@@ -20,3 +20,4 @@
 * [UiPasswordEntry](password-entry.md)
 * [UiSearchEntry](search-entry.md)
 * [UiGroup](group.md)
+* [UiProgressBar](progress-bar.md)
