@@ -15,4 +15,4 @@
 * [UiDatePicker](date-picker.md)
 * [UiTimePicker](time-picker.md)
 * [UiDateTimePicker](date-time-picker.md)
-
+* [UiEditableCombobox](editable-combobox.md)

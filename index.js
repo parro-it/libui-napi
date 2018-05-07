@@ -18,10 +18,11 @@ const {UiHorizontalBox} = require('./js/horizontal-box');
 const {UiMultilineEntry} = require('./js/multiline-entry');
 const {UiColorButton} = require('./js/color-button');
 const {UiCombobox} = require('./js/combobox');
+const {UiEditableCombobox} = require('./js/editable-combobox');
 const {UiTimePicker} = require('./js/time-picker');
 const {UiDatePicker} = require('./js/date-picker');
 const {UiDateTimePicker} = require('./js/date-time-picker');
-Object.assign(libui, {UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+Object.assign(libui, {UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
 
 libui.App.init();
 

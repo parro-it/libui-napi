@@ -12,3 +12,4 @@ jsdoc2md -f js/color-button.js > docs/color-button.md
 jsdoc2md -f js/date-picker.js js/date-time-picker-base.js > docs/date-picker.md
 jsdoc2md -f js/time-picker.js js/date-time-picker-base.js > docs/time-picker.md
 jsdoc2md -f js/date-time-picker.js js/date-time-picker-base.js > docs/date-time-picker.md
+jsdoc2md -f js/editable-combobox.js js/date-time-picker-base.js > docs/editable-combobox.md
