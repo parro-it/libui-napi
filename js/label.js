@@ -10,7 +10,7 @@ class UiLabel {
 	 * @return {UiLabel}
 	 */
 	constructor(text = '') {
-		this.handle = Label.create(text);
+		this.handle = Label.create(String(text));
 	}
 
 	/**
@@ -22,7 +22,7 @@ class UiLabel {
 	}
 
 	set text(value) {
-		Label.setText(this.handle, value);
+		Label.setText(this.handle, String(value));
 	}
 }
 

@@ -119,6 +119,7 @@ function makeToolbar() {
 	let timeoutHandle = null;
 	btnCustom.onClicked(() => {
 		if (timeoutHandle) {
+			console.log('timeoutHandle cleared')
 			clearTimeout(timeoutHandle);
 			timeoutHandle = null;
 			return;

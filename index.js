@@ -19,7 +19,7 @@ Object.assign(libui, {UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultiline
 
 libui.App.init();
 
-libui.App.start = () => {
+libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
 
 	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
@@ -30,7 +30,7 @@ libui.App.start = () => {
 	EventLoop.start();
 };
 
-libui.App.stop = () => {
+libui.stopLoop = () => {
 	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
 	// action after running the constructor, and must be explicitly run to begin
 	// executing callbacks.
