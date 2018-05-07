@@ -10,7 +10,10 @@ widget.value = 50;
 win.setChild(widget);
 
 win.onClosing(() => {
-	widget.value = 0;
+	if (interval) {
+		clearInterval(interval);
+		interval = null;
+	}
 	win.close();
 	libui.stopLoop();
 });
@@ -21,7 +24,10 @@ let interval = setInterval(() => {
 	widget.value++;
 	if (widget.value === 100) {
 		widget.value = -1;
-		clearInterval(interval)
+		if (interval) {
+			clearInterval(interval);
+			interval = null;
+		}
 	}
-}, 30)
+}, 60)
 libui.startLoop();
