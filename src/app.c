@@ -1,15 +1,15 @@
-#include <string.h>
-#include <ui.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ui.h"
 #include "napi_utils.h"
 #include "control.h"
-#include "events.h"
 #include "event-loop.h"
+#include "events.h"
 
-static const char* MODULE = "App";
+static const char *MODULE = "App";
 
-struct children_list* visible_windows = NULL;
+struct children_list *visible_windows = NULL;
 
 static int onShouldQuit_cb(void *data) {
 	struct event_t *event = (struct event_t *)data;
@@ -44,7 +44,7 @@ LIBUI_FUNCTION(init) {
 	return NULL;
 }
 
-napi_value _libui_init_core (napi_env env, napi_value exports) {
+napi_value _libui_init_core(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(onShouldQuit);
 	LIBUI_EXPORT(init);

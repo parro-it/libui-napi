@@ -2,9 +2,9 @@ const {
 	App,
 } = require('../..');
 
-const {UiWindow}  = require('../../js/window');
-const {UiHorizontalBox}  = require('../../js/horizontal-box');
-const {UiMultilineEntry}  = require('../../js/multiline-entry');
+const {UiWindow} = require('../../js/window');
+const {UiHorizontalBox} = require('../../js/horizontal-box');
+const {UiMultilineEntry} = require('../../js/multiline-entry');
 
 App.init();
 App.onShouldQuit(() => {
@@ -13,13 +13,13 @@ App.onShouldQuit(() => {
 });
 
 function createWindow() {
-	let win = new UiWindow("Test Window", 800, 600, false);
+	let win = new UiWindow('Test Window', 800, 600, false);
 	win.margined = true;
 	const logEntry = new UiMultilineEntry();
 
 	const entry = new UiMultilineEntry();
-	entry.text = "A test line\n";
-	entry.append("A second test line\n");
+	entry.text = 'A test line\n';
+	entry.append('A second test line\n');
 	entry.onChanged(() => {
 		const msg = `Text changed to ${entry.text}`;
 		console.log(msg);
@@ -39,27 +39,27 @@ function createWindow() {
 	});
 	let step = 0;
 	win.onClosing(() => {
-		if (win.title == "Test Window") {
+		if (win.title == 'Test Window') {
 			let interval = setInterval(() => {
-				if (step === 0){
+				if (step === 0) {
 					win.contentSize = {width: 400, height: 300};
 				}
-				if (step === 1){
+				if (step === 1) {
 					win.margined = true;
 				}
-				if (step === 2){
+				if (step === 2) {
 					win.margined = false;
 					win.fullscreen = true;
 				}
-				if (step === 3){
+				if (step === 3) {
 					win.fullscreen = false;
 					win.borderless = true;
 				}
-				if (step === 4){
+				if (step === 4) {
 					win.borderless = false;
 				}
 
-				if (step > 4){
+				if (step > 4) {
 					clearInterval(interval);
 				}
 
@@ -72,13 +72,12 @@ function createWindow() {
 				});
 			}, 1000);
 			box.deleteAt(1);
-			return win.title = "Wait some seconds please...";
+			return win.title = 'Wait some seconds please...';
 		}
 		console.log('closing', win.title);
 		win.close();
 		win = null;
 		App.stop();
-
 	});
 
 	win.show();
@@ -89,5 +88,3 @@ App.start();
 setInterval(() => {
 	global.gc();
 }, 10);
-
-

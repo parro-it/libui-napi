@@ -3,6 +3,6 @@
 
 #include "control.h"
 
-extern struct children_list* visible_windows;
+extern struct children_list *visible_windows;
 
 #endif

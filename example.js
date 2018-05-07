@@ -8,19 +8,17 @@ const {
 App.init();
 App.onShouldQuit(() => {
 	App.stop();
-	if(global.gc){
-		global.gc();
-	}
+	global.gc();
 });
 
 function createWindow() {
-	let win = Window.create("Test Window", 800, 600, false);
+	let win = Window.create('Test Window', 800, 600, false);
 	Window.setMargined(win, true);
 	const logEntry = MultilineEntry.create();
 
 	const entry = MultilineEntry.create();
-	MultilineEntry.setText(entry, "A test line\n");
-	MultilineEntry.append(entry, "A second test line\n");
+	MultilineEntry.setText(entry, 'A test line\n');
+	MultilineEntry.append(entry, 'A second test line\n');
 	MultilineEntry.onChanged(entry, () => {
 		const msg = `Text changed to ${MultilineEntry.getText(entry)}`;
 		console.log(msg);
@@ -40,27 +38,27 @@ function createWindow() {
 	});
 	let step = 0;
 	Window.onClosing(win, () => {
-		if (Window.getTitle(win) == "Test Window") {
+		if (Window.getTitle(win) == 'Test Window') {
 			let interval = setInterval(() => {
-				if (step === 0){
+				if (step === 0) {
 					Window.setContentSize(win, 400, 300);
 				}
-				if (step === 1){
+				if (step === 1) {
 					Window.setMargined(win, true);
 				}
-				if (step === 2){
+				if (step === 2) {
 					Window.setMargined(win, false);
 					Window.setFullscreen(win, true);
 				}
-				if (step === 3){
+				if (step === 3) {
 					Window.setFullscreen(win, false);
 					Window.setBorderless(win, true);
 				}
-				if (step === 4){
+				if (step === 4) {
 					Window.setBorderless(win, false);
 				}
 
-				if (step > 4){
+				if (step > 4) {
 					clearInterval(interval);
 				}
 
@@ -73,13 +71,12 @@ function createWindow() {
 				});
 			}, 1000);
 			Box.deleteAt(box, 1);
-			return Window.setTitle(win, "Wait some seconds please...");
+			return Window.setTitle(win, 'Wait some seconds please...');
 		}
 		console.log('closing', Window.getTitle(win));
 		Window.close(win);
 		win = null;
 		App.stop();
-
 	});
 
 	Window.show(win);
@@ -88,9 +85,5 @@ function createWindow() {
 createWindow();
 App.start();
 setInterval(() => {
-	if(global.gc){
-		global.gc();
-	}
+	global.gc();
 }, 10);
-
-

@@ -1,9 +1,9 @@
-#include <ui.h>
+#include "ui.h"
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
 
-static const char* MODULE = "Box";
+static const char *MODULE = "Box";
 
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(3);
@@ -53,7 +53,7 @@ LIBUI_FUNCTION(createHorizontal) {
 	return control_handle_new(env, ctrl, "horizontalBox");
 }
 
-napi_value _libui_init_box (napi_env env, napi_value exports) {
+napi_value _libui_init_box(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(createVertical);
 	LIBUI_EXPORT(createHorizontal);
@@ -63,4 +63,3 @@ napi_value _libui_init_box (napi_env env, napi_value exports) {
 	LIBUI_EXPORT(deleteAt);
 	return module;
 }
-
