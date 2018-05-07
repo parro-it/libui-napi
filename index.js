@@ -35,7 +35,7 @@ const {UiVerticalSeparator} = require('./js/vertical-separator');
 Object.assign(libui, {
 	UiSpinbox,
 	UiHorizontalSeparator,
-	UiVerticalSeparator
+	UiVerticalSeparator,
 	UiRadioButtons,
 	UiProgressBar,
 	UiGroup,
@@ -59,42 +59,42 @@ Object.assign(libui, {
 	UiVerticalBox
 });
 
-	libui.App.init();
+libui.App.init();
 
-	libui.onShouldQuit = libui.App.onShouldQuit;
+libui.onShouldQuit = libui.App.onShouldQuit;
 
-	libui.startLoop = () => {
-		asyncHook = async_hooks.createHook({init: initAsyncResource});
+libui.startLoop = () => {
+	asyncHook = async_hooks.createHook({init: initAsyncResource});
 
-		// Allow callbacks of this AsyncHook instance to call. This is not an
-		// implicit action after running the constructor, and must be explicitly run
-		// to begin executing callbacks.
-		asyncHook.enable();
+	// Allow callbacks of this AsyncHook instance to call. This is not an
+	// implicit action after running the constructor, and must be explicitly run
+	// to begin executing callbacks.
+	asyncHook.enable();
 
-		EventLoop.start();
-	};
+	EventLoop.start();
+};
 
-	libui.stopLoop = () => {
-		// Allow callbacks of this AsyncHook instance to call. This is not an
-		// implicit action after running the constructor, and must be explicitly run
-		// to begin executing callbacks.
-		asyncHook.disable();
-		asyncHook = null;
+libui.stopLoop = () => {
+	// Allow callbacks of this AsyncHook instance to call. This is not an
+	// implicit action after running the constructor, and must be explicitly run
+	// to begin executing callbacks.
+	asyncHook.disable();
+	asyncHook = null;
 
-		EventLoop.stop();
-	};
+	EventLoop.stop();
+};
 
-	// This is called when a new async handle
-	// is created. It's used to signal the background
-	// thread to stop awaiting calls and upgrade it's list of handles
-	// it's awaiting for.
-	function initAsyncResource(asyncId, type, triggerAsyncId, resource) {
-		if (wakingup) {
-			return;
-		}
-		wakingup = true;
-		setImmediate(() => {
-			EventLoop.wakeupBackgroundThread();
-			wakingup = false;
-		});
+// This is called when a new async handle
+// is created. It's used to signal the background
+// thread to stop awaiting calls and upgrade it's list of handles
+// it's awaiting for.
+function initAsyncResource(asyncId, type, triggerAsyncId, resource) {
+	if (wakingup) {
+		return;
 	}
+	wakingup = true;
+	setImmediate(() => {
+		EventLoop.wakeupBackgroundThread();
+		wakingup = false;
+	});
+}
