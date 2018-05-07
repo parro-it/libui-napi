@@ -8,7 +8,7 @@ A container that stacks its chidren horizontally.
 
 * [UiHorizontalBox](#UiHorizontalBox) ⇐ <code>UiBox</code>
     * [new UiHorizontalBox()](#new_UiHorizontalBox_new)
-    * [.getPadded()](#UiBox+getPadded) ⇒ <code>boolean</code>
+    * [.padded](#UiBox+padded) ⇒ <code>boolean</code>
     * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
 
@@ -17,12 +17,12 @@ A container that stacks its chidren horizontally.
 ### new UiHorizontalBox()
 Create a new UiHorizontalBox object.
 
-<a name="UiBox+getPadded"></a>
+<a name="UiBox+padded"></a>
 
-### uiHorizontalBox.getPadded() ⇒ <code>boolean</code>
+### uiHorizontalBox.padded ⇒ <code>boolean</code>
 If true, the container insert some space between children.
 
-**Kind**: instance method of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
+**Kind**: instance property of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
 <a name="UiBox+append"></a>
 
 ### uiHorizontalBox.append(control, stretchy) ⇒ <code>undefined</code>

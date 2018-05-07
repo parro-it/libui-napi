@@ -18,3 +18,4 @@ jsdoc2md -f js/password-entry.js js/entry-base.js > docs/password-entry.md
 jsdoc2md -f js/entry.js js/entry-base.js > docs/entry.md
 jsdoc2md -f js/group.js > docs/group.md
 jsdoc2md -f js/progress-bar.js > docs/progress-bar.md
+jsdoc2md -f js/radio-buttons.js > docs/radio-buttons.md

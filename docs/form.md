@@ -7,7 +7,7 @@ A container that organize children as labeled fields.
 
 * [UiForm](#UiForm)
     * [new UiForm()](#new_UiForm_new)
-    * [.getPadded()](#UiForm+getPadded) ⇒ <code>boolean</code>
+    * [.padded](#UiForm+padded) ⇒ <code>boolean</code>
     * [.append(label, control, stretchy)](#UiForm+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiForm+deleteAt) ⇒ <code>undefined</code>
 
@@ -16,12 +16,12 @@ A container that organize children as labeled fields.
 ### new UiForm()
 Create a new UiForm object.
 
-<a name="UiForm+getPadded"></a>
+<a name="UiForm+padded"></a>
 
-### uiForm.getPadded() ⇒ <code>boolean</code>
+### uiForm.padded ⇒ <code>boolean</code>
 If true, the container insert some space between children.
 
-**Kind**: instance method of [<code>UiForm</code>](#UiForm)  
+**Kind**: instance property of [<code>UiForm</code>](#UiForm)  
 <a name="UiForm+append"></a>
 
 ### uiForm.append(label, control, stretchy) ⇒ <code>undefined</code>

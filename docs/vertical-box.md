@@ -8,7 +8,7 @@ A container that stacks its chidren vertically.
 
 * [UiVerticalBox](#UiVerticalBox) ⇐ <code>UiBox</code>
     * [new UiVerticalBox()](#new_UiVerticalBox_new)
-    * [.getPadded()](#UiBox+getPadded) ⇒ <code>boolean</code>
+    * [.padded](#UiBox+padded) ⇒ <code>boolean</code>
     * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
 
@@ -17,12 +17,12 @@ A container that stacks its chidren vertically.
 ### new UiVerticalBox()
 Create a new UiVerticalBox object.
 
-<a name="UiBox+getPadded"></a>
+<a name="UiBox+padded"></a>
 
-### uiVerticalBox.getPadded() ⇒ <code>boolean</code>
+### uiVerticalBox.padded ⇒ <code>boolean</code>
 If true, the container insert some space between children.
 
-**Kind**: instance method of [<code>UiVerticalBox</code>](#UiVerticalBox)  
+**Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
 <a name="UiBox+append"></a>
 
 ### uiVerticalBox.append(control, stretchy) ⇒ <code>undefined</code>
