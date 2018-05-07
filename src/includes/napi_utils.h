@@ -31,6 +31,20 @@
 		}                                                                                          \
 	}
 
+#define ARG_DOUBLE(ARG_NAME, ARG_IDX)                                                              \
+	double ARG_NAME;                                                                               \
+	{                                                                                              \
+		napi_status status = napi_get_value_double(env, argv[ARG_IDX], &ARG_NAME);                 \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_BOOL(ARG_NAME, ARG_IDX)                                                                \
 	bool ARG_NAME;                                                                                 \
 	{                                                                                              \

@@ -11,6 +11,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_form(env, exports);
 	_libui_init_button(env, exports);
 	_libui_init_checkbox(env, exports);
+	_libui_init_colorbutton(env, exports);
 
 	return exports;
 }
