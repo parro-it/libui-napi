@@ -31,12 +31,13 @@ Append a new text item to the drop down list.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| text | <code>string</code> | the text to append. |
+| text | <code>string</code> | the item to append. |
 
 <a name="UiCombobox+onSelected"></a>
 
 ### uiCombobox.onSelected(callback) ⇒ <code>undefined</code>
-Add a listener to the `selected` event. Emitted whenever the selected item changes.
+Add a listener to the `selected` event. Emitted whenever the selected
+item changes.
 
 **Kind**: instance method of [<code>UiCombobox</code>](#UiCombobox)  
 

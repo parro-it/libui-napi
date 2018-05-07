@@ -6,7 +6,7 @@ class UiBox {
 	}
 
 	/**
-	 * If true, the container insert some space between children.
+	 * If true, the container inserts some space between children.
 	 * @return {boolean}
 	 */
 	get padded() {
@@ -18,8 +18,8 @@ class UiBox {
 	}
 
 	/**
-	 * Append a new child control as the last one.
-	 * @param  {UiControl} control - the control to add as child.
+	 * Append a new child control as the last child.
+	 * @param  {UiControl} control - the control to add as a child.
 	 * @param  {boolean} stretchy - whever the control should fill all the
 	 * available space.
 	 * @return {undefined}

@@ -1,7 +1,8 @@
 <a name="UiEditableCombobox"></a>
 
 ## UiEditableCombobox
-A drop down combo box that allow selection from list or free text entry.
+A drop down combo box that allows to select an item from list or to specify a custom
+value.
 
 **Kind**: global class  
 
@@ -31,12 +32,12 @@ Append a new text item to the drop down list.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| text | <code>string</code> | the text to append. |
+| text | <code>string</code> | the item to append. |
 
 <a name="UiEditableCombobox+onChanged"></a>
 
 ### uiEditableCombobox.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the text changes.
+Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
 
 **Kind**: instance method of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
 

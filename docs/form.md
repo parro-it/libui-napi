@@ -1,7 +1,7 @@
 <a name="UiForm"></a>
 
 ## UiForm
-A container that organize children as labeled fields.
+A container that organizes children as labeled fields.
 
 **Kind**: global class  
 
@@ -19,13 +19,13 @@ Create a new UiForm object.
 <a name="UiForm+padded"></a>
 
 ### uiForm.padded ⇒ <code>boolean</code>
-If true, the container insert some space between children.
+If true, the container inserts some space between children.
 
 **Kind**: instance property of [<code>UiForm</code>](#UiForm)  
 <a name="UiForm+append"></a>
 
 ### uiForm.append(label, control, stretchy) ⇒ <code>undefined</code>
-Append a new child control as last field with specified label.
+Append a new child control as the last field with the specified label.
 
 **Kind**: instance method of [<code>UiForm</code>](#UiForm)  
 
@@ -33,12 +33,12 @@ Append a new child control as last field with specified label.
 | --- | --- | --- |
 | label | <code>string</code> | the text to use as label of the field. |
 | control | <code>UiControl</code> | the control to add as child. |
-| stretchy | <code>boolean</code> | whever the control should fill all the available space. |
+| stretchy | <code>boolean</code> | whether the control should fill all the available space. |
 
 <a name="UiForm+deleteAt"></a>
 
 ### uiForm.deleteAt(index) ⇒ <code>undefined</code>
-Remove a child control at specified position.
+Remove a child control at the specified position.
 
 **Kind**: instance method of [<code>UiForm</code>](#UiForm)  
 

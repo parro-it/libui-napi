@@ -1,8 +1,8 @@
 const {Window} = require('..');
 
 /**
- * The UiWindow class is responsible to show and manage native windows.
- * UiWindow instance could contains only one child control. If you need
+ * The UiWindow class is responsible for showing and managing native windows.
+ * A UiWindow instance can contain only one child. If you need
  * more than one, you have to use [Containers](containers.md).
  */
 class UiWindow {
@@ -12,7 +12,7 @@ class UiWindow {
 	 * @param {string} title - text to show in window title bar.
 	 * @param {number} width - width of window in pixels.
 	 * @param {number} height -  height of window in pixels.
-	 * @param {boolean} hasMenubar - specify that this window has a menu bar.
+	 * @param {boolean} hasMenubar - whether this window has a menu bar.
 	 * See [Menu](#menubar).
 	 * @return {UiWindow} new instance.
 	 */
@@ -77,8 +77,8 @@ class UiWindow {
 	}
 
 	/**
-	 * Set or return the size in pixel of the content area of the window.
-	 * Window decoration size are excluded. This mean that if you set window
+	 * Set or return the size in pixel of the content area of the window
+	 * (excluding the size of the window decoration). This mean that if you set window
 	 * size to 0,0 you still see title bar and OS window buttons.
 	 *
 	 * @return {{width: number, height: number}}
@@ -93,7 +93,7 @@ class UiWindow {
 
 	/**
 	 * Set the control to show in this window content area.
-	 * UiWindow instances can contain only one control. If you need
+	 * UiWindow instances can contain only one child. If you need
 	 * more, you have to use [Containers](containers.md).
 	 *
 	 * @param {UiControl} control - the control to add as child.
@@ -118,7 +118,7 @@ class UiWindow {
 	}
 
 	/**
-	 * When true, the window is displayed borderless.
+	 * When true, the window is displayed without a border.
 	 *
 	 * @return {boolean}
 	 */
@@ -131,7 +131,7 @@ class UiWindow {
 	}
 
 	/**
-	 * When true, the window is displayed full screen.
+	 * When true, the window is displayed in full screen mode.
 	 *
 	 * @return {boolean}
 	 */

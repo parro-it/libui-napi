@@ -25,7 +25,7 @@ class UiMultilineEntry {
 	}
 
 	/**
-	 * Whether the user is allowed to change the entry text.
+	 * Whether the user is allowed to change the entry's contents.
 	 * @return {boolean}
 	 */
 	get readOnly() {
@@ -37,7 +37,7 @@ class UiMultilineEntry {
 	}
 
 	/**
-	 * Append specified text to the entry content.
+	 * Append the specified text to the entry's contents.
 	 * @param  {string} text - the text to append.
 	 * @return {undefined}
 	 */
@@ -46,7 +46,7 @@ class UiMultilineEntry {
 	}
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the entry content
+	 * Add a listener to the `changed` event. Emitted whenever the entry's contents
 	 * changed.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is

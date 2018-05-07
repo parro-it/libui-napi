@@ -18,7 +18,7 @@ class UiEntryBase {
 	}
 
 	/**
-	 * Whether the user is allowed to change the entry text.
+	 * Whether the user is allowed to change the entry's contents.
 	 * @return {boolean}
 	 */
 	get readOnly() {
@@ -30,7 +30,7 @@ class UiEntryBase {
 	}
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the entry content
+	 * Add a listener to the `changed` event. Emitted whenever the entry contents
 	 * changed.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is

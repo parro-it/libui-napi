@@ -2,7 +2,7 @@ const {Box} = require('..');
 const {UiBox} = require('./box');
 
 /**
- * A container that stacks its chidren vertically.
+ * A container that stacks its children vertically.
  * @extends UiBox
  */
 class UiVerticalBox extends UiBox {

@@ -13,7 +13,7 @@ class UiButton {
 	}
 
 	/**
-	 * Set or return the static text of the button.
+	 * Set or return the text of the button.
 	 * @return {string}
 	 */
 	get text() {

@@ -26,7 +26,7 @@ class UiColorButton {
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the user
-	 * change the control selected color.
+	 * changed the selected color.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.

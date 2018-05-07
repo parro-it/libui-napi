@@ -19,7 +19,7 @@ Create a new UiCheckbox object.
 <a name="UiCheckbox+text"></a>
 
 ### uiCheckbox.text ⇒ <code>string</code>
-Set or return the static text label for the checkbox.
+Set or return the text label for the checkbox.
 
 **Kind**: instance property of [<code>UiCheckbox</code>](#UiCheckbox)  
 <a name="UiCheckbox+checked"></a>
@@ -31,7 +31,8 @@ Whether the control is checked.
 <a name="UiCheckbox+onToggled"></a>
 
 ### uiCheckbox.onToggled(callback) ⇒ <code>undefined</code>
-Add a listener to the `toggled` event. Emitted whenever the control checked state change.
+Add a listener to the `toggled` event. Emitted whenever the control
+`checked` state change.
 
 **Kind**: instance method of [<code>UiCheckbox</code>](#UiCheckbox)  
 

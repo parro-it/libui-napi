@@ -1,8 +1,8 @@
 <a name="UiWindow"></a>
 
 ## UiWindow
-The UiWindow class is responsible to show and manage native windows.
-UiWindow instance could contains only one child control. If you need
+The UiWindow class is responsible for showing and managing native windows.
+A UiWindow instance can contain only one child. If you need
 more than one, you have to use [Containers](containers.md).
 
 **Kind**: global class  
@@ -31,7 +31,7 @@ Create a new UiWindow object.
 | title | <code>string</code> | text to show in window title bar. |
 | width | <code>number</code> | width of window in pixels. |
 | height | <code>number</code> | height of window in pixels. |
-| hasMenubar | <code>boolean</code> | specify that this window has a menu bar. See [Menu](#menubar). |
+| hasMenubar | <code>boolean</code> | whether this window has a menu bar. See [Menu](#menubar). |
 
 <a name="UiWindow+title"></a>
 
@@ -42,8 +42,8 @@ Set or return the text to show in window title bar.
 <a name="UiWindow+contentSize"></a>
 
 ### uiWindow.contentSize ⇒ <code>Object</code>
-Set or return the size in pixel of the content area of the window.
-Window decoration size are excluded. This mean that if you set window
+Set or return the size in pixel of the content area of the window
+(excluding the size of the window decoration). This mean that if you set window
 size to 0,0 you still see title bar and OS window buttons.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
@@ -56,13 +56,13 @@ When true, an internal margin is added to the window.
 <a name="UiWindow+borderless"></a>
 
 ### uiWindow.borderless ⇒ <code>boolean</code>
-When true, the window is displayed borderless.
+When true, the window is displayed without a border.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+fullscreen"></a>
 
 ### uiWindow.fullscreen ⇒ <code>boolean</code>
-When true, the window is displayed full screen.
+When true, the window is displayed in full screen mode.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+show"></a>
@@ -74,8 +74,9 @@ Show the window.
 <a name="UiWindow+onClosing"></a>
 
 ### uiWindow.onClosing(callback) ⇒ <code>undefined</code>
-Add a listener to the `closing` event. This event is emitted when the OS window close
-button is clicked. You are responsible to close the window in response to this event.
+Add a listener to the `closing` event. This event is emitted when the OS
+window close button is clicked. You are responsible for closing the
+window in response to this event.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
 
@@ -86,8 +87,8 @@ button is clicked. You are responsible to close the window in response to this e
 <a name="UiWindow+onContentSizeChanged"></a>
 
 ### uiWindow.onContentSizeChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `contentSizeChanged` event. This event is emitted when window
-content size change.
+Add a listener to the `contentSizeChanged` event. This event is emitted
+when window content size change.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
 
@@ -105,7 +106,7 @@ Close the window.
 
 ### uiWindow.setChild(control, stretchy)
 Set the control to show in this window content area.
-UiWindow instances can contain only one control. If you need
+UiWindow instances can contain only one child. If you need
 more, you have to use [Containers](containers.md).
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  

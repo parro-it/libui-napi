@@ -26,7 +26,7 @@ class UiCombobox {
 
 	/**
 	 * Append a new text item to the drop down list.
-	 * @param  {string} text - the text to append.
+	 * @param  {string} text - the item to append.
 	 * @return {undefined}
 	 */
 	append(text) {

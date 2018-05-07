@@ -13,7 +13,7 @@ class UiCheckbox {
 	}
 
 	/**
-	 * Set or return the static text label for the checkbox.
+	 * Set or return the text label for the checkbox.
 	 * @return {string}
 	 */
 	get text() {
@@ -38,7 +38,7 @@ class UiCheckbox {
 
 	/**
 	 * Add a listener to the `toggled` event. Emitted whenever the control
-	 * checked state change.
+	 * `checked` state change.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.

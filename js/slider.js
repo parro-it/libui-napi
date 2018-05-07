@@ -1,13 +1,13 @@
 const {Slider} = require('..');
 
 /**
- * Horizontal slide to set numerical values.
+ * Horizontal slider to set numerical values.
  */
 class UiSlider {
 	/**
 	 * Create a new UiSlider object.
-	 * @param  {number} min - minimum allowed value of the slider.
-	 * @param  {number} max - maximum allowed value of the slider.
+	 * @param  {number} min - minimum value of the slider.
+	 * @param  {number} max - maximum value of the slider.
 	 * @return {UiSlider}
 	 */
 	constructor(min, max) {
