@@ -1,7 +1,7 @@
 <a name="UiTimePicker"></a>
 
 ## UiTimePicker ⇐ <code>DateTimePickerBase</code>
-A widgets to edit times.
+A widgets to set a time.
 
 **Kind**: global class  
 **Extends**: <code>DateTimePickerBase</code>  

@@ -20,7 +20,7 @@ static uv_timer_t closeTimer;
 
 /*
    This function is executed in the
-   background thread and is responsible to continuosly polling
+   background thread and is responsible for continuosly polling
    the node backend for pending events.
 
    When pending node events are found, the native GUI

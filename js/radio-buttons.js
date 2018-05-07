@@ -1,7 +1,7 @@
 const {RadioButtons} = require('..');
 
 /**
- * A widget that represent a group of radio options.
+ * A widget that represents a group of single-choise options.
  */
 class UiRadioButtons {
 	/**
@@ -13,7 +13,7 @@ class UiRadioButtons {
 	}
 
 	/**
-	 * Return or set the current selected item by index.
+	 * Return or set the currently selected item by index.
 	 * @return {string}
 	 */
 	get selected() {
@@ -25,7 +25,7 @@ class UiRadioButtons {
 	}
 
 	/**
-	 * Append a new radio option as last one with specified text.
+	 * Append a new radio option as the last item with the specified text.
 	 * @param  {string} text - the text to append.
 	 * @return {undefined}
 	 */
@@ -34,9 +34,11 @@ class UiRadioButtons {
 	}
 
 	/**
-	 * Add a listener to the `selected` event. Emitted whenever the selected option changes.
+	 * Add a listener to the `selected` event. Emitted whenever the selected
+	 * option changes.
 	 *
-	 * @param  {Function} callback - callback to execute when the event is fired.
+	 * @param  {Function} callback - callback to execute when the event is
+	 * fired.
 	 * @return {undefined}
 	 */
 	onSelected(callback) {

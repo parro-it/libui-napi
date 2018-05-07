@@ -1,9 +1,4 @@
-const {
-	App,
-	Window,
-	MultilineEntry,
-	Box
-} = require('.');
+const {App, Window, MultilineEntry, Box} = require('.');
 
 App.init();
 App.onShouldQuit(() => {

@@ -17,6 +17,7 @@ Create a new UiProgressBar object.
 <a name="UiProgressBar+value"></a>
 
 ### uiProgressBar.value ⇒ <code>number</code>
-The current position of the progress bar. Could be setted to -1 to create an indeterminate progress bar.
+The current position of the progress bar. Can be set to -1 to create
+an indeterminate progress bar.
 
 **Kind**: instance property of [<code>UiProgressBar</code>](#UiProgressBar)  

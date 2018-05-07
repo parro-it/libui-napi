@@ -2,7 +2,8 @@ const {Entries} = require('..');
 const {UiEntryBase} = require('./entry-base');
 
 /**
- * A single line text entry widget that mask the input, useful to edit passwords or other sensible data.
+ * A single line text entry widget that hides the input, useful for passwords
+ * and other sensible data.
  * @extends UiEntryBase
  */
 class UiPasswordEntry extends UiEntryBase {

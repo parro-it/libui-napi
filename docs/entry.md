@@ -26,13 +26,14 @@ Set or return the the content of the entry.
 <a name="UiEntryBase+readOnly"></a>
 
 ### uiEntry.readOnly ⇒ <code>boolean</code>
-Whether the user is allowed to change the entry text.
+Whether the user is allowed to change the entry's contents.
 
 **Kind**: instance property of [<code>UiEntry</code>](#UiEntry)  
 <a name="UiEntryBase+onChanged"></a>
 
 ### uiEntry.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the entry content changed.
+Add a listener to the `changed` event. Emitted whenever the entry contents
+changed.
 
 **Kind**: instance method of [<code>UiEntry</code>](#UiEntry)  
 

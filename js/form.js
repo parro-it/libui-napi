@@ -1,7 +1,7 @@
 const {Form} = require('..');
 
 /**
- * A container that organize children as labeled fields.
+ * A container that organizes children as labeled fields.
  */
 class UiForm {
 	/**
@@ -13,7 +13,7 @@ class UiForm {
 	}
 
 	/**
-	 * If true, the container insert some space between children.
+	 * If true, the container inserts some space between children.
 	 * @return {boolean}
 	 */
 	get padded() {
@@ -25,10 +25,11 @@ class UiForm {
 	}
 
 	/**
-	 * Append a new child control as last field with specified label.
+	 * Append a new child control as the last field with the specified label.
 	 * @param  {string} label - the text to use as label of the field.
 	 * @param  {UiControl} control - the control to add as child.
-	 * @param  {boolean} stretchy - whever the control should fill all the available space.
+	 * @param  {boolean} stretchy - whether the control should fill all the
+	 * available space.
 	 * @return {undefined}
 	 */
 	append(label, control, stretchy) {
@@ -37,7 +38,7 @@ class UiForm {
 	}
 
 	/**
-	 * Remove a child control at specified position.
+	 * Remove a child control at the specified position.
 	 * @param  {number} index - the index of the control to remove
 	 * @return {undefined}
 	 */

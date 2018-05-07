@@ -1,7 +1,7 @@
 <a name="UiSlider"></a>
 
 ## UiSlider
-Horizontal slide to set numerical values.
+Horizontal slider to set numerical values.
 
 **Kind**: global class  
 
@@ -18,8 +18,8 @@ Create a new UiSlider object.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| min | <code>number</code> | minimum allowed value of the slider. |
-| max | <code>number</code> | maximum allowed value of the slider. |
+| min | <code>number</code> | minimum value of the slider. |
+| max | <code>number</code> | maximum value of the slider. |
 
 <a name="UiSlider+value"></a>
 
@@ -30,7 +30,8 @@ Set or return the the content of the slider.
 <a name="UiSlider+onChanged"></a>
 
 ### uiSlider.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the slider value changed.
+Add a listener to the `changed` event. Emitted whenever the slider value
+changed.
 
 **Kind**: instance method of [<code>UiSlider</code>](#UiSlider)  
 

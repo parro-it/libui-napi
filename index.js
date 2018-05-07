@@ -32,7 +32,32 @@ const {UiRadioButtons} = require('./js/radio-buttons');
 const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 
-Object.assign(libui, {UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox});
+Object.assign(libui, {
+	UiSpinbox,
+	UiHorizontalSeparator,
+	UiVerticalSeparator,
+	UiRadioButtons,
+	UiProgressBar,
+	UiGroup,
+	UiEntry,
+	UiPasswordEntry,
+	UiSearchEntry,
+	UiEditableCombobox,
+	UiTimePicker,
+	UiDatePicker,
+	UiDateTimePicker,
+	UiCombobox,
+	UiColorButton,
+	UiCheckbox,
+	UiWindow,
+	UiButton,
+	UiLabel,
+	UiForm,
+	UiSlider,
+	UiMultilineEntry,
+	UiHorizontalBox,
+	UiVerticalBox
+});
 
 libui.App.init();
 
@@ -41,18 +66,18 @@ libui.onShouldQuit = libui.App.onShouldQuit;
 libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
 
-	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
-	// action after running the constructor, and must be explicitly run to begin
-	// executing callbacks.
+	// Allow callbacks of this AsyncHook instance to call. This is not an
+	// implicit action after running the constructor, and must be explicitly run
+	// to begin executing callbacks.
 	asyncHook.enable();
 
 	EventLoop.start();
 };
 
 libui.stopLoop = () => {
-	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
-	// action after running the constructor, and must be explicitly run to begin
-	// executing callbacks.
+	// Allow callbacks of this AsyncHook instance to call. This is not an
+	// implicit action after running the constructor, and must be explicitly run
+	// to begin executing callbacks.
 	asyncHook.disable();
 	asyncHook = null;
 

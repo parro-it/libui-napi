@@ -6,8 +6,8 @@ const {Spinbox} = require('..');
 class UiSpinbox {
 	/**
 	 * Create a new UiSpinbox object.
-	 * @param  {number} min - minimum allowed value of the spinbox.
-	 * @param  {number} max - maximum allowed value of the spinbox.
+	 * @param  {number} min - minimum value of the spinbox.
+	 * @param  {number} max - maximum value of the spinbox.
 	 * @return {UiSpinbox}
 	 */
 	constructor(min, max) {

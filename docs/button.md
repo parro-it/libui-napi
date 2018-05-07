@@ -18,7 +18,7 @@ Create a new UiButton object.
 <a name="UiButton+text"></a>
 
 ### uiButton.text ⇒ <code>string</code>
-Set or return the static text of the button.
+Set or return the text of the button.
 
 **Kind**: instance property of [<code>UiButton</code>](#UiButton)  
 <a name="UiButton+onClicked"></a>

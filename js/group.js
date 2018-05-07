@@ -1,7 +1,8 @@
 const {Group} = require('..');
 
 /**
- * A container for a single widget that provide a caption and visually group it's children.
+ * A container for a single widget that provides a caption and visually groups
+ * it's child.
  */
 class UiGroup {
 	/**
@@ -33,7 +34,8 @@ class UiGroup {
 	 * more, you have to use [Containers](containers.md).
 	 *
 	 * @param {UiControl} control - the control to add as child.
-	 * @param {boolean} stretchy - whever the control should fill all the available space.
+	 * @param {boolean} stretchy - whever the control should fill all the
+	 * available space.
 	 */
 	setChild(control, stretchy) {
 		Group.setChild(this.handle, control.handle, Boolean(stretchy));

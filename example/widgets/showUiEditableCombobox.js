@@ -1,10 +1,6 @@
 const libui = require('../..');
 
-const items = [
-	'cat',
-	'dog',
-	'mouse'
-];
+const items = ['cat', 'dog', 'mouse'];
 
 const win = new libui.UiWindow('UiEditableCombobox example', 320, 60, true);
 win.margined = true;
