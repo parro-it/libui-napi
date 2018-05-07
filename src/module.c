@@ -15,6 +15,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_combobox(env, exports);
 	_libui_init_datetimepicker(env, exports);
 	_libui_init_editablecombobox(env, exports);
+	_libui_init_entry(env, exports);
 	return exports;
 }
 

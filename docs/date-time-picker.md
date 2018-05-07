@@ -1,12 +1,12 @@
-<a name="DateTimePicker"></a>
+<a name="UiDateTimePicker"></a>
 
-## DateTimePicker ⇐ <code>DateTimePickerBase</code>
+## UiDateTimePicker ⇐ <code>DateTimePickerBase</code>
 A widgets to edit dates and times.
 
 **Kind**: global class  
 **Extends**: <code>DateTimePickerBase</code>  
-<a name="new_DateTimePicker_new"></a>
+<a name="new_UiDateTimePicker_new"></a>
 
-### new DateTimePicker()
-Create a new DateTimePicker object.
+### new UiDateTimePicker()
+Create a new UiDateTimePicker object.
 

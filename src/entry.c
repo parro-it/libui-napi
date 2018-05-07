@@ -3,7 +3,7 @@
 #include "control.h"
 #include "events.h"
 
-static const char *MODULE = "Entry";
+static const char *MODULE = "Entries";
 
 LIBUI_FUNCTION(createEntry) {
 	uiControl *ctrl = uiControl(uiNewEntry());

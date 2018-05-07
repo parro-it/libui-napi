@@ -13,3 +13,6 @@ jsdoc2md -f js/date-picker.js js/date-time-picker-base.js > docs/date-picker.md
 jsdoc2md -f js/time-picker.js js/date-time-picker-base.js > docs/time-picker.md
 jsdoc2md -f js/date-time-picker.js js/date-time-picker-base.js > docs/date-time-picker.md
 jsdoc2md -f js/editable-combobox.js js/date-time-picker-base.js > docs/editable-combobox.md
+jsdoc2md -f js/search-entry.js js/entry-base.js > docs/search-entry.md
+jsdoc2md -f js/password-entry.js js/entry-base.js > docs/password-entry.md
+jsdoc2md -f js/entry.js js/entry-base.js > docs/entry.md
