@@ -15,11 +15,11 @@ init();
 onShouldQuit(() => {
 	stop();
 });
-const win = windowNew("Test Window", 800, 600, false);
+const win = windowNew('Test Window', 800, 600, false);
 
 windowOnClosing(win, () => {
-	if (windowGetTitle(win) == "Test Window") {
-		return windowSetTitle(win, "Riprova");
+	if (windowGetTitle(win) == 'Test Window') {
+		return windowSetTitle(win, 'Riprova');
 	}
 	console.log('closing', windowGetTitle(win));
 	windowClose(win);
@@ -28,4 +28,3 @@ windowOnClosing(win, () => {
 
 windowShow(win, 42)
 start();
-

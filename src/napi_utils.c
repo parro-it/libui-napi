@@ -21,12 +21,7 @@ napi_value make_int32(napi_env env, int value) {
 napi_value make_utf8_string(napi_env env, const char *char_ptr) {
 	napi_value result;
 
-	napi_status status = napi_create_string_utf8(
-		env,
-		char_ptr,
-		NAPI_AUTO_LENGTH,
-		&result
-	);
+	napi_status status = napi_create_string_utf8(env, char_ptr, NAPI_AUTO_LENGTH, &result);
 	CHECK_STATUS_THROW(status, napi_create_string_utf8);
 
 	return result;

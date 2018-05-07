@@ -13,12 +13,7 @@ napi_value fire_event(struct event_t *event) {
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
 
 	napi_callback_scope scope;
-	status = napi_open_callback_scope(
-		env,
-		resource_object,
-		event->context,
-		&scope
-	);
+	status = napi_open_callback_scope(env, resource_object, event->context, &scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, NULL);
 
 	napi_value cb;
@@ -28,15 +23,7 @@ napi_value fire_event(struct event_t *event) {
 	DEBUG_F("Firing event %s %p", event->name, event);
 
 	napi_value result;
-	status = napi_make_callback(
-		env,
-		event->context,
-		resource_object,
-		cb,
-		0,
-		NULL,
-		&result
-	);
+	status = napi_make_callback(env, event->context, resource_object, cb, 0, NULL, &result);
 
 	if (status == napi_pending_exception) {
 		napi_value last_exception;
@@ -55,10 +42,8 @@ napi_value fire_event(struct event_t *event) {
 
 	DEBUG("Fired event");
 
-
 	return result;
 }
-
 
 struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	napi_status status;
@@ -84,11 +69,7 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 napi_value clear_event(struct event_t *event) {
 	uint32_t new_ref_count;
 	napi_env env = event->env;
-	napi_status status = napi_reference_unref(
-		env,
-		event->cb_ref,
-		&new_ref_count
-	);
+	napi_status status = napi_reference_unref(env, event->cb_ref, &new_ref_count);
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 
 	free(event);
@@ -96,7 +77,6 @@ napi_value clear_event(struct event_t *event) {
 	DEBUG_F("Destroy event %s %p", event->name, event);
 	return NULL;
 }
-
 
 static struct events_node *new_events_node(struct event_t *event) {
 	struct events_node *new_node = malloc(sizeof(struct events_node));
@@ -124,7 +104,6 @@ void install_event(struct events_list *events, struct event_t *event) {
 	// set this node as the new tail
 	events->tail = new_node;
 }
-
 
 void clear_all_events(struct events_list *events) {
 	if (events->head == NULL) {

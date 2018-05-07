@@ -3,7 +3,7 @@ const async_hooks = require('async_hooks');
 const EventLoop = libui.EventLoop;
 delete libui.EventLoop;
 
-let wakingup = false
+let wakingup = false;
 let asyncHook = null;
 
 
@@ -28,10 +28,9 @@ libui.App.start = () => {
 	asyncHook.enable();
 
 	EventLoop.start();
-}
+};
 
 libui.App.stop = () => {
-
 	// Allow callbacks of this AsyncHook instance to call. This is not an implicit
 	// action after running the constructor, and must be explicitly run to begin
 	// executing callbacks.
@@ -39,8 +38,7 @@ libui.App.stop = () => {
 	asyncHook = null;
 
 	EventLoop.stop();
-}
-
+};
 
 // This is called when a new async handle
 // is created. It's used to signal the background

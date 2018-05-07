@@ -1,9 +1,9 @@
-#include <ui.h>
+#include "ui.h"
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
 
-static const char* MODULE = "MultilineEntry";
+static const char *MODULE = "MultilineEntry";
 
 LIBUI_FUNCTION(create) {
 	uiControl *ctrl = uiControl(uiNewNonWrappingMultilineEntry());
@@ -23,11 +23,8 @@ LIBUI_FUNCTION(onChanged) {
 
 	install_event(handle->events, event);
 
-	uiMultilineEntryOnChanged(
-		uiMultilineEntry(handle->control),
-		CALLBACK_OF(uiMultilineEntry, control_event_cb),
-		event
-	);
+	uiMultilineEntryOnChanged(uiMultilineEntry(handle->control),
+							  CALLBACK_OF(uiMultilineEntry, control_event_cb), event);
 
 	return NULL;
 }
@@ -76,7 +73,7 @@ LIBUI_FUNCTION(append) {
 	return NULL;
 }
 
-napi_value _libui_init_multilineEntry (napi_env env, napi_value exports) {
+napi_value _libui_init_multilineEntry(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(getText);

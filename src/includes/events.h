@@ -1,7 +1,7 @@
 #ifndef LIBUI_NODE_EVENTS_H__
 #define LIBUI_NODE_EVENTS_H__
 
-#include <ui.h>
+#include "ui.h"
 #include "napi_utils.h"
 #include "control.h"
 
@@ -29,8 +29,8 @@ struct events_list {
 struct event_t {
 	/*
 		a reference to the JavaScript function to call when event is fired.
-		It prevent the JavaScript function to be garbage collected, and is normally
-		released when the event control is destroyed.
+		It prevent the JavaScript function to be garbage collected, and is
+	   normally released when the event control is destroyed.
 	 */
 	napi_ref cb_ref;
 

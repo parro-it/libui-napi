@@ -1,11 +1,11 @@
-#include "napi_utils.h"
 #include "control.h"
+#include "napi_utils.h"
 #include "events.h"
 
 struct ctrl_map controls_map;
 
 int control_event_cb(void *ctrl, void *data) {
-	struct event_t *event = (struct event_t *) data;
+	struct event_t *event = (struct event_t *)data;
 	fire_event(event);
 	return 0;
 }
@@ -31,8 +31,8 @@ static void control_on_destroy(uiControl *control) {
 	}
 }
 
-static void on_control_gc(napi_env env, void* finalize_data, void* finalize_hint) {
-	struct control_handle *handle = (struct control_handle *) finalize_data;
+static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint) {
+	struct control_handle *handle = (struct control_handle *)finalize_data;
 	DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
 
 	if (handle->is_destroyed) {
@@ -49,7 +49,7 @@ struct children_list *create_children_list() {
 	return calloc(1, sizeof(struct children_list));
 }
 
-napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl_type_name) {
+napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl_type_name) {
 	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
 	handle->env = env;
 	handle->events = calloc(1, sizeof(struct events_list));
@@ -65,13 +65,11 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char* ctrl
 	napi_status status = napi_create_external(env, handle, on_control_gc, NULL, &handle_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
-
 	napi_ref ctrl_ref = NULL;
 
 	status = napi_create_reference(env, handle_external, 0, &ctrl_ref);
 	handle->ctrl_ref = ctrl_ref;
 	CHECK_STATUS_THROW(status, napi_create_reference);
-
 
 	return handle_external;
 }
@@ -85,15 +83,12 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 	struct children_node *prev_node = NULL;
 
 	while (node != NULL) {
-		if (node->handle == child){
+		if (node->handle == child) {
 			uint32_t new_ref_count;
-			napi_status status = napi_reference_unref(
-				env,
-				node->handle->ctrl_ref,
-				&new_ref_count
-			);
+			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 			CHECK_STATUS_THROW(status, napi_reference_unref);
-			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle, new_ref_count);
+			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
+					new_ref_count);
 
 			if (node == list->head) {
 				// removing first child
@@ -120,7 +115,6 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 	return NULL;
 }
 
-
 napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child) {
 
 	struct children_node *new_node = malloc(sizeof(struct children_node));
@@ -128,11 +122,7 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 	new_node->handle = child;
 
 	uint32_t new_ref_count;
-	napi_status status = napi_reference_ref(
-		env,
-		child->ctrl_ref,
-		&new_ref_count
-	);
+	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 	if (list->head == NULL) {
 		// First child for this control
@@ -149,7 +139,6 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 
 	return NULL;
 }
-
 
 napi_value destroy_all_children(napi_env env, struct children_list *list) {
 	if (list->head == NULL) {
@@ -178,13 +167,10 @@ napi_value clear_children(napi_env env, struct children_list *list) {
 
 	while (node != NULL) {
 		uint32_t new_ref_count;
-		napi_status status = napi_reference_unref(
-			env,
-			node->handle->ctrl_ref,
-			&new_ref_count
-		);
+		napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 		CHECK_STATUS_THROW(status, napi_reference_unref);
-		DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle, new_ref_count);
+		DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
+				new_ref_count);
 
 		node_to_free = node;
 		node = node->next;
@@ -206,15 +192,12 @@ napi_value remove_child_at(napi_env env, struct children_list *list, int index_t
 	struct children_node *prev_node = NULL;
 	int i = 0;
 	while (node != NULL) {
-		if (i == index_to_remove){
+		if (i == index_to_remove) {
 			uint32_t new_ref_count;
-			napi_status status = napi_reference_unref(
-				env,
-				node->handle->ctrl_ref,
-				&new_ref_count
-			);
+			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 			CHECK_STATUS_THROW(status, napi_reference_unref);
-			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle, new_ref_count);
+			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
+					new_ref_count);
 
 			if (node == list->head) {
 				// removing first child
