@@ -12,14 +12,14 @@ static struct control_handle *get_child(napi_env env) {
 	return child;
 }
 
-static void test_clear_remove_child_at_empty_list(napi_env env) {
+static void test_remove_child_at_empty_list(napi_env env) {
 	struct children_list *list = create_children_list();
 	napi_value ret = remove_child_at(env, list, 1);
 	assert(ret == NULL);
 	free(list);
 }
 
-static void test_clear_remove_child_at_one_child_list(napi_env env) {
+static void test_remove_child_at_one_child_list(napi_env env) {
 
 	struct children_list *list = create_children_list();
 	struct control_handle *child = get_child(env);
@@ -33,7 +33,27 @@ static void test_clear_remove_child_at_one_child_list(napi_env env) {
 	free(list);
 }
 
-static void test_clear_remove_child_overflow_at_one_child_list(napi_env env) {
+static void test_remove_child_at_deref_control(napi_env env) {
+
+	struct children_list *list = create_children_list();
+	struct control_handle *child = get_child(env);
+	add_child(env, list, child);
+	uint32_t ref_count;
+	napi_reference_unref(env, child->ctrl_ref, &ref_count);
+	assert(ref_count == 0);
+	napi_reference_ref(env, child->ctrl_ref, &ref_count);
+	assert(ref_count == 1);
+
+	remove_child_at(env, list, 0);
+
+	napi_reference_ref(env, child->ctrl_ref, &ref_count);
+	assert(ref_count == 1);
+
+	free(child);
+	free(list);
+}
+
+static void test_remove_child_overflow_at_one_child_list(napi_env env) {
 
 	struct children_list *list = create_children_list();
 	struct control_handle *child = get_child(env);
@@ -47,7 +67,7 @@ static void test_clear_remove_child_overflow_at_one_child_list(napi_env env) {
 	free(list);
 }
 
-static void test_clear_remove_child_one_from_two_child_list(napi_env env) {
+static void test_remove_child_one_from_two_child_list(napi_env env) {
 
 	struct children_list *list = create_children_list();
 	struct control_handle *child1 = get_child(env);
@@ -64,7 +84,7 @@ static void test_clear_remove_child_one_from_two_child_list(napi_env env) {
 	free(list);
 }
 
-static void test_clear_remove_child_two_from_two_child_list(napi_env env) {
+static void test_remove_child_two_from_two_child_list(napi_env env) {
 
 	struct children_list *list = create_children_list();
 	struct control_handle *child1 = get_child(env);
@@ -81,7 +101,7 @@ static void test_clear_remove_child_two_from_two_child_list(napi_env env) {
 	free(list);
 }
 
-static void test_clear_remove_middle_child_from_three_child_list(napi_env env) {
+static void test_remove_middle_child_from_three_child_list(napi_env env) {
 
 	struct children_list *list = create_children_list();
 	struct control_handle *child1 = get_child(env);
@@ -108,10 +128,11 @@ static void test_clear_remove_middle_child_from_three_child_list(napi_env env) {
 }
 
 void children_list_remove_child_at_suite(napi_env env) {
-	RUN_TEST(test_clear_remove_child_at_one_child_list);
-	RUN_TEST(test_clear_remove_child_at_empty_list);
-	RUN_TEST(test_clear_remove_child_overflow_at_one_child_list);
-	RUN_TEST(test_clear_remove_child_one_from_two_child_list);
-	RUN_TEST(test_clear_remove_child_two_from_two_child_list);
-	RUN_TEST(test_clear_remove_middle_child_from_three_child_list);
+	RUN_TEST(test_remove_child_at_one_child_list);
+	RUN_TEST(test_remove_child_at_empty_list);
+	RUN_TEST(test_remove_child_overflow_at_one_child_list);
+	RUN_TEST(test_remove_child_one_from_two_child_list);
+	RUN_TEST(test_remove_child_two_from_two_child_list);
+	RUN_TEST(test_remove_middle_child_from_three_child_list);
+	RUN_TEST(test_remove_child_at_deref_control);
 }
