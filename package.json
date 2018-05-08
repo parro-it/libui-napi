@@ -28,6 +28,7 @@
     "lint": "clang-format -i --glob='{js/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js}'"
   },
   "dependencies": {
+    "@creditkarma/async-hooks": "0.0.4",
     "home-path": "^1.0.5",
     "is-ci": "^1.1.0",
     "mkdirp": "^0.5.1",
