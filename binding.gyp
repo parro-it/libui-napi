@@ -7,6 +7,7 @@
 			'tests/check/children_list_add_child_suite.c',
 			'tests/check/children_list_create_suite.c',
 			'tests/check/control_handle_new_suite.c',
+			'tests/check/children_list_clear_children_suite.c',
 			'tests/check/test_main.c'
 		],
 		"conditions": [

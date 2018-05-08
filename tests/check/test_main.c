@@ -6,6 +6,7 @@ LIBUI_FUNCTION(run_tests) {
 	children_list_create_suite(env);
 	control_handle_new_suite(env);
 	children_list_add_child_suite(env);
+	children_list_clear_children_suite(env);
 	return NULL;
 }
 

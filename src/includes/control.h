@@ -29,19 +29,54 @@ struct children_list {
 };
 
 struct control_handle {
+	/*
+		JS environment in which this control was created
+	*/
 	napi_env env;
+
 	/*
 		A reference to the JavaScript object that wrap the handle pointer,
 		It prevent the JavaScript object to be garbage collected, and is
 		released when the control is destroyed.
-	 */
+	*/
 	napi_ref ctrl_ref;
+
+	/*
+		Type name of the control useful for debugging
+		TODO: remove in release builds to preserve memory?
+	*/
 	const char *ctrl_type_name;
+
+	/*
+		A flag set when the control is destroyed, used to
+		avoid freeing visible controls when JS objects are GCed
+		TODO: use this flag to prevent any uilib function
+		getting called on destroyed controls
+	*/
 	bool is_destroyed;
+	/*
+		A flag set when the control is destroyed, used to
+		avoid freeing valid JS objects when controls are destroyed
+	*/
 	bool is_garbage_collected;
+
+	/*
+		pointer to original control Destroy function.
+		This function is called after our patched Destroy
+	 */
 	destroy_cb original_destroy;
+	/*
+		pointer to libui control structure
+	 */
 	uiControl *control;
+
+	/*
+		list of events registered on this control
+	 */
 	struct events_list *events;
+	/*
+		list of children fore this control
+	 */
 	struct children_list *children;
 };
 
