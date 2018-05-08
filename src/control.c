@@ -13,19 +13,19 @@ int control_event_cb(void *ctrl, void *data) {
 static void control_on_destroy(uiControl *control) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, control, &handle);
-	DEBUG_F("Control %s %p destroying.", handle->ctrl_type_name, handle);
+	LIBUI_NODE_DEBUG_F("Control %s %p destroying.", handle->ctrl_type_name, handle);
 
 	handle->original_destroy(control);
 	ctrl_map_remove(&controls_map, control);
 	clear_all_events(handle->events);
 	clear_children(handle->env, handle->children);
 
-	DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
+	LIBUI_NODE_DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
 	if (handle->is_garbage_collected) {
 		free(handle->children);
 		free(handle->events);
 		free(handle);
-		DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
+		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_destroyed = true;
 	}
@@ -33,13 +33,13 @@ static void control_on_destroy(uiControl *control) {
 
 static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint) {
 	struct control_handle *handle = (struct control_handle *)finalize_data;
-	DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
+	LIBUI_NODE_DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
 
 	if (handle->is_destroyed) {
 		free(handle->children);
 		free(handle->events);
 		free(handle);
-		DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
+		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_garbage_collected = true;
 	}
@@ -59,7 +59,7 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl
 	handle->original_destroy = control->Destroy;
 	control->Destroy = control_on_destroy;
 	ctrl_map_insert(&controls_map, handle, control);
-	DEBUG_F("%s %p created.", handle->ctrl_type_name, handle);
+	LIBUI_NODE_DEBUG_F("%s %p created.", handle->ctrl_type_name, handle);
 
 	napi_value handle_external;
 	napi_status status = napi_create_external(env, handle, on_control_gc, NULL, &handle_external);
@@ -87,8 +87,8 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 			uint32_t new_ref_count;
 			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 			CHECK_STATUS_THROW(status, napi_reference_unref);
-			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
-					new_ref_count);
+			LIBUI_NODE_DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name,
+							   node->handle, new_ref_count);
 
 			if (node == list->head) {
 				// removing first child
@@ -195,8 +195,8 @@ napi_value clear_children(napi_env env, struct children_list *list) {
 		uint32_t new_ref_count;
 		napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 		CHECK_STATUS_THROW(status, napi_reference_unref);
-		DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
-				new_ref_count);
+		LIBUI_NODE_DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name,
+						   node->handle, new_ref_count);
 
 		node_to_free = node;
 		node = node->next;
@@ -222,8 +222,8 @@ napi_value remove_child_at(napi_env env, struct children_list *list, int index_t
 			uint32_t new_ref_count;
 			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
 			CHECK_STATUS_THROW(status, napi_reference_unref);
-			DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name, node->handle,
-					new_ref_count);
+			LIBUI_NODE_DEBUG_F("new reference count for %s %p: %d", node->handle->ctrl_type_name,
+							   node->handle, new_ref_count);
 
 			if (node == list->head) {
 				// removing first child
