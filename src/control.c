@@ -125,6 +125,11 @@ napi_value add_child_at(napi_env env, struct children_list *list, struct control
 	if (index == 0) {
 		new_node->next = list->head;
 		list->head = new_node;
+
+		if (list->tail == NULL) {
+			// first child
+			list->tail = new_node;
+		}
 		return NULL;
 	}
 
