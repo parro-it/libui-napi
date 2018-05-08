@@ -36,9 +36,16 @@ static void test_clear_list_with_two_controls(napi_env env) {
 	add_child(env, list, child2);
 	assert(list->head->handle == child1);
 	assert(list->tail->handle == child2);
+
 	clear_children(env, list);
+
 	assert(list->head == NULL);
 	assert(list->tail == NULL);
+	uint32_t ref_count;
+	napi_reference_ref(env, child1->ctrl_ref, &ref_count);
+	assert(ref_count == 1);
+	napi_reference_ref(env, child2->ctrl_ref, &ref_count);
+	assert(ref_count == 1);
 
 	free(child1);
 	free(child2);

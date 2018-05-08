@@ -7,6 +7,7 @@ LIBUI_FUNCTION(run_tests) {
 	control_handle_new_suite(env);
 	children_list_add_child_suite(env);
 	children_list_clear_children_suite(env);
+	children_list_remove_child_at_suite(env);
 	return NULL;
 }
 
