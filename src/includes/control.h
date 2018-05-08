@@ -15,7 +15,6 @@ typedef void (*destroy_cb)(uiControl *);
 	of children of a control.
 */
 struct children_node {
-
 	struct control_handle *handle;
 	struct children_node *next;
 };
@@ -71,6 +70,11 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl
 	create a new list of children controls
 */
 struct children_list *create_children_list();
+
+/*
+	create a new node for a children list
+*/
+struct children_node *create_node(struct control_handle *child);
 
 /*
 	remove and decrement a child of a control contained in a children_list.

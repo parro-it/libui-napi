@@ -23,9 +23,9 @@
     "clean": "rimraf build *.h *.node libui.* node_modules",
     "build": "node-gyp configure build",
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
-    "test": "tape test.js",
+    "test": "node-gyp configure build && node tests/run-check.js",
     "precommit": "check-clang-format \"'npm run lint'\"",
-    "lint": "clang-format -i --glob='{js/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js}'"
+    "lint": "clang-format -i --glob='{js/*.js,tests/**/*.{h,c,m},src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js}'"
   },
   "dependencies": {
     "home-path": "^1.0.5",

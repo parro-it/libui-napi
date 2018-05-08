@@ -4,6 +4,10 @@
 		"include_dirs": ["<(module_root_dir)/src/includes", "<(module_root_dir)"],
 		"sources": [
 			'<!@(node tools/list-sources.js)',
+			'tests/check/children_list_add_child_suite.c',
+			'tests/check/children_list_create_suite.c',
+			'tests/check/control_handle_new_suite.c',
+			'tests/check/test_main.c'
 		],
 		"conditions": [
 			["OS=='win'", {
@@ -47,5 +51,5 @@
 				'files': ['<(module_root_dir)/build/Release/node_libui.node']
 			}
 		]
-   }]
+	}]
 }

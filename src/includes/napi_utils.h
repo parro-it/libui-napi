@@ -164,7 +164,7 @@ NULL, &ret); \
 
 // debug
 
-#define UI_NODE_DEBUG 1
+#define UI_NODE_DEBUG 0
 
 #if UI_NODE_DEBUG
 #	define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")

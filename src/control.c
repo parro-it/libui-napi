@@ -45,10 +45,6 @@ static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint
 	}
 }
 
-struct children_list *create_children_list() {
-	return calloc(1, sizeof(struct children_list));
-}
-
 napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl_type_name) {
 	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
 	handle->env = env;
@@ -115,30 +111,6 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 	return NULL;
 }
 
-napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child) {
-
-	struct children_node *new_node = malloc(sizeof(struct children_node));
-	new_node->next = NULL;
-	new_node->handle = child;
-
-	uint32_t new_ref_count;
-	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
-	CHECK_STATUS_THROW(status, napi_reference_unref);
-	if (list->head == NULL) {
-		// First child for this control
-		list->head = new_node;
-		list->tail = new_node;
-		return NULL;
-	}
-
-	// Control already has other children. Append to tail
-	list->tail->next = new_node;
-
-	// set this node as the new tail
-	list->tail = new_node;
-
-	return NULL;
-}
 napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
 						int index) {
 	struct children_node *new_node = malloc(sizeof(struct children_node));
@@ -149,19 +121,29 @@ napi_value add_child_at(napi_env env, struct children_list *list, struct control
 	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 
-	int i = 0;
-	if (list->head != NULL && i < index) {
-		// First child for this control
+	if (index == 0) {
+		new_node->next = list->head;
 		list->head = new_node;
-		list->tail = new_node;
 		return NULL;
 	}
 
-	// Control already has other children. Append to tail
-	list->tail->next = new_node;
+	int i = 0;
+	struct children_node *node = list->head;
+	struct children_node *prev_node = NULL;
+	while (i < index && node != NULL) {
+		prev_node = node;
+		node = node->next;
+		i++;
+	}
 
-	// set this node as the new tail
-	list->tail = new_node;
+	prev_node->next = new_node;
+	new_node->next = node;
+
+	if (i < index) {
+		// we are past end. insert at tail
+		list->tail->next = new_node;
+		list->tail = new_node;
+	}
 
 	return NULL;
 }
