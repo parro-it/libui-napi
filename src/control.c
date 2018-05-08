@@ -226,7 +226,7 @@ napi_value remove_child_at(napi_env env, struct children_list *list, int index_t
 
 			return NULL;
 		}
-
+		i++;
 		prev_node = node;
 		node = node->next;
 	}
