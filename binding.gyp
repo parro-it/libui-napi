@@ -3,15 +3,7 @@
 		"target_name": "node_libui",
 		"include_dirs": ["<(module_root_dir)/src/includes", "<(module_root_dir)"],
 		"sources": [
-			'<!@(node tools/list-sources.js)',
-			'tests/check/children_list_add_child_suite.c',
-			'tests/check/children_list_create_suite.c',
-			'tests/check/control_handle_new_suite.c',
-			'tests/check/children_list_clear_children_suite.c',
-			'tests/check/children_list_remove_child_at_suite.c',
-			'tests/check/children_list_remove_child_suite.c',
-			'tests/check/children_list_add_child_at_suite.c',
-			'tests/check/test_main.c'
+			'<!@(node tools/list-sources.js)'
 		],
 		"conditions": [
 			["OS=='win'", {

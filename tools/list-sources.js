@@ -9,4 +9,6 @@ function listDir(dir) {
 
 listDir('src');
 listDir(`src/arch/${platform()}`);
-console.log(platform())
+if (process.env.LIBUI_TARGET === 'test') {
+	listDir('tests/internals');
+}
