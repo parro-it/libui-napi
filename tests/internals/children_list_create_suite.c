@@ -63,10 +63,17 @@ static void control_handle_new_set_members(napi_env env) {
 	free(handle);
 }
 
+static void control_handle_new_return_non_null_on_success(napi_env env) {
+	uiControl *ctrl = malloc(sizeof(uiControl));
+	napi_value result = control_handle_new(env, ctrl, "name_test");
+	assert(result != NULL);
+}
+
 void children_list_create_suite(napi_env env) {
 	fake_destroy = malloc(1);
 
 	RUN_TEST(test_create_node);
+	RUN_TEST(control_handle_new_return_non_null_on_success);
 	RUN_TEST(control_handle_new_insert_in_map);
 	RUN_TEST(control_handle_new_has_refcount_0);
 	RUN_TEST(control_handle_new_set_members);

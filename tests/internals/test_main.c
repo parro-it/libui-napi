@@ -4,12 +4,12 @@ static const char *MODULE = "check_c_tests";
 
 LIBUI_FUNCTION(run_tests) {
 	children_list_create_suite(env);
-	control_handle_new_suite(env);
 	children_list_add_child_suite(env);
 	children_list_clear_children_suite(env);
 	children_list_remove_child_at_suite(env);
 	children_list_remove_child_suite(env);
 	children_list_add_child_at_suite(env);
+	control_on_destroy_suite(env);
 	return NULL;
 }
 

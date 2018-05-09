@@ -11,7 +11,7 @@ int control_event_cb(void *ctrl, void *data) {
 	return 0;
 }
 
-static void control_on_destroy(uiControl *control) {
+void control_on_destroy(uiControl *control) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, control, &handle);
 	LIBUI_NODE_DEBUG_F("Control %s %p destroying.", handle->ctrl_type_name, handle);
@@ -19,13 +19,15 @@ static void control_on_destroy(uiControl *control) {
 	handle->original_destroy(control);
 	ctrl_map_remove(&controls_map, control);
 	clear_all_events(handle->events);
+
 	clear_children(handle->env, handle->children);
 
 	LIBUI_NODE_DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
 	if (handle->is_garbage_collected) {
+		handle->is_freed = true;
 		free(handle->children);
 		free(handle->events);
-		free(handle);
+		// free(handle);
 		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_destroyed = true;
@@ -37,9 +39,10 @@ static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint
 	LIBUI_NODE_DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
 
 	if (handle->is_destroyed) {
+		handle->is_freed = true;
 		free(handle->children);
 		free(handle->events);
-		free(handle);
+		// free(handle);
 		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
 	} else {
 		handle->is_garbage_collected = true;

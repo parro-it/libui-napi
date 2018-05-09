@@ -60,6 +60,8 @@ struct control_handle {
 	*/
 	bool is_garbage_collected;
 
+	bool is_freed;
+
 	/*
 		pointer to original control Destroy function.
 		This function is called after our patched Destroy
