@@ -1,7 +1,7 @@
 const {Group} = require('..');
 
 /**
- * A container for a single widget that provides a caption and visually groups
+ * A container for a single control that provides a caption and visually groups
  * it's child.
  */
 class UiGroup {

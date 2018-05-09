@@ -2,7 +2,7 @@ const {DateTimePickers} = require('..');
 const {DateTimePickerBase} = require('./date-time-picker-base');
 
 /**
- * A widgets to set a date.
+ * A control to set a date.
  * @extends DateTimePickerBase
  */
 class UiDatePicker extends DateTimePickerBase {

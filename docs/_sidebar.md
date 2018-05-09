@@ -7,7 +7,7 @@
   - [UiForm](form.md)
   - [UiVerticalBox](horizontal-box.md)
   - [UiHorizontalBox](vertical-box.md)
-* Data entry widgets
+* Data entry controls
   - [UiSlider](slider.md)
   - [UiMultilineEntry](multiline-entry.md)
   - [UiCheckbox](checkbox.md)
@@ -21,7 +21,7 @@
   - [UiSearchEntry](search-entry.md)
   - [UiSpinbox](spinbox.md)
   - [UiRadioButtons](radio-buttons.md)
-* Static widgets
+* Static controls
   - [UiLabel](label.md)
   - [UiHorizontalSeparator](horizontal-separator.md)
   - [UiVerticalSeparator](vertical-separator.md)

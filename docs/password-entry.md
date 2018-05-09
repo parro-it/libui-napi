@@ -1,7 +1,7 @@
 <a name="UiPasswordEntry"></a>
 
 ## UiPasswordEntry ⇐ <code>UiEntryBase</code>
-A single line text entry widget that hides the input, useful for passwords
+A single line text entry control that hides the input, useful for passwords
 and other sensible data.
 
 **Kind**: global class  
