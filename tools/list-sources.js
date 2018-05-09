@@ -11,4 +11,6 @@ listDir('src');
 listDir(`src/arch/${platform()}`);
 if (process.env.LIBUI_TARGET === 'test') {
 	listDir('tests/internals');
+} else {
+	console.log('tools/test_main_stub.c');
 }
