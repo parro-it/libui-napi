@@ -23,9 +23,9 @@
     "clean": "rimraf build *.h *.node libui.* node_modules",
     "build": "node-gyp configure build",
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
-    "test": "cross-env LIBUI_TARGET=test node-gyp configure build && node tests/run-check.js",
+    "test": "cross-env LIBUI_TARGET=test node-gyp configure build && cross-env LIBUI_TARGET=test tape tests/**/*.js",
     "precommit": "check-clang-format \"'npm run lint'\"",
-    "lint": "clang-format -i --glob='{js/*.js,tests/**/*.{h,c,m},src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js}'"
+    "lint": "clang-format -i --glob='{js/*.js,tests/**/*.{h,c,m,js},src/**/*.{h,c,m},index.js,example.js,example/*/*.js}'"
   },
   "dependencies": {
     "home-path": "^1.0.5",
@@ -36,6 +36,7 @@
     "tar": "^4.4.1"
   },
   "devDependencies": {
+    "boxen": "^1.3.0",
     "clang-format": "^1.2.3",
     "cross-env": "^5.1.4",
     "debug": "^3.1.0",

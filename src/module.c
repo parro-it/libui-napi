@@ -1,3 +1,4 @@
+#include <uv.h>
 #include "modules.h"
 
 static napi_value init_all(napi_env env, napi_value exports) {
@@ -23,7 +24,15 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_spinbox(env, exports);
 	_libui_init_tab(env, exports);
 
-	_libui_init_tests(env, exports);
+	// only include tests in test builds
+	// where env var LIBUI_TARGET = test
+	char buffer[1024];
+	size_t size = 1024;
+	uv_os_getenv("LIBUI_TARGET", buffer, &size);
+	if (strncmp("test", buffer, 1024) == 0) {
+		_libui_init_tests(env, exports);
+	}
+
 	return exports;
 }
 
