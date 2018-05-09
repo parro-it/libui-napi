@@ -10,7 +10,7 @@ tape('c tests for internal files', t => {
 		process.exit(1);
 	}
 
-	const {check_c_tests} = require('../libui.node');
+	const {check_c_tests} = require('../ui.node');
 	check_c_tests.run_tests();
 
 	t.pass('tests executed');

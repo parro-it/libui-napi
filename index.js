@@ -1,4 +1,4 @@
-const libui = require(`${__dirname}/libui.node`);
+const libui = require(`${__dirname}/ui.node`);
 const async_hooks = require('async_hooks');
 const EventLoop = libui.EventLoop;
 delete libui.EventLoop;
