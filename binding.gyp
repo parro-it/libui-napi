@@ -1,6 +1,6 @@
 {
 	"targets": [{
-		"target_name": "node_libui",
+		"target_name": "liblibui",
 		"include_dirs": ["<(module_root_dir)/src/includes", "<(module_root_dir)"],
 		"sources": [
 			'<!@(node tools/list-sources.js)'
@@ -40,11 +40,11 @@
 	}, {
 		"target_name": "copy_binary",
 		"type":"none",
-		"dependencies": [ "node_libui" ],
+		"dependencies": [ "liblibui" ],
 		"copies": [
 			{
 				'destination': '<(module_root_dir)',
-				'files': ['<(module_root_dir)/build/Release/node_libui.node']
+				'files': ['<(module_root_dir)/build/Release/libui.node']
 			}
 		]
 	}]
