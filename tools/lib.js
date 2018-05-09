@@ -60,7 +60,7 @@ module.exports = function(project) {
 
 			const fileWrite = res.pipe(fs.createWriteStream(target));
 
-			return new Promise(async (resolve, reject) => {
+			return new Promise((resolve, reject) => {
 				const finish = () => {
 					debug('end stream reached', target, cachedZip);
 					mv(target, cachedZip, function(err) {

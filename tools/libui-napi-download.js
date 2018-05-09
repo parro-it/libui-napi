@@ -23,7 +23,7 @@ function nodePlatformToOS(arch) {
 	}
 }
 
-async function download(opts) {
+function download(opts) {
 	const platform = nodePlatformToOS(opts.platform || os.platform());
 	let arch = opts.arch || os.arch();
 	if (platform !== 'win' && arch === 'x64') {
@@ -81,7 +81,7 @@ async function download(opts) {
 		.then(res => doDownload(res, url, target, cachedZip))
 }
 
-async function main() {
+function main() {
 	if (isCI) {
 		console.log('Running on a CI server, force rebuild.');
 		process.exit(1);
