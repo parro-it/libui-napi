@@ -30,6 +30,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	size_t size = 1024;
 	uv_os_getenv("LIBUI_TARGET", buffer, &size);
 	if (strncmp("test", buffer, 1024) == 0) {
+		napi_value _libui_init_tests(napi_env env, napi_value exports);
 		_libui_init_tests(env, exports);
 	}
 
