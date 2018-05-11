@@ -12,14 +12,14 @@ static struct event_t *make_event(napi_env env) {
 	napi_create_object(env, &object);
 	napi_ref ref;
 	napi_create_reference(env, object, 0, &ref);
+
 	struct event_t *event = create_event(env, ref, test_name);
 	return event;
 }
 
 static void create_event_set_reference(napi_env env) {
 	struct event_t *event = make_event(env);
-
-	uint32_t ref_count;
+	uint32_t ref_count = 0;
 	napi_reference_unref(env, event->cb_ref, &ref_count);
 	assert(ref_count == 0);
 }
@@ -34,8 +34,14 @@ static void create_event_set_env(napi_env env) {
 	assert(event->env == env);
 }
 
+static void create_event_set_async_context(napi_env env) {
+	struct event_t *event = make_event(env);
+	assert(event->context != NULL);
+}
+
 void create_event_suite(napi_env env) {
 	RUN_TEST(create_event_set_reference);
 	RUN_TEST(create_event_set_name);
 	RUN_TEST(create_event_set_env);
+	RUN_TEST(create_event_set_async_context);
 }

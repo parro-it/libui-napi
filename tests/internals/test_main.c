@@ -11,6 +11,8 @@ LIBUI_FUNCTION(run_tests) {
 	children_list_add_child_at_suite(env);
 	control_on_destroy_suite(env);
 	create_event_suite(env);
+	clear_event_suite(env);
+
 	return NULL;
 }
 
