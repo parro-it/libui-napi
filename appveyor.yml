@@ -18,6 +18,7 @@ install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - node --version
   - npm --version
+  - npm install
 
 test_script:
   - npm test
