@@ -1,5 +1,5 @@
 const libui = require(`${__dirname}/node_libui.node`);
-const async_hooks = require('async_hooks');
+const async_hooks = require('@creditkarma/async-hooks');
 const EventLoop = libui.EventLoop;
 delete libui.EventLoop;
 

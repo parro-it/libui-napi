@@ -5,7 +5,10 @@ language: node_js
 dist: trusty
 
 node_js:
-  - node
+  - '10'
+  - '9'
+  - '8'
+  - '6'
 
 addons:
   apt:
@@ -39,6 +42,6 @@ deploy:
   on:
     branch: master
     tags: true
-    node: node
+    node: '10'
   api_key:
     secure: kkdWKa9iqJNKrfvW1pLgVx0EUBGcx+VGOzKG7xvxSfpNudZpuoGjWL4p9fQQD5TRELGwY7KCpFfZPbp2dnHQ9z82lW2XmnEC+bcskmfO/PXLJi3uyLrEY7iBwR3UhiWSdKRaPptfnndQrC21jmlweJNMCTWW8VqgvYupYITf9mfIq0WbEmFMeXJr7KzRO1yX4uAOOqnSTb60uRSrg+9V000cmDi246ir2ApaRw6NBOmI2v0kbirdbDe/vcAclgD2K0CFV7h8HIucbiU1DWBF2aQY3u5II4mItM4yskv0BmOr4vxXR0+7B/iysZNjWtXLbt4CiekvQKADUqPFpPk33LTjPxtAzdUYhHaoGTwchCIpkJG32KqTBL1+9h2I8WyhB3tKgxbFTZynkBihS2mYJad+rdO2RCXZtFZxf9bPWv6+PGelKnTFFBR9gPGTha4FeIeYZyuxuecAE7I+0UhS+wvwls3Xstro9fw+OwyvTysMEWOrjm1DvBuZyNnkqcfBKt3q4MOZsEHFnTEu6A1htr96FutAj/vap0e1RMokhMSIbe/hwq3whmELzWpRkOVDPEZfN47PCYc3f/UfYf0RMSWthibZOD30IX3207LsOgxZXfH3PDVcG9q0lvowGKWMcKy7d6+VVqgE97Aq7i07fizbpMWbNY7cStNy26m6IxM=
