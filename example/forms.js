@@ -37,10 +37,6 @@ win.show();
 libui.startLoop();
 
 function setJSON() {
-	const data = {
-		name: name.text,
-		surname: surname.text,
-		age: age.value
-	};
+	const data = {name: name.text, surname: surname.text, age: age.value};
 	JSONData.text = JSON.stringify(data, null, 4);
 }
