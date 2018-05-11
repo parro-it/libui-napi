@@ -15,7 +15,7 @@ configuration: Release
 platform: x64
 
 install:
-  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  - Install-Module nvm
   - nvm install $env:nodejs_version
   - npm install
 
