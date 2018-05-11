@@ -18,14 +18,14 @@ install:
   - ps: Install-Module nvm -Scope CurrentUser -Force
   - ps: Install-NodeVersion $env:nodejs_version
   - ps: Set-NodeVersion $env:nodejs_version
-  - node --version
-  - npm --version
-  - npm install
+  - ps: node --version
+  - ps: npm --version
+  - ps: npm install
 
 test_script:
-  - node --version
-  - npm --version
-  - npm test
+  - ps: node --version
+  - ps: npm --version
+  - ps: npm test
 
 after_test:
   - if defined APPVEYOR_REPO_TAG_NAME (
