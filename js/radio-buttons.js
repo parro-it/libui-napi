@@ -1,7 +1,7 @@
 const {RadioButtons} = require('..');
 
 /**
- * A widget that represents a group of single-choise options.
+ * A control that represents a group of single-choise options.
  */
 class UiRadioButtons {
 	/**

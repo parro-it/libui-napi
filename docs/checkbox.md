@@ -1,7 +1,7 @@
 <a name="UiCheckbox"></a>
 
 ## UiCheckbox
-A checkbox widget.
+A checkbox control.
 
 **Kind**: global class  
 

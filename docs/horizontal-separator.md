@@ -1,7 +1,7 @@
 <a name="UiHorizontalSeparator"></a>
 
 ## UiHorizontalSeparator ⇐ <code>SeparatorBase</code>
-A horizontal line to visually separate widgets.
+A horizontal line to visually separate controls.
 
 **Kind**: global class  
 **Extends**: <code>SeparatorBase</code>  

@@ -1,7 +1,7 @@
 <a name="UiEntry"></a>
 
 ## UiEntry ⇐ <code>UiEntryBase</code>
-A simple, single line text entry widget.
+A simple, single line text entry control.
 
 **Kind**: global class  
 **Extends**: <code>UiEntryBase</code>  

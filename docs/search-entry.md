@@ -1,7 +1,7 @@
 <a name="UiSearchEntry"></a>
 
 ## UiSearchEntry ⇐ <code>UiEntryBase</code>
-A single line text entry widget to search text.
+A single line text entry control to search text.
 
 **Kind**: global class  
 **Extends**: <code>UiEntryBase</code>  

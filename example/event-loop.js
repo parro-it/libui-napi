@@ -128,7 +128,8 @@ function makeToolbar() {
 
 		timeoutHandle = setTimeout((a, b, c) => {
 			const elapsed = Date.now() - now;
-			logAppend(`Custom setTimeout: ${now} - elapsed ${elapsed} ms. Args: ${a} ${b} ${c}`);
+			logAppend(`Custom setTimeout: ${now} - elapsed ${elapsed} ms. Args: ${a} ${
+				b} ${c}`);
 		}, 1000, 'custom', 'args', 2);
 	});
 	toolbar.append(btnCustom, false);
@@ -144,7 +145,8 @@ function makeToolbar() {
 		let now = Date.now();
 		intervalHandler = setInterval((a, b, c) => {
 			const elapsed = Date.now() - now;
-			logAppend(`Custom setInterval: ${now} - elapsed ${elapsed} ms. Args: ${a} ${b} ${c}`);
+			logAppend(`Custom setInterval: ${now} - elapsed ${elapsed} ms. Args: ${a} ${
+				b} ${c}`);
 			now = Date.now();
 		}, 50, 'my', 'args', 2);
 	});

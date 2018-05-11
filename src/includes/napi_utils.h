@@ -154,11 +154,7 @@ NULL, &ret); \
 		char err[1024];                                                                            \
 		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code,           \
 				 result->error_message);                                                           \
-		napi_value error;                                                                          \
-		napi_value error_msg;                                                                      \
-		napi_create_string_utf8(env, err, NAPI_AUTO_LENGTH, &error_msg);                           \
-		napi_create_error(env, NULL, error_msg, &error);                                           \
-		napi_fatal_exception(env, error);                                                          \
+		napi_fatal_error("", NAPI_AUTO_LENGTH, err, NAPI_AUTO_LENGTH);                             \
 		return ERROR_RET;                                                                          \
 	}
 

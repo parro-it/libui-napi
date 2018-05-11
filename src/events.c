@@ -11,11 +11,11 @@ napi_value fire_event(struct event_t *event) {
 	napi_value resource_object;
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
-
-	napi_callback_scope scope;
-	status = napi_open_callback_scope(env, resource_object, event->context, &scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, NULL);
-
+	/*
+		napi_callback_scope scope;
+		status = napi_open_callback_scope(env, resource_object, event->context, &scope);
+		CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, NULL);
+	*/
 	napi_value cb;
 	status = napi_get_reference_value(env, event->cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, NULL);
@@ -28,15 +28,20 @@ napi_value fire_event(struct event_t *event) {
 	if (status == napi_pending_exception) {
 		napi_value last_exception;
 		napi_get_and_clear_last_exception(env, &last_exception);
-		napi_fatal_exception(env, last_exception);
-		return NULL;
+		napi_value stack;
+		size_t string_len = 5000;
+		char stack_str[5001];
+		napi_get_named_property(env, last_exception, "stack", &stack);
+		napi_get_value_string_utf8(env, stack, stack_str, string_len + 1, &string_len);
+		napi_fatal_error("fire_event", NAPI_AUTO_LENGTH, stack_str, NAPI_AUTO_LENGTH);
+		return last_exception;
 	}
 
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, NULL);
-
-	status = napi_close_callback_scope(env, scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
-
+	/*
+		status = napi_close_callback_scope(env, scope);
+		CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
+	*/
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
 

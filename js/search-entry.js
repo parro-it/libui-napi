@@ -2,7 +2,7 @@ const {Entries} = require('..');
 const {UiEntryBase} = require('./entry-base');
 
 /**
- * A single line text entry widget to search text.
+ * A single line text entry control to search text.
  * @extends UiEntryBase
  */
 class UiSearchEntry extends UiEntryBase {

@@ -1,7 +1,7 @@
 <a name="UiRadioButtons"></a>
 
 ## UiRadioButtons
-A widget that represents a group of single-choise options.
+A control that represents a group of single-choise options.
 
 **Kind**: global class  
 
