@@ -15,17 +15,12 @@ configuration: Release
 platform: x64
 
 install:
-  - ps: Install-Module nvm -Scope CurrentUser -Force
-  - ps: Install-NodeVersion $env:nodejs_version
-  - ps: Set-NodeVersion $env:nodejs_version
-  - ps: node --version
-  - ps: npm --version
-  - ps: npm install
+  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
+  - node --version
+  - npm --version
 
 test_script:
-  - ps: node --version
-  - ps: npm --version
-  - ps: npm test
+  - npm test
 
 after_test:
   - if defined APPVEYOR_REPO_TAG_NAME (
