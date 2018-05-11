@@ -15,7 +15,7 @@ configuration: Release
 platform: x64
 
 install:
-  - ps: Install-Module nvm
+  - ps: Install-Module nvm -Scope CurrentUser -Force
   - ps: Install-NodeVersion $env:nodejs_version
   - npm install
 
