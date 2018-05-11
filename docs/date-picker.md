@@ -1,7 +1,7 @@
 <a name="UiDatePicker"></a>
 
 ## UiDatePicker ⇐ <code>DateTimePickerBase</code>
-A widgets to set a date.
+A control to set a date.
 
 **Kind**: global class  
 **Extends**: <code>DateTimePickerBase</code>  

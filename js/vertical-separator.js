@@ -2,7 +2,7 @@ const {Separator} = require('..');
 const {SeparatorBase} = require('./separator-base');
 
 /**
- * A vertical line to visually separate widgets.
+ * A vertical line to visually separate controls.
  * @extends SeparatorBase
  */
 class UiVerticalSeparator extends SeparatorBase {

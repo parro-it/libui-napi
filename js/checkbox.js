@@ -1,7 +1,7 @@
 const {Checkbox} = require('..');
 
 /**
- * A checkbox widget.
+ * A checkbox control.
  */
 class UiCheckbox {
 	/**
