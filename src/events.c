@@ -30,7 +30,7 @@ napi_value fire_event(struct event_t *event) {
 		napi_get_and_clear_last_exception(env, &last_exception);
 		napi_value stack;
 		size_t string_len = 5000;
-		char stack_str[string_len + 1];
+		char stack_str[5001];
 		napi_get_named_property(env, last_exception, "stack", &stack);
 		napi_get_value_string_utf8(env, stack, stack_str, string_len + 1, &string_len);
 		napi_fatal_error("fire_event", NAPI_AUTO_LENGTH, stack_str, NAPI_AUTO_LENGTH);
