@@ -2,7 +2,22 @@
 const os = require('os');
 const libui = require('..');
 
-const win = new libui.UiWindow('Test window', 800, 600, false);
+const menu = new libui.UiMenu('Libui');
+const item = menu.appendItem('Click me!');
+item.onClicked(() => console.log('Menu clicked'));
+const chkItem = menu.appendItem('I check');
+chkItem.onClicked(() => chkItem.checked = !chkItem.checked);
+menu.appendSeparator();
+menu.appendQuitItem();
+menu.appendPreferencesItem();
+menu.appendAboutItem();
+
+const menuEdit = new libui.UiMenu('Edit');
+menuEdit.appendItem('Copy');
+menuEdit.appendItem('Cut');
+menuEdit.appendItem('Paste');
+
+const win = new libui.UiWindow('Test window', 800, 600, true);
 win.margined = 1;
 
 const box = new libui.UiVerticalBox();

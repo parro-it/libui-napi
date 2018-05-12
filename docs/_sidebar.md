@@ -30,3 +30,5 @@
 * Buttons
   - [UiButton](button.md)
   - [UiColorButton](color-button.md)
+  - [UiMenu](menu.md)
+  - [UiMenuItem](menu.md)
