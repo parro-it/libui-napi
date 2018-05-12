@@ -6,18 +6,9 @@
 static const char *MODULE = "Area";
 
 struct area_handle {
-	uiArea *area;
-
-	/*
-		A reference to the JavaScript object that wrap the handle pointer,
-		It prevent the JavaScript object to be garbage collected, and is
-		released when the control is destroyed.
-	*/
-	napi_ref area_ref;
-
 	/*
 		event registered on this control
-	 */
+	*/
 	struct event_t *event_draw;
 	struct event_t *event_mouse;
 	struct event_t *event_mouseCrossed;
@@ -26,6 +17,7 @@ struct area_handle {
 };
 
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
+	// https://github.com/charto/nbind/issues/20
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
 	printf("event_draw_cb\n");
@@ -63,39 +55,6 @@ LIBUI_FUNCTION(create) {
 
 	struct area_handle *area = calloc(1, sizeof(struct area_handle));
 
-	struct event_t *drawEvent = create_event(env, draw, "onDraw");
-	if (drawEvent == NULL) {
-		return NULL;
-	}
-	area->event_draw = drawEvent;
-
-	struct event_t *mouseEvent = create_event(env, mouse, "onMouse");
-	if (mouseEvent == NULL) {
-		return NULL;
-	}
-	area->event_mouse = mouseEvent;
-
-	struct event_t *mouseCrossedEvent = create_event(env, mouseCrossed, "onMouseCrossed");
-	if (mouseCrossedEvent == NULL) {
-		return NULL;
-	}
-	area->event_mouseCrossed = mouseCrossedEvent;
-
-	struct event_t *dragBrokenEvent = create_event(env, dragBroken, "onDragBroken");
-	if (dragBrokenEvent == NULL) {
-		return NULL;
-	}
-	area->event_dragBroken = dragBrokenEvent;
-
-	struct event_t *keyEvent = create_event(env, key, "onKey");
-	if (keyEvent == NULL) {
-		return NULL;
-	}
-	area->event_key = keyEvent;
-
-	// we need the handler to live in the heap, or it
-	// will cause undefined behaviour being deallocated
-	// from the stack whne this function terminate
 	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
 	handler->Draw = event_draw_cb;
 	handler->MouseEvent = event_mouse_cb;
@@ -104,20 +63,49 @@ LIBUI_FUNCTION(create) {
 	handler->KeyEvent = event_key_cb;
 
 	uiArea *ui_area = uiNewArea(handler);
-	area->area = ui_area;
+	napi_value value = control_handle_new(env, uiControl(ui_area), "area");
 
-	/*
-	napi_value handle_external;
-	napi_status status;
+	// retrieve the original struct control_handle pointer.
+	struct control_handle *ctrl_handle;
+	napi_status status = napi_get_value_external(env, value, (void **)&ctrl_handle);
+	CHECK_STATUS_THROW(status, napi_get_value_external);
 
-	status = napi_create_external(env, area, NULL, NULL, &handle_external);
-	CHECK_STATUS_THROW(status, napi_create_external);
+	struct event_t *drawEvent = create_event(env, draw, "onDraw");
+	if (drawEvent == NULL) {
+		return NULL;
+	}
+	install_event(ctrl_handle->events, drawEvent);
+	area->event_draw = drawEvent;
 
-	status = napi_create_reference(env, handle_external, 1, &(area->area_ref));
-	CHECK_STATUS_THROW(status, napi_create_reference);
-	*/
+	struct event_t *mouseEvent = create_event(env, mouse, "onMouse");
+	if (mouseEvent == NULL) {
+		return NULL;
+	}
+	install_event(ctrl_handle->events, mouseEvent);
+	area->event_mouse = mouseEvent;
 
-	return control_handle_new(env, uiControl(ui_area), "area");
+	struct event_t *mouseCrossedEvent = create_event(env, mouseCrossed, "onMouseCrossed");
+	if (mouseCrossedEvent == NULL) {
+		return NULL;
+	}
+	install_event(ctrl_handle->events, mouseCrossedEvent);
+	area->event_mouseCrossed = mouseCrossedEvent;
+
+	struct event_t *dragBrokenEvent = create_event(env, dragBroken, "onDragBroken");
+	if (dragBrokenEvent == NULL) {
+		return NULL;
+	}
+	install_event(ctrl_handle->events, dragBrokenEvent);
+	area->event_dragBroken = dragBrokenEvent;
+
+	struct event_t *keyEvent = create_event(env, key, "onKey");
+	if (keyEvent == NULL) {
+		return NULL;
+	}
+	install_event(ctrl_handle->events, keyEvent);
+	area->event_key = keyEvent;
+
+	return value;
 }
 
 napi_value _libui_init_area(napi_env env, napi_value exports) {
