@@ -9,11 +9,29 @@ napi_value make_bool(napi_env env, bool value) {
 	return value_js;
 }
 
+napi_value make_double(napi_env env, double value) {
+	napi_value value_js;
+
+	napi_status status = napi_create_double(env, value, &value_js);
+	CHECK_STATUS_THROW(status, napi_create_double);
+
+	return value_js;
+}
+
 napi_value make_int32(napi_env env, int value) {
 	napi_value value_js;
 
 	napi_status status = napi_create_int32(env, value, &value_js);
-	CHECK_STATUS_THROW(status, napi_get_boolean);
+	CHECK_STATUS_THROW(status, napi_create_int32);
+
+	return value_js;
+}
+
+napi_value make_uint32(napi_env env, unsigned int value) {
+	napi_value value_js;
+
+	napi_status status = napi_create_uint32(env, value, &value_js);
+	CHECK_STATUS_THROW(status, napi_create_uint32);
 
 	return value_js;
 }

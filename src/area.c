@@ -1,4 +1,5 @@
-#include "ui.h"
+#include <assert.h>
+#include <ui.h>
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
@@ -11,7 +12,8 @@ static const char *MODULE = "Area";
 #define DUP2(c) c c
 #define DUP1(c) c
 
-// https://github.com/charto/nbind/issues/20
+// area-mouse-event.c
+napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *event);
 
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	struct control_handle *handle;
@@ -20,8 +22,36 @@ static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 }
 static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	struct control_handle *handle;
+	napi_value null;
+	napi_status status;
+	napi_handle_scope handle_scope;
+
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
-	fire_event(handle->events->head->DUP(1, next->) event);
+	napi_env env = handle->env;
+
+	/*
+	pass null for now as area instance to the callback
+	we can pass the correct instance after
+	https://github.com/parro-it/libui-napi/issues/8
+	*/
+	status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
+
+	/*
+		a scope is needed here because create_mouse_event
+		create an object
+	*/
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, /*void*/);
+
+	napi_value event_args[2];
+	event_args[0] = null;
+	event_args[1] = create_mouse_event(env, e);
+
+	fire_event_args(handle->events->head->DUP(1, next->) event, 2, event_args);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
 }
 static void event_mouseCrossed_cb(uiAreaHandler *h, uiArea *a, int left) {
 	struct control_handle *handle;
