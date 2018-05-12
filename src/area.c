@@ -5,42 +5,42 @@
 
 static const char *MODULE = "Area";
 
-struct area_handle {
-	/*
-		event registered on this control
-	*/
-	struct event_t *event_draw;
-	struct event_t *event_mouse;
-	struct event_t *event_mouseCrossed;
-	struct event_t *event_dragBroken;
-	struct event_t *event_key;
-};
+#define DUP(n, c) DUP##n(c)
+#define DUP4(c) c c c c
+#define DUP3(c) c c c
+#define DUP2(c) c c
+#define DUP1(c) c
+
+// https://github.com/charto/nbind/issues/20
 
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
-	// https://github.com/charto/nbind/issues/20
-	// struct event_t *event = (struct event_t *)data;
-	// fire_event(event);
-	printf("event_draw_cb\n");
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	fire_event(handle->events->head->event);
 }
 static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
-	// struct event_t *event = (struct event_t *)data;
-	// fire_event(event);
-	printf("event_mouse_cb\n");
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	fire_event(handle->events->head->DUP(1, next->) event);
 }
 static void event_mouseCrossed_cb(uiAreaHandler *h, uiArea *a, int left) {
-	// struct event_t *event = (struct event_t *)data;
-	// fire_event(event);
-	printf("event_mouseCrossed_cb\n");
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	fire_event(handle->events->head->DUP(2, next->) event);
 }
 static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
-	// struct event_t *event = (struct event_t *)data;
-	// fire_event(event);
-	printf("event_dragBroken_cb\n");
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	fire_event(handle->events->head->DUP(3, next->) event);
 }
 static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
-	// struct event_t *event = (struct event_t *)data;
-	// fire_event(event);
-	printf("event_key_cb\n");
+	struct control_handle *handle;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	/*napi_value return_v =*/fire_event(handle->events->head->DUP(4, next->) event);
+	// int return_i;
+	// napi_status status = napi_get_value_int32(env, return_v, &return_i);
+	// return return_i;
+
 	return 0;
 }
 
@@ -52,8 +52,6 @@ LIBUI_FUNCTION(create) {
 	ARG_CB_REF(mouseCrossed, 2);
 	ARG_CB_REF(dragBroken, 3);
 	ARG_CB_REF(key, 4);
-
-	struct area_handle *area = calloc(1, sizeof(struct area_handle));
 
 	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
 	handler->Draw = event_draw_cb;
@@ -75,35 +73,30 @@ LIBUI_FUNCTION(create) {
 		return NULL;
 	}
 	install_event(ctrl_handle->events, drawEvent);
-	area->event_draw = drawEvent;
 
 	struct event_t *mouseEvent = create_event(env, mouse, "onMouse");
 	if (mouseEvent == NULL) {
 		return NULL;
 	}
 	install_event(ctrl_handle->events, mouseEvent);
-	area->event_mouse = mouseEvent;
 
 	struct event_t *mouseCrossedEvent = create_event(env, mouseCrossed, "onMouseCrossed");
 	if (mouseCrossedEvent == NULL) {
 		return NULL;
 	}
 	install_event(ctrl_handle->events, mouseCrossedEvent);
-	area->event_mouseCrossed = mouseCrossedEvent;
 
 	struct event_t *dragBrokenEvent = create_event(env, dragBroken, "onDragBroken");
 	if (dragBrokenEvent == NULL) {
 		return NULL;
 	}
 	install_event(ctrl_handle->events, dragBrokenEvent);
-	area->event_dragBroken = dragBrokenEvent;
 
 	struct event_t *keyEvent = create_event(env, key, "onKey");
 	if (keyEvent == NULL) {
 		return NULL;
 	}
 	install_event(ctrl_handle->events, keyEvent);
-	area->event_key = keyEvent;
 
 	return value;
 }
