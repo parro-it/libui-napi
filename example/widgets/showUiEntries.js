@@ -22,7 +22,7 @@ entrySearch.onChanged(() => {
 
 const spinbox = new libui.UiSpinbox(0, 20);
 spinbox.onChanged(() => {
-	console.log(`The spinbox value has changed to: ${spinbox.text}`);
+	console.log(`The spinbox value has changed to: ${spinbox.value}`);
 });
 
 const toolbar = new libui.UiHorizontalBox();

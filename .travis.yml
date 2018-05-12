@@ -30,8 +30,9 @@ install:
   - npm install
 
 before_deploy:
+  - npm run rebuild
   - ARCHIVE_NAME="${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME-`uname -m`.tar.gz"
-  - cd $TRAVIS_BUILD_DIR && tar -czvf $ARCHIVE_NAME node_libui.node && cd -
+  - cd $TRAVIS_BUILD_DIR && tar -czvf $ARCHIVE_NAME ui.node && cd -
 
 deploy:
   provider: releases

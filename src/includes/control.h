@@ -15,7 +15,6 @@ typedef void (*destroy_cb)(uiControl *);
 	of children of a control.
 */
 struct children_node {
-
 	struct control_handle *handle;
 	struct children_node *next;
 };
@@ -30,19 +29,56 @@ struct children_list {
 };
 
 struct control_handle {
+	/*
+		JS environment in which this control was created
+	*/
 	napi_env env;
+
 	/*
 		A reference to the JavaScript object that wrap the handle pointer,
 		It prevent the JavaScript object to be garbage collected, and is
 		released when the control is destroyed.
-	 */
+	*/
 	napi_ref ctrl_ref;
+
+	/*
+		Type name of the control useful for debugging
+		TODO: remove in release builds to preserve memory?
+	*/
 	const char *ctrl_type_name;
+
+	/*
+		A flag set when the control is destroyed, used to
+		avoid freeing visible controls when JS objects are GCed
+		TODO: use this flag to prevent any uilib function
+		getting called on destroyed controls
+	*/
 	bool is_destroyed;
+	/*
+		A flag set when the control is destroyed, used to
+		avoid freeing valid JS objects when controls are destroyed
+	*/
 	bool is_garbage_collected;
+
+	bool is_freed;
+
+	/*
+		pointer to original control Destroy function.
+		This function is called after our patched Destroy
+	 */
 	destroy_cb original_destroy;
+	/*
+		pointer to libui control structure
+	 */
 	uiControl *control;
+
+	/*
+		list of events registered on this control
+	 */
 	struct events_list *events;
+	/*
+		list of children fore this control
+	 */
 	struct children_list *children;
 };
 
@@ -71,6 +107,11 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl
 	create a new list of children controls
 */
 struct children_list *create_children_list();
+
+/*
+	create a new node for a children list
+*/
+struct children_node *create_node(struct control_handle *child);
 
 /*
 	remove and decrement a child of a control contained in a children_list.

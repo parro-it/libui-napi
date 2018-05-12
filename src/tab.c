@@ -25,7 +25,7 @@ LIBUI_FUNCTION(insertAt) {
 
 	uiTabInsertAt(uiTab(handle->control), label, before, child->control);
 	// TODO: fix this, insert at specific position
-	add_child(env, handle->children, child);
+	add_child_at(env, handle->children, child, before);
 	return NULL;
 }
 

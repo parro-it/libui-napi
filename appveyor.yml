@@ -25,7 +25,8 @@ test_script:
 
 after_test:
   - if defined APPVEYOR_REPO_TAG_NAME (
-      7z a -ttar %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar node_libui.node &&
+      npm run rebuild &&
+      7z a -ttar %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar ui.node &&
       7z a -tgzip %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar.gz %APPVEYOR_REPO_TAG_NAME%-win-%PLATFORM%.tar
     )
 
