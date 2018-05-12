@@ -13,7 +13,7 @@ const area = new libui.UiArea();
 console.log(area);
 
 hBox.append(area, 1);
-
+console.log(2);
 win.setChild(hBox);
 win.show();
 libui.startLoop();

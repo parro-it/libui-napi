@@ -28,22 +28,27 @@ struct area_handle {
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
+	printf("event_draw_cb\n");
 }
 static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
+	printf("event_mouse_cb\n");
 }
 static void event_mouseCrossed_cb(uiAreaHandler *h, uiArea *a, int left) {
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
+	printf("event_mouseCrossed_cb\n");
 }
 static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
+	printf("event_dragBroken_cb\n");
 }
 static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	// struct event_t *event = (struct event_t *)data;
 	// fire_event(event);
+	printf("event_key_cb\n");
 	return 0;
 }
 
@@ -88,12 +93,20 @@ LIBUI_FUNCTION(create) {
 	}
 	area->event_key = keyEvent;
 
-	uiAreaHandler handler = {event_draw_cb, event_mouse_cb, event_mouseCrossed_cb,
-							 event_dragBroken_cb, event_key_cb};
+	// we need the handler to live in the heap, or it
+	// will cause undefined behaviour being deallocated
+	// from the stack whne this function terminate
+	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
+	handler->Draw = event_draw_cb;
+	handler->MouseEvent = event_mouse_cb;
+	handler->MouseCrossed = event_mouseCrossed_cb;
+	handler->DragBroken = event_dragBroken_cb;
+	handler->KeyEvent = event_key_cb;
 
-	uiArea *ui_area = uiNewArea(&handler);
+	uiArea *ui_area = uiNewArea(handler);
 	area->area = ui_area;
 
+	/*
 	napi_value handle_external;
 	napi_status status;
 
@@ -102,8 +115,9 @@ LIBUI_FUNCTION(create) {
 
 	status = napi_create_reference(env, handle_external, 1, &(area->area_ref));
 	CHECK_STATUS_THROW(status, napi_create_reference);
+	*/
 
-	return handle_external;
+	return control_handle_new(env, uiControl(ui_area), "area");
 }
 
 napi_value _libui_init_area(napi_env env, napi_value exports) {
