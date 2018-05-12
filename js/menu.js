@@ -119,3 +119,8 @@ class UiMenuItem {
 		Menu.setItemChecked(this.handle, value);
 	}
 }
+
+module.exports = {
+	UiMenu,
+	UiMenuItem
+};
