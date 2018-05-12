@@ -68,6 +68,9 @@ class UiMenu {
 	}
 }
 
+/**
+ * A single button contained in a menu.
+ */
 class UiMenuItem {
 	/**
 	 * Create a new UiMenuItem object.

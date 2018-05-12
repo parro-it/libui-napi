@@ -7,7 +7,8 @@ The menu must be created before the first UiWindow for it to take effect.
 It is made up of UiMenuItem instances.</p>
 </dd>
 <dt><a href="#UiMenuItem">UiMenuItem</a></dt>
-<dd></dd>
+<dd><p>A single button contained in a menu.</p>
+</dd>
 </dl>
 
 <a name="UiMenu"></a>
@@ -65,21 +66,24 @@ Append a menu button with a checkable option.
 <a name="UiMenu+appendQuitItem"></a>
 
 ### uiMenu.appendQuitItem() ⇒ [<code>UiMenuItem</code>](#UiMenuItem)
-Append a Quit button. This accepts no text, the caption defaults to `Quit`.
+Append a Quit button. This accepts no text, the caption defaults
+to `Quit`.
 
 **Kind**: instance method of [<code>UiMenu</code>](#UiMenu)  
 **Returns**: [<code>UiMenuItem</code>](#UiMenuItem) - the new appended UiMenuItem  
 <a name="UiMenu+appendPreferencesItem"></a>
 
 ### uiMenu.appendPreferencesItem() ⇒ [<code>UiMenuItem</code>](#UiMenuItem)
-Append a Preferences button. This accepts no text, the caption defaults to `Preferences`.
+Append a Preferences button. This accepts no text, the caption
+defaults to `Preferences`.
 
 **Kind**: instance method of [<code>UiMenu</code>](#UiMenu)  
 **Returns**: [<code>UiMenuItem</code>](#UiMenuItem) - the new appended UiMenuItem  
 <a name="UiMenu+appendAboutItem"></a>
 
 ### uiMenu.appendAboutItem() ⇒ [<code>UiMenuItem</code>](#UiMenuItem)
-Append an About button. This accepts no text, the caption defaults to `About`.
+Append an About button. This accepts no text, the caption
+defaults to `About`.
 
 **Kind**: instance method of [<code>UiMenu</code>](#UiMenu)  
 **Returns**: [<code>UiMenuItem</code>](#UiMenuItem) - the new appended UiMenuItem  
@@ -93,6 +97,8 @@ Append a Separator between menu items.
 <a name="UiMenuItem"></a>
 
 ## UiMenuItem
+A single button contained in a menu.
+
 **Kind**: global class  
 
 * [UiMenuItem](#UiMenuItem)
@@ -110,7 +116,8 @@ Create a new UiMenuItem object.
 <a name="UiMenuItem+checked"></a>
 
 ### uiMenuItem.checked ⇒ <code>boolean</code>
-If the item is created using appendCheckItem, then set whether it is checked or not.
+If the item is created using appendCheckItem, then set
+whether it is checked or not.
 
 **Kind**: instance property of [<code>UiMenuItem</code>](#UiMenuItem)  
 <a name="UiMenuItem+enable"></a>
