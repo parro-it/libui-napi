@@ -7,6 +7,7 @@
   - [UiForm](form.md)
   - [UiVerticalBox](horizontal-box.md)
   - [UiHorizontalBox](vertical-box.md)
+  - [UiTab](tab.md)
 * Data entry controls
   - [UiSlider](slider.md)
   - [UiMultilineEntry](multiline-entry.md)

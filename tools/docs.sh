@@ -22,3 +22,4 @@ jsdoc2md -f js/radio-buttons.js > docs/radio-buttons.md
 jsdoc2md -f js/vertical-separator.js > docs/vertical-separator.md
 jsdoc2md -f js/horizontal-separator.js > docs/horizontal-separator.md
 jsdoc2md -f js/spinbox.js > docs/spinbox.md
+jsdoc2md -f js/tab.js > docs/tab.md

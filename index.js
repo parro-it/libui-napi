@@ -31,6 +31,7 @@ const {UiProgressBar} = require('./js/progress-bar');
 const {UiRadioButtons} = require('./js/radio-buttons');
 const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
+const {UiTab} = require('./js/tab');
 
 Object.assign(libui, {
 	UiSpinbox,
@@ -56,7 +57,8 @@ Object.assign(libui, {
 	UiSlider,
 	UiMultilineEntry,
 	UiHorizontalBox,
-	UiVerticalBox
+	UiVerticalBox,
+	UiTab
 });
 
 libui.App.init();
