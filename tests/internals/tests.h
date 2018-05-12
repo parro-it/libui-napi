@@ -14,3 +14,4 @@ void children_list_add_child_at_suite(napi_env env);
 void control_on_destroy_suite(napi_env env);
 void create_event_suite(napi_env env);
 void clear_event_suite(napi_env env);
+void install_event_suite(napi_env env);

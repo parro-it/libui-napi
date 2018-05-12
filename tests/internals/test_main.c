@@ -12,6 +12,7 @@ LIBUI_FUNCTION(run_tests) {
 	control_on_destroy_suite(env);
 	create_event_suite(env);
 	clear_event_suite(env);
+	install_event_suite(env);
 
 	return NULL;
 }
