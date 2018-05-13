@@ -96,11 +96,14 @@ class AreaDrawContext {
 	}
 
 	transform(UiDrawMatrix) {
-		// uiDrawTransform(c, m->getStruct());
+		// uiDrawTransform(c, m);
 	}
 
-	clip(UiDrawPath) {
-		// uiDrawClip(c, path->getHandle());
+	clip(path) {
+		if (!(path instanceof AreaDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
+		}
+		AreaContext.clip(this.handle, path.handle);
 	}
 
 	save() {
@@ -141,6 +144,32 @@ class AreaDrawPath {
 
 	addRectangle(x, y, width, height) {
 		AreaPath.addRectangle(this.handle, x, y, width, height);
+	}
+
+	newFigure(x, y) {
+		AreaPath.newFigure(this.handle, x, y);
+	}
+
+	newFigureWithArc(xCenter, yCenter, radius, startAngle, sweep, negative) {
+		Areapath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
+								  sweep, negative);
+	}
+
+	lineTo(x, y) {
+		AreaPath.lineTo(this.handle, x, y);
+	}
+
+	arcTo(xCenter, yCenter, radius, startAngle, sweep, negative) {
+		AreaPath.arcTo(this.handle, xCenter, yCenter, radius, startAngle, sweep,
+					   negative);
+	}
+
+	bezierTo(c1x, c1y, c2x, c2y, endX, endY) {
+		AreaPath.bezierTo(c1x, c1y, c2x, c2y, endX, endY);
+	}
+
+	closeFigure() {
+		AreaPath.closeFigure(this.handle);
 	}
 
 	end() {

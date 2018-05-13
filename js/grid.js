@@ -77,10 +77,10 @@ UiGrid.align = {
 };
 
 UiGrid.at = {
-	leading,
-	top,
-	trailing,
-	bottom,
+	leading: 0,
+	top: 1,
+	trailing: 2,
+	bottom: 3,
 };
 
 module.exports = {UiGrid};
