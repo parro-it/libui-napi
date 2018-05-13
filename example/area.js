@@ -24,7 +24,7 @@ function logMouse(area, areaEvent) {
 }
 
 const area = new libui.UiArea(() => {console.log('draw')}, logMouse,
-							  () => {console.log('crossed')}, () => {},
+							  (area, left) => {console.log('left:', left)}, () => {},
 							  () => {console.log('key')});
 
 hBox.append(area, true);

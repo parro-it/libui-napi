@@ -56,7 +56,18 @@ static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 static void event_mouseCrossed_cb(uiAreaHandler *h, uiArea *a, int left) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
-	fire_event(handle->events->head->DUP(2, next->) event);
+	struct event_t *event = handle->events->head->DUP(2, next->) event;
+	napi_env env = event->env;
+
+	napi_value null;
+	napi_status status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
+
+	napi_value event_args[2];
+	event_args[0] = null;
+	event_args[1] = make_bool(env, left);
+
+	fire_event_args(event, 2, event_args);
 }
 static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 	struct control_handle *handle;
