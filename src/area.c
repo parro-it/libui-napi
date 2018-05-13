@@ -12,8 +12,27 @@
 
 static const char *MODULE = "Area";
 
-// area-mouse-event.c
-napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *event);
+static napi_ref AreaMouseEvent;
+
+napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *e) {
+	napi_value global, constructor, value;
+	napi_status status = napi_get_global(env, &global);
+	CHECK_STATUS_THROW(status, napi_get_global);
+
+	status = napi_get_reference_value(env, AreaMouseEvent, &constructor);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	napi_value args[9] = {make_double(env, e->X),		  make_double(env, e->Y),
+						  make_double(env, e->AreaWidth), make_double(env, e->AreaHeight),
+						  make_int32(env, e->Down),		  make_int32(env, e->Up),
+						  make_int32(env, e->Count),	  make_int32(env, e->Modifiers),
+						  make_uint32(env, e->Held1To64)};
+
+	status = napi_new_instance(env, constructor, 9, args, &value);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	return value;
+}
 
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	struct control_handle *handle;
@@ -178,8 +197,18 @@ LIBUI_FUNCTION(queueRedrawAll) {
 // 	return NULL;
 // }
 
+LIBUI_FUNCTION(init) {
+	INIT_ARGS(1);
+
+	napi_status status = napi_create_reference(env, argv[0], 1, &AreaMouseEvent);
+	CHECK_STATUS_THROW(status, napi_create_reference);
+
+	return NULL;
+}
+
 napi_value _libui_init_area(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
+	LIBUI_EXPORT(init);
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(queueRedrawAll);
 	return module;

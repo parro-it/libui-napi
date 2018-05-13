@@ -9,23 +9,9 @@ win.onClosing(() => {
 
 const hBox = new libui.UiHorizontalBox();
 
-function logMouse(area, areaEvent) {
-	console.log(area, {
-		x: areaEvent.x,
-		y: areaEvent.y,
-		areaWidth: areaEvent.areaWidth,
-		areaHeight: areaEvent.areaHeight,
-		down: areaEvent.down,
-		up: areaEvent.up,
-		count: areaEvent.count,
-		modifiers: areaEvent.modifiers,
-		held1To64: areaEvent.held1To64
-	});
-}
-
-const area = new libui.UiArea(() => {console.log('draw')}, logMouse,
-							  (area, left) => {console.log('left:', left)}, () => {},
-							  () => {console.log('key')});
+const area = new libui.UiArea(
+	() => {console.log('draw')}, (area, mouseEvent) => {console.log(area, mouseEvent)},
+	(area, left) => {console.log('left:', left)}, () => {}, () => {console.log('key')});
 
 hBox.append(area, true);
 

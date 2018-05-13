@@ -28,7 +28,7 @@ class UiArea {
 	}
 }
 
-global.AreaMouseEvent = class AreaMouseEvent {
+class AreaMouseEvent {
 	constructor(x, y, areaWidth, areaHeight, down, up, count, modifiers, held1To64) {
 		this.x = x;
 		this.y = y;
