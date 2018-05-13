@@ -1,4 +1,4 @@
-const {Area} = require('..');
+const {Area, AreaBrush, AreaContext, AreaPath} = require('..');
 
 /**
  * An area to draw on.
@@ -69,28 +69,57 @@ class AreaDrawContext {
 		this.handle = handle;
 	}
 
-	// 	stroke(UiDrawPath, DrawBrush, DrawStrokeParams) {
-	// 		// uiDrawStroke(c, path->getHandle(), b->toStruct(), p->toStruct());
-	// 	}
+	stroke(path, brush, stroke) {
+		// AreaContext.stroke(this.handle, path, brush, stroke);
+	}
 
-	// 	fill(UiDrawPath, DrawBrush) {
-	// 		// uiDrawFill(c, path->getHandle(), b->toStruct());
-	// 	}
+	fill(path, brush) {
+		if (!(path instanceof AreaDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
+		}
+		if (!(brush instanceof AreaDrawBrush)) {
+			throw new TypeError(
+				'The \'brush\' argument has to be a AreaDrawBrush object');
+		}
+		AreaContext.fill(this.handle, path.handle, brush.handle);
+	}
 
-	// 	transform(UiDrawMatrix) {
-	// 		// uiDrawTransform(c, m->getStruct());
-	// 	}
+	transform(UiDrawMatrix) {
+		// uiDrawTransform(c, m->getStruct());
+	}
 
-	// 	clip(UiDrawPath) {
-	// 		// uiDrawClip(c, path->getHandle());
-	// 	}
+	clip(UiDrawPath) {
+		// uiDrawClip(c, path->getHandle());
+	}
 
 	save() {
-		AreaUtil.context_save(this.handle);
+		AreaContext.save(this.handle);
 	}
 
 	restore() {
-		AreaUtil.context_restore(this.handle);
+		AreaContext.restore(this.handle);
+	}
+}
+
+class AreaDrawBrush {
+	constructor(r, g, b, a) {
+		a = typeof a === 'undefined' ? 1 : a;
+		this.handle = AreaBrush.createSolid(r, g, b, a);
+	}
+}
+
+class AreaDrawPath {
+	constructor(mode) {
+		mode = typeof a === 'undefined' ? 0 : mode;
+		this.handle = AreaPath.create(mode);
+	}
+
+	addRectangle(x, y, width, height) {
+		AreaPath.addRectangle(this.handle, x, y, width, height);
+	}
+
+	end() {
+		AreaPath.end(this.handle);
 	}
 }
 
@@ -99,5 +128,7 @@ module.exports = {
 	AreaKeyEvent,
 	AreaDrawParams,
 	AreaDrawContext,
+	AreaDrawBrush,
+	AreaDrawPath,
 	UiArea
 };

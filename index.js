@@ -8,8 +8,15 @@ let asyncHook = null;
 
 module.exports = libui;
 const {UiCheckbox} = require('./js/checkbox');
-const {UiArea, AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext} =
-	require('./js/area');
+const {
+	UiArea,
+	AreaMouseEvent,
+	AreaKeyEvent,
+	AreaDrawParams,
+	AreaDrawContext,
+	AreaDrawBrush,
+	AreaDrawPath
+} = require('./js/area');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -64,7 +71,9 @@ Object.assign(libui, {
 	UiHorizontalBox,
 	UiVerticalBox,
 	UiTab,
-	UiArea
+	UiArea,
+	AreaDrawBrush,
+	AreaDrawPath
 });
 
 libui.App.init();

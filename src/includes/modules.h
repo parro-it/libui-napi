@@ -25,4 +25,6 @@ napi_value _libui_init_spinbox(napi_env env, napi_value exports);
 napi_value _libui_init_tab(napi_env env, napi_value exports);
 napi_value _libui_init_menu(napi_env env, napi_value exports);
 napi_value _libui_init_area(napi_env env, napi_value exports);
-napi_value _libui_init_area_util(napi_env env, napi_value exports);
+napi_value _libui_init_area_brush(napi_env env, napi_value exports);
+napi_value _libui_init_area_context(napi_env env, napi_value exports);
+napi_value _libui_init_area_path(napi_env env, napi_value exports);
