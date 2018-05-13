@@ -17,6 +17,19 @@ LIBUI_FUNCTION(fill) {
 	return NULL;
 }
 
+LIBUI_FUNCTION(stroke) {
+	INIT_ARGS(4);
+
+	ARG_POINTER(uiDrawContext, ctx, 0);
+	ARG_POINTER(uiDrawPath, p, 1);
+	ARG_POINTER(uiDrawBrush, b, 2);
+	ARG_POINTER(uiDrawStrokeParams, sp, 3);
+
+	uiDrawStroke(ctx, p, b, sp);
+
+	return NULL;
+}
+
 LIBUI_FUNCTION(save) {
 	INIT_ARGS(1);
 
@@ -40,6 +53,7 @@ LIBUI_FUNCTION(restore) {
 napi_value _libui_init_area_context(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(fill);
+	LIBUI_EXPORT(stroke);
 	LIBUI_EXPORT(save);
 	LIBUI_EXPORT(restore);
 	return module;

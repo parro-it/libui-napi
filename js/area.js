@@ -1,4 +1,4 @@
-const {Area, AreaBrush, AreaContext, AreaPath} = require('..');
+const {Area, AreaBrush, AreaContext, AreaPath, AreaStrokeParams} = require('..');
 
 /**
  * An area to draw on.
@@ -70,7 +70,18 @@ class AreaDrawContext {
 	}
 
 	stroke(path, brush, stroke) {
-		// AreaContext.stroke(this.handle, path, brush, stroke);
+		if (!(path instanceof AreaDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be an AreaDrawPath object');
+		}
+		if (!(brush instanceof AreaDrawBrush)) {
+			throw new TypeError(
+				'The \'brush\' argument has to be an AreaDrawBrush object');
+		}
+		if (!(stroke instanceof AreaDrawStroke)) {
+			throw new TypeError(
+				'The \'stroke\' argument has to be an AreaDrawStroke object');
+		}
+		AreaContext.stroke(this.handle, path.handle, brush.handle, stroke.handle);
 	}
 
 	fill(path, brush) {
@@ -108,6 +119,20 @@ class AreaDrawBrush {
 	}
 }
 
+// class AreaDrawBrushSolid extends AreaDrawBrush{
+// 	constructor(r, g, b, a) {
+// 		a = typeof a === 'undefined' ? 1 : a;
+// 		this.handle = AreaBrush.createSolid(r, g, b, a);
+// 	}
+// }
+
+// class AreaDrawBrushRadial extends AreaDrawBrush{
+// 	constructor(r, g, b, a) {
+// 		a = typeof a === 'undefined' ? 1 : a;
+// 		this.handle = AreaBrush.createGradient(r, g, b, a);
+// 	}
+// }
+
 class AreaDrawPath {
 	constructor(mode) {
 		mode = typeof a === 'undefined' ? 0 : mode;
@@ -123,6 +148,20 @@ class AreaDrawPath {
 	}
 }
 
+class AreaDrawStroke {
+	constructor() {
+		this.handle = AreaStrokeParams.create();
+	}
+
+	set thickness(v) {
+		AreaStrokeParams.setThickness(this.handle, v);
+	}
+
+	get thickness() {
+		return AreaStrokeParams.getThickness(this.handle);
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
 	AreaKeyEvent,
@@ -130,5 +169,6 @@ module.exports = {
 	AreaDrawContext,
 	AreaDrawBrush,
 	AreaDrawPath,
+	AreaDrawStroke,
 	UiArea
 };

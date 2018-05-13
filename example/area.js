@@ -9,15 +9,19 @@ win.onClosing(() => {
 
 const hBox = new libui.UiHorizontalBox();
 
-const brush = new libui.AreaDrawBrush(1, 0, 0, 1);
+const brush1 = new libui.AreaDrawBrush(1, 0, 0);
+const brush2 = new libui.AreaDrawBrush(0, 1, 0);
 const path = new libui.AreaDrawPath();
-path.addRectangle(0, 0, 100, 100);
+path.addRectangle(10, 10, 100, 100);
 path.end();
+const sp = new libui.AreaDrawStroke();
+sp.thickness = 5;
 
 const area = new libui.UiArea(
 	(area, params) => {
 		// console.log(area, params);
-		params.context.fill(path, brush);
+		params.context.fill(path, brush1);
+		params.context.stroke(path, brush2, sp);
 	},
 	(area, mouseEvent) => {
 		// console.log(area, mouseEvent);
