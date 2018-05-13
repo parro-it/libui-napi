@@ -61,4 +61,18 @@ class UiGrid {
 	}
 }
 
+UiGrid.align = {
+	fill: 0,
+	start: 1,
+	center: 2,
+	end: 3,
+};
+
+UiGrid.at = {
+	leading,
+	top,
+	trailing,
+	bottom,
+};
+
 module.exports = {UiGrid};
