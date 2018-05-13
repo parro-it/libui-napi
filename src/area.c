@@ -4,13 +4,13 @@
 #include "control.h"
 #include "events.h"
 
-static const char *MODULE = "Area";
-
 #define DUP(n, c) DUP##n(c)
 #define DUP4(c) c c c c
 #define DUP3(c) c c c
 #define DUP2(c) c c
 #define DUP1(c) c
+
+static const char *MODULE = "Area";
 
 // area-mouse-event.c
 napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *event);
@@ -30,9 +30,9 @@ static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	napi_env env = handle->env;
 
 	/*
-	pass null for now as area instance to the callback
-	we can pass the correct instance after
-	https://github.com/parro-it/libui-napi/issues/8
+		pass null for now as area instance to the callback
+		we can pass the correct instance after
+		https://github.com/parro-it/libui-napi/issues/8
 	*/
 	status = napi_get_null(env, &null);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
@@ -66,11 +66,11 @@ static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
-	/*napi_value return_v =*/fire_event(handle->events->head->DUP(4, next->) event);
-	// int return_i;
-	// napi_status status = napi_get_value_int32(env, return_v, &return_i);
-	// return return_i;
+	struct event_t *event = handle->events->head->DUP(4, next->) event;
+	// napi_env env = event->env;
+	/*napi_value return_v =*/fire_event(event);
 
+	// napi_status status = napi_get_value_int32(env, return_v, &return_i);
 	return 0;
 }
 
@@ -131,8 +131,45 @@ LIBUI_FUNCTION(create) {
 	return value;
 }
 
+LIBUI_FUNCTION(queueRedrawAll) {
+	INIT_ARGS(1);
+
+	ARG_POINTER(struct control_handle, handle, 0);
+
+	uiAreaQueueRedrawAll(uiArea(handle->control));
+
+	return NULL;
+}
+
+// LIBUI_FUNCTION(setSize) {
+// 	INIT_ARGS(3);
+
+// 	ARG_POINTER(struct control_handle, handle, 0);
+// 	ARG_INT32(width, 1);
+// 	ARG_INT32(height, 2);
+
+// 	uiAreaSetSize(uiArea(handle->control), width, height);
+
+// 	return NULL;
+// }
+
+// LIBUI_FUNCTION(scrollTo) {
+// 	INIT_ARGS(5);
+
+// 	ARG_POINTER(struct control_handle, handle, 0);
+// 	ARG_DOUBLE(x, 1);
+// 	ARG_DOUBLE(y, 2);
+// 	ARG_DOUBLE(width, 3);
+// 	ARG_DOUBLE(height, 4);
+
+// 	uiAreaScrollTo(uiArea(handle->control), x, y, width, height);
+
+// 	return NULL;
+// }
+
 napi_value _libui_init_area(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
+	LIBUI_EXPORT(queueRedrawAll);
 	return module;
 }
