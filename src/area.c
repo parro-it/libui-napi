@@ -199,9 +199,8 @@ LIBUI_FUNCTION(queueRedrawAll) {
 
 LIBUI_FUNCTION(init) {
 	INIT_ARGS(1);
-
-	napi_status status = napi_create_reference(env, argv[0], 1, &AreaMouseEvent);
-	CHECK_STATUS_THROW(status, napi_create_reference);
+	ARG_CB_REF(mouseEvent, 0);
+	AreaMouseEvent = mouseEvent;
 
 	return NULL;
 }
