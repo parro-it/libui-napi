@@ -23,4 +23,6 @@ jsdoc2md -f js/vertical-separator.js > docs/vertical-separator.md
 jsdoc2md -f js/horizontal-separator.js > docs/horizontal-separator.md
 jsdoc2md -f js/spinbox.js > docs/spinbox.md
 jsdoc2md -f js/tab.js > docs/tab.md
+jsdoc2md -f js/grid.js > docs/grid.md
+
 jsdoc2md -f js/menu.js > docs/menu.md

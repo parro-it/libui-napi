@@ -25,6 +25,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_menu(env, exports);
 
 	_libui_init_tests(env, exports);
+	_libui_init_grid(env, exports);
 
 	return exports;
 }
