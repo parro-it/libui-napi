@@ -138,6 +138,9 @@ static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	bool v_i;
 	napi_value v = fire_event_args(handle->events->head->DUP(4, next->) event, 2, event_args);
 
+	status = napi_coerce_to_bool(env, v, &v);
+	CHECK_STATUS_UNCAUGHT(status, napi_coerce_to_bool, 0);
+
 	status = napi_get_value_bool(env, v, &v_i);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
 
