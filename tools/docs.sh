@@ -25,3 +25,6 @@ jsdoc2md -f js/time-picker.js js/date-time-picker-base.js > docs/time-picker.md
 jsdoc2md -f js/vertical-box.js js/box.js > docs/vertical-box.md
 jsdoc2md -f js/vertical-separator.js > docs/vertical-separator.md
 jsdoc2md -f js/window.js > docs/window.md
+
+jsdoc2md -f js/font-button.js > docs/font-button.md
+jsdoc2md -f js/font-descriptor.js > docs/font-descriptor.md

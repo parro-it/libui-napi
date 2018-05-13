@@ -34,8 +34,12 @@ const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
 const {UiMenu, UiMenuItem} = require('./js/menu');
+const {UiFontButton} = require('./js/font-button');
+const {FontDescriptor} = require('./js/font-descriptor');
 
 Object.assign(libui, {
+	UiFontButton,
+	FontDescriptor,
 	UiMenuItem,
 	UiMenu,
 	UiSpinbox,

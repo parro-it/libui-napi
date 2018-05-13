@@ -30,5 +30,8 @@
 * Buttons
   - [UiButton](button.md)
   - [UiColorButton](color-button.md)
+  - [UiFontButton](font-button)
   - [UiMenu](menu.md)
   - [UiMenuItem](menu.md)
+* Utility classes
+  - [FontDescriptor](font-descriptor.md)

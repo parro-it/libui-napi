@@ -91,7 +91,26 @@ buttons.append(new libui.UiButton('Maybe'), false);
 buttons.append(new libui.UiButton('Cancel'), false);
 
 box.append(new libui.UiProgressBar(), false);
-// box.append(new libui.UiFontButton(), false);
+const fontBtn = new libui.UiFontButton();
+box.append(fontBtn, false);
+const f1 = fontBtn.font;
+console.log('default font', {
+	family: f1.getFamily(),
+	size: f1.getSize(),
+	weight: f1.getWeight(),
+	italic: f1.getItalic(),
+	stretch: f1.getStretch()
+});
+fontBtn.onChanged(() => {
+	const f2 = fontBtn.font;
+	console.log('default font', {
+		family: f2.getFamily(),
+		size: f2.getSize(),
+		weight: f2.getWeight(),
+		italic: f2.getItalic(),
+		stretch: f2.getStretch()
+	});
+});
 
 box.append(buttons, false);
 
