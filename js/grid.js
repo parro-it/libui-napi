@@ -1,0 +1,86 @@
+const {Grid} = require('..');
+
+/**
+ * A powerful container that allow to specify size and position of each children.
+ */
+class UiGrid {
+	/**
+	 * Create a new UiGrid object.
+	 * @return {UiGrid}
+	 */
+	constructor() {
+		this.handle = Grid.create();
+	}
+
+	/**
+	 * If true, the container inserts some space between children.
+	 * @return {boolean}
+	 */
+	get padded() {
+		return Grid.getPadded(this.handle);
+	}
+
+	set padded(value) {
+		Grid.setPadded(this.handle, Boolean(value));
+	}
+
+	/**
+	 * Insert a new child control before specified control.
+	 * @param  {UiControl} child - the control to insert
+	 * @param  {UiControl} before - the control will be inserted before this position
+	 * @param  {number} at      [description]
+	 * @param  {number} xspan - How many columns the component takes off.
+	 * @param  {number} yspan - How many rows the component takes off.
+	 * @param  {number} hexpand - whether the component can expand horizontally.
+	 * @param  {number} halign - whether the component is aligned with the other
+	 components in the column.
+	 * @param  {number} vexpand - whether the component can expand vertically.
+	 * @param  {number} valign - whether the component is aligned with the other
+	 components in the row.
+	 * @return {undefined}
+	 */
+	insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpan, valign) {
+		Tab.insertAt(this.handle, child.handle, before.handle, at, xspan, yspan, hexpand,
+					 halign, vexpan, valign);
+	}
+
+	/**
+	 * Insert a new child control.
+	 *
+	 * > UIGrid expand does not work correctly when both align horizontal and align
+	 * vertical are set. You must choose one so libui knows which direction to expand.
+	 *
+	 * @param  {UiControl} child - the control to add as child.
+	 * @param  {number} left - What column the component resides in.
+	 * @param  {number} top - What row the component resides in.
+	 * @param  {number} xspan - How many columns the component takes off.
+	 * @param  {number} yspan - How many rows the component takes off.
+	 * @param  {number} hexpand - whether the component can expand horizontally.
+	 * @param  {number} halign - whether the component is aligned with the other
+	 * components in the column.
+	 * @param  {number} vexpand - whether the component can expand vertically.
+	 * @param  {number} valign - whether the component is aligned with the other
+	 * components in the row.
+	 * @return {undefined}
+	 */
+	append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign) {
+		Grid.append(this.handle, child.handle, left, top, xspan, yspan, hexpand, halign,
+					vexpand, valign);
+	}
+}
+
+UiGrid.align = {
+	fill: 0,
+	start: 1,
+	center: 2,
+	end: 3,
+};
+
+UiGrid.at = {
+	leading,
+	top,
+	trailing,
+	bottom,
+};
+
+module.exports = {UiGrid};

@@ -42,9 +42,11 @@ const {UiRadioButtons} = require('./js/radio-buttons');
 const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
+const {UiGrid} = require('./js/grid');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 
 Object.assign(libui, {
+	UiGrid,
 	UiMenuItem,
 	UiMenu,
 	UiSpinbox,

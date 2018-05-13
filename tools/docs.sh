@@ -8,6 +8,7 @@ jsdoc2md -f js/date-time-picker.js js/date-time-picker-base.js > docs/date-time-
 jsdoc2md -f js/editable-combobox.js js/date-time-picker-base.js > docs/editable-combobox.md
 jsdoc2md -f js/entry.js js/entry-base.js > docs/entry.md
 jsdoc2md -f js/form.js > docs/form.md
+jsdoc2md -f js/grid.js > docs/grid.md
 jsdoc2md -f js/group.js > docs/group.md
 jsdoc2md -f js/horizontal-box.js js/box.js > docs/horizontal-box.md
 jsdoc2md -f js/horizontal-separator.js > docs/horizontal-separator.md
