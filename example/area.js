@@ -10,19 +10,19 @@ win.onClosing(() => {
 const hBox = new libui.UiHorizontalBox();
 
 const area = new libui.UiArea(
-	() => {
-		console.log('draw');
+	(area, params) => {
+		console.log(area, params);
 	},
 	(area, mouseEvent) => {
-		console.log(area, mouseEvent);
+		// console.log(area, mouseEvent);
 	},
 	(area, left) => {
-		console.log('left:', left);
+		// console.log('left:', left);
 	},
 	() => {},
 	(area, keyEvent) => {
-		console.log(area, keyEvent);
-		return 's' === keyEvent.key;
+		// console.log(area, keyEvent);
+		// return 's' === keyEvent.key;
 	});
 
 hBox.append(area, true);

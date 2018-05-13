@@ -12,7 +12,7 @@
 
 static const char *MODULE = "Area";
 
-static napi_ref AreaMouseEvent, AreaKeyEvent;
+static napi_ref AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext;
 
 napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *e) {
 	napi_value constructor, value;
@@ -48,10 +48,59 @@ napi_value create_key_event(napi_env env, uiAreaKeyEvent *e) {
 	return value;
 }
 
+napi_value create_draw_params(napi_env env, uiAreaDrawParams *p) {
+	napi_value constructorParams, constructorContext, result, context;
+
+	napi_status status = napi_get_reference_value(env, AreaDrawParams, &constructorParams);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	status = napi_get_reference_value(env, AreaDrawContext, &constructorContext);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	napi_value contextExternal;
+	status = napi_create_external(env, p->Context, NULL, NULL, &contextExternal);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	napi_value context_args[1] = {contextExternal};
+
+	status = napi_new_instance(env, constructorContext, 1, context_args, &context);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	napi_value params_args[7] = {context,
+								 make_double(env, p->AreaWidth),
+								 make_double(env, p->AreaHeight),
+								 make_double(env, p->ClipX),
+								 make_double(env, p->ClipY),
+								 make_double(env, p->ClipWidth),
+								 make_double(env, p->ClipHeight)};
+
+	status = napi_new_instance(env, constructorParams, 7, params_args, &result);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	return result;
+}
+
 static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
-	fire_event(handle->events->head->event);
+	napi_env env = handle->env;
+
+	napi_value null;
+	napi_status status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
+
+	napi_handle_scope handle_scope;
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, /*void*/);
+
+	napi_value event_args[2];
+	event_args[0] = null;
+	event_args[1] = create_draw_params(env, p);
+
+	fire_event_args(handle->events->head->event, 2, event_args);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
 }
 static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	struct control_handle *handle;
@@ -217,6 +266,13 @@ LIBUI_FUNCTION(queueRedrawAll) {
 	return NULL;
 }
 
+// LIBUI_FUNCTION(beginWindowMove) {
+// 	uiAreaBeginUserWindowMove(uiArea *a);
+// }
+// LIBUI_FUNCTION(beginWindowResize) {
+// 	uiAreaBeginUserWindowResize(uiArea *a, uiWindowResizeEdge edge);
+// }
+
 // LIBUI_FUNCTION(setSize) {
 // 	INIT_ARGS(3);
 
@@ -244,13 +300,19 @@ LIBUI_FUNCTION(queueRedrawAll) {
 // }
 
 LIBUI_FUNCTION(init) {
-	INIT_ARGS(2);
+	INIT_ARGS(4);
 
 	ARG_CB_REF(mouseEvent, 0);
 	AreaMouseEvent = mouseEvent;
 
 	ARG_CB_REF(keyEvent, 1);
 	AreaKeyEvent = keyEvent;
+
+	ARG_CB_REF(drawParams, 2);
+	AreaDrawParams = drawParams;
+
+	ARG_CB_REF(drawContext, 3);
+	AreaDrawContext = drawContext;
 
 	return NULL;
 }

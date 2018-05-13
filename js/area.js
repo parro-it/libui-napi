@@ -52,8 +52,52 @@ class AreaKeyEvent {
 	}
 }
 
+class AreaDrawParams {
+	constructor(context, areaWidth, areaHeight, clipX, clipY, clipWidth, clipHeight) {
+		this.context = context;
+		this.areaWidth = areaWidth;
+		this.areaHeight = areaHeight;
+		this.clipX = clipX;
+		this.clipY = clipY;
+		this.clipWidth = clipWidth;
+		this.clipHeight = clipHeight;
+	}
+}
+
+class AreaDrawContext {
+	constructor(handle) {
+		this.handle = handle;
+	}
+
+	// 	stroke(UiDrawPath, DrawBrush, DrawStrokeParams) {
+	// 		// uiDrawStroke(c, path->getHandle(), b->toStruct(), p->toStruct());
+	// 	}
+
+	// 	fill(UiDrawPath, DrawBrush) {
+	// 		// uiDrawFill(c, path->getHandle(), b->toStruct());
+	// 	}
+
+	// 	transform(UiDrawMatrix) {
+	// 		// uiDrawTransform(c, m->getStruct());
+	// 	}
+
+	// 	clip(UiDrawPath) {
+	// 		// uiDrawClip(c, path->getHandle());
+	// 	}
+
+	save() {
+		AreaUtil.context_save(this.handle);
+	}
+
+	restore() {
+		AreaUtil.context_restore(this.handle);
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
 	AreaKeyEvent,
+	AreaDrawParams,
+	AreaDrawContext,
 	UiArea
 };
