@@ -28,4 +28,21 @@ class UiArea {
 	}
 }
 
-module.exports = {UiArea};
+global.AreaMouseEvent = class AreaMouseEvent {
+	constructor(x, y, areaWidth, areaHeight, down, up, count, modifiers, held1To64) {
+		this.x = x;
+		this.y = y;
+		this.areaWidth = areaWidth;
+		this.areaHeight = areaHeight;
+		this.down = down;
+		this.up = up;
+		this.count = count;
+		this.modifiers = modifiers;
+		this.held1To64 = held1To64;
+	}
+}
+
+module.exports = {
+	AreaMouseEvent,
+	UiArea
+};

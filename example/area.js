@@ -11,15 +11,15 @@ const hBox = new libui.UiHorizontalBox();
 
 function logMouse(area, areaEvent) {
 	console.log(area, {
-		x: areaEvent.getX(),
-		y: areaEvent.getY(),
-		areaWidth: areaEvent.getAreaWidth(),
-		areaHeight: areaEvent.getAreaHeight(),
-		down: areaEvent.getDown(),
-		up: areaEvent.getUp(),
-		count: areaEvent.getCount(),
-		modifiers: areaEvent.getModifiers(),
-		held1To64: areaEvent.getHeld1To64()
+		x: areaEvent.x,
+		y: areaEvent.y,
+		areaWidth: areaEvent.areaWidth,
+		areaHeight: areaEvent.areaHeight,
+		down: areaEvent.down,
+		up: areaEvent.up,
+		count: areaEvent.count,
+		modifiers: areaEvent.modifiers,
+		held1To64: areaEvent.held1To64
 	});
 }
 
