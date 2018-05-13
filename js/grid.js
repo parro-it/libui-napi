@@ -1,7 +1,7 @@
 const {Grid} = require('..');
 
 /**
- * A container that organizes children as labeled fields.
+ * A powerful container that allow to specify size and position of each children.
  */
 class UiGrid {
 	/**
@@ -29,12 +29,14 @@ class UiGrid {
 	 * @param  {UiControl} child - the control to insert
 	 * @param  {UiControl} before - the control will be inserted before this position
 	 * @param  {number} at      [description]
-	 * @param  {number} xspan   [description]
-	 * @param  {number} yspan   [description]
-	 * @param  {number} hexpand [description]
-	 * @param  {number} halign  [description]
-	 * @param  {number} vexpan  [description]
-	 * @param  {number} valign  [description]
+	 * @param  {number} xspan - How many columns the component takes off.
+	 * @param  {number} yspan - How many rows the component takes off.
+	 * @param  {number} hexpand - whether the component can expand horizontally.
+	 * @param  {number} halign - whether the component is aligned with the other
+	 components in the column.
+	 * @param  {number} vexpand - whether the component can expand vertically.
+	 * @param  {number} valign - whether the component is aligned with the other
+	 components in the row.
 	 * @return {undefined}
 	 */
 	insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpan, valign) {
@@ -44,15 +46,21 @@ class UiGrid {
 
 	/**
 	 * Insert a new child control.
+	 *
+	 * > UIGrid expand does not work correctly when both align horizontal and align
+	 * vertical are set. You must choose one so libui knows which direction to expand.
+	 *
 	 * @param  {UiControl} child - the control to add as child.
-	 * @param  {number} left    [description]
-	 * @param  {number} top     [description]
-	 * @param  {number} xspan   [description]
-	 * @param  {number} yspan   [description]
-	 * @param  {number} hexpand [description]
-	 * @param  {number} halign  [description]
-	 * @param  {number} vexpand [description]
-	 * @param  {number} valign  [description]
+	 * @param  {number} left - What column the component resides in.
+	 * @param  {number} top - What row the component resides in.
+	 * @param  {number} xspan - How many columns the component takes off.
+	 * @param  {number} yspan - How many rows the component takes off.
+	 * @param  {number} hexpand - whether the component can expand horizontally.
+	 * @param  {number} halign - whether the component is aligned with the other
+	 * components in the column.
+	 * @param  {number} vexpand - whether the component can expand vertically.
+	 * @param  {number} valign - whether the component is aligned with the other
+	 * components in the row.
 	 * @return {undefined}
 	 */
 	append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign) {
