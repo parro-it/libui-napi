@@ -1,4 +1,5 @@
-const {Area, AreaBrush, AreaContext, AreaPath, AreaStrokeParams} = require('..');
+const {Area, AreaBrush, AreaContext, AreaPath, AreaStrokeParams, AreaMatrix} =
+	require('..');
 
 /**
  * An area to draw on.
@@ -25,6 +26,14 @@ class UiArea {
 	 */
 	queueRedrawAll() {
 		Area.queueRedrawAll(this.handle);
+	}
+
+	beginWindowMove() {
+		// TODO
+	}
+
+	beginWindowResize(edge) {
+		// TODO
 	}
 }
 
@@ -95,8 +104,8 @@ class AreaDrawContext {
 		AreaContext.fill(this.handle, path.handle, brush.handle);
 	}
 
-	transform(UiDrawMatrix) {
-		// uiDrawTransform(c, m);
+	transform(matrix) {
+		AreaContext.transform(this.handle, matrix.handle);
 	}
 
 	clip(path) {
@@ -191,6 +200,41 @@ class AreaDrawStroke {
 	}
 }
 
+class AreaDrawMatrix {
+	constructor() {
+		this.handle = AreaMatrix.create();
+	}
+
+	setIdentity() {
+		AreaMatrix.setIdentity(this.handle);
+	}
+
+	scale(xCenter, yCenter, x, y) {
+		AreaMatrix.scale(this.handle, xCenter, yCenter, x, y);
+	}
+
+	rotate(x, y, amount) {
+		AreaMatrix.scale(this.handle, x, y, amount);
+	}
+
+	skew(x, y, xAmount, yAmount) {
+		AreaMatrix.skew(this.handle, x, y, xAmount, yAmount);
+	}
+
+	multiply(m) {
+		AreaMatrix.multiply(this.handle, m.handle);
+	}
+
+	invertible(m) {
+		return AreaMatrix.invertible(this.handle);
+	}
+
+	// returns true it it worked
+	invert(m) {
+		return AreaMatrix.invert(this.handle);
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
 	AreaKeyEvent,
@@ -199,5 +243,6 @@ module.exports = {
 	AreaDrawBrush,
 	AreaDrawPath,
 	AreaDrawStroke,
+	AreaDrawMatrix,
 	UiArea
 };

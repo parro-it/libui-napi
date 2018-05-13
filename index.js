@@ -16,7 +16,8 @@ const {
 	AreaDrawContext,
 	AreaDrawBrush,
 	AreaDrawPath,
-	AreaDrawStroke
+	AreaDrawStroke,
+	AreaDrawMatrix
 } = require('./js/area');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
@@ -77,7 +78,8 @@ Object.assign(libui, {
 	UiArea,
 	AreaDrawBrush,
 	AreaDrawPath,
-	AreaDrawStroke
+	AreaDrawStroke,
+	AreaDrawMatrix
 });
 
 libui.App.init();

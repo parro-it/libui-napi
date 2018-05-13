@@ -14,6 +14,10 @@ const brushGreen = new libui.AreaDrawBrush(0, 1, 0);
 const sp = new libui.AreaDrawStroke();
 sp.thickness = 5;
 
+const matrix = new libui.AreaDrawMatrix();
+matrix.setIdentity();
+matrix.scale(0, 0, 1.5, 1);
+
 const area = new libui.UiArea(
 	(area, params) => {
 		// console.log(area, params);
@@ -22,6 +26,8 @@ const area = new libui.UiArea(
 		path.end();
 		params.context.fill(path, brushRed);
 		params.context.stroke(path, brushGreen, sp);
+
+		params.context.transform(matrix);
 
 		path = new libui.AreaDrawPath();
 		path.newFigure(150, 150);

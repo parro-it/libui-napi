@@ -29,6 +29,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_area_context(env, exports);
 	_libui_init_area_path(env, exports);
 	_libui_init_area_stroke(env, exports);
+	_libui_init_area_matrix(env, exports);
 	_libui_init_grid(env, exports);
 
 	_libui_init_tests(env, exports);
