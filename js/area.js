@@ -42,7 +42,18 @@ class AreaMouseEvent {
 	}
 }
 
+class AreaKeyEvent {
+	constructor(key, extKey, mofifierKey, modifiers, up) {
+		this.key = String.fromCharCode(key);
+		this.extKey = extKey;
+		this.mofifierKey = mofifierKey;
+		this.modifiers = modifiers;
+		this.up = up;
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
+	AreaKeyEvent,
 	UiArea
 };

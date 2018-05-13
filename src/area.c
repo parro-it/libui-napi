@@ -12,14 +12,12 @@
 
 static const char *MODULE = "Area";
 
-static napi_ref AreaMouseEvent;
+static napi_ref AreaMouseEvent, AreaKeyEvent;
 
 napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *e) {
-	napi_value global, constructor, value;
-	napi_status status = napi_get_global(env, &global);
-	CHECK_STATUS_THROW(status, napi_get_global);
+	napi_value constructor, value;
 
-	status = napi_get_reference_value(env, AreaMouseEvent, &constructor);
+	napi_status status = napi_get_reference_value(env, AreaMouseEvent, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	napi_value args[9] = {make_double(env, e->X),		  make_double(env, e->Y),
@@ -29,6 +27,22 @@ napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *e) {
 						  make_uint32(env, e->Held1To64)};
 
 	status = napi_new_instance(env, constructor, 9, args, &value);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	return value;
+}
+
+napi_value create_key_event(napi_env env, uiAreaKeyEvent *e) {
+	napi_value constructor, value;
+
+	napi_status status = napi_get_reference_value(env, AreaKeyEvent, &constructor);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	napi_value args[5] = {make_int32(env, e->Key), make_int32(env, e->ExtKey),
+						  make_int32(env, e->Modifier), make_int32(env, e->Modifiers),
+						  make_uint32(env, e->Up)};
+
+	status = napi_new_instance(env, constructor, 5, args, &value);
 	CHECK_STATUS_THROW(status, napi_new_instance);
 
 	return value;
@@ -58,7 +72,7 @@ static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 
 	/*
 		a scope is needed here because create_mouse_event
-		create an object
+		creates an object
 	*/
 	status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, /*void*/);
@@ -95,13 +109,42 @@ static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 }
 static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	struct control_handle *handle;
-	ctrl_map_get(&controls_map, uiControl(a), &handle);
-	struct event_t *event = handle->events->head->DUP(4, next->) event;
-	// napi_env env = event->env;
-	/*napi_value return_v =*/fire_event(event);
+	napi_value null;
+	napi_status status;
+	napi_handle_scope handle_scope;
 
-	// napi_status status = napi_get_value_int32(env, return_v, &return_i);
-	return 0;
+	ctrl_map_get(&controls_map, uiControl(a), &handle);
+	napi_env env = handle->env;
+
+	/*
+		pass null for now as area instance to the callback
+		we can pass the correct instance after
+		https://github.com/parro-it/libui-napi/issues/8
+	*/
+	status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, 0);
+
+	/*
+		a scope is needed here because create_key_event
+		creates an object
+	*/
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
+
+	napi_value event_args[2];
+	event_args[0] = null;
+	event_args[1] = create_key_event(env, e);
+
+	bool v_i;
+	napi_value v = fire_event_args(handle->events->head->DUP(4, next->) event, 2, event_args);
+
+	status = napi_get_value_bool(env, v, &v_i);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, 0);
+
+	return v_i;
 }
 
 LIBUI_FUNCTION(create) {
@@ -198,9 +241,13 @@ LIBUI_FUNCTION(queueRedrawAll) {
 // }
 
 LIBUI_FUNCTION(init) {
-	INIT_ARGS(1);
+	INIT_ARGS(2);
+
 	ARG_CB_REF(mouseEvent, 0);
 	AreaMouseEvent = mouseEvent;
+
+	ARG_CB_REF(keyEvent, 1);
+	AreaKeyEvent = keyEvent;
 
 	return NULL;
 }
