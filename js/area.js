@@ -366,6 +366,26 @@ class AreaDrawMatrix {
 	invert(m) {
 		return AreaMatrix.invert(this.handle);
 	}
+
+	set(i, j, v) {
+		if (i < 0 || 2 < i) {
+			throw new TypeError('i has to be: 0 <= i <= 2')
+		}
+		if (j < 0 || 2 < j) {
+			throw new TypeError('j has to be: 0 <= j <= 2')
+		}
+		AreaMatrix.set(this.handle, i, j, v);
+	}
+
+	get(i, j) {
+		if (i < 0 || 2 < i) {
+			throw new TypeError('i has to be: 0 <= i <= 2')
+		}
+		if (j < 0 || 2 < j) {
+			throw new TypeError('j has to be: 0 <= j <= 2')
+		}
+		return AreaMatrix.get(this.handle, i, j);
+	}
 }
 
 module.exports = {
