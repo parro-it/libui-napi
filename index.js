@@ -86,7 +86,9 @@ Object.assign(libui, {
 	DrawStrokeParams,
 	UiDrawMatrix,
 	Point,
-	Color
+	Color,
+	fillMode: UiDrawPath.fillMode,
+	brushType: DrawBrush.type
 });
 
 libui.App.init();
