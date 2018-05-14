@@ -386,6 +386,31 @@ class AreaDrawMatrix {
 		}
 		return AreaMatrix.get(this.handle, i, j);
 	}
+
+	// for matrix[0][1] (getter & setter)
+	_getter(i) {
+		return new Proxy({}, {
+			get: (target, propertyName, receiver) => {
+				return this.get(i, parseInt(propertyName));
+			},
+			set: (target, propertyName, value, receiver) => {
+				this.set(i, Number(propertyName), value);
+				return true;
+			}
+		});
+	}
+
+	get 0() {
+		return this._getter(0);
+	}
+
+	get 1() {
+		return this._getter(1);
+	}
+
+	get 2() {
+		return this._getter(2);
+	}
 }
 
 module.exports = {
