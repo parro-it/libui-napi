@@ -1,5 +1,5 @@
 jsdoc2md -f js/area.js > docs/area.md
-jsdoc2md -f js/button.js > docs/button.md
+jsdoc2md -f js/button.js js/ui-control.js > docs/button.md
 jsdoc2md -f js/checkbox.js > docs/checkbox.md
 jsdoc2md -f js/color-button.js > docs/color-button.md
 jsdoc2md -f js/combobox.js > docs/combobox.md

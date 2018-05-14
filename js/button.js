@@ -3,6 +3,7 @@ const {UiControl} = require('./ui-control');
 
 /**
  * A simple button.
+ * @extends UiControl
  */
 class UiButton extends UiControl {
 	/**

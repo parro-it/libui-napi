@@ -1,7 +1,7 @@
 const {ControlBase} = require('..');
 
 /**
- * A simple button.
+ * Base class for all controls.
  */
 class UiControl {
 	/**
