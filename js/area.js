@@ -100,46 +100,44 @@ class AreaDrawContext {
 
 	/**
 	 * Draw a path (the outline).
-	 * @param {AreaDrawPath} path - the path to draw
-	 * @param {AreaDrawBrush} brush - the brush to draw with
-	 * @param {AreaDrawStroke} stroke - the stroke params to draw with
+	 * @param {UiDrawPath} path - the path to draw
+	 * @param {DrawBrush} brush - the brush to draw with
+	 * @param {DrawStrokeParams} stroke - the stroke params to draw with
 	 * @return {undefined}
 	 */
 	stroke(path, brush, stroke) {
-		if (!(path instanceof AreaDrawPath)) {
-			throw new TypeError('The \'path\' argument has to be an AreaDrawPath object');
+		if (!(path instanceof UiDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be an UiDrawPath object');
 		}
-		if (!(brush instanceof AreaDrawBrush || brush instanceof AreaDrawBrushGradient)) {
-			throw new TypeError(
-				'The \'brush\' argument has to be an AreaDrawBrush object');
+		if (!(brush instanceof DrawBrush)) {
+			throw new TypeError('The \'brush\' argument has to be an DrawBrush object');
 		}
-		if (!(stroke instanceof AreaDrawStroke)) {
+		if (!(stroke instanceof DrawStrokeParams)) {
 			throw new TypeError(
-				'The \'stroke\' argument has to be an AreaDrawStroke object');
+				'The \'stroke\' argument has to be an DrawStrokeParams object');
 		}
 		AreaContext.stroke(this.handle, path.handle, brush.handle, stroke.handle);
 	}
 
 	/**
 	 * Draw a path (filled).
-	 * @param {AreaDrawPath} path - the path to draw
-	 * @param {AreaDrawBrush} brush - the brush to draw with
+	 * @param {UiDrawPath} path - the path to draw
+	 * @param {DrawBrush} brush - the brush to draw with
 	 * @return {undefined}
 	 */
 	fill(path, brush) {
-		if (!(path instanceof AreaDrawPath)) {
-			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
+		if (!(path instanceof UiDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be a UiDrawPath object');
 		}
-		if (!(brush instanceof AreaDrawBrush || brush instanceof AreaDrawBrushGradient)) {
-			throw new TypeError(
-				'The \'brush\' argument has to be a AreaDrawBrush object');
+		if (!(brush instanceof DrawBrush)) {
+			throw new TypeError('The \'brush\' argument has to be a DrawBrush object');
 		}
 		AreaContext.fill(this.handle, path.handle, brush.handle);
 	}
 
 	/**
 	 * Apply a matrix transformation
-	 * @param {AreaDrawMatrix} matrix - the matrix to apply
+	 * @param {UiDrawMatrix} matrix - the matrix to apply
 	 * @return {undefined}
 	 */
 	transform(matrix) {
@@ -148,12 +146,12 @@ class AreaDrawContext {
 
 	/**
 	 * TODO
-	 * @param {AreaDrawPath} path -
+	 * @param {UiDrawPath} path -
 	 * @return {undefined}
 	 */
 	clip(path) {
-		if (!(path instanceof AreaDrawPath)) {
-			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
+		if (!(path instanceof UiDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be a UiDrawPath object');
 		}
 		AreaContext.clip(this.handle, path.handle);
 	}
@@ -178,40 +176,33 @@ class AreaDrawContext {
 /**
  * A solid draw brush
  */
-class AreaDrawBrush {
+class DrawBrush {
 	/**
-	 * @param {number} r - the red component (0-1)
-	 * @param {number} g - the blue component (0-1)
-	 * @param {number} b - the blue component (0-1)
-	 * @param {number} a - the alpha component (0-1)
 	 * @return {UiArea}
 	 */
-	constructor(r, g, b, a) {
-		a = typeof a === 'undefined' ? 1 : a;
-		this.handle = AreaBrush.createSolid(r, g, b, a);
+	constructor() {
+		this.handle = AreaBrush.create();
 	}
-}
 
-/**
- * A gradient brush
- */
-class AreaDrawBrushGradient {
+	set color(value) {
+		AreaBrush.setColor(this.handle, value.r, value.g, value.b, value.a);
+	}
 
-	/**
-	 * @param {number} type - the gradient type
-	 * @return {UiArea}
-	 */
-	constructor(type) {
-		if (!(1 <= type && type <= 2)) {
-			throw new TypeError('The \'type\' parameter');
-		}
-		this.type = type;
-		this.handle = AreaBrush.createGradient(type);
+	get color() {
+		return AreaBrush.getColor(this.handle);
+	}
+
+	set type(value) {
+		AreaBrush.setType(this.handle, value);
+	}
+
+	get type() {
+		return AreaBrush.getType(this.handle);
 	}
 
 	/**
 	 * Set the gradient stops
-	 * @param {Array<AreaDrawBrushGradient.Stop>} value - the gradients stops
+	 * @param {Array<BrushGradientStop>} value - the gradients stops
 	 * @return {string}
 	 */
 	set stops(value) {
@@ -220,7 +211,7 @@ class AreaDrawBrushGradient {
 
 	/**
 	 * Get the gradient stops
-	 * @return {Array<AreaDrawBrushGradient.Stop>}
+	 * @return {Array<BrushGradientStop>}
 	 */
 	get stops() {
 		return AreaBrush.getStops(this.handle);
@@ -270,9 +261,6 @@ class AreaDrawBrushGradient {
 	 * @return {undefined}
 	 */
 	set outerRadius(value) {
-		if (this.type !== AreaDrawBrushGradient.type.radial) {
-			throw new TypeError('Only radial gradients have a outerRadius!');
-		}
 		return AreaBrush.setOuterRadius(this.handle, value);
 	}
 
@@ -281,19 +269,17 @@ class AreaDrawBrushGradient {
 	 * @return {number}
 	 */
 	get outerRadius() {
-		if (this.type !== AreaDrawBrushGradient.type.radial) {
-			throw new TypeError('Only radial gradients have a outerRadius!');
-		}
 		return AreaBrush.getOuterRadius(this.handle);
 	}
 }
 
-AreaDrawBrushGradient.type = {
-	linear: 1,
-	radial: 2
-};
+DrawBrush.type = {
+	solid: 0,
+	linearGradient: 1,
+	radialGradient: 2
+}
 
-AreaDrawBrushGradient.Stop = class AreaDrawBrushGradientStop {
+class BrushGradientStop {
 	constructor(pos, color, g, b, a) {
 		if (typeof g === 'undefined') {
 			this.handle =
@@ -322,9 +308,9 @@ AreaDrawBrushGradient.Stop = class AreaDrawBrushGradientStop {
 	}
 }
 
-class AreaDrawPath {
+class UiDrawPath {
 	constructor(mode) {
-		mode = typeof a === 'undefined' ? AreaDrawPath.fillMode.winding : mode;
+		mode = typeof a === 'undefined' ? UiDrawPath.fillMode.winding : mode;
 		this.handle = AreaPath.create(mode);
 	}
 
@@ -363,12 +349,12 @@ class AreaDrawPath {
 	}
 }
 
-AreaDrawPath.fillMode = {
+UiDrawPath.fillMode = {
 	winding: 0,
 	alternate: 1
 };
 
-class AreaDrawStroke {
+class DrawStrokeParams {
 	constructor() {
 		this.handle = AreaStrokeParams.create();
 	}
@@ -422,19 +408,19 @@ class AreaDrawStroke {
 	}
 }
 
-AreaDrawStroke.lineCap = {
+DrawStrokeParams.lineCap = {
 	flat: 0,
 	round: 1,
 	square: 2
 };
 
-AreaDrawStroke.lineJoin = {
+DrawStrokeParams.lineJoin = {
 	miter: 0,
 	round: 1,
 	bevel: 2
 };
 
-class AreaDrawMatrix {
+class UiDrawMatrix {
 	constructor() {
 		this.handle = AreaMatrix.create();
 	}
@@ -518,15 +504,33 @@ class AreaDrawMatrix {
 	}
 }
 
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
+class Color {
+	constructor(r, g, b, a) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = a;
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
 	AreaKeyEvent,
 	AreaDrawParams,
 	AreaDrawContext,
-	AreaDrawBrush,
-	AreaDrawBrushGradient,
-	AreaDrawPath,
-	AreaDrawStroke,
-	AreaDrawMatrix,
-	UiArea
+	DrawBrush,
+	BrushGradientStop,
+	UiDrawPath,
+	DrawStrokeParams,
+	UiDrawMatrix,
+	UiArea,
+	Point,
+	Color
 };

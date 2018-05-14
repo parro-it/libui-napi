@@ -2,7 +2,7 @@
 const libui = require('..');
 
 const solidBrush = new libui.DrawBrush();
-solidBrush.type = libui.DrawBrush.type.solid;
+solidBrush.type = libui.brushType.solid;
 solidBrush.color = new libui.Color(1, 0, 0, 1);
 
 const dashedStroke = new libui.DrawStrokeParams();
@@ -11,54 +11,58 @@ dashedStroke.dashes = [10, 5];
 console.log(dashedStroke.dashes);
 
 const linearBrush = new libui.DrawBrush();
-linearBrush.type = libui.DrawBrush.type.linearGradient;
+linearBrush.type = libui.brushType.linearGradient;
 linearBrush.start = new libui.Point(0, 0);
 linearBrush.end = new libui.Point(200, 200);
-linearBrush.stops = [
+linearBrush.setStops([
 	new libui.BrushGradientStop(0, new libui.Color(1, 0, 0, 1)),
 	new libui.BrushGradientStop(1, new libui.Color(0, 1, 0, 1))
-];
+]);
 
 const radialBrush = new libui.DrawBrush();
-radialBrush.type = libui.DrawBrush.type.radialGradient;
+radialBrush.type = libui.brushType.radialGradient;
 radialBrush.start = new libui.Point(250, 300);
 radialBrush.end = new libui.Point(250, 300);
 radialBrush.outerRadius = 40;
-radialBrush.stops = [
+radialBrush.setStops([
 	new libui.BrushGradientStop(0, new libui.Color(0, 0, 1, 1)),
 	new libui.BrushGradientStop(1, new libui.Color(0.5, 0.5, 1, 1))
-];
-console.log(radialBrush.stops);
+]);
+console.log(radialBrush.getStops());
 
 const matrix = new libui.UiDrawMatrix();
 matrix.setIdentity();
 matrix.rotate(70, 280, (Math.PI / 180) * 45)
 
 function handlerDraw(area, p) {
-	let path = new libui.UiDrawPath(libui.UiDrawPath.fillMode.winding);
+	let path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.addRectangle(0, 0, 200, 200);
 	path.end();
-	p.context.fill(path, linearBrush);
+	p.getContext().fill(path, linearBrush);
+	path.freePath();
 
 	// ------
 
-	path = new libui.UiDrawPath(libui.UiDrawPath.fillMode.winding);
+	path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.newFigure(0, 0);
 	path.arcTo(250, 300, 50, 0, 2 * Math.PI, false);
 	path.end();
-	p.context.fill(path, radialBrush);
+	p.getContext().fill(path, radialBrush);
+	path.freePath();
 
-	path = new libui.UiDrawPath(libui.UiDrawPath.fillMode.winding);
+	path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.newFigure(250, 20);
 	path.lineTo(300, 150);
 	path.end();
-	p.context.stroke(path, solidBrush, dashedStroke);
+	p.getContext().stroke(path, solidBrush, dashedStroke);
+	path.freePath();
 
-	path = new libui.UiDrawPath(libui.UiDrawPath.fillMode.winding);
-	p.context.transform(matrix);
+	path = new libui.UiDrawPath(libui.fillMode.winding);
+	p.getContext().transform(matrix);
 	path.addRectangle(20, 230, 100, 100);
 	path.end();
-	p.context.fill(path, solidBrush);
+	p.getContext().fill(path, solidBrush);
+	path.freePath();
 }
 
 function noop() {}

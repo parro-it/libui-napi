@@ -5,38 +5,7 @@
 
 static const char *MODULE = "AreaBrush";
 
-static void free_brush_solid(napi_env env, void *finalize_data, void *finalize_hint) {
-	uiDrawBrush *brush = (uiDrawBrush *)finalize_data;
-	free(brush);
-}
-
-napi_ref AreaDrawBrushGradient;
-
-LIBUI_FUNCTION(createSolid) {
-	INIT_ARGS(4);
-
-	ARG_DOUBLE(r, 0);
-	ARG_DOUBLE(g, 1);
-	ARG_DOUBLE(b, 2);
-	ARG_DOUBLE(a, 3);
-
-	uiDrawBrush *brush = malloc(sizeof(uiDrawBrush));
-
-	brush->R = r;
-	brush->G = g;
-	brush->B = b;
-	brush->A = a;
-
-	brush->Type = uiDrawBrushTypeSolid;
-
-	napi_value external;
-	napi_status status = napi_create_external(env, brush, free_brush_solid, NULL, &external);
-	CHECK_STATUS_THROW(status, napi_create_external);
-
-	return external;
-}
-
-static void free_brush_gradient(napi_env env, void *finalize_data, void *finalize_hint) {
+static void free_brush(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiDrawBrush *brush = (uiDrawBrush *)finalize_data;
 	if (brush->NumStops > 0) {
 		free(brush->Stops);
@@ -44,20 +13,81 @@ static void free_brush_gradient(napi_env env, void *finalize_data, void *finaliz
 	free(brush);
 }
 
-LIBUI_FUNCTION(createGradient) {
-	INIT_ARGS(1);
+napi_ref BrushGradientStop;
 
-	ARG_INT32(type, 0);
-
+LIBUI_FUNCTION(create) {
 	uiDrawBrush *brush = calloc(1, sizeof(uiDrawBrush));
 
-	brush->Type = type;
-
 	napi_value external;
-	napi_status status = napi_create_external(env, brush, free_brush_gradient, NULL, &external);
+	napi_status status = napi_create_external(env, brush, free_brush, NULL, &external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
 	return external;
+}
+
+LIBUI_FUNCTION(setColor) {
+	INIT_ARGS(5);
+
+	ARG_POINTER(uiDrawBrush, brush, 0);
+	ARG_DOUBLE(r, 1);
+	ARG_DOUBLE(g, 2);
+	ARG_DOUBLE(b, 3);
+	ARG_DOUBLE(a, 4);
+
+	brush->R = r;
+	brush->G = g;
+	brush->B = b;
+	brush->A = a;
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(getColor) {
+	INIT_ARGS(1);
+
+	ARG_POINTER(uiDrawBrush, brush, 0);
+
+	napi_value result;
+
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_THROW(status, napi_open_handle_scope);
+
+	napi_create_object(env, &result);
+	CHECK_STATUS_THROW(status, napi_create_object);
+
+	napi_set_named_property(env, result, "r", make_double(env, brush->R));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+	napi_set_named_property(env, result, "g", make_double(env, brush->G));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+	napi_set_named_property(env, result, "b", make_double(env, brush->B));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+	napi_set_named_property(env, result, "a", make_double(env, brush->A));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_THROW(status, napi_close_handle_scope);
+
+	return result;
+}
+
+LIBUI_FUNCTION(setType) {
+	INIT_ARGS(2);
+
+	ARG_POINTER(uiDrawBrush, brush, 0);
+	ARG_INT32(t, 1);
+
+	brush->Type = t;
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(getType) {
+	INIT_ARGS(1);
+
+	ARG_POINTER(uiDrawBrush, brush, 0);
+
+	return make_int32(env, brush->Type);
 }
 
 LIBUI_FUNCTION(setStart) {
@@ -198,7 +228,7 @@ LIBUI_FUNCTION(getStops) {
 
 	napi_value constructor, array;
 
-	napi_status status = napi_get_reference_value(env, AreaDrawBrushGradient, &constructor);
+	napi_status status = napi_get_reference_value(env, BrushGradientStop, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	status = napi_create_array_with_length(env, brush->NumStops, &array);
@@ -321,15 +351,18 @@ LIBUI_FUNCTION(init) {
 	INIT_ARGS(1);
 
 	ARG_CB_REF(gradient, 0);
-	AreaDrawBrushGradient = gradient;
+	BrushGradientStop = gradient;
 
 	return NULL;
 }
 
 napi_value _libui_init_area_brush(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
-	LIBUI_EXPORT(createSolid);
-	LIBUI_EXPORT(createGradient);
+	LIBUI_EXPORT(create);
+	LIBUI_EXPORT(setColor);
+	LIBUI_EXPORT(getColor);
+	LIBUI_EXPORT(setType);
+	LIBUI_EXPORT(getType);
 	LIBUI_EXPORT(setStart);
 	LIBUI_EXPORT(getStart);
 	LIBUI_EXPORT(setEnd);
