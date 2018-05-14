@@ -15,7 +15,9 @@ const {
 	AreaDrawParams,
 	AreaDrawContext,
 	AreaDrawBrush,
-	AreaDrawPath
+	AreaDrawPath,
+	AreaDrawStroke,
+	AreaDrawMatrix
 } = require('./js/area');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
@@ -41,9 +43,11 @@ const {UiRadioButtons} = require('./js/radio-buttons');
 const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
+const {UiGrid} = require('./js/grid');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 
 Object.assign(libui, {
+	UiGrid,
 	UiMenuItem,
 	UiMenu,
 	UiSpinbox,
@@ -73,7 +77,9 @@ Object.assign(libui, {
 	UiTab,
 	UiArea,
 	AreaDrawBrush,
-	AreaDrawPath
+	AreaDrawPath,
+	AreaDrawStroke,
+	AreaDrawMatrix
 });
 
 libui.App.init();

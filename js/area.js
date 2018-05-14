@@ -1,4 +1,5 @@
-const {Area, AreaBrush, AreaContext, AreaPath} = require('..');
+const {Area, AreaBrush, AreaContext, AreaPath, AreaStrokeParams, AreaMatrix} =
+	require('..');
 
 /**
  * An area to draw on.
@@ -26,7 +27,26 @@ class UiArea {
 	queueRedrawAll() {
 		Area.queueRedrawAll(this.handle);
 	}
+
+	beginWindowMove() {
+		Area.beginWindowMove(this.handle);
+	}
+
+	beginWindowResize(edge) {
+		Area.beginWindowResize(this.handle, edge);
+	}
 }
+
+UiArea.resizeEdge = {
+	left: 0,
+	top: 1,
+	right: 2,
+	bottom: 3,
+	topLeft: 4,
+	topRight: 5,
+	bottomLeft: 6,
+	bottomRight: 7
+};
 
 class AreaMouseEvent {
 	constructor(x, y, areaWidth, areaHeight, down, up, count, modifiers, held1To64) {
@@ -70,7 +90,18 @@ class AreaDrawContext {
 	}
 
 	stroke(path, brush, stroke) {
-		// AreaContext.stroke(this.handle, path, brush, stroke);
+		if (!(path instanceof AreaDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be an AreaDrawPath object');
+		}
+		if (!(brush instanceof AreaDrawBrush)) {
+			throw new TypeError(
+				'The \'brush\' argument has to be an AreaDrawBrush object');
+		}
+		if (!(stroke instanceof AreaDrawStroke)) {
+			throw new TypeError(
+				'The \'stroke\' argument has to be an AreaDrawStroke object');
+		}
+		AreaContext.stroke(this.handle, path.handle, brush.handle, stroke.handle);
 	}
 
 	fill(path, brush) {
@@ -84,12 +115,15 @@ class AreaDrawContext {
 		AreaContext.fill(this.handle, path.handle, brush.handle);
 	}
 
-	transform(UiDrawMatrix) {
-		// uiDrawTransform(c, m->getStruct());
+	transform(matrix) {
+		AreaContext.transform(this.handle, matrix.handle);
 	}
 
-	clip(UiDrawPath) {
-		// uiDrawClip(c, path->getHandle());
+	clip(path) {
+		if (!(path instanceof AreaDrawPath)) {
+			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
+		}
+		AreaContext.clip(this.handle, path.handle);
 	}
 
 	save() {
@@ -108,6 +142,20 @@ class AreaDrawBrush {
 	}
 }
 
+// class AreaDrawBrushSolid extends AreaDrawBrush{
+// 	constructor(r, g, b, a) {
+// 		a = typeof a === 'undefined' ? 1 : a;
+// 		this.handle = AreaBrush.createSolid(r, g, b, a);
+// 	}
+// }
+
+// class AreaDrawBrushRadial extends AreaDrawBrush{
+// 	constructor(r, g, b, a) {
+// 		a = typeof a === 'undefined' ? 1 : a;
+// 		this.handle = AreaBrush.createGradient(r, g, b, a);
+// 	}
+// }
+
 class AreaDrawPath {
 	constructor(mode) {
 		mode = typeof a === 'undefined' ? 0 : mode;
@@ -118,8 +166,83 @@ class AreaDrawPath {
 		AreaPath.addRectangle(this.handle, x, y, width, height);
 	}
 
+	newFigure(x, y) {
+		AreaPath.newFigure(this.handle, x, y);
+	}
+
+	newFigureWithArc(xCenter, yCenter, radius, startAngle, sweep, negative) {
+		Areapath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
+								  sweep, negative);
+	}
+
+	lineTo(x, y) {
+		AreaPath.lineTo(this.handle, x, y);
+	}
+
+	arcTo(xCenter, yCenter, radius, startAngle, sweep, negative) {
+		AreaPath.arcTo(this.handle, xCenter, yCenter, radius, startAngle, sweep,
+					   negative);
+	}
+
+	bezierTo(c1x, c1y, c2x, c2y, endX, endY) {
+		AreaPath.bezierTo(c1x, c1y, c2x, c2y, endX, endY);
+	}
+
+	closeFigure() {
+		AreaPath.closeFigure(this.handle);
+	}
+
 	end() {
 		AreaPath.end(this.handle);
+	}
+}
+
+class AreaDrawStroke {
+	constructor() {
+		this.handle = AreaStrokeParams.create();
+	}
+
+	set thickness(v) {
+		AreaStrokeParams.setThickness(this.handle, v);
+	}
+
+	get thickness() {
+		return AreaStrokeParams.getThickness(this.handle);
+	}
+}
+
+class AreaDrawMatrix {
+	constructor() {
+		this.handle = AreaMatrix.create();
+	}
+
+	setIdentity() {
+		AreaMatrix.setIdentity(this.handle);
+	}
+
+	scale(xCenter, yCenter, x, y) {
+		AreaMatrix.scale(this.handle, xCenter, yCenter, x, y);
+	}
+
+	rotate(x, y, amount) {
+		AreaMatrix.scale(this.handle, x, y, amount);
+	}
+
+	skew(x, y, xAmount, yAmount) {
+		AreaMatrix.skew(this.handle, x, y, xAmount, yAmount);
+	}
+
+	multiply(m) {
+		AreaMatrix.multiply(this.handle, m.handle);
+	}
+
+	invertible(m) {
+		return AreaMatrix.invertible(this.handle);
+	}
+
+	// returns true it it worked
+	invert(m) {
+		return AreaMatrix.invert(this.handle);
 	}
 }
 
@@ -130,5 +253,7 @@ module.exports = {
 	AreaDrawContext,
 	AreaDrawBrush,
 	AreaDrawPath,
+	AreaDrawStroke,
+	AreaDrawMatrix,
 	UiArea
 };
