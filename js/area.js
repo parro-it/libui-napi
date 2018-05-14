@@ -185,7 +185,7 @@ class AreaDrawPath {
 	}
 
 	bezierTo(c1x, c1y, c2x, c2y, endX, endY) {
-		AreaPath.bezierTo(c1x, c1y, c2x, c2y, endX, endY);
+		AreaPath.bezierTo(this.handle, c1x, c1y, c2x, c2y, endX, endY);
 	}
 
 	closeFigure() {
@@ -209,7 +209,51 @@ class AreaDrawStroke {
 	get thickness() {
 		return AreaStrokeParams.getThickness(this.handle);
 	}
+
+	set lineCap(v) {
+		AreaStrokeParams.setLineCap(this.handle, v);
+	}
+
+	get lineCap() {
+		return AreaStrokeParams.getLineCap(this.handle);
+	}
+
+	set lineJoin(v) {
+		AreaStrokeParams.setLineJoin(this.handle, v);
+	}
+
+	get lineJoin() {
+		return AreaStrokeParams.getLineJoin(this.handle);
+	}
+
+	set miterLimit(v) {
+		AreaStrokeParams.setMiterLimit(this.handle, v);
+	}
+
+	get miterLimit() {
+		return AreaStrokeParams.getMiterLimit(this.handle);
+	}
+
+	set dashes(v) {
+		AreaStrokeParams.setDashes(this.handle, v);
+	}
+
+	get dashes() {
+		return AreaStrokeParams.getDashes(this.handle);
+	}
 }
+
+AreaDrawStroke.lineCap = {
+	flat: 0,
+	round: 1,
+	square: 2
+};
+
+AreaDrawStroke.lineJoin = {
+	miter: 0,
+	round: 1,
+	bevel: 2
+};
 
 class AreaDrawMatrix {
 	constructor() {
@@ -222,6 +266,10 @@ class AreaDrawMatrix {
 
 	scale(xCenter, yCenter, x, y) {
 		AreaMatrix.scale(this.handle, xCenter, yCenter, x, y);
+	}
+
+	translate(x, y) {
+		AreaMatrix.translate(this.handle, x, y);
 	}
 
 	rotate(x, y, amount) {

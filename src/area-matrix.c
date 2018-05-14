@@ -44,6 +44,18 @@ LIBUI_FUNCTION(scale) {
 	return NULL;
 }
 
+LIBUI_FUNCTION(translate) {
+	INIT_ARGS(3);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_DOUBLE(x, 1);
+	ARG_DOUBLE(y, 2);
+
+	uiDrawMatrixTranslate(m, x, y);
+
+	return NULL;
+}
+
 LIBUI_FUNCTION(rotate) {
 	INIT_ARGS(4);
 
@@ -102,6 +114,7 @@ napi_value _libui_init_area_matrix(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(setIdentity);
 	LIBUI_EXPORT(scale);
+	LIBUI_EXPORT(translate);
 	LIBUI_EXPORT(rotate);
 	LIBUI_EXPORT(skew);
 	LIBUI_EXPORT(multiply);
