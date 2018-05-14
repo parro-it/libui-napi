@@ -93,7 +93,7 @@ class AreaDrawContext {
 		if (!(path instanceof AreaDrawPath)) {
 			throw new TypeError('The \'path\' argument has to be an AreaDrawPath object');
 		}
-		if (!(brush instanceof AreaDrawBrush)) {
+		if (!(brush instanceof AreaDrawBrush || brush instanceof AreaDrawBrushGradient)) {
 			throw new TypeError(
 				'The \'brush\' argument has to be an AreaDrawBrush object');
 		}
@@ -108,7 +108,7 @@ class AreaDrawContext {
 		if (!(path instanceof AreaDrawPath)) {
 			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
 		}
-		if (!(brush instanceof AreaDrawBrush)) {
+		if (!(brush instanceof AreaDrawBrush || brush instanceof AreaDrawBrushGradient)) {
 			throw new TypeError(
 				'The \'brush\' argument has to be a AreaDrawBrush object');
 		}
@@ -142,19 +142,80 @@ class AreaDrawBrush {
 	}
 }
 
-// class AreaDrawBrushSolid extends AreaDrawBrush{
-// 	constructor(r, g, b, a) {
-// 		a = typeof a === 'undefined' ? 1 : a;
-// 		this.handle = AreaBrush.createSolid(r, g, b, a);
-// 	}
-// }
+class AreaDrawBrushGradient {
+	constructor(type) {
+		if (!(1 <= type && type <= 2)) {
+			throw new TypeError('The \'type\' parameter');
+		}
+		this.handle = AreaBrush.createGradient(type);
+	}
 
-// class AreaDrawBrushRadial extends AreaDrawBrush{
-// 	constructor(r, g, b, a) {
-// 		a = typeof a === 'undefined' ? 1 : a;
-// 		this.handle = AreaBrush.createGradient(r, g, b, a);
-// 	}
-// }
+	set stops(v) {
+		AreaBrush.setStops(this.handle, v.map(x => x.handle));
+	}
+
+	get stops() {
+		return AreaBrush.getStops(this.handle);
+	}
+
+	set start(v) {
+		AreaBrush.setStart(this.handle, v.x, v.y);
+	}
+
+	get start() {
+		return AreaBrush.getStart(this.handle);
+	}
+
+	set end(v) {
+		AreaBrush.setEnd(this.handle, v.x, v.y);
+	}
+
+	get end() {
+		return AreaBrush.getEnd(this.handle);
+	}
+
+	set outerRadius(v) {
+		return AreaBrush.setOuterRadius(this.handle, v);
+	}
+
+	get outerRadius() {
+		return AreaBrush.getOuterRadius(this.handle);
+	}
+}
+
+AreaDrawBrushGradient.Stop = class AreaDrawBrushGradientStop {
+	constructor(pos, color, g, b, a) {
+		if (typeof g === 'undefined') {
+			this.handle =
+				AreaBrush.stop_create(pos, color.r || 0, color.g || 0, color.b || 0,
+									  typeof color.a === 'undefined' ? 1 : color.a);
+		} else {
+			this.handle = AreaBrush.stop_create(pos, color, g, b, a);
+		}
+	}
+
+	set pos(v) {
+		AreaBrush.stop_setPos(this.handle, v);
+	}
+
+	get pos() {
+		return AreaBrush.stop_getPos(this.handle);
+	}
+
+	set color(color) {
+		AreaBrush.stop_setColor(this.handle, color.r || 0, color.g || 0, color.b || 0,
+								typeof color.a === 'undefined' ? 1 : color.a);
+	}
+
+	get color() {
+		return AreaBrush.stop_getColor(this.handle);
+	}
+}
+
+AreaDrawBrushGradient.type = {
+	linear: 1,
+	radial: 2
+};
 
 class AreaDrawPath {
 	constructor(mode) {
@@ -241,6 +302,14 @@ class AreaDrawStroke {
 	get dashes() {
 		return AreaStrokeParams.getDashes(this.handle);
 	}
+
+	set dashPhase(v) {
+		AreaStrokeParams.setDashPhase(this.handle, v);
+	}
+
+	get dashPhase() {
+		AreaStrokeParams.getDashPhase(this.handle);
+	}
 }
 
 AreaDrawStroke.lineCap = {
@@ -300,6 +369,7 @@ module.exports = {
 	AreaDrawParams,
 	AreaDrawContext,
 	AreaDrawBrush,
+	AreaDrawBrushGradient,
 	AreaDrawPath,
 	AreaDrawStroke,
 	AreaDrawMatrix,

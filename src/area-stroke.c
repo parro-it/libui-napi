@@ -58,15 +58,10 @@ static void free_sp(napi_env env, void *finalize_data, void *finalize_hint) {
 }
 
 LIBUI_FUNCTION(create) {
-	uiDrawStrokeParams *sp = malloc(sizeof(uiDrawStrokeParams));
+	uiDrawStrokeParams *sp = calloc(1, sizeof(uiDrawStrokeParams));
 
-	sp->Cap = 0;
-	sp->Join = 0;
 	sp->Thickness = 1;
 	sp->MiterLimit = uiDrawDefaultMiterLimit;
-	sp->Dashes = NULL;
-	sp->NumDashes = 0;
-	sp->DashPhase = 0;
 
 	napi_value external;
 	napi_status status = napi_create_external(env, sp, free_sp, NULL, &external);
@@ -95,6 +90,10 @@ LIBUI_FUNCTION(setDashes) {
 
 	ARG_POINTER(uiDrawStrokeParams, handle, 0);
 	napi_value array = argv[1];
+
+	if (handle->NumDashes > 0) {
+		free(handle->Dashes);
+	}
 
 	uint32_t numDashes;
 	napi_status status = napi_get_array_length(env, array, &numDashes);
