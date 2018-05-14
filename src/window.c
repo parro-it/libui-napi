@@ -114,7 +114,7 @@ LIBUI_FUNCTION(getContentSize) {
 	int width = 0;
 	int height = 0;
 	uiWindowContentSize(uiWindow(handle->control), &width, &height);
-	return make_size(env, width, height);
+	return make_size_int(env, width, height);
 }
 
 LIBUI_FUNCTION(setContentSize) {

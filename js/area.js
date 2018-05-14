@@ -520,6 +520,13 @@ class Color {
 	}
 }
 
+class Size {
+	constructor(w, h) {
+		this.width = w;
+		this.height = h;
+	}
+}
+
 module.exports = {
 	AreaMouseEvent,
 	AreaKeyEvent,
@@ -532,5 +539,6 @@ module.exports = {
 	UiDrawMatrix,
 	UiArea,
 	Point,
-	Color
+	Color,
+	Size
 };

@@ -21,7 +21,8 @@ const {
 	AreaDrawBrushGradient,
 	BrushGradientStop,
 	Point,
-	Color
+	Color,
+	Size
 } = require('./js/area');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
@@ -94,7 +95,7 @@ Object.assign(libui, {
 libui.App.init();
 
 libui.Area.init(AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext,
-				BrushGradientStop, Color, Point);
+				BrushGradientStop, Color, Point, Size);
 
 libui.onShouldQuit = libui.App.onShouldQuit;
 

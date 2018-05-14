@@ -2,6 +2,7 @@
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
+#include "values.h"
 
 static const char *MODULE = "AreaMatrix";
 
@@ -198,6 +199,30 @@ LIBUI_FUNCTION(get) {
 	return make_double(env, v);
 }
 
+LIBUI_FUNCTION(transformPoint) {
+	INIT_ARGS(3);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_DOUBLE(x, 1);
+	ARG_DOUBLE(y, 2);
+
+	uiDrawMatrixTransformPoint(m, &x, &y);
+
+	return make_point(env, x, y);
+}
+
+LIBUI_FUNCTION(transformSize) {
+	INIT_ARGS(3);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_DOUBLE(w, 1);
+	ARG_DOUBLE(h, 2);
+
+	uiDrawMatrixTransformSize(m, &w, &h);
+
+	return make_size_double(env, w, h);
+}
+
 napi_value _libui_init_area_matrix(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
@@ -211,5 +236,7 @@ napi_value _libui_init_area_matrix(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(invert);
 	LIBUI_EXPORT(get);
 	LIBUI_EXPORT(set);
+	LIBUI_EXPORT(transformPoint);
+	LIBUI_EXPORT(transformSize);
 	return module;
 }
