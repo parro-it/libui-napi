@@ -2,8 +2,12 @@
 #include "napi_utils.h"
 #include "control.h"
 #include "events.h"
+#include "values.h"
 
 static const char *MODULE = "AreaBrush";
+
+// area.c
+extern napi_ref BrushGradientStop, Color, Point;
 
 static void free_brush(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiDrawBrush *brush = (uiDrawBrush *)finalize_data;
@@ -12,8 +16,6 @@ static void free_brush(napi_env env, void *finalize_data, void *finalize_hint) {
 	}
 	free(brush);
 }
-
-napi_ref BrushGradientStop;
 
 LIBUI_FUNCTION(create) {
 	uiDrawBrush *brush = calloc(1, sizeof(uiDrawBrush));
@@ -47,28 +49,7 @@ LIBUI_FUNCTION(getColor) {
 
 	ARG_POINTER(uiDrawBrush, brush, 0);
 
-	napi_value result;
-
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	napi_create_object(env, &result);
-	CHECK_STATUS_THROW(status, napi_create_object);
-
-	napi_set_named_property(env, result, "r", make_double(env, brush->R));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "g", make_double(env, brush->G));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "b", make_double(env, brush->B));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "a", make_double(env, brush->A));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
-	return result;
+	return make_color(env, brush->R, brush->G, brush->B, brush->A);
 }
 
 LIBUI_FUNCTION(setType) {
@@ -108,24 +89,7 @@ LIBUI_FUNCTION(getStart) {
 
 	ARG_POINTER(uiDrawBrush, brush, 0);
 
-	napi_value result;
-
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	napi_create_object(env, &result);
-	CHECK_STATUS_THROW(status, napi_create_object);
-
-	napi_set_named_property(env, result, "x", make_double(env, brush->X0));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "y", make_double(env, brush->Y0));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
-	return result;
+	return make_point(env, brush->X0, brush->Y0);
 }
 
 LIBUI_FUNCTION(setEnd) {
@@ -146,24 +110,7 @@ LIBUI_FUNCTION(getEnd) {
 
 	ARG_POINTER(uiDrawBrush, brush, 0);
 
-	napi_value result;
-
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	napi_create_object(env, &result);
-	CHECK_STATUS_THROW(status, napi_create_object);
-
-	napi_set_named_property(env, result, "x", make_double(env, brush->X1));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "y", make_double(env, brush->Y1));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
-	return result;
+	return make_point(env, brush->X1, brush->Y1);
 }
 
 LIBUI_FUNCTION(setOuterRadius) {
@@ -323,37 +270,7 @@ LIBUI_FUNCTION(stop_getColor) {
 
 	ARG_POINTER(uiDrawBrushGradientStop, stop, 0);
 
-	napi_value result;
-
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	napi_create_object(env, &result);
-	CHECK_STATUS_THROW(status, napi_create_object);
-
-	napi_set_named_property(env, result, "r", make_double(env, stop->R));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "g", make_double(env, stop->G));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "b", make_double(env, stop->B));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	napi_set_named_property(env, result, "a", make_double(env, stop->A));
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
-	return result;
-}
-
-LIBUI_FUNCTION(init) {
-	INIT_ARGS(1);
-
-	ARG_CB_REF(gradient, 0);
-	BrushGradientStop = gradient;
-
-	return NULL;
+	return make_color(env, stop->R, stop->G, stop->B, stop->A);
 }
 
 napi_value _libui_init_area_brush(napi_env env, napi_value exports) {
@@ -376,7 +293,6 @@ napi_value _libui_init_area_brush(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(stop_getPos);
 	LIBUI_EXPORT(stop_setColor);
 	LIBUI_EXPORT(stop_getColor);
-	LIBUI_EXPORT(init);
 
 	return module;
 }

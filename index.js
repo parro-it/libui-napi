@@ -93,8 +93,8 @@ Object.assign(libui, {
 
 libui.App.init();
 
-libui.Area.init(AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext);
-libui.AreaBrush.init(BrushGradientStop)
+libui.Area.init(AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext,
+				BrushGradientStop, Color, Point);
 
 libui.onShouldQuit = libui.App.onShouldQuit;
 

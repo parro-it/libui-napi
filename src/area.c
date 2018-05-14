@@ -12,7 +12,8 @@
 
 static const char *MODULE = "Area";
 
-static napi_ref AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext;
+napi_ref AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext, BrushGradientStop, Color,
+	Point;
 
 napi_value create_mouse_event(napi_env env, uiAreaMouseEvent *e) {
 	napi_value constructor, value;
@@ -313,7 +314,7 @@ LIBUI_FUNCTION(scrollTo) {
 }
 
 LIBUI_FUNCTION(init) {
-	INIT_ARGS(4);
+	INIT_ARGS(7);
 
 	ARG_CB_REF(mouseEvent, 0);
 	AreaMouseEvent = mouseEvent;
@@ -326,6 +327,15 @@ LIBUI_FUNCTION(init) {
 
 	ARG_CB_REF(drawContext, 3);
 	AreaDrawContext = drawContext;
+
+	ARG_CB_REF(stop, 4);
+	BrushGradientStop = stop;
+
+	ARG_CB_REF(color, 5);
+	Color = color;
+
+	ARG_CB_REF(point, 6);
+	Point = point;
 
 	return NULL;
 }

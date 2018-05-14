@@ -1,6 +1,9 @@
 #include "values.h"
 #include "napi_utils.h"
 
+// area.c
+extern napi_ref Color, Point;
+
 napi_value make_size(napi_env env, uint32_t width, uint32_t height) {
 	napi_value size;
 	napi_value width_js;
@@ -25,35 +28,45 @@ napi_value make_size(napi_env env, uint32_t width, uint32_t height) {
 	return size;
 }
 
+napi_value make_point(napi_env env, double x, double y) {
+	napi_value point, constructor;
+
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_THROW(status, napi_open_handle_scope);
+
+	status = napi_get_reference_value(env, Point, &constructor);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	napi_value args[2] = {make_double(env, x), make_double(env, y)};
+
+	status = napi_new_instance(env, constructor, 2, args, &point);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_THROW(status, napi_close_handle_scope);
+
+	return point;
+}
+
 napi_value make_color(napi_env env, double r, double g, double b, double a) {
-	napi_value color;
-	napi_value r_js;
-	napi_value g_js;
-	napi_value b_js;
-	napi_value a_js;
+	napi_value color, constructor;
 
-	napi_status status;
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_THROW(status, napi_open_handle_scope);
 
-	status = napi_create_object(env, &color);
-	CHECK_STATUS_THROW(status, napi_create_object);
+	status = napi_get_reference_value(env, Color, &constructor);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
-	status = napi_create_double(env, r, &r_js);
-	CHECK_STATUS_THROW(status, napi_create_double);
-	status = napi_create_double(env, g, &g_js);
-	CHECK_STATUS_THROW(status, napi_create_double);
-	status = napi_create_double(env, b, &b_js);
-	CHECK_STATUS_THROW(status, napi_create_double);
-	status = napi_create_double(env, a, &a_js);
-	CHECK_STATUS_THROW(status, napi_create_double);
+	napi_value args[4] = {make_double(env, r), make_double(env, g), make_double(env, b),
+						  make_double(env, a)};
 
-	status = napi_set_named_property(env, color, "r", r_js);
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	status = napi_set_named_property(env, color, "g", g_js);
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	status = napi_set_named_property(env, color, "b", b_js);
-	CHECK_STATUS_THROW(status, napi_set_named_property);
-	status = napi_set_named_property(env, color, "a", a_js);
-	CHECK_STATUS_THROW(status, napi_set_named_property);
+	status = napi_new_instance(env, constructor, 4, args, &color);
+	CHECK_STATUS_THROW(status, napi_new_instance);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_THROW(status, napi_close_handle_scope);
 
 	return color;
 }
