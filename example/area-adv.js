@@ -17,11 +17,11 @@ linearBrush.start = {
 linearBrush.end = {
 	x: 200,
 	y: 200
-} linearBrush.stops =
-	[
-		new libui.AreaDrawBrushGradient.Stop(0, {r: 1, g: 0, b: 1, a: 1}),
-		new libui.AreaDrawBrushGradient.Stop(1, {r: 0, g: 1, b: 0, a: 1})
-	];
+};
+linearBrush.stops = [
+	new libui.AreaDrawBrushGradient.Stop(0, {r: 1, g: 0, b: 1, a: 1}),
+	new libui.AreaDrawBrushGradient.Stop(1, {r: 0, g: 1, b: 0, a: 1})
+];
 
 const radialBrush =
 	new libui.AreaDrawBrushGradient(libui.AreaDrawBrushGradient.type.radial);
