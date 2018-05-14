@@ -219,7 +219,7 @@ AreaDrawBrushGradient.type = {
 
 class AreaDrawPath {
 	constructor(mode) {
-		mode = typeof a === 'undefined' ? 0 : mode;
+		mode = typeof a === 'undefined' ? AreaDrawPath.fillMode.winding : mode;
 		this.handle = AreaPath.create(mode);
 	}
 
@@ -257,6 +257,11 @@ class AreaDrawPath {
 		AreaPath.end(this.handle);
 	}
 }
+
+AreaDrawPath.fillMode = {
+	winding: 0,
+	alternate: 1
+};
 
 class AreaDrawStroke {
 	constructor() {
@@ -342,7 +347,7 @@ class AreaDrawMatrix {
 	}
 
 	rotate(x, y, amount) {
-		AreaMatrix.scale(this.handle, x, y, amount);
+		AreaMatrix.rotate(this.handle, x, y, amount);
 	}
 
 	skew(x, y, xAmount, yAmount) {

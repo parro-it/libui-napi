@@ -1,7 +1,7 @@
 'use strict';
 const libui = require('..');
 
-const win = new libui.UiWindow('Area window', 800, 600, false);
+const win = new libui.UiWindow('Area window', 600, 400, false);
 win.margined = 1;
 win.onClosing(() => {
 	libui.stopLoop();
@@ -55,7 +55,8 @@ const spCap = new libui.AreaDrawStroke();
 spCap.thickness = 15;
 spCap.lineCap = libui.AreaDrawStroke.lineCap.round;
 
-let i = 1;
+let x = 1;
+let y = 1;
 
 const area = new libui.UiArea(
 	(area, params) => {
@@ -64,7 +65,7 @@ const area = new libui.UiArea(
 		path.addRectangle(10, 10, 100, 100);
 		path.end();
 		params.context.fill(path, brushLinear);
-		spDashed.dashPhase = i * 10;
+		spDashed.dashPhase = x * 10;
 		params.context.stroke(path, brushLinear, spDashed);
 
 		path = new libui.AreaDrawPath();
@@ -74,7 +75,7 @@ const area = new libui.UiArea(
 
 		const matrixScale = new libui.AreaDrawMatrix();
 		matrixScale.setIdentity();
-		matrixScale.scale(0, 0, i, 1);
+		matrixScale.scale(0, 0, x, y);
 
 		params.context.save();
 		params.context.transform(matrixScale);
@@ -104,7 +105,8 @@ const area = new libui.UiArea(
 	},
 	(_area, mouseEvent) => {
 		// console.log(_area, mouseEvent);
-		i = mouseEvent.x / 300;
+		x = 0.2 + 1.5 * (mouseEvent.x / mouseEvent.areaWidth);
+		y = 0.2 + 1.2 * (mouseEvent.y / mouseEvent.areaHeight);
 		area.queueRedrawAll();
 		if (mouseEvent.x > 10 && mouseEvent.x < 110 && mouseEvent.y > 10 &&
 			mouseEvent.y < 110) {
