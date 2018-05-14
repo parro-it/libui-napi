@@ -6,6 +6,29 @@ delete libui.EventLoop;
 let wakingup = false;
 let asyncHook = null;
 
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
+class Color {
+	constructor(r, g, b, a) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = a;
+	}
+}
+
+class Size {
+	constructor(w, h) {
+		this.width = w;
+		this.height = h;
+	}
+}
+
 module.exports = libui;
 const {UiCheckbox} = require('./js/checkbox');
 const {
@@ -19,10 +42,7 @@ const {
 	DrawStrokeParams,
 	UiDrawMatrix,
 	AreaDrawBrushGradient,
-	BrushGradientStop,
-	Point,
-	Color,
-	Size
+	BrushGradientStop
 } = require('./js/area');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');

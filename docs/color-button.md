@@ -7,7 +7,7 @@ A button that opens a color palette popup.
 
 * [UiColorButton](#UiColorButton)
     * [new UiColorButton()](#new_UiColorButton_new)
-    * [.color](#UiColorButton+color) ⇒ <code>Object</code>
+    * [.color](#UiColorButton+color) ⇒ <code>Color</code>
     * [.onChanged(callback)](#UiColorButton+onChanged) ⇒ <code>undefined</code>
 
 <a name="new_UiColorButton_new"></a>
@@ -17,7 +17,7 @@ Create a new UiColorButton object.
 
 <a name="UiColorButton+color"></a>
 
-### uiColorButton.color ⇒ <code>Object</code>
+### uiColorButton.color ⇒ <code>Color</code>
 Set or return the ColorButton color value.
 
 **Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  

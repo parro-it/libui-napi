@@ -10,7 +10,7 @@ win.margined = true;
 
 const colorBtn = new libui.UiColorButton();
 colorBtn.onChanged(() => {
-	const c = colorBtn.color
+	const c = colorBtn.color;
 	console.log(`The color is: ${c.r} ${c.g} ${c.b} ${c.a}`);
 });
 

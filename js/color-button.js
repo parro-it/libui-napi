@@ -14,7 +14,7 @@ class UiColorButton {
 
 	/**
 	 * Set or return the ColorButton color value.
-	 * @return {Object}
+	 * @return {Color}
 	 */
 	get color() {
 		return ColorButton.getColor(this.handle);
