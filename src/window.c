@@ -51,13 +51,7 @@ LIBUI_FUNCTION(create) {
 	ARG_STRING(title, 0);
 	ARG_INT32(width, 1);
 	ARG_INT32(height, 2);
-
-	napi_value has_menubar_v = argv[3];
-	bool has_menubar;
-	napi_status status = napi_coerce_to_bool(env, has_menubar_v, &has_menubar_v);
-	CHECK_STATUS_THROW(status, napi_coerce_to_bool);
-	status = napi_get_value_bool(env, has_menubar_v, &has_menubar);
-	CHECK_STATUS_THROW(status, napi_get_value_bool);
+	ARG_BOOL(has_menubar, 3);
 
 	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
 	free(title);

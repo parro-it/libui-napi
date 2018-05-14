@@ -17,7 +17,7 @@ class UiWindow {
 	 * @return {UiWindow} new instance.
 	 */
 	constructor(title, width, height, hasMenubar) {
-		this.handle = Window.create(title, width, height, hasMenubar);
+		this.handle = Window.create(title, width, height, Boolean(hasMenubar));
 	}
 
 	/**
