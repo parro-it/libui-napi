@@ -1,9 +1,12 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiEditableCombobox">UiEditableCombobox</a></dt>
+<dt><a href="#UiEditableCombobox">UiEditableCombobox</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A drop down combo box that allows to select an item from list or to specify a custom
 value.</p>
+</dd>
+<dt><a href="#DateTimePickerBase">DateTimePickerBase</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
+<dd><p>A base class for date/time related entries.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
 <dd><p>Base class for all controls.</p>
@@ -12,15 +15,19 @@ value.</p>
 
 <a name="UiEditableCombobox"></a>
 
-## UiEditableCombobox
+## UiEditableCombobox ⇐ [<code>UiControl</code>](#UiControl)
 A drop down combo box that allows to select an item from list or to specify a custom
 value.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiEditableCombobox](#UiEditableCombobox)
+* [UiEditableCombobox](#UiEditableCombobox) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiEditableCombobox()](#new_UiEditableCombobox_new)
     * [.text](#UiEditableCombobox+text) ⇒ <code>string</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(text)](#UiEditableCombobox+append) ⇒ <code>undefined</code>
     * [.onChanged(callback)](#UiEditableCombobox+onChanged) ⇒ <code>undefined</code>
 
@@ -33,6 +40,24 @@ Create a new UiEditableCombobox object.
 
 ### uiEditableCombobox.text ⇒ <code>string</code>
 Return or set the current text.
+
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
+<a name="UiControl+enabled"></a>
+
+### uiEditableCombobox.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
+<a name="UiControl+visible"></a>
+
+### uiEditableCombobox.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
+<a name="UiControl+toplevel"></a>
+
+### uiEditableCombobox.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
 <a name="UiEditableCombobox+append"></a>
@@ -57,6 +82,37 @@ Add a listener to the `changed` event. Emitted whenever the text (or item) chang
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
+<a name="DateTimePickerBase"></a>
+
+## DateTimePickerBase ⇐ [<code>UiControl</code>](#UiControl)
+A base class for date/time related entries.
+
+**Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
+
+* [DateTimePickerBase](#DateTimePickerBase) ⇐ [<code>UiControl</code>](#UiControl)
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
+
+<a name="UiControl+enabled"></a>
+
+### dateTimePickerBase.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>DateTimePickerBase</code>](#DateTimePickerBase)  
+<a name="UiControl+visible"></a>
+
+### dateTimePickerBase.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>DateTimePickerBase</code>](#DateTimePickerBase)  
+<a name="UiControl+toplevel"></a>
+
+### dateTimePickerBase.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>DateTimePickerBase</code>](#DateTimePickerBase)  
 <a name="UiControl"></a>
 
 ## UiControl

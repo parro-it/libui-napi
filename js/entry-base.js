@@ -1,8 +1,13 @@
 const {Entries} = require('..');
+const {UiControl} = require('./ui-control');
 
-class UiEntryBase {
+/**
+ * A base class for text related entries.
+ * @extends UiControl
+ */
+class UiEntryBase extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 
 	/**
