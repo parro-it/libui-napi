@@ -266,38 +266,51 @@ LIBUI_FUNCTION(queueRedrawAll) {
 	return NULL;
 }
 
-// LIBUI_FUNCTION(beginWindowMove) {
-// 	uiAreaBeginUserWindowMove(uiArea *a);
-// }
-// LIBUI_FUNCTION(beginWindowResize) {
-// 	uiAreaBeginUserWindowResize(uiArea *a, uiWindowResizeEdge edge);
-// }
+LIBUI_FUNCTION(beginWindowMove) {
+	INIT_ARGS(1);
 
-// LIBUI_FUNCTION(setSize) {
-// 	INIT_ARGS(3);
+	ARG_POINTER(struct control_handle, handle, 0);
 
-// 	ARG_POINTER(struct control_handle, handle, 0);
-// 	ARG_INT32(width, 1);
-// 	ARG_INT32(height, 2);
+	uiAreaBeginUserWindowMove(uiArea(handle->control));
 
-// 	uiAreaSetSize(uiArea(handle->control), width, height);
+	return NULL;
+}
+LIBUI_FUNCTION(beginWindowResize) {
+	INIT_ARGS(2);
 
-// 	return NULL;
-// }
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_INT32(edge, 1);
 
-// LIBUI_FUNCTION(scrollTo) {
-// 	INIT_ARGS(5);
+	uiAreaBeginUserWindowResize(uiArea(handle->control), edge);
 
-// 	ARG_POINTER(struct control_handle, handle, 0);
-// 	ARG_DOUBLE(x, 1);
-// 	ARG_DOUBLE(y, 2);
-// 	ARG_DOUBLE(width, 3);
-// 	ARG_DOUBLE(height, 4);
+	return NULL;
+}
 
-// 	uiAreaScrollTo(uiArea(handle->control), x, y, width, height);
+LIBUI_FUNCTION(setSize) {
+	INIT_ARGS(3);
 
-// 	return NULL;
-// }
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_INT32(width, 1);
+	ARG_INT32(height, 2);
+
+	uiAreaSetSize(uiArea(handle->control), width, height);
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(scrollTo) {
+	INIT_ARGS(5);
+
+	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_DOUBLE(x, 1);
+	ARG_DOUBLE(y, 2);
+	ARG_DOUBLE(width, 3);
+	ARG_DOUBLE(height, 4);
+
+	uiAreaScrollTo(uiArea(handle->control), x, y, width, height);
+
+	return NULL;
+}
 
 LIBUI_FUNCTION(init) {
 	INIT_ARGS(4);
@@ -322,5 +335,9 @@ napi_value _libui_init_area(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(init);
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(queueRedrawAll);
+	LIBUI_EXPORT(beginWindowMove);
+	LIBUI_EXPORT(beginWindowResize);
+	LIBUI_EXPORT(setSize);
+	LIBUI_EXPORT(scrollTo);
 	return module;
 }

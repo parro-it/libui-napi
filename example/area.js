@@ -14,12 +14,14 @@ const brushGreen = new libui.AreaDrawBrush(0, 1, 0);
 const sp = new libui.AreaDrawStroke();
 sp.thickness = 5;
 
-const matrix = new libui.AreaDrawMatrix();
-matrix.setIdentity();
-matrix.scale(0, 0, 1.5, 1);
+let i = 1;
 
 const area = new libui.UiArea(
 	(area, params) => {
+		const matrix = new libui.AreaDrawMatrix();
+		matrix.setIdentity();
+		matrix.scale(0, 0, i, 1);
+
 		// console.log(area, params);
 		let path = new libui.AreaDrawPath();
 		path.addRectangle(10, 10, 100, 100);
@@ -37,8 +39,14 @@ const area = new libui.UiArea(
 		path.end();
 		params.context.stroke(path, brushGreen, sp);
 	},
-	(area, mouseEvent) => {
+	(_, mouseEvent) => {
 		// console.log(area, mouseEvent);
+		i = mouseEvent.x / 300;
+		area.queueRedrawAll();
+		if (mouseEvent.x > 10 && mouseEvent.x < 110 && mouseEvent.y > 10 &&
+			mouseEvent.y < 110) {
+			area.beginWindowMove();
+		}
 	},
 	(area, left) => {
 		// console.log('left:', left);

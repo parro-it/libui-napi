@@ -29,13 +29,24 @@ class UiArea {
 	}
 
 	beginWindowMove() {
-		// TODO
+		Area.beginWindowMove(this.handle);
 	}
 
 	beginWindowResize(edge) {
-		// TODO
+		Area.beginWindowResize(this.handle, edge);
 	}
 }
+
+UiArea.resizeEdge = {
+	left 0,
+	top 1,
+	right 2,
+	bottom 3,
+	topLeft 4,
+	topRight 5,
+	bottomLeft 6,
+	bottomRight 7
+};
 
 class AreaMouseEvent {
 	constructor(x, y, areaWidth, areaHeight, down, up, count, modifiers, held1To64) {
