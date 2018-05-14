@@ -1,15 +1,17 @@
 const {Grid} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A powerful container that allow to specify size and position of each children.
+ * @extends UiControl
  */
-class UiGrid {
+class UiGrid extends UiControl {
 	/**
 	 * Create a new UiGrid object.
 	 * @return {UiGrid}
 	 */
 	constructor() {
-		this.handle = Grid.create();
+		super(Grid.create());
 	}
 
 	/**

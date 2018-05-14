@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiForm">UiForm</a></dt>
+<dt><a href="#UiForm">UiForm</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A container that organizes children as labeled fields.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiForm"></a>
 
-## UiForm
+## UiForm ⇐ [<code>UiControl</code>](#UiControl)
 A container that organizes children as labeled fields.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiForm](#UiForm)
+* [UiForm](#UiForm) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiForm()](#new_UiForm_new)
     * [.padded](#UiForm+padded) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(label, control, stretchy)](#UiForm+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiForm+deleteAt) ⇒ <code>undefined</code>
 
@@ -31,6 +35,24 @@ Create a new UiForm object.
 
 ### uiForm.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
+
+**Kind**: instance property of [<code>UiForm</code>](#UiForm)  
+<a name="UiControl+enabled"></a>
+
+### uiForm.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiForm</code>](#UiForm)  
+<a name="UiControl+visible"></a>
+
+### uiForm.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiForm</code>](#UiForm)  
+<a name="UiControl+toplevel"></a>
+
+### uiForm.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiForm</code>](#UiForm)  
 <a name="UiForm+append"></a>

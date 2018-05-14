@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiGroup">UiGroup</a></dt>
+<dt><a href="#UiGroup">UiGroup</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A container for a single control that provides a caption and visually groups
 it&#39;s child.</p>
 </dd>
@@ -12,16 +12,20 @@ it&#39;s child.</p>
 
 <a name="UiGroup"></a>
 
-## UiGroup
+## UiGroup ⇐ [<code>UiControl</code>](#UiControl)
 A container for a single control that provides a caption and visually groups
 it's child.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiGroup](#UiGroup)
+* [UiGroup](#UiGroup) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiGroup(title)](#new_UiGroup_new)
     * [.title](#UiGroup+title) ⇒ <code>string</code>
     * [.margined](#UiGroup+margined) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.setChild(control, stretchy)](#UiGroup+setChild)
 
 <a name="new_UiGroup_new"></a>
@@ -44,6 +48,24 @@ Set or return the text to show in group caption.
 
 ### uiGroup.margined ⇒ <code>boolean</code>
 When true, an internal margin is added to the group.
+
+**Kind**: instance property of [<code>UiGroup</code>](#UiGroup)  
+<a name="UiControl+enabled"></a>
+
+### uiGroup.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiGroup</code>](#UiGroup)  
+<a name="UiControl+visible"></a>
+
+### uiGroup.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiGroup</code>](#UiGroup)  
+<a name="UiControl+toplevel"></a>
+
+### uiGroup.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiGroup</code>](#UiGroup)  
 <a name="UiGroup+setChild"></a>

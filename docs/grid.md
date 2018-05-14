@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiGrid">UiGrid</a></dt>
+<dt><a href="#UiGrid">UiGrid</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A powerful container that allow to specify size and position of each children.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiGrid"></a>
 
-## UiGrid
+## UiGrid ⇐ [<code>UiControl</code>](#UiControl)
 A powerful container that allow to specify size and position of each children.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiGrid](#UiGrid)
+* [UiGrid](#UiGrid) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiGrid()](#new_UiGrid_new)
     * [.padded](#UiGrid+padded) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+insertAt) ⇒ <code>undefined</code>
     * [.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+append) ⇒ <code>undefined</code>
 
@@ -31,6 +35,24 @@ Create a new UiGrid object.
 
 ### uiGrid.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
+
+**Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
+<a name="UiControl+enabled"></a>
+
+### uiGrid.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
+<a name="UiControl+visible"></a>
+
+### uiGrid.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
+<a name="UiControl+toplevel"></a>
+
+### uiGrid.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
 <a name="UiGrid+insertAt"></a>

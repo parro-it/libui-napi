@@ -1,10 +1,12 @@
 const {Group} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A container for a single control that provides a caption and visually groups
  * it's child.
+ * @extends UiControl
  */
-class UiGroup {
+class UiGroup extends UiControl {
 	/**
 	 * Create a new UiGroup object.
 	 *
@@ -12,7 +14,7 @@ class UiGroup {
 	 * @return {UiGroup} new instance.
 	 */
 	constructor(title = '') {
-		this.handle = Group.create(title);
+		super(Group.create(title));
 	}
 
 	/**
