@@ -1,15 +1,16 @@
 const {Button} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A simple button.
  */
-class UiButton {
+class UiButton extends UiControl {
 	/**
 	 * Create a new UiButton object.
 	 * @return {UiButton}
 	 */
 	constructor(label) {
-		this.handle = Button.create(String(label));
+		super(Button.create(String(label)));
 	}
 
 	/**

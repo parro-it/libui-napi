@@ -33,7 +33,7 @@ class UiControl {
 	 * @return {boolean}
 	 */
 	get toplevel() {
-		return ControlBase.getText(this.handle);
+		return ControlBase.toplevel(this.handle);
 	}
 
 	set visible(value) {
