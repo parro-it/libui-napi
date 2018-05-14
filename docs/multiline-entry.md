@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiMultilineEntry">UiMultilineEntry</a></dt>
+<dt><a href="#UiMultilineEntry">UiMultilineEntry</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A multiline text entry.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,15 +11,19 @@
 
 <a name="UiMultilineEntry"></a>
 
-## UiMultilineEntry
+## UiMultilineEntry ⇐ [<code>UiControl</code>](#UiControl)
 A multiline text entry.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiMultilineEntry](#UiMultilineEntry)
+* [UiMultilineEntry](#UiMultilineEntry) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
     * [.text](#UiMultilineEntry+text) ⇒ <code>string</code>
     * [.readOnly](#UiMultilineEntry+readOnly) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(text)](#UiMultilineEntry+append) ⇒ <code>undefined</code>
     * [.onChanged(callback)](#UiMultilineEntry+onChanged) ⇒ <code>undefined</code>
 
@@ -38,6 +42,24 @@ Set or return the the content of the multiline entry.
 
 ### uiMultilineEntry.readOnly ⇒ <code>boolean</code>
 Whether the user is allowed to change the entry's contents.
+
+**Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
+<a name="UiControl+enabled"></a>
+
+### uiMultilineEntry.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
+<a name="UiControl+visible"></a>
+
+### uiMultilineEntry.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
+<a name="UiControl+toplevel"></a>
+
+### uiMultilineEntry.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 <a name="UiMultilineEntry+append"></a>

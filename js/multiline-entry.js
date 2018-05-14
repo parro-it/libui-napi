@@ -1,15 +1,17 @@
 const {MultilineEntry} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A multiline text entry.
+ * @extends UiControl
  */
-class UiMultilineEntry {
+class UiMultilineEntry extends UiControl {
 	/**
 	 * Create a new UiMultilineEntry object.
 	 * @return {UiMultilineEntry}
 	 */
 	constructor() {
-		this.handle = MultilineEntry.create();
+		super(MultilineEntry.create());
 	}
 
 	/**

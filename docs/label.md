@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiLabel">UiLabel</a></dt>
+<dt><a href="#UiLabel">UiLabel</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A static text label.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiLabel"></a>
 
-## UiLabel
+## UiLabel ⇐ [<code>UiControl</code>](#UiControl)
 A static text label.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiLabel](#UiLabel)
+* [UiLabel](#UiLabel) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiLabel(text)](#new_UiLabel_new)
     * [.text](#UiLabel+text) ⇒ <code>string</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
 
 <a name="new_UiLabel_new"></a>
 
@@ -34,6 +38,24 @@ Create a new UiLabel object.
 
 ### uiLabel.text ⇒ <code>string</code>
 Set or return the the content of the label.
+
+**Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
+<a name="UiControl+enabled"></a>
+
+### uiLabel.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
+<a name="UiControl+visible"></a>
+
+### uiLabel.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
+<a name="UiControl+toplevel"></a>
+
+### uiLabel.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
 <a name="UiControl"></a>
