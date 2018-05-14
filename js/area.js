@@ -28,10 +28,19 @@ class UiArea {
 		Area.queueRedrawAll(this.handle);
 	}
 
+	/**
+	 * Let the mouse move the window (only callable in the draw callback)
+	 * @return {undefined}
+	 */
 	beginWindowMove() {
 		Area.beginWindowMove(this.handle);
 	}
 
+	/**
+	 * Let the mouse resize the window (only callable in the draw callback)
+	 * @param {number} edge - the size which is held by the mouse
+	 * @return {undefined}
+	 */
 	beginWindowResize(edge) {
 		Area.beginWindowResize(this.handle, edge);
 	}
@@ -89,6 +98,13 @@ class AreaDrawContext {
 		this.handle = handle;
 	}
 
+	/**
+	 * Draw a path (the outline).
+	 * @param {AreaDrawPath} path - the path to draw
+	 * @param {AreaDrawBrush} brush - the brush to draw with
+	 * @param {AreaDrawStroke} stroke - the stroke params to draw with
+	 * @return {undefined}
+	 */
 	stroke(path, brush, stroke) {
 		if (!(path instanceof AreaDrawPath)) {
 			throw new TypeError('The \'path\' argument has to be an AreaDrawPath object');
@@ -104,6 +120,12 @@ class AreaDrawContext {
 		AreaContext.stroke(this.handle, path.handle, brush.handle, stroke.handle);
 	}
 
+	/**
+	 * Draw a path (filled).
+	 * @param {AreaDrawPath} path - the path to draw
+	 * @param {AreaDrawBrush} brush - the brush to draw with
+	 * @return {undefined}
+	 */
 	fill(path, brush) {
 		if (!(path instanceof AreaDrawPath)) {
 			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
@@ -115,10 +137,20 @@ class AreaDrawContext {
 		AreaContext.fill(this.handle, path.handle, brush.handle);
 	}
 
+	/**
+	 * Apply a matrix transformation
+	 * @param {AreaDrawMatrix} matrix - the matrix to apply
+	 * @return {undefined}
+	 */
 	transform(matrix) {
 		AreaContext.transform(this.handle, matrix.handle);
 	}
 
+	/**
+	 * TODO
+	 * @param {AreaDrawPath} path -
+	 * @return {undefined}
+	 */
 	clip(path) {
 		if (!(path instanceof AreaDrawPath)) {
 			throw new TypeError('The \'path\' argument has to be a AreaDrawPath object');
@@ -126,62 +158,140 @@ class AreaDrawContext {
 		AreaContext.clip(this.handle, path.handle);
 	}
 
+	/**
+	 * Save a transformation state.
+	 * @return {undefined}
+	 */
 	save() {
 		AreaContext.save(this.handle);
 	}
 
+	/**
+	 * Restore a transformation state.
+	 * @return {undefined}
+	 */
 	restore() {
 		AreaContext.restore(this.handle);
 	}
 }
 
+/**
+ * A solid draw brush
+ */
 class AreaDrawBrush {
+	/**
+	 * @param {number} r - the red component (0-1)
+	 * @param {number} g - the blue component (0-1)
+	 * @param {number} b - the blue component (0-1)
+	 * @param {number} a - the alpha component (0-1)
+	 * @return {UiArea}
+	 */
 	constructor(r, g, b, a) {
 		a = typeof a === 'undefined' ? 1 : a;
 		this.handle = AreaBrush.createSolid(r, g, b, a);
 	}
 }
 
+/**
+ * A gradient brush
+ */
 class AreaDrawBrushGradient {
+
+	/**
+	 * @param {number} type - the gradient type
+	 * @return {UiArea}
+	 */
 	constructor(type) {
 		if (!(1 <= type && type <= 2)) {
 			throw new TypeError('The \'type\' parameter');
 		}
+		this.type = type;
 		this.handle = AreaBrush.createGradient(type);
 	}
 
-	set stops(v) {
-		AreaBrush.setStops(this.handle, v.map(x => x.handle));
+	/**
+	 * Set the gradient stops
+	 * @param {Array<AreaDrawBrushGradient.Stop>} value - the gradients stops
+	 * @return {string}
+	 */
+	set stops(value) {
+		AreaBrush.setStops(this.handle, value.map(x => x.handle));
 	}
 
+	/**
+	 * Get the gradient stops
+	 * @return {Array<AreaDrawBrushGradient.Stop>}
+	 */
 	get stops() {
 		return AreaBrush.getStops(this.handle);
 	}
 
-	set start(v) {
-		AreaBrush.setStart(this.handle, v.x, v.y);
+	/**
+	 * Set the start position of the gradient
+	 * (Radial gradients: the inner circle's center)
+	 * @param {Object} pos - the coordinates
+	 * @return {undefined}
+	 */
+	set start(value) {
+		AreaBrush.setStart(this.handle, value.x, value.y);
 	}
 
+	/**
+	 * Get the start position of the gradient
+	 * (Radial gradients: the inner circle's center)
+	 * @return {Object}
+	 */
 	get start() {
 		return AreaBrush.getStart(this.handle);
 	}
 
-	set end(v) {
-		AreaBrush.setEnd(this.handle, v.x, v.y);
+	/**
+	 * Set the end position of the gradient
+	 * (Radial gradients: the outer circle's center)
+	 * @param {Object} pos - the coordinates
+	 * @return {undefined}
+	 */
+	set end(value) {
+		AreaBrush.setEnd(this.handle, value.x, value.y);
 	}
 
+	/**
+	 * Get the end position of the gradient
+	 * (Radial gradients: the outer circle's center)
+	 * @return {Object}
+	 */
 	get end() {
 		return AreaBrush.getEnd(this.handle);
 	}
 
-	set outerRadius(v) {
-		return AreaBrush.setOuterRadius(this.handle, v);
+	/**
+	 * Set the radius of the gradient's outer circle (radial gradients only)
+	 * @param {number} r - the outer radius
+	 * @return {undefined}
+	 */
+	set outerRadius(value) {
+		if (this.type !== AreaDrawBrushGradient.type.radial) {
+			throw new TypeError('Only radial gradients have a outerRadius!');
+		}
+		return AreaBrush.setOuterRadius(this.handle, value);
 	}
 
+	/**
+	 * Get the radius of the gradient's outer circle (radial gradients only)
+	 * @return {number}
+	 */
 	get outerRadius() {
+		if (this.type !== AreaDrawBrushGradient.type.radial) {
+			throw new TypeError('Only radial gradients have a outerRadius!');
+		}
 		return AreaBrush.getOuterRadius(this.handle);
 	}
 }
+
+AreaDrawBrushGradient.type = {
+	linear: 1,
+	radial: 2
+};
 
 AreaDrawBrushGradient.Stop = class AreaDrawBrushGradientStop {
 	constructor(pos, color, g, b, a) {
@@ -194,28 +304,23 @@ AreaDrawBrushGradient.Stop = class AreaDrawBrushGradientStop {
 		}
 	}
 
-	set pos(v) {
-		AreaBrush.stop_setPos(this.handle, v);
+	set pos(value) {
+		AreaBrush.stop_setPos(this.handle, value);
 	}
 
 	get pos() {
 		return AreaBrush.stop_getPos(this.handle);
 	}
 
-	set color(color) {
-		AreaBrush.stop_setColor(this.handle, color.r || 0, color.g || 0, color.b || 0,
-								typeof color.a === 'undefined' ? 1 : color.a);
+	set color(value) {
+		AreaBrush.stop_setColor(this.handle, value.r || 0, value.g || 0, value.b || 0,
+								typeof value.a === 'undefined' ? 1 : value.a);
 	}
 
 	get color() {
 		return AreaBrush.stop_getColor(this.handle);
 	}
 }
-
-AreaDrawBrushGradient.type = {
-	linear: 1,
-	radial: 2
-};
 
 class AreaDrawPath {
 	constructor(mode) {

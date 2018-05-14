@@ -10,7 +10,7 @@ win.onClosing(() => {
 const hBox = new libui.UiHorizontalBox();
 
 const brushRed = new libui.AreaDrawBrush(1, 0, 0);
-const brushBrown = new libui.AreaDrawBrush(0.7, 0.7, 0);
+const brushBrown = new libui.AreaDrawBrush(0.7, 0.5, 0);
 const brushLinear =
 	new libui.AreaDrawBrushGradient(libui.AreaDrawBrushGradient.type.linear);
 brushLinear.start = {
@@ -66,7 +66,7 @@ const area = new libui.UiArea(
 		path.end();
 		params.context.fill(path, brushLinear);
 		spDashed.dashPhase = x * 10;
-		params.context.stroke(path, brushLinear, spDashed);
+		params.context.stroke(path, brushBrown, spDashed);
 
 		path = new libui.AreaDrawPath();
 		path.arcTo(210, 65, 50, 0, 2 * Math.PI, false);

@@ -16,7 +16,7 @@
   },
   "libui": "alpha3.5-master-002",
   "scripts": {
-    "docs": "sh tools/docs.sh",
+    "docs": "node tools/docs.js",
     "start": "node --expose-gc example.js",
     "download-libui": "node tools/libui-download.js",
     "download-libui-napi": "node tools/libui-napi-download.js",
