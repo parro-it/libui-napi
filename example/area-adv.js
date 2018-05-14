@@ -30,7 +30,7 @@ radialBrush.stops = [
 	new libui.BrushGradientStop(0, new libui.Color(0, 0, 1, 1)),
 	new libui.BrushGradientStop(1, new libui.Color(0.5, 0.5, 1, 1))
 ];
-console.log(radialBrush.stops);
+console.log(radialBrush.stops.map(v => ({pos: v.pos, color: v.color})));
 
 const matrix = new libui.UiDrawMatrix();
 matrix.setIdentity();

@@ -7,7 +7,7 @@ function render(input, output) {
 	fs.writeFileSync(output, d)
 }
 
-render('js/area.js', 'docs/area.md');
+render('js/area/*.js', 'docs/area.md');
 render('js/button.js', 'docs/button.md');
 render('js/checkbox.js', 'docs/checkbox.md');
 render('js/color-button.js', 'docs/color-button.md');

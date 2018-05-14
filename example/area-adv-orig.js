@@ -14,6 +14,7 @@ const linearBrush = new libui.DrawBrush();
 linearBrush.type = libui.brushType.linearGradient;
 linearBrush.start = new libui.Point(0, 0);
 linearBrush.end = new libui.Point(200, 200);
+
 linearBrush.setStops([
 	new libui.BrushGradientStop(0, new libui.Color(1, 0, 0, 1)),
 	new libui.BrushGradientStop(1, new libui.Color(0, 1, 0, 1))

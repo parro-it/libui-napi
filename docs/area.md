@@ -5,7 +5,7 @@
 <dd><p>An area to draw on.</p>
 </dd>
 <dt><a href="#DrawBrush">DrawBrush</a></dt>
-<dd><p>A solid draw brush</p>
+<dd><p>A draw brush</p>
 </dd>
 </dl>
 
@@ -62,7 +62,7 @@ Let the mouse resize the window (only callable in the draw callback)
 <a name="DrawBrush"></a>
 
 ## DrawBrush
-A solid draw brush
+A draw brush
 
 **Kind**: global class  
 
