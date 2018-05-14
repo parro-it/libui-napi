@@ -1,17 +1,75 @@
 ## Classes
 
 <dl>
+<dt><a href="#UiEntryBase">UiEntryBase</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
+<dd><p>A base class for text related entries.</p>
+</dd>
 <dt><a href="#UiPasswordEntry">UiPasswordEntry</a> ⇐ <code><a href="#UiEntryBase">UiEntryBase</a></code></dt>
 <dd><p>A single line text entry control that hides the input, useful for passwords
 and other sensible data.</p>
-</dd>
-<dt><a href="#UiEntryBase">UiEntryBase</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
-<dd><p>A base class for text related entries.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
 <dd><p>Base class for all controls.</p>
 </dd>
 </dl>
+
+<a name="UiEntryBase"></a>
+
+## UiEntryBase ⇐ [<code>UiControl</code>](#UiControl)
+A base class for text related entries.
+
+**Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
+
+* [UiEntryBase](#UiEntryBase) ⇐ [<code>UiControl</code>](#UiControl)
+    * [.text](#UiEntryBase+text) ⇒ <code>string</code>
+    * [.readOnly](#UiEntryBase+readOnly) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
+    * [.onChanged(callback)](#UiEntryBase+onChanged) ⇒ <code>undefined</code>
+
+<a name="UiEntryBase+text"></a>
+
+### uiEntryBase.text ⇒ <code>string</code>
+Set or return the the content of the entry.
+
+**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
+<a name="UiEntryBase+readOnly"></a>
+
+### uiEntryBase.readOnly ⇒ <code>boolean</code>
+Whether the user is allowed to change the entry's contents.
+
+**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
+<a name="UiControl+enabled"></a>
+
+### uiEntryBase.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
+<a name="UiControl+visible"></a>
+
+### uiEntryBase.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
+<a name="UiControl+toplevel"></a>
+
+### uiEntryBase.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
+<a name="UiEntryBase+onChanged"></a>
+
+### uiEntryBase.onChanged(callback) ⇒ <code>undefined</code>
+Add a listener to the `changed` event. Emitted whenever the entry contents
+changed.
+
+**Kind**: instance method of [<code>UiEntryBase</code>](#UiEntryBase)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | callback to execute when the event is fired. |
 
 <a name="UiPasswordEntry"></a>
 
@@ -73,64 +131,6 @@ Add a listener to the `changed` event. Emitted whenever the entry contents
 changed.
 
 **Kind**: instance method of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| callback | <code>function</code> | callback to execute when the event is fired. |
-
-<a name="UiEntryBase"></a>
-
-## UiEntryBase ⇐ [<code>UiControl</code>](#UiControl)
-A base class for text related entries.
-
-**Kind**: global class  
-**Extends**: [<code>UiControl</code>](#UiControl)  
-
-* [UiEntryBase](#UiEntryBase) ⇐ [<code>UiControl</code>](#UiControl)
-    * [.text](#UiEntryBase+text) ⇒ <code>string</code>
-    * [.readOnly](#UiEntryBase+readOnly) ⇒ <code>boolean</code>
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-    * [.onChanged(callback)](#UiEntryBase+onChanged) ⇒ <code>undefined</code>
-
-<a name="UiEntryBase+text"></a>
-
-### uiEntryBase.text ⇒ <code>string</code>
-Set or return the the content of the entry.
-
-**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
-<a name="UiEntryBase+readOnly"></a>
-
-### uiEntryBase.readOnly ⇒ <code>boolean</code>
-Whether the user is allowed to change the entry's contents.
-
-**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
-<a name="UiControl+enabled"></a>
-
-### uiEntryBase.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
-<a name="UiControl+visible"></a>
-
-### uiEntryBase.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
-<a name="UiControl+toplevel"></a>
-
-### uiEntryBase.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
-
-**Kind**: instance property of [<code>UiEntryBase</code>](#UiEntryBase)  
-<a name="UiEntryBase+onChanged"></a>
-
-### uiEntryBase.onChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `changed` event. Emitted whenever the entry contents
-changed.
-
-**Kind**: instance method of [<code>UiEntryBase</code>](#UiEntryBase)  
 
 | Param | Type | Description |
 | --- | --- | --- |

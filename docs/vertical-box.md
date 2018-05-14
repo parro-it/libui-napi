@@ -1,14 +1,50 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiVerticalBox">UiVerticalBox</a> ⇐ <code>UiBox</code></dt>
-<dd><p>A container that stacks its children vertically.</p>
-</dd>
 <dt><a href="#UiControl">UiControl</a></dt>
 <dd><p>Base class for all controls.</p>
 </dd>
+<dt><a href="#UiVerticalBox">UiVerticalBox</a> ⇐ <code>UiBox</code></dt>
+<dd><p>A container that stacks its children vertically.</p>
+</dd>
 </dl>
 
+<a name="UiControl"></a>
+
+## UiControl
+Base class for all controls.
+
+**Kind**: global class  
+
+* [UiControl](#UiControl)
+    * [new UiControl()](#new_UiControl_new)
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
+
+<a name="new_UiControl_new"></a>
+
+### new UiControl()
+Create a new UiControl object.
+
+<a name="UiControl+enabled"></a>
+
+### uiControl.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+<a name="UiControl+visible"></a>
+
+### uiControl.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+<a name="UiControl+toplevel"></a>
+
+### uiControl.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
 <a name="UiVerticalBox"></a>
 
 ## UiVerticalBox ⇐ <code>UiBox</code>
@@ -57,39 +93,3 @@ Remove a child control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the control to remove |
 
-<a name="UiControl"></a>
-
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
-
-### uiControl.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
-
-### uiControl.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  

@@ -44,6 +44,18 @@ LIBUI_FUNCTION(scale) {
 	return NULL;
 }
 
+LIBUI_FUNCTION(translate) {
+	INIT_ARGS(3);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_DOUBLE(x, 1);
+	ARG_DOUBLE(y, 2);
+
+	uiDrawMatrixTranslate(m, x, y);
+
+	return NULL;
+}
+
 LIBUI_FUNCTION(rotate) {
 	INIT_ARGS(4);
 
@@ -97,15 +109,107 @@ LIBUI_FUNCTION(invert) {
 	return make_bool(env, uiDrawMatrixInvert(m));
 }
 
+LIBUI_FUNCTION(set) {
+	INIT_ARGS(4);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_INT32(i, 1);
+	ARG_INT32(j, 2);
+	ARG_DOUBLE(v, 3);
+
+	switch (i) {
+	case 0:
+		switch (j) {
+		case 0:
+			m->M11 = v;
+			break;
+		case 1:
+			m->M12 = v;
+			break;
+		}
+		break;
+	case 1:
+		switch (j) {
+		case 0:
+			m->M21 = v;
+			break;
+		case 1:
+			m->M22 = v;
+			break;
+		}
+		break;
+	case 2:
+		switch (j) {
+		case 0:
+			m->M31 = v;
+			break;
+		case 1:
+			m->M32 = v;
+			break;
+		}
+		break;
+	}
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(get) {
+	INIT_ARGS(3);
+
+	ARG_POINTER(uiDrawMatrix, m, 0);
+	ARG_INT32(i, 1);
+	ARG_INT32(j, 2);
+
+	double v = 0;
+
+	switch (i) {
+	case 0:
+		switch (j) {
+		case 0:
+			v = m->M11;
+			break;
+		case 1:
+			v = m->M12;
+			break;
+		}
+		break;
+	case 1:
+		switch (j) {
+		case 0:
+			v = m->M21;
+			break;
+		case 1:
+			v = m->M22;
+			break;
+		}
+		break;
+	case 2:
+		switch (j) {
+		case 0:
+			v = m->M31;
+			break;
+		case 1:
+			v = m->M32;
+			break;
+		}
+		break;
+	}
+
+	return make_double(env, v);
+}
+
 napi_value _libui_init_area_matrix(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
 	LIBUI_EXPORT(setIdentity);
 	LIBUI_EXPORT(scale);
+	LIBUI_EXPORT(translate);
 	LIBUI_EXPORT(rotate);
 	LIBUI_EXPORT(skew);
 	LIBUI_EXPORT(multiply);
 	LIBUI_EXPORT(invertible);
 	LIBUI_EXPORT(invert);
+	LIBUI_EXPORT(get);
+	LIBUI_EXPORT(set);
 	return module;
 }

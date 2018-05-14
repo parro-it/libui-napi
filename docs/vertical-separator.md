@@ -1,25 +1,13 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiVerticalSeparator">UiVerticalSeparator</a> ⇐ <code>SeparatorBase</code></dt>
-<dd><p>A vertical line to visually separate controls.</p>
-</dd>
 <dt><a href="#UiControl">UiControl</a></dt>
 <dd><p>Base class for all controls.</p>
 </dd>
+<dt><a href="#UiVerticalSeparator">UiVerticalSeparator</a> ⇐ <code>SeparatorBase</code></dt>
+<dd><p>A vertical line to visually separate controls.</p>
+</dd>
 </dl>
-
-<a name="UiVerticalSeparator"></a>
-
-## UiVerticalSeparator ⇐ <code>SeparatorBase</code>
-A vertical line to visually separate controls.
-
-**Kind**: global class  
-**Extends**: <code>SeparatorBase</code>  
-<a name="new_UiVerticalSeparator_new"></a>
-
-### new UiVerticalSeparator()
-Create a new UiVerticalSeparator object.
 
 <a name="UiControl"></a>
 
@@ -57,3 +45,15 @@ Set or return whether the control is visible.
 Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+<a name="UiVerticalSeparator"></a>
+
+## UiVerticalSeparator ⇐ <code>SeparatorBase</code>
+A vertical line to visually separate controls.
+
+**Kind**: global class  
+**Extends**: <code>SeparatorBase</code>  
+<a name="new_UiVerticalSeparator_new"></a>
+
+### new UiVerticalSeparator()
+Create a new UiVerticalSeparator object.
+
