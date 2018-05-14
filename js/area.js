@@ -38,14 +38,14 @@ class UiArea {
 }
 
 UiArea.resizeEdge = {
-	left 0,
-	top 1,
-	right 2,
-	bottom 3,
-	topLeft 4,
-	topRight 5,
-	bottomLeft 6,
-	bottomRight 7
+	left: 0,
+	top: 1,
+	right: 2,
+	bottom: 3,
+	topLeft: 4,
+	topRight: 5,
+	bottomLeft: 6,
+	bottomRight: 7
 };
 
 class AreaMouseEvent {

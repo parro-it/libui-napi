@@ -10,7 +10,7 @@ win.onClosing(() => {
 const hBox = new libui.UiHorizontalBox();
 
 const brushRed = new libui.AreaDrawBrush(1, 0, 0);
-const brushGreen = new libui.AreaDrawBrush(0, 1, 0);
+const brushBrown = new libui.AreaDrawBrush(0.7, 0.7, 0);
 const sp = new libui.AreaDrawStroke();
 sp.thickness = 5;
 
@@ -27,7 +27,7 @@ const area = new libui.UiArea(
 		path.addRectangle(10, 10, 100, 100);
 		path.end();
 		params.context.fill(path, brushRed);
-		params.context.stroke(path, brushGreen, sp);
+		params.context.stroke(path, brushBrown, sp);
 
 		params.context.transform(matrix);
 
@@ -37,7 +37,7 @@ const area = new libui.UiArea(
 		path.arcTo(200, 200, 50, -Math.PI / 2, Math.PI, false);
 		path.closeFigure();
 		path.end();
-		params.context.stroke(path, brushGreen, sp);
+		params.context.stroke(path, brushBrown, sp);
 	},
 	(_, mouseEvent) => {
 		// console.log(area, mouseEvent);

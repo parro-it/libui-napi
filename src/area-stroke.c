@@ -19,7 +19,7 @@ LIBUI_FUNCTION(create) {
 	sp->Cap = 0;
 	sp->Join = 0;
 	sp->Thickness = 1;
-	sp->MiterLimit = 0;
+	sp->MiterLimit = uiDrawDefaultMiterLimit;
 	sp->Dashes = NULL;
 	sp->NumDashes = 0;
 	sp->DashPhase = 0;
