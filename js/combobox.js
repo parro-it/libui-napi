@@ -1,15 +1,17 @@
 const {Combobox} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A drop down combo box that allow list selection only.
+ * @extends UiControl
  */
-class UiCombobox {
+class UiCombobox extends UiControl {
 	/**
 	 * Create a new UiCombobox object.
 	 * @return {UiCombobox}
 	 */
 	constructor() {
-		this.handle = Combobox.create();
+		super(Combobox.create());
 	}
 
 	/**

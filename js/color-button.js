@@ -1,15 +1,17 @@
 const {ColorButton} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A button that opens a color palette popup.
+ * @extends UiControl
  */
-class UiColorButton {
+class UiColorButton extends UiControl {
 	/**
 	 * Create a new UiColorButton object.
 	 * @return {UiColorButton}
 	 */
 	constructor() {
-		this.handle = ColorButton.create();
+		super(ColorButton.create());
 	}
 
 	/**

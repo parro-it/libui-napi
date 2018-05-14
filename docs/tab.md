@@ -1,3 +1,14 @@
+## Classes
+
+<dl>
+<dt><a href="#UiTab">UiTab</a></dt>
+<dd><p>A container that show each chidren in a separate tab.</p>
+</dd>
+<dt><a href="#UiControl">UiControl</a></dt>
+<dd><p>Base class for all controls.</p>
+</dd>
+</dl>
+
 <a name="UiTab"></a>
 
 ## UiTab
@@ -33,7 +44,7 @@ Append a new child control as last tab page.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| control | <code>UiControl</code> | the control to add as a child. |
+| control | [<code>UiControl</code>](#UiControl) | the control to add as a child. |
 | string | <code>boolean</code> | the text to show for the new page caption. |
 
 <a name="UiTab+insertAt"></a>
@@ -47,7 +58,7 @@ Insert a new child control before specified position.
 | --- | --- | --- |
 | label | <code>string</code> | the text to show for the new page caption. |
 | before | <code>number</code> | the control will be inserted before this position |
-| control | <code>UiControl</code> | the control to insert |
+| control | [<code>UiControl</code>](#UiControl) | the control to insert |
 
 <a name="UiTab+numPages"></a>
 
@@ -67,3 +78,39 @@ Remove the tab and control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the tab to remove. |
 
+<a name="UiControl"></a>
+
+## UiControl
+Base class for all controls.
+
+**Kind**: global class  
+
+* [UiControl](#UiControl)
+    * [new UiControl()](#new_UiControl_new)
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
+
+<a name="new_UiControl_new"></a>
+
+### new UiControl()
+Create a new UiControl object.
+
+<a name="UiControl+enabled"></a>
+
+### uiControl.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+<a name="UiControl+visible"></a>
+
+### uiControl.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+<a name="UiControl+toplevel"></a>
+
+### uiControl.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
