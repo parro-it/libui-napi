@@ -171,9 +171,10 @@ NULL, &ret); \
 #endif
 
 // return values
-
+napi_value make_double(napi_env env, double value);
 napi_value make_bool(napi_env env, bool value);
 napi_value make_int32(napi_env env, int value);
+napi_value make_uint32(napi_env env, unsigned int value);
 napi_value make_utf8_string(napi_env env, const char *char_ptr);
 
 #endif

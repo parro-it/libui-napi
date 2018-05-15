@@ -1,6 +1,6 @@
 #include "events.h"
 
-napi_value fire_event(struct event_t *event) {
+napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
 	napi_status status;
 	napi_env env = event->env;
 
@@ -23,7 +23,7 @@ napi_value fire_event(struct event_t *event) {
 	LIBUI_NODE_DEBUG_F("Firing event %s %p", event->name, event);
 
 	napi_value result;
-	status = napi_make_callback(env, event->context, resource_object, cb, 0, NULL, &result);
+	status = napi_make_callback(env, event->context, resource_object, cb, argc, argv, &result);
 
 	if (status == napi_pending_exception) {
 		napi_value last_exception;
@@ -49,6 +49,10 @@ napi_value fire_event(struct event_t *event) {
 
 	return result;
 }
+
+napi_value fire_event(struct event_t *event) {
+	return fire_event_args(event, 0, NULL);
+};
 
 struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	napi_status status;

@@ -61,6 +61,7 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name);
 	call the JavaScript function associated with an event.
 */
 napi_value fire_event(struct event_t *event);
+napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv);
 
 /*
 	release the reference to the JavaScript function associated with an event,

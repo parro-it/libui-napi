@@ -1,15 +1,17 @@
 const {MultilineEntry} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A multiline text entry.
+ * @extends UiControl
  */
-class UiMultilineEntry {
+class UiMultilineEntry extends UiControl {
 	/**
 	 * Create a new UiMultilineEntry object.
 	 * @return {UiMultilineEntry}
 	 */
 	constructor() {
-		this.handle = MultilineEntry.create();
+		super(MultilineEntry.create());
 	}
 
 	/**
@@ -39,7 +41,6 @@ class UiMultilineEntry {
 	/**
 	 * Append the specified text to the entry's contents.
 	 * @param  {string} text - the text to append.
-	 * @return {undefined}
 	 */
 	append(text) {
 		MultilineEntry.append(this.handle, text);
@@ -51,7 +52,6 @@ class UiMultilineEntry {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		MultilineEntry.onChanged(this.handle, callback);

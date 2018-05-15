@@ -1,15 +1,17 @@
 const {Form} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A container that organizes children as labeled fields.
+ * @extends UiControl
  */
-class UiForm {
+class UiForm extends UiControl {
 	/**
 	 * Create a new UiForm object.
 	 * @return {UiForm}
 	 */
 	constructor() {
-		this.handle = Form.create();
+		super(Form.create());
 	}
 
 	/**
@@ -30,7 +32,6 @@ class UiForm {
 	 * @param  {UiControl} control - the control to add as child.
 	 * @param  {boolean} stretchy - whether the control should fill all the
 	 * available space.
-	 * @return {undefined}
 	 */
 	append(label, control, stretchy) {
 
@@ -40,7 +41,6 @@ class UiForm {
 	/**
 	 * Remove a child control at the specified position.
 	 * @param  {number} index - the index of the control to remove
-	 * @return {undefined}
 	 */
 	deleteAt(index) {
 		Form.deleteAt(this.handle, index);

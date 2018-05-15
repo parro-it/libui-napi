@@ -23,7 +23,6 @@ class UiWindow {
 	/**
 	 * Show the window.
 	 *
-	 * @return {undefined}
 	 */
 	show() {
 		return Window.show(this.handle);
@@ -36,7 +35,6 @@ class UiWindow {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onClosing(callback) {
 		Window.onClosing(this.handle, callback);
@@ -48,7 +46,6 @@ class UiWindow {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onContentSizeChanged(callback) {
 		Window.onContentSizeChanged(this.handle, callback);
@@ -57,7 +54,6 @@ class UiWindow {
 	/**
 	 * Close the window.
 	 *
-	 * @return {undefined}
 	 */
 	close() {
 		Window.close(this.handle);

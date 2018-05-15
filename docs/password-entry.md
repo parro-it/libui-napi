@@ -9,30 +9,33 @@ and other sensible data.
 
 * [UiPasswordEntry](#UiPasswordEntry) ⇐ <code>UiEntryBase</code>
     * [new UiPasswordEntry()](#new_UiPasswordEntry_new)
-    * [.text](#UiEntryBase+text) ⇒ <code>string</code>
-    * [.readOnly](#UiEntryBase+readOnly) ⇒ <code>boolean</code>
-    * [.onChanged(callback)](#UiEntryBase+onChanged) ⇒ <code>undefined</code>
+    * [.text](#) ⇒ <code>string</code>
+    * [.readOnly](#) ⇒ <code>boolean</code>
+    * [.onChanged(callback)](#)
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiPasswordEntry_new"></a>
 
 ### new UiPasswordEntry()
 Create a new UiPasswordEntry object.
 
-<a name="UiEntryBase+text"></a>
+<a name=""></a>
 
 ### uiPasswordEntry.text ⇒ <code>string</code>
 Set or return the the content of the entry.
 
 **Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
-<a name="UiEntryBase+readOnly"></a>
+<a name=""></a>
 
 ### uiPasswordEntry.readOnly ⇒ <code>boolean</code>
 Whether the user is allowed to change the entry's contents.
 
 **Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
-<a name="UiEntryBase+onChanged"></a>
+<a name=""></a>
 
-### uiPasswordEntry.onChanged(callback) ⇒ <code>undefined</code>
+### uiPasswordEntry.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry contents
 changed.
 
@@ -42,3 +45,21 @@ changed.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
+<a name=""></a>
+
+### uiPasswordEntry.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
+<a name=""></a>
+
+### uiPasswordEntry.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
+<a name=""></a>
+
+### uiPasswordEntry.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  

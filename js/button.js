@@ -1,15 +1,17 @@
 const {Button} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A simple button.
+ * @extends UiControl
  */
-class UiButton {
+class UiButton extends UiControl {
 	/**
 	 * Create a new UiButton object.
 	 * @return {UiButton}
 	 */
 	constructor(label) {
-		this.handle = Button.create(String(label));
+		super(Button.create(String(label)));
 	}
 
 	/**
@@ -29,7 +31,6 @@ class UiButton {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onClicked(callback) {
 		Button.onClicked(this.handle, callback);
