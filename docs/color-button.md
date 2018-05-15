@@ -3,8 +3,8 @@
 ## UiColorButton ⇐ <code>UiControl</code>
 A button that opens a color palette popup.
 
-**Kind**: global class
-**Extends**: <code>UiControl</code>
+**Kind**: global class  
+**Extends**: <code>UiControl</code>  
 
 * [UiColorButton](#UiColorButton) ⇐ <code>UiControl</code>
     * [new UiColorButton()](#new_UiColorButton_new)
@@ -24,14 +24,14 @@ Create a new UiColorButton object.
 ### uiColorButton.color ⇒ <code>Color</code>
 Set or return the ColorButton color value.
 
-**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)
+**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  
 <a name="UiColorButton+onChanged"></a>
 
 ### uiColorButton.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the user
 changed the selected color.
 
-**Kind**: instance method of [<code>UiColorButton</code>](#UiColorButton)
+**Kind**: instance method of [<code>UiColorButton</code>](#UiColorButton)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -42,16 +42,16 @@ changed the selected color.
 ### uiColorButton.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)
+**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  
 <a name=""></a>
 
 ### uiColorButton.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)
+**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  
 <a name=""></a>
 
 ### uiColorButton.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)
+**Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  
