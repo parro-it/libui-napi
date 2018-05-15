@@ -152,6 +152,7 @@ Object.assign(libui, {
 	UiDrawMatrix,
 	Point,
 	Color,
+	Size,
 	UiAreaKeyEvent,
 	UiAreaMouseEvent,
 	fillMode: UiDrawPath.fillMode,
