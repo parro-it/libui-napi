@@ -44,6 +44,10 @@ const {
 	AreaDrawBrushGradient,
 	BrushGradientStop
 } = require('./js/area');
+const {UiBox} = require('./js/box');
+const {SeparatorBase} = require('./js/separator-base');
+const {UiControl} = require('./js/ui-control');
+
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -70,6 +74,46 @@ const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
 const {UiGrid} = require('./js/grid');
 const {UiMenu, UiMenuItem} = require('./js/menu');
+
+function applySetterGetter(...classConstructors) {
+
+	for (const classConstructor of classConstructors) {
+		const proto = classConstructor.prototype;
+		const ownProperties = Object.getOwnPropertyDescriptors(proto);
+		for (const [name, property] of Object.entries(ownProperties)) {
+			if (typeof property.get === 'function') {
+				const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, getterName, {
+					value: property.get,
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${getterName} on ${classConstructor.name}`);
+			}
+
+			if (typeof property.set === 'function') {
+				const setterName = 'set' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, setterName, {
+					value: property.set,
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${setterName} on ${classConstructor.name}`);
+			}
+		}
+	}
+}
+
+applySetterGetter(
+	UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
+	UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup,
+	UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker,
+	UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
+	UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
+	UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath, DrawStrokeParams,
+	UiDrawMatrix, Point, Color, UiAreaKeyEvent, UiAreaMouseEvent);
 
 Object.assign(libui, {
 	UiGrid,
