@@ -34,7 +34,6 @@ class UiSlider extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		Slider.onChanged(this.handle, callback);

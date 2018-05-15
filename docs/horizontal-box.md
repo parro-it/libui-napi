@@ -9,8 +9,8 @@ A container that stacks its chidren horizontally.
 * [UiHorizontalBox](#UiHorizontalBox) ⇐ <code>UiBox</code>
     * [new UiHorizontalBox()](#new_UiHorizontalBox_new)
     * [.padded](#) ⇒ <code>boolean</code>
-    * [.append(control, stretchy)](#) ⇒ <code>undefined</code>
-    * [.deleteAt(index)](#) ⇒ <code>undefined</code>
+    * [.append(control, stretchy)](#)
+    * [.deleteAt(index)](#)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -28,7 +28,7 @@ If true, the container inserts some space between children.
 **Kind**: instance property of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
 <a name=""></a>
 
-### uiHorizontalBox.append(control, stretchy) ⇒ <code>undefined</code>
+### uiHorizontalBox.append(control, stretchy)
 Append a new child control as the last child.
 
 **Kind**: instance method of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
@@ -40,7 +40,7 @@ Append a new child control as the last child.
 
 <a name=""></a>
 
-### uiHorizontalBox.deleteAt(index) ⇒ <code>undefined</code>
+### uiHorizontalBox.deleteAt(index)
 Remove a child control at specified position.
 
 **Kind**: instance method of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  

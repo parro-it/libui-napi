@@ -9,8 +9,8 @@ A powerful container that allow to specify size and position of each children.
 * [UiGrid](#UiGrid) ⇐ <code>UiControl</code>
     * [new UiGrid()](#new_UiGrid_new)
     * [.padded](#UiGrid+padded) ⇒ <code>boolean</code>
-    * [.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+insertAt) ⇒ <code>undefined</code>
-    * [.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+append) ⇒ <code>undefined</code>
+    * [.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+insertAt)
+    * [.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+append)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -28,7 +28,7 @@ If true, the container inserts some space between children.
 **Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
 <a name="UiGrid+insertAt"></a>
 
-### uiGrid.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign) ⇒ <code>undefined</code>
+### uiGrid.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)
 Insert a new child control before specified control.
 
 **Kind**: instance method of [<code>UiGrid</code>](#UiGrid)  
@@ -47,7 +47,7 @@ Insert a new child control before specified control.
 
 <a name="UiGrid+append"></a>
 
-### uiGrid.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign) ⇒ <code>undefined</code>
+### uiGrid.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)
 Insert a new child control.
 
 > UIGrid expand does not work correctly when both align horizontal and align

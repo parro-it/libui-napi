@@ -39,7 +39,6 @@ class UiGrid extends UiControl {
 	 * @param  {number} vexpand - whether the component can expand vertically.
 	 * @param  {number} valign - whether the component is aligned with the other
 	 components in the row.
-	 * @return {undefined}
 	 */
 	insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpan, valign) {
 		Tab.insertAt(this.handle, child.handle, before.handle, at, xspan, yspan, hexpand,
@@ -63,7 +62,6 @@ class UiGrid extends UiControl {
 	 * @param  {number} vexpand - whether the component can expand vertically.
 	 * @param  {number} valign - whether the component is aligned with the other
 	 * components in the row.
-	 * @return {undefined}
 	 */
 	append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign) {
 		Grid.append(this.handle, child.handle, left, top, xspan, yspan, hexpand, halign,

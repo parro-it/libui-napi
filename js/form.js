@@ -32,7 +32,6 @@ class UiForm extends UiControl {
 	 * @param  {UiControl} control - the control to add as child.
 	 * @param  {boolean} stretchy - whether the control should fill all the
 	 * available space.
-	 * @return {undefined}
 	 */
 	append(label, control, stretchy) {
 
@@ -42,7 +41,6 @@ class UiForm extends UiControl {
 	/**
 	 * Remove a child control at the specified position.
 	 * @param  {number} index - the index of the control to remove
-	 * @return {undefined}
 	 */
 	deleteAt(index) {
 		Form.deleteAt(this.handle, index);

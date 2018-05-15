@@ -9,10 +9,10 @@ A container that show each chidren in a separate tab.
 * [UiTab](#UiTab) ⇐ <code>UiControl</code>
     * [new UiTab()](#new_UiTab_new)
     * [.margined](#UiTab+margined) ⇒ <code>boolean</code>
-    * [.append(control, string)](#UiTab+append) ⇒ <code>undefined</code>
-    * [.insertAt(label, before, control)](#UiTab+insertAt) ⇒ <code>undefined</code>
+    * [.append(control, string)](#UiTab+append)
+    * [.insertAt(label, before, control)](#UiTab+insertAt)
     * [.numPages()](#UiTab+numPages) ⇒ <code>number</code>
-    * [.deleteAt(index)](#UiTab+deleteAt) ⇒ <code>undefined</code>
+    * [.deleteAt(index)](#UiTab+deleteAt)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -30,7 +30,7 @@ When true, an internal margin is added to the Tab.
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
 <a name="UiTab+append"></a>
 
-### uiTab.append(control, string) ⇒ <code>undefined</code>
+### uiTab.append(control, string)
 Append a new child control as last tab page.
 
 **Kind**: instance method of [<code>UiTab</code>](#UiTab)  
@@ -42,7 +42,7 @@ Append a new child control as last tab page.
 
 <a name="UiTab+insertAt"></a>
 
-### uiTab.insertAt(label, before, control) ⇒ <code>undefined</code>
+### uiTab.insertAt(label, before, control)
 Insert a new child control before specified position.
 
 **Kind**: instance method of [<code>UiTab</code>](#UiTab)  
@@ -62,7 +62,7 @@ Return the total number of tab pages contained in the control.
 **Returns**: <code>number</code> - number of pages  
 <a name="UiTab+deleteAt"></a>
 
-### uiTab.deleteAt(index) ⇒ <code>undefined</code>
+### uiTab.deleteAt(index)
 Remove the tab and control at specified position.
 
 **Kind**: instance method of [<code>UiTab</code>](#UiTab)  

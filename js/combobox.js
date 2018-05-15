@@ -29,7 +29,6 @@ class UiCombobox extends UiControl {
 	/**
 	 * Append a new text item to the drop down list.
 	 * @param  {string} text - the item to append.
-	 * @return {undefined}
 	 */
 	append(text) {
 		Combobox.append(this.handle, text);
@@ -41,7 +40,6 @@ class UiCombobox extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onSelected(callback) {
 		Combobox.onSelected(this.handle, callback);

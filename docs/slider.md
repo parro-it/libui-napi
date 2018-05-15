@@ -9,7 +9,7 @@ Horizontal slider to set numerical values.
 * [UiSlider](#UiSlider) ⇐ <code>UiControl</code>
     * [new UiSlider(min, max)](#new_UiSlider_new)
     * [.value](#UiSlider+value) ⇒ <code>number</code>
-    * [.onChanged(callback)](#UiSlider+onChanged) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#UiSlider+onChanged)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -33,7 +33,7 @@ Set or return the the content of the slider.
 **Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
 <a name="UiSlider+onChanged"></a>
 
-### uiSlider.onChanged(callback) ⇒ <code>undefined</code>
+### uiSlider.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the slider value
 changed.
 

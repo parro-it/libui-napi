@@ -9,8 +9,8 @@ A container that organizes children as labeled fields.
 * [UiForm](#UiForm) ⇐ <code>UiControl</code>
     * [new UiForm()](#new_UiForm_new)
     * [.padded](#UiForm+padded) ⇒ <code>boolean</code>
-    * [.append(label, control, stretchy)](#UiForm+append) ⇒ <code>undefined</code>
-    * [.deleteAt(index)](#UiForm+deleteAt) ⇒ <code>undefined</code>
+    * [.append(label, control, stretchy)](#UiForm+append)
+    * [.deleteAt(index)](#UiForm+deleteAt)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -28,7 +28,7 @@ If true, the container inserts some space between children.
 **Kind**: instance property of [<code>UiForm</code>](#UiForm)  
 <a name="UiForm+append"></a>
 
-### uiForm.append(label, control, stretchy) ⇒ <code>undefined</code>
+### uiForm.append(label, control, stretchy)
 Append a new child control as the last field with the specified label.
 
 **Kind**: instance method of [<code>UiForm</code>](#UiForm)  
@@ -41,7 +41,7 @@ Append a new child control as the last field with the specified label.
 
 <a name="UiForm+deleteAt"></a>
 
-### uiForm.deleteAt(index) ⇒ <code>undefined</code>
+### uiForm.deleteAt(index)
 Remove a child control at the specified position.
 
 **Kind**: instance method of [<code>UiForm</code>](#UiForm)  

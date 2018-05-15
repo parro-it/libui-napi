@@ -40,7 +40,6 @@ class UiEntryBase extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		Entries.onChanged(this.handle, callback);

@@ -31,7 +31,6 @@ class UiTab extends UiControl {
 	 * Append a new child control as last tab page.
 	 * @param  {UiControl} control - the control to add as a child.
 	 * @param  {boolean} string - the text to show for the new page caption.
-	 * @return {undefined}
 	 */
 	append(label, control) {
 		Tab.append(this.handle, String(label), control.handle);
@@ -42,7 +41,6 @@ class UiTab extends UiControl {
 	 * @param  {string} label - the text to show for the new page caption.
 	 * @param  {number} before - the control will be inserted before this position
 	 * @param  {UiControl} control - the control to insert
-	 * @return {undefined}
 	 */
 	insertAt(label, before, control) {
 		Tab.insertAt(this.handle, String(label), before, control.handle);
@@ -59,7 +57,6 @@ class UiTab extends UiControl {
 	/**
 	 * Remove the tab and control at specified position.
 	 * @param  {number} index - the index of the tab to remove.
-	 * @return {undefined}
 	 */
 	deleteAt(index) {
 		Tab.numPages(this.handle, Number(index));

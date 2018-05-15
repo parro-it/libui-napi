@@ -10,8 +10,8 @@ A multiline text entry.
     * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
     * [.text](#UiMultilineEntry+text) ⇒ <code>string</code>
     * [.readOnly](#UiMultilineEntry+readOnly) ⇒ <code>boolean</code>
-    * [.append(text)](#UiMultilineEntry+append) ⇒ <code>undefined</code>
-    * [.onChanged(callback)](#UiMultilineEntry+onChanged) ⇒ <code>undefined</code>
+    * [.append(text)](#UiMultilineEntry+append)
+    * [.onChanged(callback)](#UiMultilineEntry+onChanged)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -35,7 +35,7 @@ Whether the user is allowed to change the entry's contents.
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
 <a name="UiMultilineEntry+append"></a>
 
-### uiMultilineEntry.append(text) ⇒ <code>undefined</code>
+### uiMultilineEntry.append(text)
 Append the specified text to the entry's contents.
 
 **Kind**: instance method of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
@@ -46,7 +46,7 @@ Append the specified text to the entry's contents.
 
 <a name="UiMultilineEntry+onChanged"></a>
 
-### uiMultilineEntry.onChanged(callback) ⇒ <code>undefined</code>
+### uiMultilineEntry.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry's contents
 changed.
 

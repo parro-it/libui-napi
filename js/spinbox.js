@@ -32,7 +32,6 @@ class UiSpinbox extends UiControl {
 	 * Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		Spinbox.onChanged(this.handle, callback);

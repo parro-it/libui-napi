@@ -9,10 +9,10 @@ more than one, you have to use [Containers](containers.md).
 
 * [UiWindow](#UiWindow)
     * [new UiWindow(title, width, height, hasMenubar)](#new_UiWindow_new)
-    * [.show()](#UiWindow+show) ⇒ <code>undefined</code>
-    * [.onClosing(callback)](#UiWindow+onClosing) ⇒ <code>undefined</code>
-    * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged) ⇒ <code>undefined</code>
-    * [.close()](#UiWindow+close) ⇒ <code>undefined</code>
+    * [.show()](#UiWindow+show)
+    * [.onClosing(callback)](#UiWindow+onClosing)
+    * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged)
+    * [.close()](#UiWindow+close)
     * [.title](#UiWindow+title) ⇒ <code>string</code>
     * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
     * [.setChild(control, stretchy)](#UiWindow+setChild)
@@ -35,13 +35,13 @@ Create a new UiWindow object.
 
 <a name="UiWindow+show"></a>
 
-### uiWindow.show() ⇒ <code>undefined</code>
+### uiWindow.show()
 Show the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+onClosing"></a>
 
-### uiWindow.onClosing(callback) ⇒ <code>undefined</code>
+### uiWindow.onClosing(callback)
 Add a listener to the `closing` event. This event is emitted when the OS
 window close button is clicked. You are responsible for closing the
 window in response to this event.
@@ -54,7 +54,7 @@ window in response to this event.
 
 <a name="UiWindow+onContentSizeChanged"></a>
 
-### uiWindow.onContentSizeChanged(callback) ⇒ <code>undefined</code>
+### uiWindow.onContentSizeChanged(callback)
 Add a listener to the `contentSizeChanged` event. This event is emitted
 when window content size change.
 
@@ -66,7 +66,7 @@ when window content size change.
 
 <a name="UiWindow+close"></a>
 
-### uiWindow.close() ⇒ <code>undefined</code>
+### uiWindow.close()
 Close the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  

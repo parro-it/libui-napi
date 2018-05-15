@@ -32,7 +32,6 @@ class UiColorButton extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		ColorButton.onChanged(this.handle, callback);

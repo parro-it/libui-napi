@@ -11,7 +11,7 @@ and other sensible data.
     * [new UiPasswordEntry()](#new_UiPasswordEntry_new)
     * [.text](#) ⇒ <code>string</code>
     * [.readOnly](#) ⇒ <code>boolean</code>
-    * [.onChanged(callback)](#) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -35,7 +35,7 @@ Whether the user is allowed to change the entry's contents.
 **Kind**: instance property of [<code>UiPasswordEntry</code>](#UiPasswordEntry)  
 <a name=""></a>
 
-### uiPasswordEntry.onChanged(callback) ⇒ <code>undefined</code>
+### uiPasswordEntry.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry contents
 changed.
 

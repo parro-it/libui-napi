@@ -9,7 +9,7 @@ An entry control for numerical values.
 * [UiSpinbox](#UiSpinbox) ⇐ <code>UiControl</code>
     * [new UiSpinbox(min, max)](#new_UiSpinbox_new)
     * [.value](#UiSpinbox+value) ⇒ <code>number</code>
-    * [.onChanged(callback)](#UiSpinbox+onChanged) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#UiSpinbox+onChanged)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -33,7 +33,7 @@ Set or return the the content of spinbox.
 **Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
 <a name="UiSpinbox+onChanged"></a>
 
-### uiSpinbox.onChanged(callback) ⇒ <code>undefined</code>
+### uiSpinbox.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
 
 **Kind**: instance method of [<code>UiSpinbox</code>](#UiSpinbox)  

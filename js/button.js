@@ -31,7 +31,6 @@ class UiButton extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onClicked(callback) {
 		Button.onClicked(this.handle, callback);

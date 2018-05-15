@@ -41,7 +41,6 @@ class UiMultilineEntry extends UiControl {
 	/**
 	 * Append the specified text to the entry's contents.
 	 * @param  {string} text - the text to append.
-	 * @return {undefined}
 	 */
 	append(text) {
 		MultilineEntry.append(this.handle, text);
@@ -53,7 +52,6 @@ class UiMultilineEntry extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
 		MultilineEntry.onChanged(this.handle, callback);

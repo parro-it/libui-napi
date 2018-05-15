@@ -9,8 +9,8 @@ A container that stacks its children vertically.
 * [UiVerticalBox](#UiVerticalBox) ⇐ <code>UiBox</code>
     * [new UiVerticalBox()](#new_UiVerticalBox_new)
     * [.padded](#) ⇒ <code>boolean</code>
-    * [.append(control, stretchy)](#) ⇒ <code>undefined</code>
-    * [.deleteAt(index)](#) ⇒ <code>undefined</code>
+    * [.append(control, stretchy)](#)
+    * [.deleteAt(index)](#)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -28,7 +28,7 @@ If true, the container inserts some space between children.
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
 <a name=""></a>
 
-### uiVerticalBox.append(control, stretchy) ⇒ <code>undefined</code>
+### uiVerticalBox.append(control, stretchy)
 Append a new child control as the last child.
 
 **Kind**: instance method of [<code>UiVerticalBox</code>](#UiVerticalBox)  
@@ -40,7 +40,7 @@ Append a new child control as the last child.
 
 <a name=""></a>
 
-### uiVerticalBox.deleteAt(index) ⇒ <code>undefined</code>
+### uiVerticalBox.deleteAt(index)
 Remove a child control at specified position.
 
 **Kind**: instance method of [<code>UiVerticalBox</code>](#UiVerticalBox)  

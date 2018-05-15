@@ -24,7 +24,6 @@ class UiArea extends UiControl {
 
 	/**
 	 * Force a redraw of the area (calls draw callback).
-	 * @return {undefined}
 	 */
 	queueRedrawAll() {
 		Area.queueRedrawAll(this.handle);
@@ -32,7 +31,6 @@ class UiArea extends UiControl {
 
 	/**
 	 * Let the mouse move the window (only callable in the draw callback)
-	 * @return {undefined}
 	 */
 	beginWindowMove() {
 		Area.beginWindowMove(this.handle);
@@ -41,7 +39,6 @@ class UiArea extends UiControl {
 	/**
 	 * Let the mouse resize the window (only callable in the draw callback)
 	 * @param {number} edge - the size which is held by the mouse
-	 * @return {undefined}
 	 */
 	beginWindowResize(edge) {
 		Area.beginWindowResize(this.handle, edge);
@@ -105,7 +102,6 @@ class AreaDrawContext {
 	 * @param {AreaDrawPath} path - the path to draw
 	 * @param {AreaDrawBrush} brush - the brush to draw with
 	 * @param {AreaDrawStroke} stroke - the stroke params to draw with
-	 * @return {undefined}
 	 */
 	stroke(path, brush, stroke) {
 		if (!(path instanceof AreaDrawPath)) {
@@ -126,7 +122,6 @@ class AreaDrawContext {
 	 * Draw a path (filled).
 	 * @param {AreaDrawPath} path - the path to draw
 	 * @param {AreaDrawBrush} brush - the brush to draw with
-	 * @return {undefined}
 	 */
 	fill(path, brush) {
 		if (!(path instanceof AreaDrawPath)) {
@@ -142,7 +137,6 @@ class AreaDrawContext {
 	/**
 	 * Apply a matrix transformation
 	 * @param {AreaDrawMatrix} matrix - the matrix to apply
-	 * @return {undefined}
 	 */
 	transform(matrix) {
 		AreaContext.transform(this.handle, matrix.handle);
@@ -151,7 +145,6 @@ class AreaDrawContext {
 	/**
 	 * TODO
 	 * @param {AreaDrawPath} path -
-	 * @return {undefined}
 	 */
 	clip(path) {
 		if (!(path instanceof AreaDrawPath)) {
@@ -162,7 +155,6 @@ class AreaDrawContext {
 
 	/**
 	 * Save a transformation state.
-	 * @return {undefined}
 	 */
 	save() {
 		AreaContext.save(this.handle);
@@ -170,7 +162,6 @@ class AreaDrawContext {
 
 	/**
 	 * Restore a transformation state.
-	 * @return {undefined}
 	 */
 	restore() {
 		AreaContext.restore(this.handle);
@@ -232,7 +223,6 @@ class AreaDrawBrushGradient {
 	 * Set the start position of the gradient
 	 * (Radial gradients: the inner circle's center)
 	 * @param {Object} pos - the coordinates
-	 * @return {undefined}
 	 */
 	set start(value) {
 		AreaBrush.setStart(this.handle, value.x, value.y);
@@ -251,7 +241,6 @@ class AreaDrawBrushGradient {
 	 * Set the end position of the gradient
 	 * (Radial gradients: the outer circle's center)
 	 * @param {Object} pos - the coordinates
-	 * @return {undefined}
 	 */
 	set end(value) {
 		AreaBrush.setEnd(this.handle, value.x, value.y);
@@ -269,7 +258,6 @@ class AreaDrawBrushGradient {
 	/**
 	 * Set the radius of the gradient's outer circle (radial gradients only)
 	 * @param {number} r - the outer radius
-	 * @return {undefined}
 	 */
 	set outerRadius(value) {
 		if (this.type !== AreaDrawBrushGradient.type.radial) {

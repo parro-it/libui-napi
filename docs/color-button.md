@@ -9,7 +9,7 @@ A button that opens a color palette popup.
 * [UiColorButton](#UiColorButton) ⇐ <code>UiControl</code>
     * [new UiColorButton()](#new_UiColorButton_new)
     * [.color](#UiColorButton+color) ⇒ <code>Object</code>
-    * [.onChanged(callback)](#UiColorButton+onChanged) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#UiColorButton+onChanged)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -27,7 +27,7 @@ Set or return the ColorButton color value.
 **Kind**: instance property of [<code>UiColorButton</code>](#UiColorButton)  
 <a name="UiColorButton+onChanged"></a>
 
-### uiColorButton.onChanged(callback) ⇒ <code>undefined</code>
+### uiColorButton.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the user
 changed the selected color.
 

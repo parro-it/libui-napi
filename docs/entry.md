@@ -10,7 +10,7 @@ A simple, single line text entry control.
     * [new UiEntry()](#new_UiEntry_new)
     * [.text](#) ⇒ <code>string</code>
     * [.readOnly](#) ⇒ <code>boolean</code>
-    * [.onChanged(callback)](#) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -34,7 +34,7 @@ Whether the user is allowed to change the entry's contents.
 **Kind**: instance property of [<code>UiEntry</code>](#UiEntry)  
 <a name=""></a>
 
-### uiEntry.onChanged(callback) ⇒ <code>undefined</code>
+### uiEntry.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry contents
 changed.
 

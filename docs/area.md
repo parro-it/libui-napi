@@ -8,9 +8,9 @@ An area to draw on.
 
 * [UiArea](#UiArea) ⇐ <code>UiControl</code>
     * [new UiArea(draw, mouse, mouseCrossed, dragBroken, keyEvent)](#new_UiArea_new)
-    * [.queueRedrawAll()](#UiArea+queueRedrawAll) ⇒ <code>undefined</code>
-    * [.beginWindowMove()](#UiArea+beginWindowMove) ⇒ <code>undefined</code>
-    * [.beginWindowResize(edge)](#UiArea+beginWindowResize) ⇒ <code>undefined</code>
+    * [.queueRedrawAll()](#UiArea+queueRedrawAll)
+    * [.beginWindowMove()](#UiArea+beginWindowMove)
+    * [.beginWindowResize(edge)](#UiArea+beginWindowResize)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -31,19 +31,19 @@ Create a new UiArea object.
 
 <a name="UiArea+queueRedrawAll"></a>
 
-### uiArea.queueRedrawAll() ⇒ <code>undefined</code>
+### uiArea.queueRedrawAll()
 Force a redraw of the area (calls draw callback).
 
 **Kind**: instance method of [<code>UiArea</code>](#UiArea)  
 <a name="UiArea+beginWindowMove"></a>
 
-### uiArea.beginWindowMove() ⇒ <code>undefined</code>
+### uiArea.beginWindowMove()
 Let the mouse move the window (only callable in the draw callback)
 
 **Kind**: instance method of [<code>UiArea</code>](#UiArea)  
 <a name="UiArea+beginWindowResize"></a>
 
-### uiArea.beginWindowResize(edge) ⇒ <code>undefined</code>
+### uiArea.beginWindowResize(edge)
 Let the mouse resize the window (only callable in the draw callback)
 
 **Kind**: instance method of [<code>UiArea</code>](#UiArea)  

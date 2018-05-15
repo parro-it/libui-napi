@@ -29,7 +29,6 @@ class UiRadioButtons extends UiControl {
 	/**
 	 * Append a new radio option as the last item with the specified text.
 	 * @param  {string} text - the text to append.
-	 * @return {undefined}
 	 */
 	append(text) {
 		RadioButtons.append(this.handle, text);
@@ -41,7 +40,6 @@ class UiRadioButtons extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onSelected(callback) {
 		RadioButtons.onSelected(this.handle, callback);

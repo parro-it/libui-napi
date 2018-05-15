@@ -10,7 +10,7 @@ A checkbox control.
     * [new UiCheckbox()](#new_UiCheckbox_new)
     * [.text](#UiCheckbox+text) ⇒ <code>string</code>
     * [.checked](#UiCheckbox+checked) ⇒ <code>boolean</code>
-    * [.onToggled(callback)](#UiCheckbox+onToggled) ⇒ <code>undefined</code>
+    * [.onToggled(callback)](#UiCheckbox+onToggled)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -34,7 +34,7 @@ Whether the control is checked.
 **Kind**: instance property of [<code>UiCheckbox</code>](#UiCheckbox)  
 <a name="UiCheckbox+onToggled"></a>
 
-### uiCheckbox.onToggled(callback) ⇒ <code>undefined</code>
+### uiCheckbox.onToggled(callback)
 Add a listener to the `toggled` event. Emitted whenever the control
 `checked` state change.
 

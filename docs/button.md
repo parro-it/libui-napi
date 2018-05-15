@@ -9,7 +9,7 @@ A simple button.
 * [UiButton](#UiButton) ⇐ <code>UiControl</code>
     * [new UiButton()](#new_UiButton_new)
     * [.text](#UiButton+text) ⇒ <code>string</code>
-    * [.onClicked(callback)](#UiButton+onClicked) ⇒ <code>undefined</code>
+    * [.onClicked(callback)](#UiButton+onClicked)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -27,7 +27,7 @@ Set or return the text of the button.
 **Kind**: instance property of [<code>UiButton</code>](#UiButton)  
 <a name="UiButton+onClicked"></a>
 
-### uiButton.onClicked(callback) ⇒ <code>undefined</code>
+### uiButton.onClicked(callback)
 Emitted when the button is clicked
 
 **Kind**: instance method of [<code>UiButton</code>](#UiButton)  

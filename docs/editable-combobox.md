@@ -10,8 +10,8 @@ value.
 * [UiEditableCombobox](#UiEditableCombobox) ⇐ <code>UiControl</code>
     * [new UiEditableCombobox()](#new_UiEditableCombobox_new)
     * [.text](#UiEditableCombobox+text) ⇒ <code>string</code>
-    * [.append(text)](#UiEditableCombobox+append) ⇒ <code>undefined</code>
-    * [.onChanged(callback)](#UiEditableCombobox+onChanged) ⇒ <code>undefined</code>
+    * [.append(text)](#UiEditableCombobox+append)
+    * [.onChanged(callback)](#UiEditableCombobox+onChanged)
     * [.enabled](#) ⇒ <code>boolean</code>
     * [.visible](#) ⇒ <code>boolean</code>
     * [.toplevel](#) ⇒ <code>boolean</code>
@@ -29,7 +29,7 @@ Return or set the current text.
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
 <a name="UiEditableCombobox+append"></a>
 
-### uiEditableCombobox.append(text) ⇒ <code>undefined</code>
+### uiEditableCombobox.append(text)
 Append a new text item to the drop down list.
 
 **Kind**: instance method of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
@@ -40,7 +40,7 @@ Append a new text item to the drop down list.
 
 <a name="UiEditableCombobox+onChanged"></a>
 
-### uiEditableCombobox.onChanged(callback) ⇒ <code>undefined</code>
+### uiEditableCombobox.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
 
 **Kind**: instance method of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  

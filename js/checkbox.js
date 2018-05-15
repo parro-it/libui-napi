@@ -44,7 +44,6 @@ class UiCheckbox extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onToggled(callback) {
 		Checkbox.onToggled(this.handle, callback);
