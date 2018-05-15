@@ -82,7 +82,6 @@ class UiMenuItem {
 
 	/**
 	 * Enable the menu item.
-	 * @return {undefined}
 	 */
 	enable() {
 		Menu.enableItem(this.handle);
@@ -90,7 +89,6 @@ class UiMenuItem {
 
 	/**
 	 * Disable the menu item
-	 * @return {undefined}
 	 */
 	disable() {
 		Menu.disableItem(this.handle);
@@ -100,7 +98,6 @@ class UiMenuItem {
 	 * Register a callback for the click event of the menu item.
 	 * @param  {Function} callback - the function to register as
 	 * callback for the event.
-	 * @return {undefined}
 	 */
 	onClicked(callback) {
 		Menu.onItemClicked(this.handle, callback);

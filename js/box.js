@@ -1,8 +1,12 @@
 const {Box} = require('..');
-
-class UiBox {
+const {UiControl} = require('./ui-control');
+/**
+ * Base class for vertical and horizontal boxes
+ * @extends UiControl
+ */
+class UiBox extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 
 	/**
@@ -22,7 +26,6 @@ class UiBox {
 	 * @param  {UiControl} control - the control to add as a child.
 	 * @param  {boolean} stretchy - whever the control should fill all the
 	 * available space.
-	 * @return {undefined}
 	 */
 	append(control, stretchy) {
 		Box.append(this.handle, control.handle, Boolean(stretchy));
@@ -31,7 +34,6 @@ class UiBox {
 	/**
 	 * Remove a child control at specified position.
 	 * @param  {number} index - the index of the control to remove
-	 * @return {undefined}
 	 */
 	deleteAt(index) {
 		Box.deleteAt(this.handle, index);

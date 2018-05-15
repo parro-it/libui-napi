@@ -1,6 +1,12 @@
-class DateTimePickerBase {
+const {UiControl} = require('./ui-control');
+
+/**
+ * A base class for date/time related entries.
+ * @extends UiControl
+ */
+class DateTimePickerBase extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 }
 

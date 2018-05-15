@@ -9,16 +9,16 @@ more than one, you have to use [Containers](containers.md).
 
 * [UiWindow](#UiWindow)
     * [new UiWindow(title, width, height, hasMenubar)](#new_UiWindow_new)
+    * [.show()](#UiWindow+show)
+    * [.onClosing(callback)](#UiWindow+onClosing)
+    * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged)
+    * [.close()](#UiWindow+close)
     * [.title](#UiWindow+title) ⇒ <code>string</code>
     * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
+    * [.setChild(control, stretchy)](#UiWindow+setChild)
     * [.margined](#UiWindow+margined) ⇒ <code>boolean</code>
     * [.borderless](#UiWindow+borderless) ⇒ <code>boolean</code>
     * [.fullscreen](#UiWindow+fullscreen) ⇒ <code>boolean</code>
-    * [.show()](#UiWindow+show) ⇒ <code>undefined</code>
-    * [.onClosing(callback)](#UiWindow+onClosing) ⇒ <code>undefined</code>
-    * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged) ⇒ <code>undefined</code>
-    * [.close()](#UiWindow+close) ⇒ <code>undefined</code>
-    * [.setChild(control, stretchy)](#UiWindow+setChild)
 
 <a name="new_UiWindow_new"></a>
 
@@ -33,6 +33,43 @@ Create a new UiWindow object.
 | height | <code>number</code> | height of window in pixels. |
 | hasMenubar | <code>boolean</code> | whether this window has a menu bar. See [Menu](#menubar). |
 
+<a name="UiWindow+show"></a>
+
+### uiWindow.show()
+Show the window.
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+onClosing"></a>
+
+### uiWindow.onClosing(callback)
+Add a listener to the `closing` event. This event is emitted when the OS
+window close button is clicked. You are responsible for closing the
+window in response to this event.
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | callback to execute when the event is fired. |
+
+<a name="UiWindow+onContentSizeChanged"></a>
+
+### uiWindow.onContentSizeChanged(callback)
+Add a listener to the `contentSizeChanged` event. This event is emitted
+when window content size change.
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | callback to execute when the event is fired. |
+
+<a name="UiWindow+close"></a>
+
+### uiWindow.close()
+Close the window.
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+title"></a>
 
 ### uiWindow.title ⇒ <code>string</code>
@@ -47,6 +84,20 @@ Set or return the size in pixel of the content area of the window
 size to 0,0 you still see title bar and OS window buttons.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+setChild"></a>
+
+### uiWindow.setChild(control, stretchy)
+Set the control to show in this window content area.
+UiWindow instances can contain only one child. If you need
+more, you have to use [Containers](containers.md).
+
+**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| control | <code>UiControl</code> | the control to add as child. |
+| stretchy | <code>boolean</code> | whever the control should fill all the available space. |
+
 <a name="UiWindow+margined"></a>
 
 ### uiWindow.margined ⇒ <code>boolean</code>
@@ -65,54 +116,3 @@ When true, the window is displayed without a border.
 When true, the window is displayed in full screen mode.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+show"></a>
-
-### uiWindow.show() ⇒ <code>undefined</code>
-Show the window.
-
-**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+onClosing"></a>
-
-### uiWindow.onClosing(callback) ⇒ <code>undefined</code>
-Add a listener to the `closing` event. This event is emitted when the OS
-window close button is clicked. You are responsible for closing the
-window in response to this event.
-
-**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| callback | <code>function</code> | callback to execute when the event is fired. |
-
-<a name="UiWindow+onContentSizeChanged"></a>
-
-### uiWindow.onContentSizeChanged(callback) ⇒ <code>undefined</code>
-Add a listener to the `contentSizeChanged` event. This event is emitted
-when window content size change.
-
-**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| callback | <code>function</code> | callback to execute when the event is fired. |
-
-<a name="UiWindow+close"></a>
-
-### uiWindow.close() ⇒ <code>undefined</code>
-Close the window.
-
-**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+setChild"></a>
-
-### uiWindow.setChild(control, stretchy)
-Set the control to show in this window content area.
-UiWindow instances can contain only one child. If you need
-more, you have to use [Containers](containers.md).
-
-**Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| control | <code>UiControl</code> | the control to add as child. |
-| stretchy | <code>boolean</code> | whever the control should fill all the available space. |
-

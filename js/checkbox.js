@@ -1,15 +1,17 @@
 const {Checkbox} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A checkbox control.
+ * @extends UiControl
  */
-class UiCheckbox {
+class UiCheckbox extends UiControl {
 	/**
 	 * Create a new UiCheckbox object.
 	 * @return {UiCheckbox}
 	 */
 	constructor(label = '') {
-		this.handle = Checkbox.create(label);
+		super(Checkbox.create(label));
 	}
 
 	/**
@@ -42,7 +44,6 @@ class UiCheckbox {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onToggled(callback) {
 		Checkbox.onToggled(this.handle, callback);
