@@ -1,52 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-<dt><a href="#UiWindow">UiWindow</a></dt>
-<dd><p>The UiWindow class is responsible for showing and managing native windows.
-A UiWindow instance can contain only one child. If you need
-more than one, you have to use <a href="containers.md">Containers</a>.</p>
-</dd>
-</dl>
-
-<a name="UiControl"></a>
-
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
-
-### uiControl.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
-
-### uiControl.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
-
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
 <a name="UiWindow"></a>
 
 ## UiWindow
@@ -58,16 +9,16 @@ more than one, you have to use [Containers](containers.md).
 
 * [UiWindow](#UiWindow)
     * [new UiWindow(title, width, height, hasMenubar)](#new_UiWindow_new)
-    * [.title](#UiWindow+title) ⇒ <code>string</code>
-    * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
-    * [.margined](#UiWindow+margined) ⇒ <code>boolean</code>
-    * [.borderless](#UiWindow+borderless) ⇒ <code>boolean</code>
-    * [.fullscreen](#UiWindow+fullscreen) ⇒ <code>boolean</code>
     * [.show()](#UiWindow+show) ⇒ <code>undefined</code>
     * [.onClosing(callback)](#UiWindow+onClosing) ⇒ <code>undefined</code>
     * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged) ⇒ <code>undefined</code>
     * [.close()](#UiWindow+close) ⇒ <code>undefined</code>
+    * [.title](#UiWindow+title) ⇒ <code>string</code>
+    * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
     * [.setChild(control, stretchy)](#UiWindow+setChild)
+    * [.margined](#UiWindow+margined) ⇒ <code>boolean</code>
+    * [.borderless](#UiWindow+borderless) ⇒ <code>boolean</code>
+    * [.fullscreen](#UiWindow+fullscreen) ⇒ <code>boolean</code>
 
 <a name="new_UiWindow_new"></a>
 
@@ -82,38 +33,6 @@ Create a new UiWindow object.
 | height | <code>number</code> | height of window in pixels. |
 | hasMenubar | <code>boolean</code> | whether this window has a menu bar. See [Menu](#menubar). |
 
-<a name="UiWindow+title"></a>
-
-### uiWindow.title ⇒ <code>string</code>
-Set or return the text to show in window title bar.
-
-**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+contentSize"></a>
-
-### uiWindow.contentSize ⇒ <code>Object</code>
-Set or return the size in pixel of the content area of the window
-(excluding the size of the window decoration). This mean that if you set window
-size to 0,0 you still see title bar and OS window buttons.
-
-**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+margined"></a>
-
-### uiWindow.margined ⇒ <code>boolean</code>
-When true, an internal margin is added to the window.
-
-**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+borderless"></a>
-
-### uiWindow.borderless ⇒ <code>boolean</code>
-When true, the window is displayed without a border.
-
-**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+fullscreen"></a>
-
-### uiWindow.fullscreen ⇒ <code>boolean</code>
-When true, the window is displayed in full screen mode.
-
-**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+show"></a>
 
 ### uiWindow.show() ⇒ <code>undefined</code>
@@ -151,6 +70,20 @@ when window content size change.
 Close the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+title"></a>
+
+### uiWindow.title ⇒ <code>string</code>
+Set or return the text to show in window title bar.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+contentSize"></a>
+
+### uiWindow.contentSize ⇒ <code>Object</code>
+Set or return the size in pixel of the content area of the window
+(excluding the size of the window decoration). This mean that if you set window
+size to 0,0 you still see title bar and OS window buttons.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
 <a name="UiWindow+setChild"></a>
 
 ### uiWindow.setChild(control, stretchy)
@@ -162,6 +95,24 @@ more, you have to use [Containers](containers.md).
 
 | Param | Type | Description |
 | --- | --- | --- |
-| control | [<code>UiControl</code>](#UiControl) | the control to add as child. |
+| control | <code>UiControl</code> | the control to add as child. |
 | stretchy | <code>boolean</code> | whever the control should fill all the available space. |
 
+<a name="UiWindow+margined"></a>
+
+### uiWindow.margined ⇒ <code>boolean</code>
+When true, an internal margin is added to the window.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+borderless"></a>
+
+### uiWindow.borderless ⇒ <code>boolean</code>
+When true, the window is displayed without a border.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
+<a name="UiWindow+fullscreen"></a>
+
+### uiWindow.fullscreen ⇒ <code>boolean</code>
+When true, the window is displayed in full screen mode.
+
+**Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  

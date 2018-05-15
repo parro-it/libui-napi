@@ -1,29 +1,18 @@
-## Classes
-
-<dl>
-<dt><a href="#UiSlider">UiSlider</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
-<dd><p>Horizontal slider to set numerical values.</p>
-</dd>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-</dl>
-
 <a name="UiSlider"></a>
 
-## UiSlider ⇐ [<code>UiControl</code>](#UiControl)
+## UiSlider ⇐ <code>UiControl</code>
 Horizontal slider to set numerical values.
 
 **Kind**: global class  
-**Extends**: [<code>UiControl</code>](#UiControl)  
+**Extends**: <code>UiControl</code>  
 
-* [UiSlider](#UiSlider) ⇐ [<code>UiControl</code>](#UiControl)
+* [UiSlider](#UiSlider) ⇐ <code>UiControl</code>
     * [new UiSlider(min, max)](#new_UiSlider_new)
     * [.value](#UiSlider+value) ⇒ <code>number</code>
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.onChanged(callback)](#UiSlider+onChanged) ⇒ <code>undefined</code>
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiSlider_new"></a>
 
@@ -42,24 +31,6 @@ Create a new UiSlider object.
 Set or return the the content of the slider.
 
 **Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
-<a name="UiControl+enabled"></a>
-
-### uiSlider.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
-<a name="UiControl+visible"></a>
-
-### uiSlider.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
-<a name="UiControl+toplevel"></a>
-
-### uiSlider.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
-
-**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
 <a name="UiSlider+onChanged"></a>
 
 ### uiSlider.onChanged(callback) ⇒ <code>undefined</code>
@@ -72,39 +43,21 @@ changed.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name="UiControl"></a>
+<a name=""></a>
 
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
+### uiSlider.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
+<a name=""></a>
 
-### uiControl.visible ⇒ <code>boolean</code>
+### uiSlider.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
+<a name=""></a>
 
-### uiControl.toplevel ⇒ <code>boolean</code>
+### uiSlider.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  

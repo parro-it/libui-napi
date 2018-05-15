@@ -1,32 +1,20 @@
-## Classes
-
-<dl>
-<dt><a href="#UiEditableCombobox">UiEditableCombobox</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
-<dd><p>A drop down combo box that allows to select an item from list or to specify a custom
-value.</p>
-</dd>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-</dl>
-
 <a name="UiEditableCombobox"></a>
 
-## UiEditableCombobox ⇐ [<code>UiControl</code>](#UiControl)
+## UiEditableCombobox ⇐ <code>UiControl</code>
 A drop down combo box that allows to select an item from list or to specify a custom
 value.
 
 **Kind**: global class  
-**Extends**: [<code>UiControl</code>](#UiControl)  
+**Extends**: <code>UiControl</code>  
 
-* [UiEditableCombobox](#UiEditableCombobox) ⇐ [<code>UiControl</code>](#UiControl)
+* [UiEditableCombobox](#UiEditableCombobox) ⇐ <code>UiControl</code>
     * [new UiEditableCombobox()](#new_UiEditableCombobox_new)
     * [.text](#UiEditableCombobox+text) ⇒ <code>string</code>
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(text)](#UiEditableCombobox+append) ⇒ <code>undefined</code>
     * [.onChanged(callback)](#UiEditableCombobox+onChanged) ⇒ <code>undefined</code>
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiEditableCombobox_new"></a>
 
@@ -37,24 +25,6 @@ Create a new UiEditableCombobox object.
 
 ### uiEditableCombobox.text ⇒ <code>string</code>
 Return or set the current text.
-
-**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name="UiControl+enabled"></a>
-
-### uiEditableCombobox.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name="UiControl+visible"></a>
-
-### uiEditableCombobox.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name="UiControl+toplevel"></a>
-
-### uiEditableCombobox.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
 <a name="UiEditableCombobox+append"></a>
@@ -79,39 +49,21 @@ Add a listener to the `changed` event. Emitted whenever the text (or item) chang
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name="UiControl"></a>
+<a name=""></a>
 
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
+### uiEditableCombobox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
+<a name=""></a>
 
-### uiControl.visible ⇒ <code>boolean</code>
+### uiEditableCombobox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
+<a name=""></a>
 
-### uiControl.toplevel ⇒ <code>boolean</code>
+### uiEditableCombobox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+**Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  

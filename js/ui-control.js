@@ -1,8 +1,5 @@
 const {ControlBase} = require('..');
 
-/**
- * Base class for all controls.
- */
 class UiControl {
 	/**
 	 * Create a new UiControl object.

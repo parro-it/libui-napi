@@ -1,32 +1,21 @@
-## Classes
-
-<dl>
-<dt><a href="#UiTab">UiTab</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
-<dd><p>A container that show each chidren in a separate tab.</p>
-</dd>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-</dl>
-
 <a name="UiTab"></a>
 
-## UiTab ⇐ [<code>UiControl</code>](#UiControl)
+## UiTab ⇐ <code>UiControl</code>
 A container that show each chidren in a separate tab.
 
 **Kind**: global class  
-**Extends**: [<code>UiControl</code>](#UiControl)  
+**Extends**: <code>UiControl</code>  
 
-* [UiTab](#UiTab) ⇐ [<code>UiControl</code>](#UiControl)
+* [UiTab](#UiTab) ⇐ <code>UiControl</code>
     * [new UiTab()](#new_UiTab_new)
     * [.margined](#UiTab+margined) ⇒ <code>boolean</code>
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(control, string)](#UiTab+append) ⇒ <code>undefined</code>
     * [.insertAt(label, before, control)](#UiTab+insertAt) ⇒ <code>undefined</code>
     * [.numPages()](#UiTab+numPages) ⇒ <code>number</code>
     * [.deleteAt(index)](#UiTab+deleteAt) ⇒ <code>undefined</code>
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiTab_new"></a>
 
@@ -39,24 +28,6 @@ Create a new UiTab object.
 When true, an internal margin is added to the Tab.
 
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name="UiControl+enabled"></a>
-
-### uiTab.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name="UiControl+visible"></a>
-
-### uiTab.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name="UiControl+toplevel"></a>
-
-### uiTab.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
-
-**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
 <a name="UiTab+append"></a>
 
 ### uiTab.append(control, string) ⇒ <code>undefined</code>
@@ -66,7 +37,7 @@ Append a new child control as last tab page.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| control | [<code>UiControl</code>](#UiControl) | the control to add as a child. |
+| control | <code>UiControl</code> | the control to add as a child. |
 | string | <code>boolean</code> | the text to show for the new page caption. |
 
 <a name="UiTab+insertAt"></a>
@@ -80,7 +51,7 @@ Insert a new child control before specified position.
 | --- | --- | --- |
 | label | <code>string</code> | the text to show for the new page caption. |
 | before | <code>number</code> | the control will be inserted before this position |
-| control | [<code>UiControl</code>](#UiControl) | the control to insert |
+| control | <code>UiControl</code> | the control to insert |
 
 <a name="UiTab+numPages"></a>
 
@@ -100,39 +71,21 @@ Remove the tab and control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the tab to remove. |
 
-<a name="UiControl"></a>
+<a name=""></a>
 
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
+### uiTab.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+<a name=""></a>
 
-### uiControl.visible ⇒ <code>boolean</code>
+### uiTab.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+<a name=""></a>
 
-### uiControl.toplevel ⇒ <code>boolean</code>
+### uiTab.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  

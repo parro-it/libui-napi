@@ -1,30 +1,19 @@
-## Classes
-
-<dl>
-<dt><a href="#UiRadioButtons">UiRadioButtons</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
-<dd><p>A control that represents a group of single-choise options.</p>
-</dd>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-</dl>
-
 <a name="UiRadioButtons"></a>
 
-## UiRadioButtons ⇐ [<code>UiControl</code>](#UiControl)
+## UiRadioButtons ⇐ <code>UiControl</code>
 A control that represents a group of single-choise options.
 
 **Kind**: global class  
-**Extends**: [<code>UiControl</code>](#UiControl)  
+**Extends**: <code>UiControl</code>  
 
-* [UiRadioButtons](#UiRadioButtons) ⇐ [<code>UiControl</code>](#UiControl)
+* [UiRadioButtons](#UiRadioButtons) ⇐ <code>UiControl</code>
     * [new UiRadioButtons()](#new_UiRadioButtons_new)
     * [.selected](#UiRadioButtons+selected) ⇒ <code>string</code>
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(text)](#UiRadioButtons+append) ⇒ <code>undefined</code>
     * [.onSelected(callback)](#UiRadioButtons+onSelected) ⇒ <code>undefined</code>
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiRadioButtons_new"></a>
 
@@ -35,24 +24,6 @@ Create a new UiRadioButtons object.
 
 ### uiRadioButtons.selected ⇒ <code>string</code>
 Return or set the currently selected item by index.
-
-**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
-<a name="UiControl+enabled"></a>
-
-### uiRadioButtons.enabled ⇒ <code>boolean</code>
-Set or return whether the control is enabled.
-
-**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
-<a name="UiControl+visible"></a>
-
-### uiRadioButtons.visible ⇒ <code>boolean</code>
-Set or return whether the control is visible.
-
-**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
-<a name="UiControl+toplevel"></a>
-
-### uiRadioButtons.toplevel ⇒ <code>boolean</code>
-Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
 <a name="UiRadioButtons+append"></a>
@@ -78,39 +49,21 @@ option changes.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name="UiControl"></a>
+<a name=""></a>
 
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
+### uiRadioButtons.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
+<a name=""></a>
 
-### uiControl.visible ⇒ <code>boolean</code>
+### uiRadioButtons.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
+<a name=""></a>
 
-### uiControl.toplevel ⇒ <code>boolean</code>
+### uiRadioButtons.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  

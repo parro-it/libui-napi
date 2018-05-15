@@ -1,14 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#UiHorizontalSeparator">UiHorizontalSeparator</a> ⇐ <code>SeparatorBase</code></dt>
-<dd><p>A horizontal line to visually separate controls.</p>
-</dd>
-<dt><a href="#UiControl">UiControl</a></dt>
-<dd><p>Base class for all controls.</p>
-</dd>
-</dl>
-
 <a name="UiHorizontalSeparator"></a>
 
 ## UiHorizontalSeparator ⇐ <code>SeparatorBase</code>
@@ -16,44 +5,33 @@ A horizontal line to visually separate controls.
 
 **Kind**: global class  
 **Extends**: <code>SeparatorBase</code>  
+
+* [UiHorizontalSeparator](#UiHorizontalSeparator) ⇐ <code>SeparatorBase</code>
+    * [new UiHorizontalSeparator()](#new_UiHorizontalSeparator_new)
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
+
 <a name="new_UiHorizontalSeparator_new"></a>
 
 ### new UiHorizontalSeparator()
 Create a new UiHorizontalSeparator object.
 
-<a name="UiControl"></a>
+<a name=""></a>
 
-## UiControl
-Base class for all controls.
-
-**Kind**: global class  
-
-* [UiControl](#UiControl)
-    * [new UiControl()](#new_UiControl_new)
-    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
-    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
-    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
-
-<a name="new_UiControl_new"></a>
-
-### new UiControl()
-Create a new UiControl object.
-
-<a name="UiControl+enabled"></a>
-
-### uiControl.enabled ⇒ <code>boolean</code>
+### uiHorizontalSeparator.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+visible"></a>
+**Kind**: instance property of [<code>UiHorizontalSeparator</code>](#UiHorizontalSeparator)  
+<a name=""></a>
 
-### uiControl.visible ⇒ <code>boolean</code>
+### uiHorizontalSeparator.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
-<a name="UiControl+toplevel"></a>
+**Kind**: instance property of [<code>UiHorizontalSeparator</code>](#UiHorizontalSeparator)  
+<a name=""></a>
 
-### uiControl.toplevel ⇒ <code>boolean</code>
+### uiHorizontalSeparator.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
-**Kind**: instance property of [<code>UiControl</code>](#UiControl)  
+**Kind**: instance property of [<code>UiHorizontalSeparator</code>](#UiHorizontalSeparator)  
