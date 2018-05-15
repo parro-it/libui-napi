@@ -24,7 +24,6 @@ class AreaDrawContext {
 	 * @param {UiDrawPath} path - the path to draw
 	 * @param {DrawBrush} brush - the brush to draw with
 	 * @param {DrawStrokeParams} stroke - the stroke params to draw with
-	 * @return {undefined}
 	 */
 	stroke(path, brush, stroke) {
 		if (!(path instanceof UiDrawPath)) {
@@ -44,7 +43,6 @@ class AreaDrawContext {
 	 * Draw a path (filled).
 	 * @param {UiDrawPath} path - the path to draw
 	 * @param {DrawBrush} brush - the brush to draw with
-	 * @return {undefined}
 	 */
 	fill(path, brush) {
 		if (!(path instanceof UiDrawPath)) {
@@ -59,7 +57,6 @@ class AreaDrawContext {
 	/**
 	 * Apply a matrix transformation
 	 * @param {UiDrawMatrix} matrix - the matrix to apply
-	 * @return {undefined}
 	 */
 	transform(matrix) {
 		if (!(matrix instanceof UiDrawMatrix)) {
@@ -71,7 +68,6 @@ class AreaDrawContext {
 	/**
 	 * TODO
 	 * @param {UiDrawPath} path -
-	 * @return {undefined}
 	 */
 	clip(path) {
 		if (!(path instanceof UiDrawPath)) {
@@ -82,7 +78,6 @@ class AreaDrawContext {
 
 	/**
 	 * Save a transformation state.
-	 * @return {undefined}
 	 */
 	save() {
 		AreaContext.save(this.handle);
@@ -90,7 +85,6 @@ class AreaDrawContext {
 
 	/**
 	 * Restore a transformation state.
-	 * @return {undefined}
 	 */
 	restore() {
 		AreaContext.restore(this.handle);

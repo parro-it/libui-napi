@@ -199,6 +199,13 @@ Scrolls a scrolling area to the specified coordinates.
 * width: Number
 * height: Number
 
+### enabled
+
+Property that sets or returns whether the area is enabled (= events are fired).
+
+### visible
+
+Property that sets or returns whether the area is visible.
 
 
 # Drawing concepts

@@ -1,9 +1,10 @@
 const {Area} = require('../..');
+const {UiControl} = require('../ui-control');
 
 /**
  * An area to draw on.
  */
-class UiArea {
+class UiArea extends UiControl {
 	/**
 	 * Create a new UiArea object.
 	 * @param {Function} draw - callback to draw onto area
@@ -21,18 +22,16 @@ class UiArea {
 		const keyCb = evt => key(this, evt);
 
 		if (typeof width == 'undefined') {
-			this.handle =
-				Area.create(drawCb, mouseCb, mouseCrossedCb, dragBrokenCb, keyCb);
+			super(Area.create(drawCb, mouseCb, mouseCrossedCb, dragBrokenCb, keyCb));
 		} else {
-			this.handle = Area.createScrolling(drawCb, mouseCb, mouseCrossedCb,
-											   dragBrokenCb, keyCb, width, height);
+			super(Area.createScrolling(drawCb, mouseCb, mouseCrossedCb, dragBrokenCb,
+									   keyCb, width, height));
 			this.type = 'scrolling';
 		}
 	}
 
 	/**
 	 * Force a redraw of the area (calls draw callback).
-	 * @return {undefined}
 	 */
 	queueRedrawAll() {
 		Area.queueRedrawAll(this.handle);
@@ -40,7 +39,6 @@ class UiArea {
 
 	/**
 	 * Let the mouse move the window (only callable in the draw callback)
-	 * @return {undefined}
 	 */
 	beginWindowMove() {
 		Area.beginWindowMove(this.handle);
@@ -49,7 +47,6 @@ class UiArea {
 	/**
 	 * Let the mouse resize the window (only callable in the draw callback)
 	 * @param {number} edge - the size which is held by the mouse
-	 * @return {undefined}
 	 */
 	beginWindowResize(edge) {
 		Area.beginWindowResize(this.handle, edge);

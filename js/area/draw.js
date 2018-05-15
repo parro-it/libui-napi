@@ -49,7 +49,6 @@ class DrawBrush {
 	 * Set the start position of the gradient
 	 * (Radial gradients: the inner circle's center)
 	 * @param {Object} pos - the coordinates
-	 * @return {undefined}
 	 */
 	set start(value) {
 		AreaBrush.setStart(this.handle, value.x, value.y);
@@ -68,7 +67,6 @@ class DrawBrush {
 	 * Set the end position of the gradient
 	 * (Radial gradients: the outer circle's center)
 	 * @param {Object} pos - the coordinates
-	 * @return {undefined}
 	 */
 	set end(value) {
 		AreaBrush.setEnd(this.handle, value.x, value.y);
@@ -86,7 +84,6 @@ class DrawBrush {
 	/**
 	 * Set the radius of the gradient's outer circle (radial gradients only)
 	 * @param {number} r - the outer radius
-	 * @return {undefined}
 	 */
 	set outerRadius(value) {
 		return AreaBrush.setOuterRadius(this.handle, value);
