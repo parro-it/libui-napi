@@ -96,52 +96,36 @@ static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
 	napi_env env = handle->env;
 
-	napi_value null;
-	napi_status status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
-
 	napi_handle_scope handle_scope;
-	status = napi_open_handle_scope(env, &handle_scope);
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, /*void*/);
 
-	napi_value event_args[2];
-	event_args[0] = null;
-	event_args[1] = create_draw_params(env, p);
+	napi_value event_args[1];
+	event_args[0] = create_draw_params(env, p);
 
-	fire_event_args(handle->events->head->event, 2, event_args);
+	fire_event_args(handle->events->head->event, 1, event_args);
 
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
 }
 static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	struct control_handle *handle;
-	napi_value null;
-	napi_status status;
 	napi_handle_scope handle_scope;
 
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
 	napi_env env = handle->env;
 
 	/*
-		pass null for now as area instance to the callback
-		we can pass the correct instance after
-		https://github.com/parro-it/libui-napi/issues/8
-	*/
-	status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
-
-	/*
 		a scope is needed here because create_mouse_event
 		creates an object
 	*/
-	status = napi_open_handle_scope(env, &handle_scope);
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, /*void*/);
 
-	napi_value event_args[2];
-	event_args[0] = null;
-	event_args[1] = create_mouse_event(env, e);
+	napi_value event_args[1];
+	event_args[0] = create_mouse_event(env, e);
 
-	fire_event_args(handle->events->head->DUP(1, next->) event, 2, event_args);
+	fire_event_args(handle->events->head->DUP(1, next->) event, 1, event_args);
 
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
@@ -152,15 +136,10 @@ static void event_mouseCrossed_cb(uiAreaHandler *h, uiArea *a, int left) {
 	struct event_t *event = handle->events->head->DUP(2, next->) event;
 	napi_env env = event->env;
 
-	napi_value null;
-	napi_status status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, /*void*/);
+	napi_value event_args[1];
+	event_args[0] = make_bool(env, left);
 
-	napi_value event_args[2];
-	event_args[0] = null;
-	event_args[1] = make_bool(env, left);
-
-	fire_event_args(event, 2, event_args);
+	fire_event_args(event, 1, event_args);
 }
 static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 	struct control_handle *handle;
@@ -169,34 +148,23 @@ static void event_dragBroken_cb(uiAreaHandler *h, uiArea *a) {
 }
 static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	struct control_handle *handle;
-	napi_value null;
-	napi_status status;
 	napi_handle_scope handle_scope;
 
 	ctrl_map_get(&controls_map, uiControl(a), &handle);
 	napi_env env = handle->env;
 
 	/*
-		pass null for now as area instance to the callback
-		we can pass the correct instance after
-		https://github.com/parro-it/libui-napi/issues/8
-	*/
-	status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, 0);
-
-	/*
 		a scope is needed here because create_key_event
 		creates an object
 	*/
-	status = napi_open_handle_scope(env, &handle_scope);
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
 
-	napi_value event_args[2];
-	event_args[0] = null;
-	event_args[1] = create_key_event(env, e);
+	napi_value event_args[1];
+	event_args[0] = create_key_event(env, e);
 
 	bool v_i;
-	napi_value v = fire_event_args(handle->events->head->DUP(4, next->) event, 2, event_args);
+	napi_value v = fire_event_args(handle->events->head->DUP(4, next->) event, 1, event_args);
 
 	status = napi_coerce_to_bool(env, v, &v);
 	CHECK_STATUS_UNCAUGHT(status, napi_coerce_to_bool, 0);

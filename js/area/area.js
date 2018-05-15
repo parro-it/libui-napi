@@ -13,15 +13,19 @@ class UiArea {
 	 * @param {Function} keyEvent - callback for key events
 	 * @return {UiArea}
 	 */
-	constructor(draw, mouse, mouseCrossed, dragBroken, keyEvent, width, height) {
+	constructor(draw, mouse, mouseCrossed, dragBroken, key, width, height) {
+		const drawCb = p => draw(this, p);
+		const mouseCb = evt => mouse(this, evt);
+		const mouseCrossedCb = left => mouseCrossed(this, left);
+		const dragBrokenCb = () => dragBroken(this);
+		const keyCb = evt => key(this, evt);
+
 		if (typeof width == 'undefined') {
-			this.handle = Area.create(draw || (() => {}), mouse || (() => {}),
-									  mouseCrossed || (() => {}),
-									  dragBroken || (() => {}), keyEvent || (() => {}));
+			this.handle =
+				Area.create(drawCb, mouseCb, mouseCrossedCb, dragBrokenCb, keyCb);
 		} else {
-			this.handle = Area.createScrolling(
-				draw || (() => {}), mouse || (() => {}), mouseCrossed || (() => {}),
-				dragBroken || (() => {}), keyEvent || (() => {}), width, height);
+			this.handle = Area.createScrolling(drawCb, mouseCb, mouseCrossedCb,
+											   dragBrokenCb, keyCb, width, height);
 			this.type = 'scrolling';
 		}
 	}
