@@ -12,7 +12,7 @@ static void free_brush_solid(napi_env env, void *finalize_data, void *finalize_h
 }
 
 LIBUI_FUNCTION(create) {
-	uiDrawMatrix *matrix = malloc(sizeof(uiDrawMatrix));
+	uiDrawMatrix *matrix = calloc(1, sizeof(uiDrawMatrix));
 
 	napi_value external;
 	napi_status status = napi_create_external(env, matrix, free_brush_solid, NULL, &external);

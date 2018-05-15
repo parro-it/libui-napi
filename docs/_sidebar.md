@@ -24,6 +24,7 @@
   - [UiSpinbox](spinbox.md)
   - [UiRadioButtons](radio-buttons.md)
 * Static controls
+  - [UiArea](area.md)
   - [UiLabel](label.md)
   - [UiHorizontalSeparator](horizontal-separator.md)
   - [UiVerticalSeparator](vertical-separator.md)

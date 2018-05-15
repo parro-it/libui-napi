@@ -33,8 +33,8 @@ module.exports = libui;
 const {UiCheckbox} = require('./js/checkbox');
 const {
 	UiArea,
-	AreaMouseEvent,
-	AreaKeyEvent,
+	UiAreaMouseEvent,
+	UiAreaKeyEvent,
 	AreaDrawParams,
 	AreaDrawContext,
 	DrawBrush,
@@ -108,13 +108,18 @@ Object.assign(libui, {
 	UiDrawMatrix,
 	Point,
 	Color,
+	Point,
+	UiAreaKeyEvent,
+	UiAreaMouseEvent,
 	fillMode: UiDrawPath.fillMode,
-	brushType: DrawBrush.type
+	brushType: DrawBrush.type,
+	modifierKeys: UiAreaKeyEvent.modifierKeys,
+	extKeys: UiAreaKeyEvent.extKeys
 });
 
 libui.App.init();
 
-libui.Area.init(AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext,
+libui.Area.init(UiAreaMouseEvent, UiAreaKeyEvent, AreaDrawParams, AreaDrawContext,
 				BrushGradientStop, Color, Point, Size);
 
 libui.onShouldQuit = libui.App.onShouldQuit;

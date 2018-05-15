@@ -1,4 +1,4 @@
-const {UiArea, AreaMouseEvent, AreaKeyEvent} = require('./area');
+const {UiArea, UiAreaMouseEvent, UiAreaKeyEvent} = require('./area');
 const {AreaDrawParams, AreaDrawContext} = require('./context');
 const {DrawBrush, BrushGradientStop, UiDrawPath, DrawStrokeParams} = require('./draw');
 
@@ -6,8 +6,8 @@ const UiDrawMatrix = require('./matrix');
 
 module.exports = {
 	UiArea,
-	AreaMouseEvent,
-	AreaKeyEvent,
+	UiAreaMouseEvent,
+	UiAreaKeyEvent,
 	AreaDrawParams,
 	AreaDrawContext,
 	DrawBrush,
