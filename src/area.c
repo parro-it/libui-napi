@@ -12,6 +12,16 @@
 
 static const char *MODULE = "Area";
 
+// @andlabs in https://github.com/charto/nbind/issues/20 :
+// Yes, you keep ownership of the uiAreaHandler. libui only cares about the address you give
+// uiNewArea(); it doesn't copy anything. You can even use the same uiAreaHandler on multiple
+// uiAreas, which is why you get the uiArea as a parameter in each function.
+//
+// In fact, this is the intent of the design: you make the first field of your handler struct a
+// uiAreaHandler and stick extra fields at the end, like in COM or C++. Some people have asked for
+// the more conventional void *data extra parameter, but...
+static uiAreaHandler *AREA_HANDLER;
+
 napi_ref AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext, BrushGradientStop, Color,
 	Point, Size;
 
@@ -246,14 +256,7 @@ LIBUI_FUNCTION(create) {
 	ARG_CB_REF(dragBroken, 3);
 	ARG_CB_REF(key, 4);
 
-	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
-	handler->Draw = event_draw_cb;
-	handler->MouseEvent = event_mouse_cb;
-	handler->MouseCrossed = event_mouseCrossed_cb;
-	handler->DragBroken = event_dragBroken_cb;
-	handler->KeyEvent = event_key_cb;
-
-	uiArea *ui_area = uiNewArea(handler);
+	uiArea *ui_area = uiNewArea(AREA_HANDLER);
 	napi_value value = control_handle_new(env, uiControl(ui_area), "area");
 
 	INSTALL_AREA_EVENTS(value);
@@ -272,14 +275,7 @@ LIBUI_FUNCTION(createScrolling) {
 	ARG_INT32(width, 5);
 	ARG_INT32(height, 6);
 
-	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
-	handler->Draw = event_draw_cb;
-	handler->MouseEvent = event_mouse_cb;
-	handler->MouseCrossed = event_mouseCrossed_cb;
-	handler->DragBroken = event_dragBroken_cb;
-	handler->KeyEvent = event_key_cb;
-
-	uiArea *ui_area = uiNewScrollingArea(handler, width, height);
+	uiArea *ui_area = uiNewScrollingArea(AREA_HANDLER, width, height);
 	napi_value value = control_handle_new(env, uiControl(ui_area), "area");
 
 	INSTALL_AREA_EVENTS(value);
@@ -345,6 +341,13 @@ LIBUI_FUNCTION(scrollTo) {
 
 LIBUI_FUNCTION(init) {
 	INIT_ARGS(8);
+
+	AREA_HANDLER = malloc(sizeof(uiAreaHandler));
+	AREA_HANDLER->Draw = event_draw_cb;
+	AREA_HANDLER->MouseEvent = event_mouse_cb;
+	AREA_HANDLER->MouseCrossed = event_mouseCrossed_cb;
+	AREA_HANDLER->DragBroken = event_dragBroken_cb;
+	AREA_HANDLER->KeyEvent = event_key_cb;
 
 	ARG_CB_REF(mouseEvent, 0);
 	AreaMouseEvent = mouseEvent;
