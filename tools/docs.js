@@ -22,7 +22,8 @@ render('js/{form.js,ui-control.js}', 'docs/form.md');
 render('js/{grid.js,ui-control.js}', 'docs/grid.md');
 render('js/{group.js,ui-control.js}', 'docs/group.md');
 render('js/{horizontal-box.js,box.js,ui-control.js}', 'docs/horizontal-box.md');
-render('js/{horizontal-separator.js,ui-control.js}', 'docs/horizontal-separator.md');
+render('js/{horizontal-separator.js,separator-base.js,ui-control.js}',
+	   'docs/horizontal-separator.md');
 render('js/{label.js,ui-control.js}', 'docs/label.md');
 render('js/{menu.js,ui-control.js}', 'docs/menu.md');
 render('js/{multiline-entry.js,ui-control.js}', 'docs/multiline-entry.md');
@@ -36,5 +37,6 @@ render('js/{tab.js,ui-control.js}', 'docs/tab.md');
 render('js/{time-picker.js,date-time-picker-base.js,ui-control.js}',
 	   'docs/time-picker.md');
 render('js/{vertical-box.js,box.js,ui-control.js}', 'docs/vertical-box.md');
-render('js/{vertical-separator.js,ui-control.js}', 'docs/vertical-separator.md');
+render('js/{vertical-separator.js,separator-base.js,ui-control.js}',
+	   'docs/vertical-separator.md');
 render('js/{window.js,ui-control.js}', 'docs/window.md');

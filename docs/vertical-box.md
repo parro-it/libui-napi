@@ -1,13 +1,79 @@
 ## Classes
 
 <dl>
+<dt><a href="#UiBox">UiBox</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
+<dd><p>Base class for vertical and horizontal boxes</p>
+</dd>
 <dt><a href="#UiControl">UiControl</a></dt>
 <dd><p>Base class for all controls.</p>
 </dd>
-<dt><a href="#UiVerticalBox">UiVerticalBox</a> ⇐ <code>UiBox</code></dt>
+<dt><a href="#UiVerticalBox">UiVerticalBox</a> ⇐ <code><a href="#UiBox">UiBox</a></code></dt>
 <dd><p>A container that stacks its children vertically.</p>
 </dd>
 </dl>
+
+<a name="UiBox"></a>
+
+## UiBox ⇐ [<code>UiControl</code>](#UiControl)
+Base class for vertical and horizontal boxes
+
+**Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
+
+* [UiBox](#UiBox) ⇐ [<code>UiControl</code>](#UiControl)
+    * [.padded](#UiBox+padded) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
+    * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
+    * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
+
+<a name="UiBox+padded"></a>
+
+### uiBox.padded ⇒ <code>boolean</code>
+If true, the container inserts some space between children.
+
+**Kind**: instance property of [<code>UiBox</code>](#UiBox)  
+<a name="UiControl+enabled"></a>
+
+### uiBox.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiBox</code>](#UiBox)  
+<a name="UiControl+visible"></a>
+
+### uiBox.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiBox</code>](#UiBox)  
+<a name="UiControl+toplevel"></a>
+
+### uiBox.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiBox</code>](#UiBox)  
+<a name="UiBox+append"></a>
+
+### uiBox.append(control, stretchy) ⇒ <code>undefined</code>
+Append a new child control as the last child.
+
+**Kind**: instance method of [<code>UiBox</code>](#UiBox)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| control | [<code>UiControl</code>](#UiControl) | the control to add as a child. |
+| stretchy | <code>boolean</code> | whever the control should fill all the available space. |
+
+<a name="UiBox+deleteAt"></a>
+
+### uiBox.deleteAt(index) ⇒ <code>undefined</code>
+Remove a child control at specified position.
+
+**Kind**: instance method of [<code>UiBox</code>](#UiBox)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | the index of the control to remove |
 
 <a name="UiControl"></a>
 
@@ -47,15 +113,18 @@ Set or return whether the control is a top level one.
 **Kind**: instance property of [<code>UiControl</code>](#UiControl)  
 <a name="UiVerticalBox"></a>
 
-## UiVerticalBox ⇐ <code>UiBox</code>
+## UiVerticalBox ⇐ [<code>UiBox</code>](#UiBox)
 A container that stacks its children vertically.
 
 **Kind**: global class  
-**Extends**: <code>UiBox</code>  
+**Extends**: [<code>UiBox</code>](#UiBox)  
 
-* [UiVerticalBox](#UiVerticalBox) ⇐ <code>UiBox</code>
+* [UiVerticalBox](#UiVerticalBox) ⇐ [<code>UiBox</code>](#UiBox)
     * [new UiVerticalBox()](#new_UiVerticalBox_new)
     * [.padded](#UiBox+padded) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(control, stretchy)](#UiBox+append) ⇒ <code>undefined</code>
     * [.deleteAt(index)](#UiBox+deleteAt) ⇒ <code>undefined</code>
 
@@ -68,6 +137,24 @@ Create a new UiVerticalBox object.
 
 ### uiVerticalBox.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
+
+**Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
+<a name="UiControl+enabled"></a>
+
+### uiVerticalBox.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
+<a name="UiControl+visible"></a>
+
+### uiVerticalBox.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
+<a name="UiControl+toplevel"></a>
+
+### uiVerticalBox.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
 <a name="UiBox+append"></a>

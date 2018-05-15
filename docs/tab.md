@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiTab">UiTab</a></dt>
+<dt><a href="#UiTab">UiTab</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A container that show each chidren in a separate tab.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiTab"></a>
 
-## UiTab
+## UiTab ⇐ [<code>UiControl</code>](#UiControl)
 A container that show each chidren in a separate tab.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiTab](#UiTab)
+* [UiTab](#UiTab) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiTab()](#new_UiTab_new)
     * [.margined](#UiTab+margined) ⇒ <code>boolean</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(control, string)](#UiTab+append) ⇒ <code>undefined</code>
     * [.insertAt(label, before, control)](#UiTab+insertAt) ⇒ <code>undefined</code>
     * [.numPages()](#UiTab+numPages) ⇒ <code>number</code>
@@ -33,6 +37,24 @@ Create a new UiTab object.
 
 ### uiTab.margined ⇒ <code>boolean</code>
 When true, an internal margin is added to the Tab.
+
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+<a name="UiControl+enabled"></a>
+
+### uiTab.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+<a name="UiControl+visible"></a>
+
+### uiTab.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+<a name="UiControl+toplevel"></a>
+
+### uiTab.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
 <a name="UiTab+append"></a>

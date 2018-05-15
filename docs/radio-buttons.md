@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiRadioButtons">UiRadioButtons</a></dt>
+<dt><a href="#UiRadioButtons">UiRadioButtons</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>A control that represents a group of single-choise options.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiRadioButtons"></a>
 
-## UiRadioButtons
+## UiRadioButtons ⇐ [<code>UiControl</code>](#UiControl)
 A control that represents a group of single-choise options.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiRadioButtons](#UiRadioButtons)
+* [UiRadioButtons](#UiRadioButtons) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiRadioButtons()](#new_UiRadioButtons_new)
     * [.selected](#UiRadioButtons+selected) ⇒ <code>string</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.append(text)](#UiRadioButtons+append) ⇒ <code>undefined</code>
     * [.onSelected(callback)](#UiRadioButtons+onSelected) ⇒ <code>undefined</code>
 
@@ -31,6 +35,24 @@ Create a new UiRadioButtons object.
 
 ### uiRadioButtons.selected ⇒ <code>string</code>
 Return or set the currently selected item by index.
+
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
+<a name="UiControl+enabled"></a>
+
+### uiRadioButtons.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
+<a name="UiControl+visible"></a>
+
+### uiRadioButtons.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
+<a name="UiControl+toplevel"></a>
+
+### uiRadioButtons.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiRadioButtons</code>](#UiRadioButtons)  
 <a name="UiRadioButtons+append"></a>

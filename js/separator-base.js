@@ -1,6 +1,12 @@
-class SeparatorBase {
+const {UiControl} = require('./ui-control');
+
+/**
+ * Base class for vertical and horizontal separator
+ * @extends UiControl
+ */
+class SeparatorBase extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 }
 

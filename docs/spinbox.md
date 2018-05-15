@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiSpinbox">UiSpinbox</a></dt>
+<dt><a href="#UiSpinbox">UiSpinbox</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>An entry control for numerical values.</p>
 </dd>
 <dt><a href="#UiControl">UiControl</a></dt>
@@ -11,14 +11,18 @@
 
 <a name="UiSpinbox"></a>
 
-## UiSpinbox
+## UiSpinbox ⇐ [<code>UiControl</code>](#UiControl)
 An entry control for numerical values.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiSpinbox](#UiSpinbox)
+* [UiSpinbox](#UiSpinbox) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiSpinbox(min, max)](#new_UiSpinbox_new)
     * [.value](#UiSpinbox+value) ⇒ <code>number</code>
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.onChanged(callback)](#UiSpinbox+onChanged) ⇒ <code>undefined</code>
 
 <a name="new_UiSpinbox_new"></a>
@@ -36,6 +40,24 @@ Create a new UiSpinbox object.
 
 ### uiSpinbox.value ⇒ <code>number</code>
 Set or return the the content of spinbox.
+
+**Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
+<a name="UiControl+enabled"></a>
+
+### uiSpinbox.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
+<a name="UiControl+visible"></a>
+
+### uiSpinbox.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
+<a name="UiControl+toplevel"></a>
+
+### uiSpinbox.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
 
 **Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
 <a name="UiSpinbox+onChanged"></a>

@@ -1,10 +1,12 @@
 const {Area, AreaBrush, AreaContext, AreaPath, AreaStrokeParams, AreaMatrix} =
 	require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * An area to draw on.
+ * @extends UiControl
  */
-class UiArea {
+class UiArea extends UiControl {
 	/**
 	 * Create a new UiArea object.
 	 * @param {Function} draw - callback to draw onto area
@@ -15,9 +17,9 @@ class UiArea {
 	 * @return {UiArea}
 	 */
 	constructor(draw, mouse, mouseCrossed, dragBroken, keyEvent) {
-		this.handle = Area.create(draw || (() => {}), mouse || (() => {}),
-								  mouseCrossed || (() => {}), dragBroken || (() => {}),
-								  keyEvent || (() => {}));
+		super(Area.create(draw || (() => {}), mouse || (() => {}),
+						  mouseCrossed || (() => {}), dragBroken || (() => {}),
+						  keyEvent || (() => {})));
 	}
 
 	/**

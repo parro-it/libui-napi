@@ -1,16 +1,18 @@
 const {Tab} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A container that show each chidren in a separate tab.
+ * @extends UiControl
  */
-class UiTab {
+class UiTab extends UiControl {
 	/**
 	 * Create a new UiTab object.
 	 *
 	 * @return {UiTab} new instance.
 	 */
 	constructor() {
-		this.handle = Tab.create();
+		super(Tab.create());
 	}
 
 	/**

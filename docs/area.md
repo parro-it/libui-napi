@@ -1,7 +1,7 @@
 ## Classes
 
 <dl>
-<dt><a href="#UiArea">UiArea</a></dt>
+<dt><a href="#UiArea">UiArea</a> ⇐ <code><a href="#UiControl">UiControl</a></code></dt>
 <dd><p>An area to draw on.</p>
 </dd>
 <dt><a href="#AreaDrawBrush">AreaDrawBrush</a></dt>
@@ -17,13 +17,17 @@
 
 <a name="UiArea"></a>
 
-## UiArea
+## UiArea ⇐ [<code>UiControl</code>](#UiControl)
 An area to draw on.
 
 **Kind**: global class  
+**Extends**: [<code>UiControl</code>](#UiControl)  
 
-* [UiArea](#UiArea)
+* [UiArea](#UiArea) ⇐ [<code>UiControl</code>](#UiControl)
     * [new UiArea(draw, mouse, mouseCrossed, dragBroken, keyEvent)](#new_UiArea_new)
+    * [.enabled](#UiControl+enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiControl+visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiControl+toplevel) ⇒ <code>boolean</code>
     * [.queueRedrawAll()](#UiArea+queueRedrawAll) ⇒ <code>undefined</code>
     * [.beginWindowMove()](#UiArea+beginWindowMove) ⇒ <code>undefined</code>
     * [.beginWindowResize(edge)](#UiArea+beginWindowResize) ⇒ <code>undefined</code>
@@ -42,6 +46,24 @@ Create a new UiArea object.
 | dragBroken | <code>function</code> | callback |
 | keyEvent | <code>function</code> | callback for key events |
 
+<a name="UiControl+enabled"></a>
+
+### uiArea.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiArea</code>](#UiArea)  
+<a name="UiControl+visible"></a>
+
+### uiArea.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiArea</code>](#UiArea)  
+<a name="UiControl+toplevel"></a>
+
+### uiArea.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiArea</code>](#UiArea)  
 <a name="UiArea+queueRedrawAll"></a>
 
 ### uiArea.queueRedrawAll() ⇒ <code>undefined</code>

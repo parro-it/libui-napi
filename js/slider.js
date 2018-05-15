@@ -1,9 +1,11 @@
 const {Slider} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * Horizontal slider to set numerical values.
+ * @extends UiControl
  */
-class UiSlider {
+class UiSlider extends UiControl {
 	/**
 	 * Create a new UiSlider object.
 	 * @param  {number} min - minimum value of the slider.
@@ -11,7 +13,7 @@ class UiSlider {
 	 * @return {UiSlider}
 	 */
 	constructor(min, max) {
-		this.handle = Slider.create(min, max);
+		super(Slider.create(min, max));
 	}
 
 	/**

@@ -1,8 +1,12 @@
 const {Box} = require('..');
-
-class UiBox {
+const {UiControl} = require('./ui-control');
+/**
+ * Base class for vertical and horizontal boxes
+ * @extends UiControl
+ */
+class UiBox extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 
 	/**

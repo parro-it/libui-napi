@@ -1,15 +1,17 @@
 const {RadioButtons} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A control that represents a group of single-choise options.
+ * @extends UiControl
  */
-class UiRadioButtons {
+class UiRadioButtons extends UiControl {
 	/**
 	 * Create a new UiRadioButtons object.
 	 * @return {UiRadioButtons}
 	 */
 	constructor() {
-		this.handle = RadioButtons.create();
+		super(RadioButtons.create());
 	}
 
 	/**
