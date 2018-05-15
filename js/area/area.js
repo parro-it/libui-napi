@@ -13,10 +13,17 @@ class UiArea {
 	 * @param {Function} keyEvent - callback for key events
 	 * @return {UiArea}
 	 */
-	constructor(draw, mouse, mouseCrossed, dragBroken, keyEvent) {
-		this.handle = Area.create(draw || (() => {}), mouse || (() => {}),
-								  mouseCrossed || (() => {}), dragBroken || (() => {}),
-								  keyEvent || (() => {}));
+	constructor(draw, mouse, mouseCrossed, dragBroken, keyEvent, width, height) {
+		if (typeof width == 'undefined') {
+			this.handle = Area.create(draw || (() => {}), mouse || (() => {}),
+									  mouseCrossed || (() => {}),
+									  dragBroken || (() => {}), keyEvent || (() => {}));
+		} else {
+			this.handle = Area.createScrolling(
+				draw || (() => {}), mouse || (() => {}), mouseCrossed || (() => {}),
+				dragBroken || (() => {}), keyEvent || (() => {}), width, height);
+			this.type = 'scrolling';
+		}
 	}
 
 	/**
@@ -42,6 +49,20 @@ class UiArea {
 	 */
 	beginWindowResize(edge) {
 		Area.beginWindowResize(this.handle, edge);
+	}
+
+	setSize(w, h) {
+		if (this.type !== 'scrolling') {
+			throw new TypeError('setSize can only be called on scrolling areas!');
+		}
+		Area.setSize(this.handle, w, h);
+	}
+
+	scrollTo(x, y, w, h) {
+		if (this.type !== 'scrolling') {
+			throw new TypeError('scrollTo can only be called on scrolling areas!');
+		}
+		Area.scrollTo(this.handle, x, y, w, h);
 	}
 }
 

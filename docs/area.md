@@ -1,6 +1,6 @@
 # Overview
 
-* [Area](#area)
+* [UiArea](#uiarea)
 * [Drawing concepts](#drawing-concepts)
 * Classes:
     - [UiAreaDrawParams](#uiareadrawparams)
@@ -15,11 +15,9 @@
     - [Point/PointDouble](#pointpointdouble)
     - [Size/SizeDouble](#sizesizedouble)
 
-# Area
+# UiArea
 
 > A canvas you can draw on.
-
-![UiArea example](media/UiArea.png)
 
 UiArea provide a canvas you can draw on. It also receives keyboard and mouse events, supports scrolling, is DPI aware, and has several other useful features.
 
@@ -75,9 +73,36 @@ win.show();
 libui.startLoop();
 ```
 
-# Drawing concepts
 
-## The Area Callbacks
+## Constructor
+
+**Arguments**
+
+* draw: Function
+* mouseEvent: Function
+* mouseCrossed: Function
+* dragBroken: Function
+* keyEvent: Function
+
+Creates an area with the specified callbacks.
+
+
+**OR**
+
+
+**Arguments**
+
+* draw: function
+* mouseEvent: function
+* mouseCrossed: function
+* dragBroken: function
+* keyEvent: function
+* width: Number
+
+Creates an scrolling area with the specified callbacks and size.
+
+
+### The Area Callbacks
 
 A UiArea calls several methods to do certain tasks. To create an area, 5 function callbacks need to be passed:
 
@@ -91,41 +116,92 @@ new libui.UiArea(
 );
 ```
 
-### draw
+#### draw
 
 ```js
-function draw(area, drawParams){}
+function draw(area, drawParams) {}
 ```
 
 The actual drawing happens in this function. It gets called when the area was created or got resized with the area and [UiAreaDrawParams](#uiareadrawparams) as parameters.
 
-### mouseEvent
+#### mouseEvent
 
 ```js
-function mouseEvent(area, event){ }
+function mouseEvent(area, event) {}
 ```
 
 Called when the mouse was moved or clicked over the area. `event` is an [UiAreaMouseEvent](#uiareamouseevent).
 
 
-### mouseCrossed
+#### mouseCrossed
 
 ```js
-function mouseCrossed(area, didLeave) { },
+function mouseCrossed(area, didLeave) {}
 ```
 Called when the mouse entered (`didLeave == true`) or left the area.
 
-### dragBroken
+#### dragBroken
 
-Called to indicate that a drag should be ended. Only implemented on Windows.
+Called to indicate that a drag should be ended. Implemented only on Windows.
 
-### keyEvent
+#### keyEvent
 
 ```js
 function keyEvent(area, keyEvent) {}
 ```
 Called when a key was pressed. Return `true` to indicate that the key event was handled (a menu item with that accelerator won't activate, no error sound on macOS). Event is an [UiAreaKeyEvent](#uiareakeyevent).
 
+
+## Methods
+
+### queueRedrawAll
+
+Forces a redraw of the area (calls draw callback).
+
+### beginWindowMove
+
+Lets the mouse move the window (only callable in the draw callback).
+
+### beginWindowResize
+
+Lets the mouse resize the window on the specified edge (only callable in the draw callback).
+
+**Arguments**
+
+* edge:
+    - `libui.UiArea.resizeEdge.left`
+    - `libui.UiArea.resizeEdge.top`
+    - `libui.UiArea.resizeEdge.right`
+    - `libui.UiArea.resizeEdge.bottom`
+    - `libui.UiArea.resizeEdge.topLeft`
+    - `libui.UiArea.resizeEdge.topRight`
+    - `libui.UiArea.resizeEdge.bottomLeft`
+    - `libui.UiArea.resizeEdge.bottomRight`
+
+### setSize
+
+Sets the size of a scrolling area.
+
+**Arguments**
+
+* x: Number
+* y: Number
+
+
+### scrollTo
+
+Scrolls a scrolling area to the specified coordinates.
+
+**Arguments**
+
+* x: Number
+* y: Number
+* width: Number
+* height: Number
+
+
+
+# Drawing concepts
 
 ## Drawing
 

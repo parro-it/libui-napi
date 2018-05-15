@@ -200,6 +200,43 @@ static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	return v_i;
 }
 
+#define INSTALL_AREA_EVENTS(TO)                                                                    \
+	{                                                                                              \
+		struct control_handle *ctrl_handle;                                                        \
+		napi_status status = napi_get_value_external(env, TO, (void **)&ctrl_handle);              \
+		CHECK_STATUS_THROW(status, napi_get_value_external);                                       \
+                                                                                                   \
+		struct event_t *drawEvent = create_event(env, draw, "onDraw");                             \
+		if (drawEvent == NULL) {                                                                   \
+			return NULL;                                                                           \
+		}                                                                                          \
+		install_event(ctrl_handle->events, drawEvent);                                             \
+                                                                                                   \
+		struct event_t *mouseEvent = create_event(env, mouse, "onMouse");                          \
+		if (mouseEvent == NULL) {                                                                  \
+			return NULL;                                                                           \
+		}                                                                                          \
+		install_event(ctrl_handle->events, mouseEvent);                                            \
+                                                                                                   \
+		struct event_t *mouseCrossedEvent = create_event(env, mouseCrossed, "onMouseCrossed");     \
+		if (mouseCrossedEvent == NULL) {                                                           \
+			return NULL;                                                                           \
+		}                                                                                          \
+		install_event(ctrl_handle->events, mouseCrossedEvent);                                     \
+                                                                                                   \
+		struct event_t *dragBrokenEvent = create_event(env, dragBroken, "onDragBroken");           \
+		if (dragBrokenEvent == NULL) {                                                             \
+			return NULL;                                                                           \
+		}                                                                                          \
+		install_event(ctrl_handle->events, dragBrokenEvent);                                       \
+                                                                                                   \
+		struct event_t *keyEvent = create_event(env, key, "onKey");                                \
+		if (keyEvent == NULL) {                                                                    \
+			return NULL;                                                                           \
+		}                                                                                          \
+		install_event(ctrl_handle->events, keyEvent);                                              \
+	}
+
 LIBUI_FUNCTION(create) {
 	INIT_ARGS(5);
 
@@ -219,40 +256,33 @@ LIBUI_FUNCTION(create) {
 	uiArea *ui_area = uiNewArea(handler);
 	napi_value value = control_handle_new(env, uiControl(ui_area), "area");
 
-	// retrieve the original struct control_handle pointer.
-	struct control_handle *ctrl_handle;
-	napi_status status = napi_get_value_external(env, value, (void **)&ctrl_handle);
-	CHECK_STATUS_THROW(status, napi_get_value_external);
+	INSTALL_AREA_EVENTS(value);
 
-	struct event_t *drawEvent = create_event(env, draw, "onDraw");
-	if (drawEvent == NULL) {
-		return NULL;
-	}
-	install_event(ctrl_handle->events, drawEvent);
+	return value;
+}
 
-	struct event_t *mouseEvent = create_event(env, mouse, "onMouse");
-	if (mouseEvent == NULL) {
-		return NULL;
-	}
-	install_event(ctrl_handle->events, mouseEvent);
+LIBUI_FUNCTION(createScrolling) {
+	INIT_ARGS(7);
 
-	struct event_t *mouseCrossedEvent = create_event(env, mouseCrossed, "onMouseCrossed");
-	if (mouseCrossedEvent == NULL) {
-		return NULL;
-	}
-	install_event(ctrl_handle->events, mouseCrossedEvent);
+	ARG_CB_REF(draw, 0);
+	ARG_CB_REF(mouse, 1);
+	ARG_CB_REF(mouseCrossed, 2);
+	ARG_CB_REF(dragBroken, 3);
+	ARG_CB_REF(key, 4);
+	ARG_INT32(width, 5);
+	ARG_INT32(height, 6);
 
-	struct event_t *dragBrokenEvent = create_event(env, dragBroken, "onDragBroken");
-	if (dragBrokenEvent == NULL) {
-		return NULL;
-	}
-	install_event(ctrl_handle->events, dragBrokenEvent);
+	uiAreaHandler *handler = malloc(sizeof(uiAreaHandler));
+	handler->Draw = event_draw_cb;
+	handler->MouseEvent = event_mouse_cb;
+	handler->MouseCrossed = event_mouseCrossed_cb;
+	handler->DragBroken = event_dragBroken_cb;
+	handler->KeyEvent = event_key_cb;
 
-	struct event_t *keyEvent = create_event(env, key, "onKey");
-	if (keyEvent == NULL) {
-		return NULL;
-	}
-	install_event(ctrl_handle->events, keyEvent);
+	uiArea *ui_area = uiNewScrollingArea(handler, width, height);
+	napi_value value = control_handle_new(env, uiControl(ui_area), "area");
+
+	INSTALL_AREA_EVENTS(value);
 
 	return value;
 }
@@ -347,6 +377,7 @@ napi_value _libui_init_area(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(init);
 	LIBUI_EXPORT(create);
+	LIBUI_EXPORT(createScrolling);
 	LIBUI_EXPORT(queueRedrawAll);
 	LIBUI_EXPORT(beginWindowMove);
 	LIBUI_EXPORT(beginWindowResize);
