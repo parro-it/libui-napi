@@ -103,8 +103,8 @@ const area = new libui.UiArea(
 		path.end();
 		params.context.stroke(path, brushBrown, spCap);
 	},
-	(_area, mouseEvent) => {
-		// console.log(_area, mouseEvent);
+	(area, mouseEvent) => {
+		// console.log(area, mouseEvent);
 		x = 0.2 + 1.5 * (mouseEvent.x / mouseEvent.areaWidth);
 		y = 0.2 + 1.2 * (mouseEvent.y / mouseEvent.areaHeight);
 		area.queueRedrawAll();
