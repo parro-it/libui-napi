@@ -193,7 +193,9 @@ Object.assign(libui, {
 	fillMode: UiDrawPath.fillMode,
 	brushType: DrawBrush.type,
 	modifierKeys: UiAreaKeyEvent.modifierKeys,
-	extKeys: UiAreaKeyEvent.extKeys
+	extKeys: UiAreaKeyEvent.extKeys,
+	lineCap: DrawStrokeParams.lineCap,
+	lineJoin: DrawStrokeParams.lineJoin
 });
 
 libui.App.init();

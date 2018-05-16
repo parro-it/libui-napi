@@ -148,7 +148,7 @@ class UiDrawPath {
 	}
 
 	newFigureWithArc(xCenter, yCenter, radius, startAngle, sweep, negative) {
-		Areapath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
+		AreaPath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
 								  sweep, negative);
 	}
 
