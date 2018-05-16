@@ -10,6 +10,10 @@ class DateTimePickerBase extends UiControl {
 		super(handle);
 	}
 
+	/**
+	 * Set or return the date/time represented by the control.
+	 * @return {Date}
+	 */
 	get time() {
 		const fromEpoch = DateTimePickers.getTime(this.handle);
 		return new Date(fromEpoch * 1000);
