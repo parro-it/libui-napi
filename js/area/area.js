@@ -93,10 +93,10 @@ class UiAreaMouseEvent {
 }
 
 class UiAreaKeyEvent {
-	constructor(key, extKey, mofifierKey, modifiers, up) {
+	constructor(key, extKey, mofifier, modifiers, up) {
 		this.key = String.fromCharCode(key);
 		this.extKey = extKey;
-		this.mofifierKey = mofifierKey;
+		this.mofifier = mofifier;
 		this.modifiers = modifiers;
 		this.up = up;
 	}

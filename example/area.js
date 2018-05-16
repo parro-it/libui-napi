@@ -53,7 +53,7 @@ spDashed.dashes = [5, 5, 10, 2];
 
 const spCap = new libui.DrawStrokeParams();
 spCap.thickness = 15;
-spCap.lineCap = libui.DrawStrokeParams.lineCap.round;
+spCap.cap = libui.DrawStrokeParams.lineCap.round;
 
 let x = 1;
 let y = 1;
