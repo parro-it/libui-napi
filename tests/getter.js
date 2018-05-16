@@ -16,14 +16,5 @@ test('getters and setters', t => {
 
 	const z = new UiAreaKeyEvent(74, 0, 0, 0, true);
 	t.ok(z.getKey() == 'J');
-	t.ok((() => {
-		try {
-			z.setKey(40);
-		} catch (e) {
-			if (e instanceof TypeError) {
-				return true;
-			}
-		}
-		return false;
-	})());
+	t.throws(() => z.setKey(40), /TypeError: z\.setKey is not a function/);
 });

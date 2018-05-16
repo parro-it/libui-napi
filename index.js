@@ -78,8 +78,9 @@ const {UiMenu, UiMenuItem} = require('./js/menu');
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
 		const proto = classConstructor.prototype;
-		const ownProperties = Object.getOwnPropertyDescriptors(proto);
-		for (const [name, property] of Object.entries(ownProperties)) {
+		const ownProperties = Object.getOwnPropertyNames(proto);
+		for (const name of ownProperties) {
+			const property = Object.getOwnPropertyDescriptor(proto, name);
 			if (typeof property.get === 'function') {
 				const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
 				Object.defineProperty(proto, getterName, {
@@ -137,7 +138,7 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 	}
 }
 
-// Takes about 2.2ms:
+// Takes about 1.8ms:
 applySetterGetter(UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
 				  UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons,
 				  UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry,
