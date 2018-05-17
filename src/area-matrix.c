@@ -6,7 +6,7 @@
 
 static const char *MODULE = "AreaMatrix";
 
-static void free_brush_solid(napi_env env, void *finalize_data, void *finalize_hint) {
+static void free_matrix(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiDrawMatrix *matrix = (uiDrawMatrix *)finalize_data;
 	free(matrix);
 }
@@ -15,7 +15,7 @@ LIBUI_FUNCTION(create) {
 	uiDrawMatrix *matrix = calloc(1, sizeof(uiDrawMatrix));
 
 	napi_value external;
-	napi_status status = napi_create_external(env, matrix, free_brush_solid, NULL, &external);
+	napi_status status = napi_create_external(env, matrix, free_matrix, NULL, &external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
 	return external;

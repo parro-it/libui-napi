@@ -148,7 +148,7 @@ class UiDrawPath {
 	}
 
 	newFigureWithArc(xCenter, yCenter, radius, startAngle, sweep, negative) {
-		Areapath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
+		AreaPath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
 								  sweep, negative);
 	}
 
@@ -192,19 +192,19 @@ class DrawStrokeParams {
 		return AreaStrokeParams.getThickness(this.handle);
 	}
 
-	set lineCap(v) {
+	set cap(v) {
 		AreaStrokeParams.setLineCap(this.handle, v);
 	}
 
-	get lineCap() {
+	get cap() {
 		return AreaStrokeParams.getLineCap(this.handle);
 	}
 
-	set lineJoin(v) {
+	set join(v) {
 		AreaStrokeParams.setLineJoin(this.handle, v);
 	}
 
-	get lineJoin() {
+	get join() {
 		return AreaStrokeParams.getLineJoin(this.handle);
 	}
 

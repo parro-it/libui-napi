@@ -6,8 +6,8 @@
 static const char *MODULE = "AreaPath";
 
 static void free_path(napi_env env, void *finalize_data, void *finalize_hint) {
-	uiDrawPath *font = (uiDrawPath *)finalize_data;
-	uiDrawFreePath(font);
+	uiDrawPath *path = (uiDrawPath *)finalize_data;
+	uiDrawFreePath(path);
 }
 
 LIBUI_FUNCTION(create) {

@@ -23,9 +23,9 @@ class Color {
 }
 
 class Size {
-	constructor(w, h) {
-		this.width = w;
-		this.height = h;
+	constructor(width, height) {
+		this.width = width;
+		this.height = height;
 	}
 }
 
@@ -76,11 +76,11 @@ const {UiGrid} = require('./js/grid');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 
 function applySetterGetter(...classConstructors) {
-
 	for (const classConstructor of classConstructors) {
 		const proto = classConstructor.prototype;
-		const ownProperties = Object.getOwnPropertyDescriptors(proto);
-		for (const [name, property] of Object.entries(ownProperties)) {
+		const ownProperties = Object.getOwnPropertyNames(proto);
+		for (const name of ownProperties) {
+			const property = Object.getOwnPropertyDescriptor(proto, name);
 			if (typeof property.get === 'function') {
 				const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
 				Object.defineProperty(proto, getterName, {
@@ -106,14 +106,49 @@ function applySetterGetter(...classConstructors) {
 	}
 }
 
-applySetterGetter(
-	UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
-	UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup,
-	UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker,
-	UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
-	UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
-	UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath, DrawStrokeParams,
-	UiDrawMatrix, Point, Color, UiAreaKeyEvent, UiAreaMouseEvent);
+function applySetterGetterAll(doSetter, ...classConstructors) {
+	for (const classConstructor of classConstructors) {
+		const proto = classConstructor.prototype;
+		const ownProperties = Object.getOwnPropertyNames(new classConstructor());
+		for (const name of ownProperties) {
+			const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
+			Object.defineProperty(proto, getterName, {
+				value: function() {
+					return this[name];
+				},
+				writable: true,
+				enumerable: false,
+				configurable: true
+			});
+			// console.log(`Defined ${getterName} on ${classConstructor.name}`);
+
+			if (doSetter) {
+				const setterName = 'set' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, setterName, {
+					value: function(v) {
+						this[name] = v;
+					},
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${setterName} on ${classConstructor.name}`);
+			}
+		}
+	}
+}
+
+// Takes about 1.8ms:
+applySetterGetter(UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
+				  UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons,
+				  UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry,
+				  UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker,
+				  UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel,
+				  UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
+				  UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
+				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent);
+applySetterGetterAll(true, Point, Color, Size);
+applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
 Object.assign(libui, {
 	UiGrid,
@@ -158,7 +193,9 @@ Object.assign(libui, {
 	fillMode: UiDrawPath.fillMode,
 	brushType: DrawBrush.type,
 	modifierKeys: UiAreaKeyEvent.modifierKeys,
-	extKeys: UiAreaKeyEvent.extKeys
+	extKeys: UiAreaKeyEvent.extKeys,
+	lineCap: DrawStrokeParams.lineCap,
+	lineJoin: DrawStrokeParams.lineJoin
 });
 
 libui.App.init();
