@@ -104,3 +104,5 @@ uitable.h
 *.dll
 *.exp
 *.lib
+
+.vscode
