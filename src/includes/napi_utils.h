@@ -163,11 +163,11 @@ NULL, &ret); \
 #define UI_NODE_DEBUG 0
 
 #if UI_NODE_DEBUG
-#	define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")
-#	define LIBUI_NODE_DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
+#define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")
+#define LIBUI_NODE_DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
 #else
-#	define LIBUI_NODE_DEBUG(msg) ;
-#	define LIBUI_NODE_DEBUG_F(msg, ...) ;
+#define LIBUI_NODE_DEBUG(msg) ;
+#define LIBUI_NODE_DEBUG_F(msg, ...) ;
 #endif
 
 // return values
