@@ -92,7 +92,14 @@
 	{                                                                                              \
 		size_t string_len;                                                                         \
 		napi_status status = napi_get_value_string_utf8(env, argv[ARG_IDX], NULL, 0, &string_len); \
-		CHECK_STATUS_THROW(status, napi_get_value_string_utf8);                                    \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
 		ARG_NAME = malloc(string_len + 1);                                                         \
 		status =                                                                                   \
 			napi_get_value_string_utf8(env, argv[ARG_IDX], ARG_NAME, string_len + 1, &string_len); \
