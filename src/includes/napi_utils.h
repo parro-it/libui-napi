@@ -31,6 +31,20 @@
 		}                                                                                          \
 	}
 
+#define ARG_INT64(ARG_NAME, ARG_IDX)                                                               \
+	int64_t ARG_NAME;                                                                              \
+	{                                                                                              \
+		napi_status status = napi_get_value_int64(env, argv[ARG_IDX], &ARG_NAME);                  \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_DOUBLE(ARG_NAME, ARG_IDX)                                                              \
 	double ARG_NAME;                                                                               \
 	{                                                                                              \
@@ -174,6 +188,7 @@ NULL, &ret); \
 napi_value make_double(napi_env env, double value);
 napi_value make_bool(napi_env env, bool value);
 napi_value make_int32(napi_env env, int value);
+napi_value make_int64(napi_env env, long value);
 napi_value make_uint32(napi_env env, unsigned int value);
 napi_value make_utf8_string(napi_env env, const char *char_ptr);
 
