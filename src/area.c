@@ -254,7 +254,7 @@ LIBUI_FUNCTION(createScrolling) {
 LIBUI_FUNCTION(queueRedrawAll) {
 	INIT_ARGS(1);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("area", handle, 0);
 
 	uiAreaQueueRedrawAll(uiArea(handle->control));
 
@@ -264,7 +264,7 @@ LIBUI_FUNCTION(queueRedrawAll) {
 LIBUI_FUNCTION(beginWindowMove) {
 	INIT_ARGS(1);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("area", handle, 0);
 
 	uiAreaBeginUserWindowMove(uiArea(handle->control));
 
@@ -273,7 +273,7 @@ LIBUI_FUNCTION(beginWindowMove) {
 LIBUI_FUNCTION(beginWindowResize) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("area", handle, 0);
 	ARG_INT32(edge, 1);
 
 	uiAreaBeginUserWindowResize(uiArea(handle->control), edge);
@@ -284,7 +284,7 @@ LIBUI_FUNCTION(beginWindowResize) {
 LIBUI_FUNCTION(setSize) {
 	INIT_ARGS(3);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("area", handle, 0);
 	ARG_INT32(width, 1);
 	ARG_INT32(height, 2);
 
@@ -296,7 +296,7 @@ LIBUI_FUNCTION(setSize) {
 LIBUI_FUNCTION(scrollTo) {
 	INIT_ARGS(5);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("area", handle, 0);
 	ARG_DOUBLE(x, 1);
 	ARG_DOUBLE(y, 2);
 	ARG_DOUBLE(width, 3);
