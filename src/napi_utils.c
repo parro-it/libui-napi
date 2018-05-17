@@ -27,6 +27,15 @@ napi_value make_int32(napi_env env, int value) {
 	return value_js;
 }
 
+napi_value make_int64(napi_env env, long value) {
+	napi_value value_js;
+
+	napi_status status = napi_create_int64(env, value, &value_js);
+	CHECK_STATUS_THROW(status, napi_create_int64);
+
+	return value_js;
+}
+
 napi_value make_uint32(napi_env env, unsigned int value) {
 	napi_value value_js;
 
