@@ -11,7 +11,6 @@ AllowShortLoopsOnASingleLine: false
 Language: Cpp
 AllowShortFunctionsOnASingleLine: Empty
 PointerAlignment: Right
-IndentPPDirectives: AfterHash
 IncludeCategories:
   - Regex: '^<'
     Priority: 0
