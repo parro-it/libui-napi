@@ -7,7 +7,7 @@ win.onClosing(() => {
 	libui.stopLoop();
 });
 
-const hBox = new libui.UiHorizontalBox();
+const vBox = new libui.UiVerticalBox();
 
 const brushRed = new libui.DrawBrush(1, 0, 0);
 brushRed.color = new libui.Color(1, 0, 0, 1);
@@ -57,6 +57,7 @@ spCap.cap = libui.DrawStrokeParams.lineCap.round;
 
 let x = 1;
 let y = 1;
+let down = 0;
 
 const area = new libui.UiArea(
 	(area, params) => {
@@ -83,7 +84,7 @@ const area = new libui.UiArea(
 		path = new libui.UiDrawPath();
 		path.newFigure(150, 150);
 		path.lineTo(200, 150);
-		path.arcTo(200, 200, 50, -Math.PI / 2, Math.PI, false);
+		path.arcTo(200, 200, 50, -Math.PI / (down + 1), Math.PI, false);
 		path.closeFigure();
 		path.end();
 		params.context.stroke(path, brushRed, sp);
@@ -107,6 +108,11 @@ const area = new libui.UiArea(
 		// console.log(area, mouseEvent);
 		x = 0.2 + 1.5 * (mouseEvent.x / mouseEvent.areaWidth);
 		y = 0.2 + 1.2 * (mouseEvent.y / mouseEvent.areaHeight);
+		if (mouseEvent.down) {
+			down = mouseEvent.down;
+		} else if (mouseEvent.up) {
+			down = 0;
+		}
 		area.queueRedrawAll();
 		if (mouseEvent.x > 10 && mouseEvent.x < 110 && mouseEvent.y > 10 &&
 			mouseEvent.y < 110) {
@@ -122,8 +128,9 @@ const area = new libui.UiArea(
 		// return 's' === keyEvent.key;
 	});
 
-hBox.append(area, true);
+vBox.append(new libui.UiLabel('Try clicking (left & right mouse button)!'), false);
+vBox.append(area, true);
 
-win.setChild(hBox);
+win.setChild(vBox);
 win.show();
 libui.startLoop();
