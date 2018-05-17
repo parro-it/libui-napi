@@ -82,7 +82,8 @@ LIBUI_FUNCTION(getTitle) {
 
 LIBUI_FUNCTION(setTitle) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	// TODO: use ARG_CTRL_HANDLE in every method of every control.
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_STRING(title, 1);
 	uiWindowSetTitle(uiWindow(handle->control), title);
 	free(title);

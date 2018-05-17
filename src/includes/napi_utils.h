@@ -87,6 +87,27 @@
 		}                                                                                          \
 	}
 
+#define ARG_CTRL_HANDLE(CTRL_TYPE_NAME, ARG_NAME, ARG_IDX)                                         \
+	struct control_handle *ARG_NAME;                                                               \
+	{                                                                                              \
+		napi_status status = napi_get_value_external(env, argv[ARG_IDX], (void **)&ARG_NAME);      \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+		if (ARG_NAME->ctrl_type_name != CTRL_TYPE_NAME) {                                          \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": Expect a %s control, got a %s\n",         \
+					 CTRL_TYPE_NAME, ARG_NAME->ctrl_type_name);                                    \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_STRING(ARG_NAME, ARG_IDX)                                                              \
 	char *ARG_NAME;                                                                                \
 	{                                                                                              \

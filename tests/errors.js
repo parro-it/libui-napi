@@ -16,3 +16,11 @@ test('boolean arg are coherced', t => {
 	new UiWindow('test', 42, 42, 1);
 	t.end();
 });
+
+test('handler must be of correct control', t => {
+	t.plan(1);
+	const win = new UiWindow('test', 42, 42, 1);
+	const slider = new UiSlider();
+	t.throws(() => win.setTitle.call(slider, 'test'),
+			 /Argument handle: Expect a window control, got a slider/);
+});
