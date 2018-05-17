@@ -32,3 +32,4 @@ napi_value _libui_init_area_path(napi_env env, napi_value exports);
 napi_value _libui_init_ui_control(napi_env env, napi_value exports);
 napi_value _libui_init_area_stroke(napi_env env, napi_value exports);
 napi_value _libui_init_area_matrix(napi_env env, napi_value exports);
+napi_value _libui_init_dialogs(napi_env env, napi_value exports);

@@ -81,15 +81,29 @@ Object.assign(libui, {
 	AreaDrawBrushGradient,
 	AreaDrawPath,
 	AreaDrawStroke,
-	AreaDrawMatrix
+	AreaDrawMatrix,
+	UiDialogs: {
+		openFile(parent) {
+			return libui.Dialogs.openFile(parent.handle);
+		},
+		saveFile(parent) {
+			return libui.Dialogs.saveFile(parent.handle);
+		},
+		msgBox(parent, title, description) {
+			return libui.Dialogs.msgBox(parent.handle, title, description);
+		},
+		msgBoxError(parent, title, description) {
+			return libui.Dialogs.msgBoxError(parent.handle, title, description);
+		}
+	}
 });
-
 libui.App.init();
 
 libui.Area.init(AreaMouseEvent, AreaKeyEvent, AreaDrawParams, AreaDrawContext);
-libui.AreaBrush.init(AreaDrawBrushGradient.Stop)
+libui.AreaBrush.init(AreaDrawBrushGradient.Stop);
 
-libui.onShouldQuit = libui.App.onShouldQuit;
+const onShouldQuit = libui.onShouldQuit = libui.App.onShouldQuit;
+libui.Ui = {onShouldQuit};
 
 libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});

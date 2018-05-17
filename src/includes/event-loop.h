@@ -12,9 +12,9 @@ void stopLoop();
 void startLoop();
 
 #ifdef _WIN32
-#	define atomic_bool bool
+#define atomic_bool bool
 #else
-#	define atomic_bool bool _Atomic
+#define atomic_bool bool _Atomic
 #endif
 
 #endif
