@@ -12,7 +12,7 @@ class UiSlider extends UiControl {
 	 * @param  {number} max - maximum value of the slider.
 	 * @return {UiSlider}
 	 */
-	constructor(min, max) {
+	constructor(min = 0, max = 100) {
 		super(Slider.create(min, max));
 	}
 
