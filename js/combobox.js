@@ -16,7 +16,7 @@ class UiCombobox extends UiControl {
 
 	/**
 	 * Return or set the current selected item by index.
-	 * @return {string}
+	 * @return {number}
 	 */
 	get selected() {
 		this._ensureType(UiCombobox);
@@ -34,7 +34,7 @@ class UiCombobox extends UiControl {
 	 */
 	append(text) {
 		this._ensureType(UiCombobox);
-		Combobox.append(this.handle, text);
+		Combobox.append(this.handle, String(text));
 	}
 
 	/**

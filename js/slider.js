@@ -27,7 +27,7 @@ class UiSlider extends UiControl {
 
 	set value(value) {
 		this._ensureType(UiSlider);
-		Slider.setValue(this.handle, Number(value));
+		Slider.setValue(this.handle, value);
 	}
 
 	/**

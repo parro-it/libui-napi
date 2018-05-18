@@ -38,7 +38,7 @@ class UiForm extends UiControl {
 	append(label, control, stretchy) {
 		this._ensureType(UiForm);
 		control._ensureType(UiControl, 'control');
-		Form.append(this.handle, label, control.handle, Boolean(stretchy));
+		Form.append(this.handle, String(label), control.handle, Boolean(stretchy));
 	}
 
 	/**

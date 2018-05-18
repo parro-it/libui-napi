@@ -35,7 +35,7 @@ class UiEditableCombobox extends UiControl {
 	 */
 	append(text) {
 		this._ensureType(UiEditableCombobox);
-		EditableCombobox.append(this.handle, text);
+		EditableCombobox.append(this.handle, String(text));
 	}
 
 	/**

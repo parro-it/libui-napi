@@ -14,7 +14,7 @@ class UiGroup extends UiControl {
 	 * @return {UiGroup} new instance.
 	 */
 	constructor(title = '') {
-		super(Group.create(title));
+		super(Group.create(String(title)));
 	}
 
 	/**

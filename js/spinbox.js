@@ -27,7 +27,7 @@ class UiSpinbox extends UiControl {
 
 	set value(value) {
 		this._ensureType(UiSpinbox);
-		Spinbox.setValue(this.handle, Number(value));
+		Spinbox.setValue(this.handle, value);
 	}
 
 	/**

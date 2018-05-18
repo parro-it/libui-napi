@@ -25,7 +25,7 @@ class UiRadioButtons extends UiControl {
 
 	set selected(value) {
 		this._ensureType(UiRadioButtons);
-		RadioButtons.setSelected(this.handle, value);
+		RadioButtons.setSelected(this.handle, Boolean(value));
 	}
 
 	/**
@@ -34,7 +34,7 @@ class UiRadioButtons extends UiControl {
 	 */
 	append(text) {
 		this._ensureType(UiRadioButtons);
-		RadioButtons.append(this.handle, text);
+		RadioButtons.append(this.handle, String(text));
 	}
 
 	/**

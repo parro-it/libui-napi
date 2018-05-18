@@ -25,7 +25,7 @@ class UiMultilineEntry extends UiControl {
 
 	set text(value) {
 		this._ensureType(UiMultilineEntry);
-		MultilineEntry.setText(this.handle, value);
+		MultilineEntry.setText(this.handle, String(value));
 	}
 
 	/**
@@ -39,7 +39,7 @@ class UiMultilineEntry extends UiControl {
 
 	set readOnly(value) {
 		this._ensureType(UiMultilineEntry);
-		MultilineEntry.setReadOnly(this.handle, value);
+		MultilineEntry.setReadOnly(this.handle, Boolean(value));
 	}
 
 	/**
@@ -48,7 +48,7 @@ class UiMultilineEntry extends UiControl {
 	 */
 	append(text) {
 		this._ensureType(UiMultilineEntry);
-		MultilineEntry.append(this.handle, text);
+		MultilineEntry.append(this.handle, String(text));
 	}
 
 	/**
