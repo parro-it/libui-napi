@@ -59,52 +59,54 @@ test('handler must be of correct control - arguments', t => {
 });
 
 test('call method on destroyed control', t => {
-	t.plan(1);
 	startLoop();
 	const entry = new UiMultilineEntry();
 	const win = new UiWindow(null, 42, 42, true);
 	win.setChild(entry);
 	win.show();
 	win.close();
-	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
+	t.throws(() => {
+		entry.append('ciao');
+	}, /Method called on destroyed control./);
 	stopLoop();
+	setTimeout(() => t.end(), 100);
 });
 
 test('call method on destroyed window', t => {
-	t.plan(1);
 	startLoop();
 	const win = new UiWindow(null, 42, 42, true);
 	win.show();
 	win.close();
 	t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
 	stopLoop();
+	setTimeout(() => t.end(), 100);
 });
 
 test('call window close before show', t => {
-	t.plan(1);
 	startLoop();
 	const win = new UiWindow(null, 42, 42, true);
 	t.throws(() => win.close(), /Close called on closed window./);
 	stopLoop();
+	setTimeout(() => t.end(), 100);
 });
 
 test('call window close more then once', t => {
-	t.plan(1);
 	startLoop();
 	const win = new UiWindow(null, 42, 42, true);
 	win.show();
 	win.close();
 	t.throws(() => win.close(), /Close called on closed window./);
 	stopLoop();
+	setTimeout(() => t.end(), 100);
 });
 
 test('call window show more then once', t => {
-	t.plan(1);
 	startLoop();
 	const win = new UiWindow(null, 42, 42, true);
 	win.show();
 	t.throws(() => win.show(), /Show called on showed window./);
 	stopLoop();
+	setTimeout(() => t.end(), 100);
 });
 
 test('call method without loop', t => {
@@ -123,7 +125,7 @@ test('call method after stopLoop', t => {
 	startLoop();
 	stopLoop();
 	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
-	t.end();
+	setTimeout(() => t.end(), 100);
 });
 
 test('Add control to more then one container', t => {
@@ -136,7 +138,7 @@ test('Add control to more then one container', t => {
 	t.end();
 });
 
-test('uncaught errors', t => {
+test.skip('uncaught errors', t => {
 	let done = false;
 	const catchErr = (err) => {
 		t.equal(err.message, 'babau');

@@ -246,13 +246,12 @@ void startLoop() {
 	// LIBUI_NODE_DEBUG("redrawTimer...\n");
 }
 
-/* This function start the event loop and exit immediately */
 void stopLoop() {
-
 	uv_timer_init(uv_default_loop(), &closeTimer);
 	uv_timer_start(&closeTimer, stopAsync, 1, 0);
 }
 
+/* This function start the event loop and exit immediately */
 LIBUI_FUNCTION(start) {
 	startLoop();
 	return NULL;
