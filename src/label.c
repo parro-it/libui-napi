@@ -15,7 +15,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(setText) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("label", handle, 0);
 	ARG_STRING(value, 1);
 	uiLabelSetText(uiLabel(handle->control), value);
 	free(value);
@@ -24,7 +24,8 @@ LIBUI_FUNCTION(setText) {
 
 LIBUI_FUNCTION(getText) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("label", handle, 0);
+
 	char *char_ptr = uiLabelText(uiLabel(handle->control));
 	napi_value result = make_utf8_string(env, char_ptr);
 	uiFreeText(char_ptr);

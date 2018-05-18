@@ -10,7 +10,7 @@ static const char *MODULE = "Window";
 LIBUI_FUNCTION(onContentSizeChanged) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onContentSizeChanged");
@@ -29,7 +29,7 @@ LIBUI_FUNCTION(onContentSizeChanged) {
 LIBUI_FUNCTION(onClosing) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onClosing");
@@ -61,7 +61,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(close) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	uiControlDestroy(handle->control);
 	remove_child(env, visible_windows, handle);
 	return NULL;
@@ -69,7 +69,7 @@ LIBUI_FUNCTION(close) {
 
 LIBUI_FUNCTION(getTitle) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	char *char_ptr = uiWindowTitle(uiWindow(handle->control));
 	napi_value result;
 
@@ -92,7 +92,7 @@ LIBUI_FUNCTION(setTitle) {
 
 LIBUI_FUNCTION(show) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	uiControlShow(handle->control);
 	add_child(env, visible_windows, handle);
 	return NULL;
@@ -100,7 +100,7 @@ LIBUI_FUNCTION(show) {
 
 LIBUI_FUNCTION(setChild) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	uiWindowSetChild(uiWindow(handle->control), child->control);
 	clear_children(env, handle->children);
@@ -110,7 +110,7 @@ LIBUI_FUNCTION(setChild) {
 
 LIBUI_FUNCTION(getContentSize) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 
 	int width = 0;
 	int height = 0;
@@ -120,7 +120,7 @@ LIBUI_FUNCTION(getContentSize) {
 
 LIBUI_FUNCTION(setContentSize) {
 	INIT_ARGS(3);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_INT32(width, 1);
 	ARG_INT32(height, 2);
 	uiWindowSetContentSize(uiWindow(handle->control), width, height);
@@ -129,7 +129,7 @@ LIBUI_FUNCTION(setContentSize) {
 
 LIBUI_FUNCTION(getFullscreen) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 
 	bool value = uiWindowFullscreen(uiWindow(handle->control));
 	return make_bool(env, value);
@@ -137,7 +137,7 @@ LIBUI_FUNCTION(getFullscreen) {
 
 LIBUI_FUNCTION(setFullscreen) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiWindowSetFullscreen(uiWindow(handle->control), value);
@@ -146,7 +146,7 @@ LIBUI_FUNCTION(setFullscreen) {
 
 LIBUI_FUNCTION(getBorderless) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 
 	bool value = uiWindowBorderless(uiWindow(handle->control));
 	return make_bool(env, value);
@@ -154,7 +154,7 @@ LIBUI_FUNCTION(getBorderless) {
 
 LIBUI_FUNCTION(setBorderless) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiWindowSetBorderless(uiWindow(handle->control), value);
@@ -163,7 +163,7 @@ LIBUI_FUNCTION(setBorderless) {
 
 LIBUI_FUNCTION(getMargined) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 
 	bool value = uiWindowMargined(uiWindow(handle->control));
 	return make_bool(env, value);
@@ -171,7 +171,7 @@ LIBUI_FUNCTION(getMargined) {
 
 LIBUI_FUNCTION(setMargined) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("window", handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiWindowSetMargined(uiWindow(handle->control), value);

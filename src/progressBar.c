@@ -13,7 +13,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(setValue) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("progressBar", handle, 0);
 	ARG_INT32(value, 1);
 
 	uiProgressBarSetValue(uiProgressBar(handle->control), value);

@@ -7,7 +7,7 @@ static const char *MODULE = "Grid";
 
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(10);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("grid", handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_INT32(left, 2);
 	ARG_INT32(top, 3);
@@ -27,7 +27,7 @@ LIBUI_FUNCTION(append) {
 
 LIBUI_FUNCTION(setPadded) {
 	INIT_ARGS(2);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("grid", handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiGridSetPadded(uiGrid(handle->control), value);
@@ -36,7 +36,7 @@ LIBUI_FUNCTION(setPadded) {
 
 LIBUI_FUNCTION(getPadded) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("grid", handle, 0);
 
 	bool value = uiGridPadded(uiGrid(handle->control));
 	return make_bool(env, value);
@@ -49,7 +49,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(insertAt) {
 	INIT_ARGS(10);
-	ARG_POINTER(struct control_handle, handle, 0);
+	ARG_CTRL_HANDLE("grid", handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_POINTER(struct control_handle, before, 2);
 	ARG_INT32(at, 3);
