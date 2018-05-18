@@ -1,14 +1,18 @@
 <a name="UiSlider"></a>
 
-## UiSlider
+## UiSlider ⇐ <code>UiControl</code>
 Horizontal slider to set numerical values.
 
 **Kind**: global class  
+**Extends**: <code>UiControl</code>  
 
-* [UiSlider](#UiSlider)
+* [UiSlider](#UiSlider) ⇐ <code>UiControl</code>
     * [new UiSlider(min, max)](#new_UiSlider_new)
     * [.value](#UiSlider+value) ⇒ <code>number</code>
-    * [.onChanged(callback)](#UiSlider+onChanged) ⇒ <code>undefined</code>
+    * [.onChanged(callback)](#UiSlider+onChanged)
+    * [.enabled](#) ⇒ <code>boolean</code>
+    * [.visible](#) ⇒ <code>boolean</code>
+    * [.toplevel](#) ⇒ <code>boolean</code>
 
 <a name="new_UiSlider_new"></a>
 
@@ -29,7 +33,7 @@ Set or return the the content of the slider.
 **Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
 <a name="UiSlider+onChanged"></a>
 
-### uiSlider.onChanged(callback) ⇒ <code>undefined</code>
+### uiSlider.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the slider value
 changed.
 
@@ -39,3 +43,21 @@ changed.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
+<a name=""></a>
+
+### uiSlider.enabled ⇒ <code>boolean</code>
+Set or return whether the control is enabled.
+
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
+<a name=""></a>
+
+### uiSlider.visible ⇒ <code>boolean</code>
+Set or return whether the control is visible.
+
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  
+<a name=""></a>
+
+### uiSlider.toplevel ⇒ <code>boolean</code>
+Set or return whether the control is a top level one.
+
+**Kind**: instance property of [<code>UiSlider</code>](#UiSlider)  

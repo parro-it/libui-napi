@@ -1,15 +1,17 @@
 const {RadioButtons} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A control that represents a group of single-choise options.
+ * @extends UiControl
  */
-class UiRadioButtons {
+class UiRadioButtons extends UiControl {
 	/**
 	 * Create a new UiRadioButtons object.
 	 * @return {UiRadioButtons}
 	 */
 	constructor() {
-		this.handle = RadioButtons.create();
+		super(RadioButtons.create());
 	}
 
 	/**
@@ -17,20 +19,22 @@ class UiRadioButtons {
 	 * @return {string}
 	 */
 	get selected() {
+		this._ensureType(UiRadioButtons);
 		return RadioButtons.getSelected(this.handle);
 	}
 
 	set selected(value) {
-		RadioButtons.setSelected(this.handle, value);
+		this._ensureType(UiRadioButtons);
+		RadioButtons.setSelected(this.handle, Boolean(value));
 	}
 
 	/**
 	 * Append a new radio option as the last item with the specified text.
 	 * @param  {string} text - the text to append.
-	 * @return {undefined}
 	 */
 	append(text) {
-		RadioButtons.append(this.handle, text);
+		this._ensureType(UiRadioButtons);
+		RadioButtons.append(this.handle, String(text));
 	}
 
 	/**
@@ -39,9 +43,9 @@ class UiRadioButtons {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onSelected(callback) {
+		this._ensureType(UiRadioButtons);
 		RadioButtons.onSelected(this.handle, callback);
 	}
 }

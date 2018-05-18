@@ -151,7 +151,6 @@ static void redraw(uv_timer_t *handle) {
 
 /* This function start the event loop and exit immediately */
 static void stopAsync(uv_timer_t *handle) {
-	printf("stopAsync entern\n");
 	if (!running) {
 		return;
 	}
@@ -247,14 +246,12 @@ void startLoop() {
 	// LIBUI_NODE_DEBUG("redrawTimer...\n");
 }
 
-/* This function start the event loop and exit immediately */
 void stopLoop() {
-
 	uv_timer_init(uv_default_loop(), &closeTimer);
 	uv_timer_start(&closeTimer, stopAsync, 1, 0);
-	printf("stopLoop sync done\n");
 }
 
+/* This function start the event loop and exit immediately */
 LIBUI_FUNCTION(start) {
 	startLoop();
 	return NULL;
@@ -263,7 +260,7 @@ LIBUI_FUNCTION(start) {
 LIBUI_FUNCTION(stop) {
 	destroy_all_children(env, visible_windows);
 	clear_children(env, visible_windows);
-	visible_windows = NULL;
+	visible_windows = create_children_list();
 	stopLoop();
 	return NULL;
 }

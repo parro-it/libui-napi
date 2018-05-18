@@ -1,8 +1,13 @@
 const {Entries} = require('..');
+const {UiControl} = require('./ui-control');
 
-class UiEntryBase {
+/**
+ * A base class for text related entries.
+ * @extends UiControl
+ */
+class UiEntryBase extends UiControl {
 	constructor(handle) {
-		this.handle = handle;
+		super(handle);
 	}
 
 	/**
@@ -10,10 +15,12 @@ class UiEntryBase {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiEntryBase);
 		return Entries.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiEntryBase);
 		Entries.setText(this.handle, String(value));
 	}
 
@@ -22,10 +29,12 @@ class UiEntryBase {
 	 * @return {boolean}
 	 */
 	get readOnly() {
+		this._ensureType(UiEntryBase);
 		return Entries.getReadOnly(this.handle);
 	}
 
 	set readOnly(value) {
+		this._ensureType(UiEntryBase);
 		Entries.setReadOnly(this.handle, Boolean(value));
 	}
 
@@ -35,9 +44,9 @@ class UiEntryBase {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
+		this._ensureType(UiEntryBase);
 		Entries.onChanged(this.handle, callback);
 	}
 }

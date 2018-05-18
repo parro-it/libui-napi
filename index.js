@@ -6,9 +6,48 @@ delete libui.EventLoop;
 let wakingup = false;
 let asyncHook = null;
 
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
+class Color {
+	constructor(r, g, b, a) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = a;
+	}
+}
+
+class Size {
+	constructor(width, height) {
+		this.width = width;
+		this.height = height;
+	}
+}
+
 module.exports = libui;
 const {UiCheckbox} = require('./js/checkbox');
-const {UiArea, AreaMouseEvent} = require('./js/area');
+const {
+	UiArea,
+	UiAreaMouseEvent,
+	UiAreaKeyEvent,
+	AreaDrawParams,
+	AreaDrawContext,
+	DrawBrush,
+	UiDrawPath,
+	DrawStrokeParams,
+	UiDrawMatrix,
+	AreaDrawBrushGradient,
+	BrushGradientStop
+} = require('./js/area');
+const {UiBox} = require('./js/box');
+const {SeparatorBase} = require('./js/separator-base');
+const {UiControl} = require('./js/ui-control');
+
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -33,13 +72,91 @@ const {UiRadioButtons} = require('./js/radio-buttons');
 const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
+const {UiGrid} = require('./js/grid');
+const {UiEntryBase} = require('./js/entry-base');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 const {UiFontButton} = require('./js/font-button');
 const {FontDescriptor} = require('./js/font-descriptor');
 
+function applySetterGetter(...classConstructors) {
+	for (const classConstructor of classConstructors) {
+		const proto = classConstructor.prototype;
+		const ownProperties = Object.getOwnPropertyNames(proto);
+		for (const name of ownProperties) {
+			const property = Object.getOwnPropertyDescriptor(proto, name);
+			if (typeof property.get === 'function') {
+				const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, getterName, {
+					value: property.get,
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${getterName} on ${classConstructor.name}`);
+			}
+
+			if (typeof property.set === 'function') {
+				const setterName = 'set' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, setterName, {
+					value: property.set,
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${setterName} on ${classConstructor.name}`);
+			}
+		}
+	}
+}
+
+function applySetterGetterAll(doSetter, ...classConstructors) {
+	for (const classConstructor of classConstructors) {
+		const proto = classConstructor.prototype;
+		const ownProperties = Object.getOwnPropertyNames(new classConstructor());
+		for (const name of ownProperties) {
+			const getterName = 'get' + name[0].toUpperCase() + name.slice(1);
+			Object.defineProperty(proto, getterName, {
+				value: function() {
+					return this[name];
+				},
+				writable: true,
+				enumerable: false,
+				configurable: true
+			});
+			// console.log(`Defined ${getterName} on ${classConstructor.name}`);
+
+			if (doSetter) {
+				const setterName = 'set' + name[0].toUpperCase() + name.slice(1);
+				Object.defineProperty(proto, setterName, {
+					value: function(v) {
+						this[name] = v;
+					},
+					writable: true,
+					enumerable: false,
+					configurable: true
+				});
+				// console.log(`Defined ${setterName} on ${classConstructor.name}`);
+			}
+		}
+	}
+}
+
+// Takes about 1.8ms:
+applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
+				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
+				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
+				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
+				  UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
+				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
+				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
+				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent);
+applySetterGetterAll(true, Point, Color, Size);
+applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
+
 Object.assign(libui, {
 	UiFontButton,
 	FontDescriptor,
+	UiGrid,
 	UiMenuItem,
 	UiMenu,
 	UiSpinbox,
@@ -67,15 +184,46 @@ Object.assign(libui, {
 	UiHorizontalBox,
 	UiVerticalBox,
 	UiTab,
-	UiArea
+	UiArea,
+	DrawBrush,
+	BrushGradientStop,
+	UiDrawPath,
+	DrawStrokeParams,
+	UiDrawMatrix,
+	Point,
+	Color,
+	Size,
+	UiAreaKeyEvent,
+	UiAreaMouseEvent,
+	fillMode: UiDrawPath.fillMode,
+	brushType: DrawBrush.type,
+	modifierKeys: UiAreaKeyEvent.modifierKeys,
+	extKeys: UiAreaKeyEvent.extKeys,
+	lineCap: DrawStrokeParams.lineCap,
+	lineJoin: DrawStrokeParams.lineJoin,
+	UiDialogs: {
+		openFile(parent) {
+			return libui.Dialogs.openFile(parent.handle);
+		},
+		saveFile(parent) {
+			return libui.Dialogs.saveFile(parent.handle);
+		},
+		msgBox(parent, title, description) {
+			return libui.Dialogs.msgBox(parent.handle, title, description);
+		},
+		msgBoxError(parent, title, description) {
+			return libui.Dialogs.msgBoxError(parent.handle, title, description);
+		}
+	}
 });
-
 libui.App.init();
 
-libui.Area.init(AreaMouseEvent);
+libui.Area.init(UiAreaMouseEvent, UiAreaKeyEvent, AreaDrawParams, AreaDrawContext,
+				BrushGradientStop, Color, Point, Size);
 
-libui.onShouldQuit = libui.App.onShouldQuit;
-
+const onShouldQuit = libui.onShouldQuit = libui.App.onShouldQuit;
+libui.Ui = {onShouldQuit};
+libui.startTimer = libui.App.startTimer;
 libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
 

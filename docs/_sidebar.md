@@ -5,9 +5,10 @@
   - [UiWindow](window.md)
   - [UiGroup](group.md)
   - [UiForm](form.md)
-  - [UiVerticalBox](horizontal-box.md)
-  - [UiHorizontalBox](vertical-box.md)
+  - [UiVerticalBox](vertical-box.md)
+  - [UiHorizontalBox](horizontal-box.md)
   - [UiTab](tab.md)
+  - [UiGrid](grid.md)
 * Data entry controls
   - [UiSlider](slider.md)
   - [UiMultilineEntry](multiline-entry.md)
@@ -23,6 +24,7 @@
   - [UiSpinbox](spinbox.md)
   - [UiRadioButtons](radio-buttons.md)
 * Static controls
+  - [UiArea](area.md)
   - [UiLabel](label.md)
   - [UiHorizontalSeparator](horizontal-separator.md)
   - [UiVerticalSeparator](vertical-separator.md)

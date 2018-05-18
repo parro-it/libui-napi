@@ -11,10 +11,15 @@ static const char *MODULE = "App";
 
 struct children_list *visible_windows = NULL;
 
-static int onShouldQuit_cb(void *data) {
+static int c_wrap_cb(void *data) {
 	struct event_t *event = (struct event_t *)data;
-	fire_event(event);
-	return 0;
+	napi_value ret = fire_event(event);
+	if (ret == NULL) {
+		return 0;
+	}
+	int ret_int;
+	napi_get_value_int32(event->env, ret, &ret_int);
+	return ret_int;
 }
 
 LIBUI_FUNCTION(onShouldQuit) {
@@ -26,7 +31,22 @@ LIBUI_FUNCTION(onShouldQuit) {
 		return NULL;
 	}
 
-	uiOnShouldQuit(onShouldQuit_cb, event);
+	uiOnShouldQuit(c_wrap_cb, event);
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(startTimer) {
+	INIT_ARGS(2);
+	ARG_INT32(ms, 0);
+	ARG_CB_REF(cb_ref, 1);
+
+	struct event_t *event = create_event(env, cb_ref, "startTimer");
+	if (event == NULL) {
+		return NULL;
+	}
+
+	uiTimer(ms, c_wrap_cb, event);
 
 	return NULL;
 }
@@ -48,5 +68,6 @@ napi_value _libui_init_core(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(onShouldQuit);
 	LIBUI_EXPORT(init);
+	LIBUI_EXPORT(startTimer);
 	return module;
 }

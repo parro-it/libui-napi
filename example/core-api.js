@@ -51,7 +51,14 @@ cmb.append('item 3');
 
 box.append(cmb, false);
 const hBox4 = new libui.UiHorizontalBox();
-hBox4.append(new libui.UiDateTimePicker(), false);
+
+const dtPick = new libui.UiDateTimePicker();
+dtPick.onChanged(() => {
+	console.log(dtPick.time.toLocaleString());
+});
+
+hBox4.append(dtPick, false);
+
 hBox4.append(new libui.UiVerticalSeparator(), false);
 hBox4.append(new libui.UiEditableCombobox(), false);
 hBox4.append(new libui.UiCheckbox('Optionally'), false);
@@ -86,7 +93,12 @@ box.append(hBox3, false);
 box.append(new libui.UiMultilineEntry(), false);
 
 const buttons = new libui.UiHorizontalBox();
-buttons.append(new libui.UiButton('Ok'), false);
+
+const btnOk = new libui.UiButton('Ok');
+btnOk.onClicked(() => {
+	dtPick.time = new Date();
+});
+buttons.append(btnOk, false);
 buttons.append(new libui.UiButton('Maybe'), false);
 buttons.append(new libui.UiButton('Cancel'), false);
 

@@ -1,17 +1,19 @@
 const {Slider} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * Horizontal slider to set numerical values.
+ * @extends UiControl
  */
-class UiSlider {
+class UiSlider extends UiControl {
 	/**
 	 * Create a new UiSlider object.
 	 * @param  {number} min - minimum value of the slider.
 	 * @param  {number} max - maximum value of the slider.
 	 * @return {UiSlider}
 	 */
-	constructor(min, max) {
-		this.handle = Slider.create(min, max);
+	constructor(min = 0, max = 100) {
+		super(Slider.create(min, max));
 	}
 
 	/**
@@ -19,11 +21,13 @@ class UiSlider {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiSlider);
 		return Slider.getValue(this.handle);
 	}
 
 	set value(value) {
-		Slider.setValue(this.handle, Number(value));
+		this._ensureType(UiSlider);
+		Slider.setValue(this.handle, value);
 	}
 
 	/**
@@ -32,9 +36,9 @@ class UiSlider {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
+		this._ensureType(UiSlider);
 		Slider.onChanged(this.handle, callback);
 	}
 }

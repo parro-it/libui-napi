@@ -16,6 +16,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(setText) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(value, 1);
 	uiCheckboxSetText(uiCheckbox(handle->control), value);
 	free(value);
@@ -25,6 +26,7 @@ LIBUI_FUNCTION(setText) {
 LIBUI_FUNCTION(getText) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	char *char_ptr = uiCheckboxText(uiCheckbox(handle->control));
 	napi_value result = make_utf8_string(env, char_ptr);
 	uiFreeText(char_ptr);
@@ -34,6 +36,7 @@ LIBUI_FUNCTION(getText) {
 LIBUI_FUNCTION(setChecked) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	uiCheckboxSetChecked(uiCheckbox(handle->control), value);
@@ -43,7 +46,7 @@ LIBUI_FUNCTION(setChecked) {
 LIBUI_FUNCTION(getChecked) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	bool value = uiCheckboxChecked(uiCheckbox(handle->control));
 	return make_bool(env, value);
 }
@@ -52,6 +55,7 @@ LIBUI_FUNCTION(onToggled) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onToggled");

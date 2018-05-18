@@ -1,26 +1,30 @@
 const {ColorButton} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A button that opens a color palette popup.
+ * @extends UiControl
  */
-class UiColorButton {
+class UiColorButton extends UiControl {
 	/**
 	 * Create a new UiColorButton object.
 	 * @return {UiColorButton}
 	 */
 	constructor() {
-		this.handle = ColorButton.create();
+		super(ColorButton.create());
 	}
 
 	/**
 	 * Set or return the ColorButton color value.
-	 * @return {Object}
+	 * @return {Color}
 	 */
 	get color() {
+		this._ensureType(UiColorButton);
 		return ColorButton.getColor(this.handle);
 	}
 
 	set color(value) {
+		this._ensureType(UiColorButton);
 		ColorButton.setColor(this.handle, value.r, value.g, value.b, value.a);
 	}
 
@@ -30,9 +34,9 @@ class UiColorButton {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is
 	 * fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
+		this._ensureType(UiColorButton);
 		ColorButton.onChanged(this.handle, callback);
 	}
 }

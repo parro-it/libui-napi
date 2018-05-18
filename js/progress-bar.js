@@ -1,15 +1,17 @@
 const {ProgressBar} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * Progress bar control.
+ * @extends UiControl
  */
-class UiProgressBar {
+class UiProgressBar extends UiControl {
 	/**
 	 * Create a new UiProgressBar object.
 	 * @return {UiProgressBar}
 	 */
 	constructor() {
-		this.handle = ProgressBar.create();
+		super(ProgressBar.create());
 	}
 
 	/**
@@ -18,10 +20,12 @@ class UiProgressBar {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiProgressBar);
 		return this._value;
 	}
 
 	set value(value) {
+		this._ensureType(UiProgressBar);
 		this._value = Number(value);
 		ProgressBar.setValue(this.handle, this._value);
 	}

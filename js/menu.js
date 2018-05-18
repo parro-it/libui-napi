@@ -11,7 +11,7 @@ class UiMenu {
 	 * @return {UiMenu}
 	 */
 	constructor(caption) {
-		this.handle = Menu.create(caption);
+		this.handle = Menu.create(String(caption));
 	}
 
 	/**
@@ -20,7 +20,7 @@ class UiMenu {
 	 * @return {UiMenuItem} the new appended UiMenuItem
 	 */
 	appendItem(caption) {
-		return new UiMenuItem(Menu.appendItem(this.handle, caption));
+		return new UiMenuItem(Menu.appendItem(this.handle, String(caption)));
 	}
 
 	/**
@@ -29,7 +29,7 @@ class UiMenu {
 	 * @return {UiMenuItem} the new appended UiMenuItem
 	 */
 	appendCheckItem(caption) {
-		return new UiMenuItem(Menu.appendCheckItem(this.handle, caption));
+		return new UiMenuItem(Menu.appendCheckItem(this.handle, String(caption)));
 	}
 
 	/**
@@ -82,7 +82,6 @@ class UiMenuItem {
 
 	/**
 	 * Enable the menu item.
-	 * @return {undefined}
 	 */
 	enable() {
 		Menu.enableItem(this.handle);
@@ -90,7 +89,6 @@ class UiMenuItem {
 
 	/**
 	 * Disable the menu item
-	 * @return {undefined}
 	 */
 	disable() {
 		Menu.disableItem(this.handle);
@@ -100,7 +98,6 @@ class UiMenuItem {
 	 * Register a callback for the click event of the menu item.
 	 * @param  {Function} callback - the function to register as
 	 * callback for the event.
-	 * @return {undefined}
 	 */
 	onClicked(callback) {
 		Menu.onItemClicked(this.handle, callback);
@@ -116,7 +113,7 @@ class UiMenuItem {
 	}
 
 	set checked(value) {
-		Menu.setItemChecked(this.handle, value);
+		Menu.setItemChecked(this.handle, Boolean(value));
 	}
 }
 

@@ -8,6 +8,10 @@ win.margined = true;
 const widget = new libui.UiDateTimePicker();
 win.setChild(widget);
 
+widget.onChanged(() => {
+	console.log(widget.time.toLocaleString());
+});
+
 win.onClosing(() => {
 	win.close();
 	libui.stopLoop();

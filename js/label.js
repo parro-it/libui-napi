@@ -1,16 +1,18 @@
 const {Label} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * A static text label.
+ * @extends UiControl
  */
-class UiLabel {
+class UiLabel extends UiControl {
 	/**
 	 * Create a new UiLabel object.
 	 * @param  {string} text - initial content of the label
 	 * @return {UiLabel}
 	 */
 	constructor(text = '') {
-		this.handle = Label.create(String(text));
+		super(Label.create(String(text)));
 	}
 
 	/**
@@ -18,10 +20,12 @@ class UiLabel {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiLabel);
 		return Label.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiLabel);
 		Label.setText(this.handle, String(value));
 	}
 }

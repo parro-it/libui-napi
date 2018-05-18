@@ -85,13 +85,13 @@ struct control_handle {
 /*
 	add a new child into a control handle children_list.
 */
-napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child);
+napi_status add_child(napi_env env, struct children_list *list, struct control_handle *child);
 
 /*
 	add a new child into a control handle children_list at a specified position
 */
-napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
-						int index);
+napi_status add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
+						 int index);
 
 /*
 	remove and decrement references for all children of a control children_list.
@@ -117,6 +117,11 @@ struct children_node *create_node(struct control_handle *child);
 	remove and decrement a child of a control contained in a children_list.
 */
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child);
+
+/*
+	return true if list contains child.
+*/
+bool has_child(struct children_list *list, struct control_handle *child);
 
 /*
 	remove and decrement a child of a control contained at a specified position

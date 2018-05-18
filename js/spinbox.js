@@ -1,9 +1,11 @@
 const {Spinbox} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * An entry control for numerical values.
+ * @extends UiControl
  */
-class UiSpinbox {
+class UiSpinbox extends UiControl {
 	/**
 	 * Create a new UiSpinbox object.
 	 * @param  {number} min - minimum value of the spinbox.
@@ -11,7 +13,7 @@ class UiSpinbox {
 	 * @return {UiSpinbox}
 	 */
 	constructor(min, max) {
-		this.handle = Spinbox.create(min, max);
+		super(Spinbox.create(min, max));
 	}
 
 	/**
@@ -19,20 +21,22 @@ class UiSpinbox {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiSpinbox);
 		return Spinbox.getValue(this.handle);
 	}
 
 	set value(value) {
-		Spinbox.setValue(this.handle, Number(value));
+		this._ensureType(UiSpinbox);
+		Spinbox.setValue(this.handle, value);
 	}
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is fired.
-	 * @return {undefined}
 	 */
 	onChanged(callback) {
+		this._ensureType(UiSpinbox);
 		Spinbox.onChanged(this.handle, callback);
 	}
 }

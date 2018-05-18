@@ -57,8 +57,28 @@ toggleReadOnlyBtn.onClicked(() => {
 });
 toolbar.append(toggleReadOnlyBtn, false);
 
+const toggleEnabledBtn = new libui.UiButton('Set Btns Enabled');
+toggleEnabledBtn.onClicked(() => {
+	setEntryBtn.enabled = !setEntryBtn.enabled;
+	setSearchBtn.enabled = setEntryBtn.enabled;
+	setPasswordBtn.enabled = setEntryBtn.enabled;
+	setSpinboxBtn.enabled = setEntryBtn.enabled;
+	toggleReadOnlyBtn.enabled = setEntryBtn.enabled;
+});
+toolbar.append(toggleEnabledBtn, false);
+
+const toggleVisibleBtn = new libui.UiButton('Set Btns Visible');
+toggleVisibleBtn.onClicked(() => {
+	setEntryBtn.visible = !setEntryBtn.visible;
+	setSearchBtn.visible = setEntryBtn.visible;
+	setPasswordBtn.visible = setEntryBtn.visible;
+	setSpinboxBtn.setVisible(setEntryBtn.visible);
+	toggleReadOnlyBtn.visible = setEntryBtn.visible;
+});
+toolbar.append(toggleVisibleBtn, false);
+
 const box = new libui.UiVerticalBox();
-box.padded = true;
+box.setPadded(true);
 box.append(entry);
 box.append(entrySearch);
 box.append(entryPassword);

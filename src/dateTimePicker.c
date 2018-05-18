@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <time.h>
 #include <ui.h>
 #include "napi_utils.h"
 #include "control.h"
@@ -21,10 +22,53 @@ LIBUI_FUNCTION(createDateTimePicker) {
 	return control_handle_new(env, ctrl, "dateTimePicker");
 }
 
+LIBUI_FUNCTION(onChanged) {
+	INIT_ARGS(2);
+
+	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
+	ARG_CB_REF(cb_ref, 1);
+
+	struct event_t *event = create_event(env, cb_ref, "onChanged");
+	if (event == NULL) {
+		return NULL;
+	}
+
+	install_event(handle->events, event);
+
+	uiDateTimePickerOnChanged(uiDateTimePicker(handle->control),
+							  CALLBACK_OF(uiDateTimePicker, control_event_cb), event);
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(setTime) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
+	ARG_INT64(value, 1);
+	struct tm *tm_value = localtime((const long *)&value);
+	uiDateTimePickerSetTime(uiDateTimePicker(handle->control), tm_value);
+	return NULL;
+}
+
+LIBUI_FUNCTION(getTime) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
+	struct tm time;
+	uiDateTimePickerTime(uiDateTimePicker(handle->control), &time);
+
+	return make_int64(env, mktime(&time));
+}
+
 napi_value _libui_init_datetimepicker(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(createDatePicker);
 	LIBUI_EXPORT(createTimePicker);
 	LIBUI_EXPORT(createDateTimePicker);
+	LIBUI_EXPORT(getTime);
+	LIBUI_EXPORT(setTime);
+	LIBUI_EXPORT(onChanged);
 	return module;
 }
