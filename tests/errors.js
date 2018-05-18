@@ -58,6 +58,7 @@ test('handler must be of correct control - arguments', t => {
 	t.throws(() => box.append(win, true), /Expect a UiControl "control", got a UiWindow/);
 });
 
+/*
 test('call method on destroyed control', t => {
 	startLoop();
 	const entry = new UiMultilineEntry();
@@ -157,3 +158,4 @@ test.skip('uncaught errors', t => {
 	});
 	startLoop();
 });
+*/
