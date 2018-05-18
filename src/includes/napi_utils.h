@@ -206,11 +206,25 @@ NULL, &ret); \
 #define UI_NODE_DEBUG 1
 
 #if UI_NODE_DEBUG
-#define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")
-#define LIBUI_NODE_DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
+
+bool debug_enabled_for_module(const char *module);
+#define LIBUI_NODE_DEBUG(msg)                                                                      \
+	{                                                                                              \
+		if (debug_enabled_for_module(MODULE)) {                                                    \
+			fprintf(stderr, msg "\n");                                                             \
+		}                                                                                          \
+	}
+#define LIBUI_NODE_DEBUG_F(msg, ...)                                                               \
+	{                                                                                              \
+		if (debug_enabled_for_module(MODULE)) {                                                    \
+			fprintf(stderr, msg "\n", __VA_ARGS__);                                                \
+		}                                                                                          \
+	}
 #else
+
 #define LIBUI_NODE_DEBUG(msg) ;
 #define LIBUI_NODE_DEBUG_F(msg, ...) ;
+
 #endif
 
 // return values

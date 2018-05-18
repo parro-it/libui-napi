@@ -1,5 +1,7 @@
 #include "events.h"
 
+static const char *MODULE = "EventsInternal";
+
 napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
 	napi_status status;
 	napi_env env = event->env;

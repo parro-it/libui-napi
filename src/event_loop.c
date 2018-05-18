@@ -28,7 +28,7 @@ static uv_timer_t closeTimer;
 */
 static void backgroundNodeEventsPoller(void *arg) {
 	while (running) {
-		// LIBUI_NODE_DEBUG("--- wait mainThreadWaitingGuiEvents.\n");
+		LIBUI_NODE_DEBUG("--- wait mainThreadWaitingGuiEvents.\n");
 
 		// wait for the main thread
 		// to be blocked waiting for GUI events
@@ -39,12 +39,12 @@ static void backgroundNodeEventsPoller(void *arg) {
 
 		int pendingEvents = 1;
 		int timeout = uv_backend_timeout(uv_default_loop());
-		// LIBUI_NODE_DEBUG_F("--- uv_backend_timeout == %d\n", timeout);
+		LIBUI_NODE_DEBUG_F("--- uv_backend_timeout == %d\n", timeout);
 
 		if (timeout != 0) {
 			do {
 
-				// LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d\n", timeout);
+				LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d\n", timeout);
 				/* wait for pending events*/
 				pendingEvents = waitForNodeEvents(uv_default_loop(), timeout);
 
@@ -55,10 +55,10 @@ static void backgroundNodeEventsPoller(void *arg) {
 			} while (pendingEvents == -1 && errno == EINTR);
 		}
 
-		// LIBUI_NODE_DEBUG_F("--- pendingEvents == %d\n", pendingEvents);
+		LIBUI_NODE_DEBUG_F("--- pendingEvents == %d\n", pendingEvents);
 
 		if (running && mainThreadStillWaitingGuiEvents && pendingEvents > 0) {
-			// LIBUI_NODE_DEBUG("--- wake up main thread\n");
+			LIBUI_NODE_DEBUG("--- wake up main thread\n");
 			// this allow the background thread
 			// to wait for the main thread to complete
 			// running node callbacks
@@ -68,15 +68,15 @@ static void backgroundNodeEventsPoller(void *arg) {
 		if (running && pendingEvents > 0) {
 			// wait for the main thread to complete
 			// its awaken phase.
-			// LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locking.\n");
+			LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locking.\n");
 			uv_mutex_lock(&mainThreadAwakenFromBackground);
-			// LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locked.\n");
+			LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locked.\n");
 
 			// immediately release the lock
 			uv_mutex_unlock(&mainThreadAwakenFromBackground);
 		}
 	}
-	// LIBUI_NODE_DEBUG("--- Background terminating.\n");
+	LIBUI_NODE_DEBUG("--- Background terminating.\n");
 }
 
 static void redraw(uv_timer_t *handle);
@@ -88,9 +88,9 @@ static void uv_awaken_cb(uv_prepare_t *handle) {
 		return;
 	}
 
-	// LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocking.\n");
+	LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocking.\n");
 	uv_mutex_unlock(&mainThreadAwakenFromBackground);
-	// LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocked.\n");
+	LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocked.\n");
 
 	// schedule another call to redraw as soon as possible
 	// how to find a correct amount of time to schedule next call?
@@ -121,23 +121,23 @@ static void redraw(uv_timer_t *handle) {
 	uv_mutex_unlock(&mainThreadWaitingGuiEvents);
 	mainThreadStillWaitingGuiEvents = true;
 
-	// LIBUI_NODE_DEBUG("+++ locking mainThreadAwakenFromBackground\n");
+	LIBUI_NODE_DEBUG("+++ locking mainThreadAwakenFromBackground\n");
 	uv_mutex_lock(&mainThreadAwakenFromBackground);
-	// LIBUI_NODE_DEBUG("+++ locked mainThreadAwakenFromBackground\n");
+	LIBUI_NODE_DEBUG("+++ locked mainThreadAwakenFromBackground\n");
 
 	/* Blocking call that wait for a node or GUI event pending */
-	// LIBUI_NODE_DEBUG("+++ blocking GUI\n");
+	LIBUI_NODE_DEBUG("+++ blocking GUI\n");
 	uiMainStep(true);
 	mainThreadStillWaitingGuiEvents = false;
 	uv_mutex_lock(&mainThreadWaitingGuiEvents);
-	// LIBUI_NODE_DEBUG("+++ mainThreadWaitingGuiEvents locked.\n");
+	LIBUI_NODE_DEBUG("+++ mainThreadWaitingGuiEvents locked.\n");
 
 	/* dequeue and run every event pending */
 	while (uiEventsPending()) {
 		running = uiMainStep(false);
-		// LIBUI_NODE_DEBUG("+++ other GUI event dequeued.\n");
+		LIBUI_NODE_DEBUG("+++ other GUI event dequeued.\n");
 	}
-	// LIBUI_NODE_DEBUG("+++ all GUI events dequeued.\n");
+	LIBUI_NODE_DEBUG("+++ all GUI events dequeued.\n");
 
 	// uv_mutex_unlock(&mainThreadAwakenFromBackground);
 
@@ -145,7 +145,7 @@ static void redraw(uv_timer_t *handle) {
 
 	if (running) {
 		uv_prepare_start(&mainThreadAwakenPhase, uv_awaken_cb);
-		// LIBUI_NODE_DEBUG("+++ prepare handler started.\n");
+		LIBUI_NODE_DEBUG("+++ prepare handler started.\n");
 	}
 }
 
@@ -157,15 +157,15 @@ static void stopAsync(uv_timer_t *handle) {
 
 	running = false;
 
-	// LIBUI_NODE_DEBUG("stopAsync\n");
+	LIBUI_NODE_DEBUG("stopAsync\n");
 
 	/* stop redraw handler */
 	uv_timer_stop(&redrawTimer);
 	uv_close((uv_handle_t *)&redrawTimer, NULL);
-	// LIBUI_NODE_DEBUG("redrawTimer\n");
+	LIBUI_NODE_DEBUG("redrawTimer\n");
 
 	uv_timer_stop(handle);
-	// LIBUI_NODE_DEBUG("handle\n");
+	LIBUI_NODE_DEBUG("handle\n");
 	uv_close((uv_handle_t *)handle, NULL);
 
 	if (uv_mutex_trylock(&mainThreadWaitingGuiEvents)) {
@@ -177,23 +177,23 @@ static void stopAsync(uv_timer_t *handle) {
 	}
 
 	/* await for the background thread to finish */
-	// LIBUI_NODE_DEBUG("uv_thread_join wait\n");
+	LIBUI_NODE_DEBUG("uv_thread_join wait\n");
 	uv_async_send(&keepAliveTimer);
 	uv_thread_join(&thread);
-	// LIBUI_NODE_DEBUG("uv_thread_join done\n");
+	LIBUI_NODE_DEBUG("uv_thread_join done\n");
 
 	uv_mutex_destroy(&mainThreadWaitingGuiEvents);
-	// LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadWaitingGuiEvents done\n");
+	LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadWaitingGuiEvents done\n");
 
 	// TODO: improve synchronization
 	// some examples crash while running this
 	// uv_mutex_destroy(&mainThreadAwakenFromBackground);
-	// LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadAwakenFromBackground done\n");
+	LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadAwakenFromBackground done\n");
 
 	/* stop keep alive timer */
 	uv_close((uv_handle_t *)&keepAliveTimer, NULL);
 
-	// LIBUI_NODE_DEBUG("uv_close keepAliveTimer done\n");
+	LIBUI_NODE_DEBUG("uv_close keepAliveTimer done\n");
 
 	uv_close((uv_handle_t *)&mainThreadAwakenPhase, NULL);
 
@@ -212,7 +212,7 @@ void startLoop() {
 	mainThreadStillWaitingGuiEvents = false;
 	/* init libui event loop */
 	uiMainSteps();
-	// LIBUI_NODE_DEBUG("uiMainSteps...\n");
+	LIBUI_NODE_DEBUG("uiMainSteps...\n");
 
 	// this is used to signal the background thread
 	// that the main one is entering a blocking call
@@ -233,7 +233,7 @@ void startLoop() {
 
 	/* start the background thread that check for node evnts pending */
 	uv_thread_create(&thread, backgroundNodeEventsPoller, NULL);
-	// LIBUI_NODE_DEBUG("thread...\n");
+	LIBUI_NODE_DEBUG("thread...\n");
 
 	// Add dummy handle for libuv, otherwise libuv would quit when there is
 	// nothing to do.
@@ -243,7 +243,7 @@ void startLoop() {
 	uv_timer_init(uv_default_loop(), &redrawTimer);
 	uv_timer_start(&redrawTimer, redraw, 1, 0);
 
-	// LIBUI_NODE_DEBUG("redrawTimer...\n");
+	LIBUI_NODE_DEBUG("redrawTimer...\n");
 }
 
 void stopLoop() {

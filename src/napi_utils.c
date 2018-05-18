@@ -1,4 +1,9 @@
 #include "napi_utils.h"
+#include <uv.h>
+#define UNINITIALIZED 100042
+
+static char enabled_debug_module[100];
+size_t env_var_size = UNINITIALIZED;
 
 napi_value make_bool(napi_env env, bool value) {
 	napi_value value_js;
@@ -53,3 +58,14 @@ napi_value make_utf8_string(napi_env env, const char *char_ptr) {
 
 	return result;
 }
+#if UI_NODE_DEBUG
+
+bool debug_enabled_for_module(const char *module) {
+	if (env_var_size == UNINITIALIZED) {
+		uv_os_getenv("DEBUG", enabled_debug_module, &env_var_size);
+	}
+
+	return (strncmp(module, enabled_debug_module, env_var_size) == 0);
+}
+
+#endif

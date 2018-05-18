@@ -4,6 +4,7 @@
 #include "events.h"
 
 struct ctrl_map controls_map;
+static const char *MODULE = "ControlInternal";
 
 int control_event_cb(void *ctrl, void *data) {
 	struct event_t *event = (struct event_t *)data;
