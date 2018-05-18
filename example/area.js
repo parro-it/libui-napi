@@ -70,6 +70,7 @@ const area = new libui.UiArea(
 		params.context.stroke(path, brushBrown, spDashed);
 
 		path = new libui.UiDrawPath();
+		path.newFigure(0, 0);
 		path.arcTo(210, 65, 50, 0, 2 * Math.PI, false);
 		path.end();
 		params.context.fill(path, brushRadial);
