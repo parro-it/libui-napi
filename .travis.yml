@@ -18,16 +18,25 @@ addons:
       - gcc-5
       - libgtk-3-dev
       - xvfb
+      - at-spi2-core
 
 os:
   - osx
   - linux
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update         ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip3 install click pyobjc-framework-Quartz; fi
 
 install:
   - if [ $TRAVIS_OS_NAME = linux ]; then export CC="gcc-5"; fi
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
   - npm install
+
+after_script:
+  - (cd tests/_snapshots && ../../node_modules/.bin/now --public --token "$NOW_TOKEN")
 
 before_deploy:
   - npm run rebuild
@@ -46,3 +55,7 @@ deploy:
     node: '10'
   api_key:
     secure: kkdWKa9iqJNKrfvW1pLgVx0EUBGcx+VGOzKG7xvxSfpNudZpuoGjWL4p9fQQD5TRELGwY7KCpFfZPbp2dnHQ9z82lW2XmnEC+bcskmfO/PXLJi3uyLrEY7iBwR3UhiWSdKRaPptfnndQrC21jmlweJNMCTWW8VqgvYupYITf9mfIq0WbEmFMeXJr7KzRO1yX4uAOOqnSTb60uRSrg+9V000cmDi246ir2ApaRw6NBOmI2v0kbirdbDe/vcAclgD2K0CFV7h8HIucbiU1DWBF2aQY3u5II4mItM4yskv0BmOr4vxXR0+7B/iysZNjWtXLbt4CiekvQKADUqPFpPk33LTjPxtAzdUYhHaoGTwchCIpkJG32KqTBL1+9h2I8WyhB3tKgxbFTZynkBihS2mYJad+rdO2RCXZtFZxf9bPWv6+PGelKnTFFBR9gPGTha4FeIeYZyuxuecAE7I+0UhS+wvwls3Xstro9fw+OwyvTysMEWOrjm1DvBuZyNnkqcfBKt3q4MOZsEHFnTEu6A1htr96FutAj/vap0e1RMokhMSIbe/hwq3whmELzWpRkOVDPEZfN47PCYc3f/UfYf0RMSWthibZOD30IX3207LsOgxZXfH3PDVcG9q0lvowGKWMcKy7d6+VVqgE97Aq7i07fizbpMWbNY7cStNy26m6IxM=
+
+env:
+  global:
+    - secure: JwvBwCn9RMKHm8hxvZlLWlksRE4U8kxesWj29pDh0Igkp7QULFGqHrr0463YK1+4HlWMZTHiUGEuUP9EqK/15vktKCAEUdxhxN3NNsVBm6sX8COQjsUWN/OCj09uLdQF5Y+jScbgWr9pt3HN5avaoGt6dvZ9SXmZoxcoQTeQGN997xxMzlmLy4t1vynBx/h51tZynNJA+XnHTjLbRhuv10ftluQpc1I0iBZw19NpxJDBKoN1QCrfjVpmHJTpCEdYVPUq6MetnJhSomtIMOdgwCMGC0db44gpxIAN6anbjKWLE+LYLvBn1BiyYo6ESiw4Jrt28smRUvgPD5M02o8w91Wxv1Xv40k9fNFOaIiDDfuLaQtXHi54JLARtF3PuXYAugK16bf34pwsFY2bnnDr47xGHHCAAGRMuVRTrUk0IdQb8B08DLaC/f++ijya3at8wfu79nQKZN8T4miJEzItdQ5C9kTFZ7m66GTJZm3f/jrWvUrYbP+x66/fEvtjnRyhih3t3++sBqtCBD2i8DP7LkE0WFBiqwujRJYyF/HY4A5TlpAj7jmmdy2omL91KpiKUdu4pa/t6G1/V4LsT0eIn7OyasN6DNQuFVZ21Pz4SFiNy+uooTGVZT2b4mJymS+rZrFdyqAuLk+SF7XazRwLSRvZcpQ+o+i5pKVOHrW1ZBg=
