@@ -134,3 +134,11 @@ test('Add control to more then one container', t => {
 	t.throws(() => win2.setChild(entry), /Child control already has parent./);
 	t.end();
 });
+
+test.skip('uncaught errors', t => {
+	const entry = new UiMultilineEntry();
+	startLoop();
+	stopLoop();
+	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
+	t.end();
+});

@@ -132,15 +132,23 @@ bool has_child(struct children_list *list, struct control_handle *child) {
 	return false;
 }
 
-napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
-						int index) {
+napi_status add_child_at(napi_env env, struct children_list *list, struct control_handle *child,
+						 int index) {
+	assert(env != NULL);
+	assert(list != NULL);
+	assert(child != NULL);
+	if (child->control->Parent != NULL && child->control->Parent(child->control) != NULL) {
+		napi_throw_error(env, NULL, "Child control already has parent.");
+		return napi_pending_exception;
+	}
+
 	struct children_node *new_node = malloc(sizeof(struct children_node));
 	new_node->next = NULL;
 	new_node->handle = child;
 
 	uint32_t new_ref_count;
 	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
-	CHECK_STATUS_THROW(status, napi_reference_unref);
+	CHECK_STATUS_PENDING(status, napi_reference_unref);
 
 	if (index == 0) {
 		new_node->next = list->head;
@@ -150,7 +158,7 @@ napi_value add_child_at(napi_env env, struct children_list *list, struct control
 			// first child
 			list->tail = new_node;
 		}
-		return NULL;
+		return napi_ok;
 	}
 
 	int i = 0;
@@ -171,7 +179,7 @@ napi_value add_child_at(napi_env env, struct children_list *list, struct control
 		list->tail = new_node;
 	}
 
-	return NULL;
+	return napi_ok;
 }
 
 napi_value destroy_all_children(napi_env env, struct children_list *list) {
@@ -274,16 +282,13 @@ napi_status add_child(napi_env env, struct children_list *list, struct control_h
 	assert(env != NULL);
 	assert(list != NULL);
 	assert(child != NULL);
-
-	if (child->control->Parent(child->control) != NULL) {
+	if (child->control->Parent != NULL && child->control->Parent(child->control) != NULL) {
 		napi_throw_error(env, NULL, "Child control already has parent.");
 		return napi_pending_exception;
 	}
-
 	struct children_node *new_node = malloc(sizeof(struct children_node));
 	new_node->next = NULL;
 	new_node->handle = child;
-
 	uint32_t new_ref_count;
 	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
 	CHECK_STATUS_PENDING(status, napi_reference_unref);

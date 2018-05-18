@@ -5,7 +5,7 @@
 #include "tests.h"
 
 static struct control_handle *get_child(napi_env env) {
-	uiControl *ctrl = malloc(sizeof(uiControl));
+	uiControl *ctrl = calloc(1, sizeof(uiControl));
 	napi_value child_value = control_handle_new(env, ctrl, "name_test");
 	struct control_handle *child;
 	napi_get_value_external(env, child_value, (void **)&child);
