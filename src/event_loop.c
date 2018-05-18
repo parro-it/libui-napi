@@ -150,8 +150,9 @@ static void redraw(uv_timer_t *handle) {
 	LIBUI_NODE_DEBUG("+++ mainThreadWaitingGuiEvents locked.\n");
 
 	/* dequeue and run every event pending */
-	while (uiEventsPending()) {
-		running = uiMainStep(false);
+	int gui_running = 1;
+	while (gui_running && uiEventsPending()) {
+		gui_running = uiMainStep(false);
 		LIBUI_NODE_DEBUG("+++ other GUI event dequeued.\n");
 	}
 	LIBUI_NODE_DEBUG("+++ all GUI events dequeued.\n");
@@ -160,7 +161,7 @@ static void redraw(uv_timer_t *handle) {
 
 	// uv_timer_start(redrawTimer, redraw, 100, 0);
 
-	if (running) {
+	if (gui_running && running) {
 		uv_prepare_start(&mainThreadAwakenPhase, uv_awaken_cb);
 		LIBUI_NODE_DEBUG("+++ prepare handler started.\n");
 	}
@@ -332,7 +333,7 @@ LIBUI_FUNCTION(stop) {
 
 	napi_status status = napi_create_promise(env, &deferred, &promise);
 	CHECK_STATUS_THROW(status, napi_create_promise);
-	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
+	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
 	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p\n",
 		   event_loop_closed_deferred, event_loop_started_deferred);
