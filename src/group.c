@@ -59,9 +59,11 @@ LIBUI_FUNCTION(setChild) {
 	ARG_POINTER(struct control_handle, handle, 0);
 	ENSURE_NOT_DESTROYED();
 	ARG_POINTER(struct control_handle, child, 1);
-	uiGroupSetChild(uiGroup(handle->control), child->control);
 	clear_children(env, handle->children);
-	add_child(env, handle->children, child);
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
+	uiGroupSetChild(uiGroup(handle->control), child->control);
 	return NULL;
 }
 

@@ -19,9 +19,11 @@ LIBUI_FUNCTION(append) {
 	ARG_INT32(vexpand, 8);
 	ARG_INT32(valign, 9);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiGridAppend(uiGrid(handle->control), child->control, left, top, xspan, yspan, hexpand, halign,
 				 vexpand, valign);
-	add_child(env, handle->children, child);
 
 	return NULL;
 }
@@ -63,10 +65,12 @@ LIBUI_FUNCTION(insertAt) {
 	ARG_INT32(vexpand, 8);
 	ARG_INT32(valign, 9);
 
+	// TODO: fix this, insert at specific position
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiGridInsertAt(uiGrid(handle->control), child->control, before->control, at, xspan, yspan,
 				   hexpand, halign, vexpand, valign);
-	// TODO: fix this, insert at specific position
-	add_child(env, handle->children, child);
 	return NULL;
 }
 

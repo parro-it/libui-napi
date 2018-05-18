@@ -13,8 +13,10 @@ LIBUI_FUNCTION(append) {
 	ARG_POINTER(struct control_handle, child, 2);
 	ARG_BOOL(stretchy, 3);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiFormAppend(uiForm(handle->control), label, child->control, stretchy);
-	add_child(env, handle->children, child);
 	free(label);
 
 	return NULL;

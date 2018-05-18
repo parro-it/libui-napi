@@ -12,8 +12,10 @@ LIBUI_FUNCTION(append) {
 	ARG_STRING(label, 1);
 	ARG_POINTER(struct control_handle, child, 2);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiTabAppend(uiTab(handle->control), label, child->control);
-	add_child(env, handle->children, child);
 	return NULL;
 }
 
@@ -25,9 +27,11 @@ LIBUI_FUNCTION(insertAt) {
 	ARG_INT32(before, 2);
 	ARG_POINTER(struct control_handle, child, 3);
 
-	uiTabInsertAt(uiTab(handle->control), label, before, child->control);
 	// TODO: fix this, insert at specific position
-	add_child_at(env, handle->children, child, before);
+	if (add_child_at(env, handle->children, child, before) != napi_ok) {
+		return NULL;
+	}
+	uiTabInsertAt(uiTab(handle->control), label, before, child->control);
 	return NULL;
 }
 

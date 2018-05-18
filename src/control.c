@@ -54,6 +54,8 @@ static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint
 }
 
 napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl_type_name) {
+	// printf("on creation %p\n", control->Parent(control));
+
 	struct control_handle *handle = calloc(1, sizeof(struct control_handle));
 	handle->env = env;
 	handle->events = calloc(1, sizeof(struct events_list));
@@ -268,10 +270,15 @@ struct children_node *create_node(struct control_handle *child) {
 	return new_node;
 }
 
-napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child) {
+napi_status add_child(napi_env env, struct children_list *list, struct control_handle *child) {
 	assert(env != NULL);
 	assert(list != NULL);
 	assert(child != NULL);
+
+	if (child->control->Parent(child->control) != NULL) {
+		napi_throw_error(env, NULL, "Child control already has parent.");
+		return napi_pending_exception;
+	}
 
 	struct children_node *new_node = malloc(sizeof(struct children_node));
 	new_node->next = NULL;
@@ -279,12 +286,12 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 
 	uint32_t new_ref_count;
 	napi_status status = napi_reference_ref(env, child->ctrl_ref, &new_ref_count);
-	CHECK_STATUS_THROW(status, napi_reference_unref);
+	CHECK_STATUS_PENDING(status, napi_reference_unref);
 	if (list->head == NULL) {
 		// First child for this control
 		list->head = new_node;
 		list->tail = new_node;
-		return NULL;
+		return napi_ok;
 	}
 
 	// Control already has other children. Append to tail
@@ -293,5 +300,5 @@ napi_value add_child(napi_env env, struct children_list *list, struct control_ha
 	// set this node as the new tail
 	list->tail = new_node;
 
-	return NULL;
+	return napi_ok;
 }

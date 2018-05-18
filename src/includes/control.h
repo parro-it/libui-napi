@@ -85,7 +85,7 @@ struct control_handle {
 /*
 	add a new child into a control handle children_list.
 */
-napi_value add_child(napi_env env, struct children_list *list, struct control_handle *child);
+napi_status add_child(napi_env env, struct children_list *list, struct control_handle *child);
 
 /*
 	add a new child into a control handle children_list at a specified position

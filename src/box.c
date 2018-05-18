@@ -12,8 +12,10 @@ LIBUI_FUNCTION(append) {
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_BOOL(stretchy, 2);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiBoxAppend(uiBox(handle->control), child->control, stretchy);
-	add_child(env, handle->children, child);
 	return NULL;
 }
 

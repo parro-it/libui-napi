@@ -168,6 +168,17 @@ NULL, &ret); \
 		return NULL;                                                                               \
 	}
 
+#define CHECK_STATUS_PENDING(STATUS, FN)                                                           \
+	if (STATUS != napi_ok) {                                                                       \
+		const napi_extended_error_info *result;                                                    \
+		napi_get_last_error_info(env, &result);                                                    \
+		char err[1024];                                                                            \
+		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code,           \
+				 result->error_message);                                                           \
+		napi_throw_error(env, NULL, err);                                                          \
+		return napi_pending_exception;                                                             \
+	}
+
 #define CHECK_STATUS_UNCAUGHT(STATUS, FN, ERROR_RET)                                               \
 	if (STATUS != napi_ok) {                                                                       \
 		const napi_extended_error_info *result;                                                    \

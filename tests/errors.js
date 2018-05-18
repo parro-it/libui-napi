@@ -124,3 +124,13 @@ test('call method after stopLoop', t => {
 	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
 	t.end();
 });
+
+test('Add control to more then one container', t => {
+	t.plan(1);
+	const entry = new UiMultilineEntry();
+	const win = new UiWindow(null, 42, 42, true);
+	const win2 = new UiWindow(null, 42, 42, true);
+	win.setChild(entry);
+	t.throws(() => win2.setChild(entry), /Child control already has parent./);
+	t.end();
+});
