@@ -21,10 +21,12 @@ class UiSpinbox extends UiControl {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiSpinbox);
 		return Spinbox.getValue(this.handle);
 	}
 
 	set value(value) {
+		this._ensureType(UiSpinbox);
 		Spinbox.setValue(this.handle, Number(value));
 	}
 
@@ -34,6 +36,7 @@ class UiSpinbox extends UiControl {
 	 * @param  {Function} callback - callback to execute when the event is fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiSpinbox);
 		Spinbox.onChanged(this.handle, callback);
 	}
 }

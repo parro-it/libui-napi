@@ -15,11 +15,13 @@ class DateTimePickerBase extends UiControl {
 	 * @return {Date}
 	 */
 	get time() {
+		this._ensureType(DateTimePickerBase);
 		const fromEpoch = DateTimePickers.getTime(this.handle);
 		return new Date(fromEpoch * 1000);
 	}
 
 	set time(value) {
+		this._ensureType(DateTimePickerBase);
 		DateTimePickers.setTime(this.handle, value.getTime() / 1000);
 	}
 
@@ -31,6 +33,7 @@ class DateTimePickerBase extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(DateTimePickerBase);
 		DateTimePickers.onChanged(this.handle, callback);
 	}
 }

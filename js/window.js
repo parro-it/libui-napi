@@ -1,4 +1,5 @@
 const {Window} = require('..');
+const {UiControl} = require('./ui-control');
 
 /**
  * The UiWindow class is responsible for showing and managing native windows.
@@ -25,6 +26,7 @@ class UiWindow {
 	 *
 	 */
 	show() {
+		this._ensureType(UiWindow);
 		return Window.show(this.handle);
 	}
 
@@ -37,6 +39,7 @@ class UiWindow {
 	 * fired.
 	 */
 	onClosing(callback) {
+		this._ensureType(UiWindow);
 		Window.onClosing(this.handle, callback);
 	}
 
@@ -48,6 +51,7 @@ class UiWindow {
 	 * fired.
 	 */
 	onContentSizeChanged(callback) {
+		this._ensureType(UiWindow);
 		Window.onContentSizeChanged(this.handle, callback);
 	}
 
@@ -56,6 +60,7 @@ class UiWindow {
 	 *
 	 */
 	close() {
+		this._ensureType(UiWindow);
 		Window.close(this.handle);
 	}
 
@@ -65,10 +70,12 @@ class UiWindow {
 	 * @return {string}
 	 */
 	get title() {
+		this._ensureType(UiWindow);
 		return Window.getTitle(this.handle);
 	}
 
 	set title(value) {
+		this._ensureType(UiWindow);
 		Window.setTitle(this.handle, String(value));
 	}
 
@@ -80,10 +87,12 @@ class UiWindow {
 	 * @return {{width: number, height: number}}
 	 */
 	get contentSize() {
+		this._ensureType(UiWindow);
 		return Window.getContentSize(this.handle);
 	}
 
 	set contentSize({width, height}) {
+		this._ensureType(UiWindow);
 		Window.setContentSize(this.handle, width, height);
 	}
 
@@ -97,6 +106,9 @@ class UiWindow {
 	 * available space.
 	 */
 	setChild(control, stretchy) {
+		this._ensureType(UiWindow);
+		control._ensureType(UiControl, 'control');
+
 		Window.setChild(this.handle, control.handle, Boolean(stretchy));
 	}
 
@@ -106,10 +118,12 @@ class UiWindow {
 	 * @return {boolean}
 	 */
 	get margined() {
+		this._ensureType(UiWindow);
 		return Window.getMargined(this.handle);
 	}
 
 	set margined(value) {
+		this._ensureType(UiWindow);
 		Window.setMargined(this.handle, Boolean(value));
 	}
 
@@ -119,10 +133,12 @@ class UiWindow {
 	 * @return {boolean}
 	 */
 	get borderless() {
+		this._ensureType(UiWindow);
 		return Window.getBorderless(this.handle);
 	}
 
 	set borderless(value) {
+		this._ensureType(UiWindow);
 		Window.setBorderless(this.handle, Boolean(value));
 	}
 
@@ -132,11 +148,21 @@ class UiWindow {
 	 * @return {boolean}
 	 */
 	get fullscreen() {
+		this._ensureType(UiWindow);
 		return Window.getFullscreen(this.handle);
 	}
 
 	set fullscreen(value) {
+		this._ensureType(UiWindow);
 		Window.setFullscreen(this.handle, Boolean(value));
+	}
+
+	_ensureType(expectedContructor, argName = 'this') {
+		if (this instanceof expectedContructor) {
+			return;
+		}
+		throw new TypeError(`Expect a ${expectedContructor.name} "${argName}", got a ${
+			this.constructor.name}`);
 	}
 }
 

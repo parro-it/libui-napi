@@ -19,10 +19,12 @@ class UiButton extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiButton);
 		return Button.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiButton);
 		Button.setText(this.handle, String(value));
 	}
 
@@ -33,6 +35,7 @@ class UiButton extends UiControl {
 	 * fired.
 	 */
 	onClicked(callback) {
+		this._ensureType(UiButton);
 		Button.onClicked(this.handle, callback);
 	}
 }

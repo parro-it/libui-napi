@@ -19,10 +19,12 @@ class UiColorButton extends UiControl {
 	 * @return {Color}
 	 */
 	get color() {
+		this._ensureType(UiColorButton);
 		return ColorButton.getColor(this.handle);
 	}
 
 	set color(value) {
+		this._ensureType(UiColorButton);
 		ColorButton.setColor(this.handle, value.r, value.g, value.b, value.a);
 	}
 
@@ -34,6 +36,7 @@ class UiColorButton extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiColorButton);
 		ColorButton.onChanged(this.handle, callback);
 	}
 }

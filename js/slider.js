@@ -21,10 +21,12 @@ class UiSlider extends UiControl {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiSlider);
 		return Slider.getValue(this.handle);
 	}
 
 	set value(value) {
+		this._ensureType(UiSlider);
 		Slider.setValue(this.handle, Number(value));
 	}
 
@@ -36,6 +38,7 @@ class UiSlider extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiSlider);
 		Slider.onChanged(this.handle, callback);
 	}
 }

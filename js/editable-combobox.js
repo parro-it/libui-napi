@@ -20,10 +20,12 @@ class UiEditableCombobox extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiEditableCombobox);
 		return EditableCombobox.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiEditableCombobox);
 		EditableCombobox.setText(this.handle, String(value));
 	}
 
@@ -32,6 +34,7 @@ class UiEditableCombobox extends UiControl {
 	 * @param  {string} text - the item to append.
 	 */
 	append(text) {
+		this._ensureType(UiEditableCombobox);
 		EditableCombobox.append(this.handle, text);
 	}
 
@@ -42,6 +45,7 @@ class UiEditableCombobox extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiEditableCombobox);
 		EditableCombobox.onChanged(this.handle, callback);
 	}
 }

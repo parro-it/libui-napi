@@ -34,6 +34,7 @@ class UiArea extends UiControl {
 	 * Force a redraw of the area (calls draw callback).
 	 */
 	queueRedrawAll() {
+		this._ensureType(UiArea);
 		Area.queueRedrawAll(this.handle);
 	}
 
@@ -41,6 +42,7 @@ class UiArea extends UiControl {
 	 * Let the mouse move the window (only callable in the draw callback)
 	 */
 	beginWindowMove() {
+		this._ensureType(UiArea);
 		Area.beginWindowMove(this.handle);
 	}
 
@@ -49,10 +51,12 @@ class UiArea extends UiControl {
 	 * @param {number} edge - the size which is held by the mouse
 	 */
 	beginWindowResize(edge) {
+		this._ensureType(UiArea);
 		Area.beginWindowResize(this.handle, edge);
 	}
 
 	setSize(w, h) {
+		this._ensureType(UiArea);
 		if (this.type !== 'scrolling') {
 			throw new TypeError('setSize can only be called on scrolling areas!');
 		}
@@ -60,6 +64,7 @@ class UiArea extends UiControl {
 	}
 
 	scrollTo(x, y, w, h) {
+		this._ensureType(UiArea);
 		if (this.type !== 'scrolling') {
 			throw new TypeError('scrollTo can only be called on scrolling areas!');
 		}
