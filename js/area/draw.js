@@ -143,48 +143,48 @@ class UiDrawPath {
 
 	_pathCheck(name, newFigure) {
 		if (newFigure && !this.began) {
-			throw new Error("You need to call newFigure before calling " + name + "!");
+			throw new Error('You need to call newFigure before calling ' + name + '!');
 		}
 		if (this.ended) {
-			throw new Error("You need to call " + name + " before calling end!");
+			throw new Error('You need to call ' + name + ' before calling end!');
 		}
 	}
 
 	addRectangle(x, y, width, height) {
-		this._pathCheck("addRectangle", false);
+		this._pathCheck('addRectangle', false);
 		AreaPath.addRectangle(this.handle, x, y, width, height);
 	}
 
 	newFigure(x, y) {
-		this._pathCheck("newFigure", false);
+		this._pathCheck('newFigure', false);
 		AreaPath.newFigure(this.handle, x, y);
 		this.began = true;
 	}
 
 	newFigureWithArc(xCenter, yCenter, radius, startAngle, sweep, negative) {
-		this._pathCheck("newFigureWithArc", false);
+		this._pathCheck('newFigureWithArc', false);
 		AreaPath.newFigureWithArc(this.handle, xCenter, yCenter, radius, startAngle,
 								  sweep, negative);
 	}
 
 	lineTo(x, y) {
-		this._pathCheck("lineTo", true);
+		this._pathCheck('lineTo', true);
 		AreaPath.lineTo(this.handle, x, y);
 	}
 
 	arcTo(xCenter, yCenter, radius, startAngle, sweep, negative) {
-		this._pathCheck("arcTo", true);
+		this._pathCheck('arcTo', true);
 		AreaPath.arcTo(this.handle, xCenter, yCenter, radius, startAngle, sweep,
 					   negative);
 	}
 
 	bezierTo(c1x, c1y, c2x, c2y, endX, endY) {
-		this._pathCheck("bezierTo", true);
+		this._pathCheck('bezierTo', true);
 		AreaPath.bezierTo(this.handle, c1x, c1y, c2x, c2y, endX, endY);
 	}
 
 	closeFigure() {
-		this._pathCheck("closeFigure", true);
+		this._pathCheck('closeFigure', true);
 		AreaPath.closeFigure(this.handle);
 	}
 
