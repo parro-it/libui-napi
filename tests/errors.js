@@ -58,31 +58,37 @@ test('handler must be of correct control - arguments', t => {
 	t.throws(() => box.append(win, true), /Expect a UiControl "control", got a UiWindow/);
 });
 
+test('call method on destroyed control',
+	 t => (async () => {
+			  console.log('CALL METHOD ON DESTROYED CONTROL');
+			  await startLoop();
+			  console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
+			  const entry = new UiMultilineEntry();
+			  const win = new UiWindow(null, 42, 42, true);
+			  win.setChild(entry);
+			  win.show();
+			  win.close();
+			  t.throws(() => {
+				  entry.append('ciao');
+			  }, /Method called on destroyed control./);
+			  await stopLoop();
+			  t.end();
+		  })().catch(t.fail));
+
+test('call method on destroyed window',
+	 t => (async () => {
+			  console.log('CALL METHOD ON DESTROYED WINDOW');
+			  await startLoop();
+
+			  console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
+			  const win = new UiWindow(null, 42, 42, true);
+			  win.show();
+			  win.close();
+			  t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
+			  await stopLoop();
+			  t.end();
+		  })().catch(t.fail));
 /*
-test('call method on destroyed control', t => {
-	startLoop();
-	const entry = new UiMultilineEntry();
-	const win = new UiWindow(null, 42, 42, true);
-	win.setChild(entry);
-	win.show();
-	win.close();
-	t.throws(() => {
-		entry.append('ciao');
-	}, /Method called on destroyed control./);
-	stopLoop();
-	setTimeout(() => t.end(), 100);
-});
-
-test('call method on destroyed window', t => {
-	startLoop();
-	const win = new UiWindow(null, 42, 42, true);
-	win.show();
-	win.close();
-	t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
-	stopLoop();
-	setTimeout(() => t.end(), 100);
-});
-
 test('call window close before show', t => {
 	startLoop();
 	const win = new UiWindow(null, 42, 42, true);

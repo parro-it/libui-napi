@@ -5,6 +5,10 @@
 
 static const char *MODULE = "EventLoop";
 
+static napi_deferred event_loop_closed_deferred = NULL;
+static napi_deferred event_loop_started_deferred = NULL;
+static napi_env resolution_env = NULL;
+
 atomic_bool running;
 
 atomic_bool mainThreadStillWaitingGuiEvents;
@@ -125,6 +129,19 @@ static void redraw(uv_timer_t *handle) {
 	uv_mutex_lock(&mainThreadAwakenFromBackground);
 	LIBUI_NODE_DEBUG("+++ locked mainThreadAwakenFromBackground\n");
 
+	if (event_loop_started_deferred != NULL) {
+		napi_value null;
+		napi_get_null(resolution_env, &null);
+		napi_handle_scope handle_scope;
+
+		napi_open_handle_scope(resolution_env, &handle_scope);
+		napi_resolve_deferred(resolution_env, event_loop_started_deferred, null);
+		napi_close_handle_scope(resolution_env, handle_scope);
+		resolution_env = NULL;
+		event_loop_started_deferred = NULL;
+		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
+	}
+
 	/* Blocking call that wait for a node or GUI event pending */
 	LIBUI_NODE_DEBUG("+++ blocking GUI\n");
 	uiMainStep(true);
@@ -151,22 +168,23 @@ static void redraw(uv_timer_t *handle) {
 
 /* This function start the event loop and exit immediately */
 static void stopAsync(uv_timer_t *handle) {
+
+	LIBUI_NODE_DEBUG_F("stopAsync %d\n", running);
 	if (!running) {
 		return;
 	}
 
+	uv_timer_stop(&closeTimer);
+	uv_close((uv_handle_t *)&closeTimer, NULL);
+
 	running = false;
 
-	LIBUI_NODE_DEBUG("stopAsync\n");
+	LIBUI_NODE_DEBUG("stopAsync starting\n");
 
 	/* stop redraw handler */
 	uv_timer_stop(&redrawTimer);
 	uv_close((uv_handle_t *)&redrawTimer, NULL);
-	LIBUI_NODE_DEBUG("redrawTimer\n");
-
-	uv_timer_stop(handle);
-	LIBUI_NODE_DEBUG("handle\n");
-	uv_close((uv_handle_t *)handle, NULL);
+	LIBUI_NODE_DEBUG("redrawTimer stopped\n");
 
 	if (uv_mutex_trylock(&mainThreadWaitingGuiEvents)) {
 		uv_mutex_unlock(&mainThreadWaitingGuiEvents);
@@ -199,6 +217,18 @@ static void stopAsync(uv_timer_t *handle) {
 
 	/* quit libui event loop */
 	uiQuit();
+
+	if (event_loop_closed_deferred != NULL) {
+		napi_value null;
+		napi_get_null(resolution_env, &null);
+		napi_handle_scope handle_scope;
+		napi_open_handle_scope(resolution_env, &handle_scope);
+		napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
+		napi_close_handle_scope(resolution_env, handle_scope);
+		resolution_env = NULL;
+		event_loop_closed_deferred = NULL;
+		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
+	}
 }
 
 /* This function start the event loop and exit immediately */
@@ -212,7 +242,7 @@ void startLoop() {
 	mainThreadStillWaitingGuiEvents = false;
 	/* init libui event loop */
 	uiMainSteps();
-	LIBUI_NODE_DEBUG("uiMainSteps...\n");
+	LIBUI_NODE_DEBUG("libui loop initialized");
 
 	// this is used to signal the background thread
 	// that the main one is entering a blocking call
@@ -233,7 +263,7 @@ void startLoop() {
 
 	/* start the background thread that check for node evnts pending */
 	uv_thread_create(&thread, backgroundNodeEventsPoller, NULL);
-	LIBUI_NODE_DEBUG("thread...\n");
+	LIBUI_NODE_DEBUG("background thread started...\n");
 
 	// Add dummy handle for libuv, otherwise libuv would quit when there is
 	// nothing to do.
@@ -242,27 +272,115 @@ void startLoop() {
 	/* start redraw timer */
 	uv_timer_init(uv_default_loop(), &redrawTimer);
 	uv_timer_start(&redrawTimer, redraw, 1, 0);
-
-	LIBUI_NODE_DEBUG("redrawTimer...\n");
-}
-
-void stopLoop() {
-	uv_timer_init(uv_default_loop(), &closeTimer);
-	uv_timer_start(&closeTimer, stopAsync, 1, 0);
 }
 
 /* This function start the event loop and exit immediately */
 LIBUI_FUNCTION(start) {
+	napi_value promise;
+	napi_deferred deferred;
+
+	napi_status status = napi_create_promise(env, &deferred, &promise);
+	CHECK_STATUS_THROW(status, napi_create_promise);
+	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
+
+	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p\n",
+		   event_loop_closed_deferred, event_loop_started_deferred);
+
+	if (event_loop_closed_deferred != NULL) {
+		napi_value error;
+		napi_value error_msg;
+		napi_create_string_utf8(env, "Cannot start. A stop loop operation is pending.",
+								NAPI_AUTO_LENGTH, &error_msg);
+
+		napi_create_error(env, NULL, error_msg, &error);
+		napi_handle_scope handle_scope;
+		napi_open_handle_scope(env, &handle_scope);
+		napi_reject_deferred(env, deferred, error);
+		napi_close_handle_scope(env, handle_scope);
+		return promise;
+	}
+
+	if (event_loop_started_deferred != NULL) {
+		napi_value error;
+		napi_value error_msg;
+		napi_create_string_utf8(env, "Cannot start. A start loop operation is pending.",
+								NAPI_AUTO_LENGTH, &error_msg);
+
+		napi_create_error(env, NULL, error_msg, &error);
+
+		napi_handle_scope handle_scope;
+		napi_open_handle_scope(env, &handle_scope);
+		napi_reject_deferred(env, deferred, error);
+		napi_close_handle_scope(env, handle_scope);
+		return promise;
+	}
+
+	event_loop_started_deferred = deferred;
+
+	resolution_env = env;
+
 	startLoop();
-	return NULL;
+
+	LIBUI_NODE_DEBUG("startLoop async started");
+
+	return promise;
 }
 
 LIBUI_FUNCTION(stop) {
+	napi_value promise;
+	napi_deferred deferred;
+
+	napi_status status = napi_create_promise(env, &deferred, &promise);
+	CHECK_STATUS_THROW(status, napi_create_promise);
+	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
+
+	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p\n",
+		   event_loop_closed_deferred, event_loop_started_deferred);
+
+	if (event_loop_closed_deferred != NULL) {
+		napi_value error;
+		napi_value error_msg;
+		napi_create_string_utf8(env, "Cannot start. A stop loop operation is pending.",
+								NAPI_AUTO_LENGTH, &error_msg);
+
+		napi_create_error(env, NULL, error_msg, &error);
+		napi_handle_scope handle_scope;
+		napi_open_handle_scope(env, &handle_scope);
+		napi_reject_deferred(env, deferred, error);
+		napi_close_handle_scope(env, handle_scope);
+		return promise;
+	}
+
+	if (event_loop_started_deferred != NULL) {
+		napi_value error;
+		napi_value error_msg;
+		napi_create_string_utf8(env, "Cannot start. A start loop operation is pending.",
+								NAPI_AUTO_LENGTH, &error_msg);
+
+		napi_create_error(env, NULL, error_msg, &error);
+
+		napi_handle_scope handle_scope;
+		napi_open_handle_scope(env, &handle_scope);
+		napi_reject_deferred(env, deferred, error);
+		napi_close_handle_scope(env, handle_scope);
+		return promise;
+	}
+
+	event_loop_closed_deferred = deferred;
+	resolution_env = env;
+
 	destroy_all_children(env, visible_windows);
 	clear_children(env, visible_windows);
 	visible_windows = create_children_list();
-	stopLoop();
-	return NULL;
+
+	LIBUI_NODE_DEBUG("visible windows cleaned up");
+
+	uv_timer_init(uv_default_loop(), &closeTimer);
+	uv_timer_start(&closeTimer, stopAsync, 1, 0);
+
+	LIBUI_NODE_DEBUG("stop async started");
+
+	return promise;
 }
 
 // this function signal make background

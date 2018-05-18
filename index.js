@@ -1,5 +1,5 @@
 const libui = require(`${__dirname}/ui.node`);
-const async_hooks = require('@creditkarma/async-hooks');
+const async_hooks = require('async_hooks');
 const EventLoop = libui.EventLoop;
 delete libui.EventLoop;
 
@@ -228,7 +228,7 @@ libui.startLoop = () => {
 	// to begin executing callbacks.
 	asyncHook.enable();
 
-	EventLoop.start();
+	return EventLoop.start();
 };
 
 libui.stopLoop = () => {
@@ -238,7 +238,7 @@ libui.stopLoop = () => {
 	asyncHook.disable();
 	asyncHook = null;
 
-	EventLoop.stop();
+	return EventLoop.stop();
 };
 
 // This is called when a new async handle
