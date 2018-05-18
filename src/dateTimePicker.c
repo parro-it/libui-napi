@@ -26,6 +26,7 @@ LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onChanged");
@@ -44,6 +45,7 @@ LIBUI_FUNCTION(onChanged) {
 LIBUI_FUNCTION(setTime) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT64(value, 1);
 	struct tm *tm_value = localtime((const long *)&value);
 	uiDateTimePickerSetTime(uiDateTimePicker(handle->control), tm_value);
@@ -53,12 +55,10 @@ LIBUI_FUNCTION(setTime) {
 LIBUI_FUNCTION(getTime) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	struct tm time;
 	uiDateTimePickerTime(uiDateTimePicker(handle->control), &time);
-	// char s[1024];
-	// strftime(s, 1024, "%d/%m/%Y %H:%M", &time);
 
-	// printf("%s\n", s);
 	return make_int64(env, mktime(&time));
 }
 

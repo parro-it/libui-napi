@@ -19,11 +19,13 @@ class UiMultilineEntry extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiMultilineEntry);
 		return MultilineEntry.getText(this.handle);
 	}
 
 	set text(value) {
-		MultilineEntry.setText(this.handle, value);
+		this._ensureType(UiMultilineEntry);
+		MultilineEntry.setText(this.handle, String(value));
 	}
 
 	/**
@@ -31,11 +33,13 @@ class UiMultilineEntry extends UiControl {
 	 * @return {boolean}
 	 */
 	get readOnly() {
+		this._ensureType(UiMultilineEntry);
 		return MultilineEntry.getReadOnly(this.handle);
 	}
 
 	set readOnly(value) {
-		MultilineEntry.setReadOnly(this.handle, value);
+		this._ensureType(UiMultilineEntry);
+		MultilineEntry.setReadOnly(this.handle, Boolean(value));
 	}
 
 	/**
@@ -43,7 +47,8 @@ class UiMultilineEntry extends UiControl {
 	 * @param  {string} text - the text to append.
 	 */
 	append(text) {
-		MultilineEntry.append(this.handle, text);
+		this._ensureType(UiMultilineEntry);
+		MultilineEntry.append(this.handle, String(text));
 	}
 
 	/**
@@ -54,6 +59,7 @@ class UiMultilineEntry extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiMultilineEntry);
 		MultilineEntry.onChanged(this.handle, callback);
 	}
 }

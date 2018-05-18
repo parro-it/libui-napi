@@ -16,13 +16,15 @@ class UiCombobox extends UiControl {
 
 	/**
 	 * Return or set the current selected item by index.
-	 * @return {string}
+	 * @return {number}
 	 */
 	get selected() {
+		this._ensureType(UiCombobox);
 		return Combobox.getSelected(this.handle);
 	}
 
 	set selected(value) {
+		this._ensureType(UiCombobox);
 		Combobox.setSelected(this.handle, value);
 	}
 
@@ -31,7 +33,8 @@ class UiCombobox extends UiControl {
 	 * @param  {string} text - the item to append.
 	 */
 	append(text) {
-		Combobox.append(this.handle, text);
+		this._ensureType(UiCombobox);
+		Combobox.append(this.handle, String(text));
 	}
 
 	/**
@@ -42,6 +45,7 @@ class UiCombobox extends UiControl {
 	 * fired.
 	 */
 	onSelected(callback) {
+		this._ensureType(UiCombobox);
 		Combobox.onSelected(this.handle, callback);
 	}
 }

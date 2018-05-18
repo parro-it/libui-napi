@@ -92,7 +92,14 @@
 	{                                                                                              \
 		size_t string_len;                                                                         \
 		napi_status status = napi_get_value_string_utf8(env, argv[ARG_IDX], NULL, 0, &string_len); \
-		CHECK_STATUS_THROW(status, napi_get_value_string_utf8);                                    \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
 		ARG_NAME = malloc(string_len + 1);                                                         \
 		status =                                                                                   \
 			napi_get_value_string_utf8(env, argv[ARG_IDX], ARG_NAME, string_len + 1, &string_len); \
@@ -161,6 +168,17 @@ NULL, &ret); \
 		return NULL;                                                                               \
 	}
 
+#define CHECK_STATUS_PENDING(STATUS, FN)                                                           \
+	if (STATUS != napi_ok) {                                                                       \
+		const napi_extended_error_info *result;                                                    \
+		napi_get_last_error_info(env, &result);                                                    \
+		char err[1024];                                                                            \
+		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code,           \
+				 result->error_message);                                                           \
+		napi_throw_error(env, NULL, err);                                                          \
+		return napi_pending_exception;                                                             \
+	}
+
 #define CHECK_STATUS_UNCAUGHT(STATUS, FN, ERROR_RET)                                               \
 	if (STATUS != napi_ok) {                                                                       \
 		const napi_extended_error_info *result;                                                    \
@@ -168,10 +186,21 @@ NULL, &ret); \
 		char err[1024];                                                                            \
 		snprintf(err, 1024, #FN " failed with code %d: %s\n", result->engine_error_code,           \
 				 result->error_message);                                                           \
-		napi_fatal_error("", NAPI_AUTO_LENGTH, err, NAPI_AUTO_LENGTH);                             \
+		napi_value error;                                                                          \
+		napi_value error_msg;                                                                      \
+		napi_create_string_utf8(env, err, NAPI_AUTO_LENGTH, &error_msg);                           \
+		napi_create_error(env, NULL, error_msg, &error);                                           \
+		napi_fatal_exception(env, error);                                                          \
 		return ERROR_RET;                                                                          \
 	}
 
+#define ENSURE_NOT_DESTROYED()                                                                     \
+	{                                                                                              \
+		if (handle->is_destroyed) {                                                                \
+			napi_throw_error(env, NULL, "Method called on destroyed control.");                    \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
 // debug
 
 #define UI_NODE_DEBUG 0

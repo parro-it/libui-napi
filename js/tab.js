@@ -20,10 +20,12 @@ class UiTab extends UiControl {
 	 * @return {boolean}
 	 */
 	get margined() {
+		this._ensureType(UiTab);
 		return Tab.getMargined(this.handle);
 	}
 
 	set margined(value) {
+		this._ensureType(UiTab);
 		Tab.setMargined(this.handle, Boolean(value));
 	}
 
@@ -33,6 +35,9 @@ class UiTab extends UiControl {
 	 * @param  {boolean} string - the text to show for the new page caption.
 	 */
 	append(label, control) {
+		this._ensureType(UiTab);
+		control._ensureType(UiControl, 'control');
+
 		Tab.append(this.handle, String(label), control.handle);
 	}
 
@@ -43,6 +48,10 @@ class UiTab extends UiControl {
 	 * @param  {UiControl} control - the control to insert
 	 */
 	insertAt(label, before, control) {
+		this._ensureType(UiTab);
+		before._ensureType(UiControl, 'before');
+		control._ensureType(UiControl, 'control');
+
 		Tab.insertAt(this.handle, String(label), before, control.handle);
 	}
 
@@ -51,6 +60,7 @@ class UiTab extends UiControl {
 	 * @return {number} number of pages
 	 */
 	numPages() {
+		this._ensureType(UiTab);
 		return Tab.numPages(this.handle);
 	}
 
@@ -59,6 +69,7 @@ class UiTab extends UiControl {
 	 * @param  {number} index - the index of the tab to remove.
 	 */
 	deleteAt(index) {
+		this._ensureType(UiTab);
 		Tab.numPages(this.handle, Number(index));
 	}
 }

@@ -14,7 +14,7 @@ class UiGroup extends UiControl {
 	 * @return {UiGroup} new instance.
 	 */
 	constructor(title = '') {
-		super(Group.create(title));
+		super(Group.create(String(title)));
 	}
 
 	/**
@@ -23,10 +23,12 @@ class UiGroup extends UiControl {
 	 * @return {string}
 	 */
 	get title() {
+		this._ensureType(UiGroup);
 		return Group.getTitle(this.handle);
 	}
 
 	set title(value) {
+		this._ensureType(UiGroup);
 		Group.setTitle(this.handle, String(value));
 	}
 
@@ -40,6 +42,8 @@ class UiGroup extends UiControl {
 	 * available space.
 	 */
 	setChild(control, stretchy) {
+		this._ensureType(UiGroup);
+		control._ensureType(UiControl, 'control');
 		Group.setChild(this.handle, control.handle, Boolean(stretchy));
 	}
 
@@ -49,10 +53,12 @@ class UiGroup extends UiControl {
 	 * @return {boolean}
 	 */
 	get margined() {
+		this._ensureType(UiGroup);
 		return Group.getMargined(this.handle);
 	}
 
 	set margined(value) {
+		this._ensureType(UiGroup);
 		Group.setMargined(this.handle, Boolean(value));
 	}
 }

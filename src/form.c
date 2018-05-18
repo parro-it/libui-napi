@@ -8,12 +8,15 @@ static const char *MODULE = "Form";
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(4);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(label, 1);
 	ARG_POINTER(struct control_handle, child, 2);
 	ARG_BOOL(stretchy, 3);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiFormAppend(uiForm(handle->control), label, child->control, stretchy);
-	add_child(env, handle->children, child);
 	free(label);
 
 	return NULL;
@@ -22,6 +25,7 @@ LIBUI_FUNCTION(append) {
 LIBUI_FUNCTION(deleteAt) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(index, 1);
 
 	uiFormDelete(uiForm(handle->control), index);
@@ -32,6 +36,7 @@ LIBUI_FUNCTION(deleteAt) {
 LIBUI_FUNCTION(setPadded) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	uiFormSetPadded(uiForm(handle->control), value);
@@ -41,7 +46,7 @@ LIBUI_FUNCTION(setPadded) {
 LIBUI_FUNCTION(getPadded) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	bool value = uiFormPadded(uiForm(handle->control));
 	return make_bool(env, value);
 }

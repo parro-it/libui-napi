@@ -11,7 +11,7 @@ class UiCheckbox extends UiControl {
 	 * @return {UiCheckbox}
 	 */
 	constructor(label = '') {
-		super(Checkbox.create(label));
+		super(Checkbox.create(String(label)));
 	}
 
 	/**
@@ -19,11 +19,13 @@ class UiCheckbox extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiCheckbox);
 		return Checkbox.getText(this.handle);
 	}
 
 	set text(value) {
-		Checkbox.setText(this.handle, value);
+		this._ensureType(UiCheckbox);
+		Checkbox.setText(this.handle, String(value));
 	}
 
 	/**
@@ -31,11 +33,13 @@ class UiCheckbox extends UiControl {
 	 * @return {boolean}
 	 */
 	get checked() {
+		this._ensureType(UiCheckbox);
 		return Checkbox.getChecked(this.handle);
 	}
 
 	set checked(value) {
-		Checkbox.setChecked(this.handle, value);
+		this._ensureType(UiCheckbox);
+		Checkbox.setChecked(this.handle, Boolean(value));
 	}
 
 	/**
@@ -46,6 +50,7 @@ class UiCheckbox extends UiControl {
 	 * fired.
 	 */
 	onToggled(callback) {
+		this._ensureType(UiCheckbox);
 		Checkbox.onToggled(this.handle, callback);
 	}
 }

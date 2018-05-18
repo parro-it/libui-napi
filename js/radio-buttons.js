@@ -19,11 +19,13 @@ class UiRadioButtons extends UiControl {
 	 * @return {string}
 	 */
 	get selected() {
+		this._ensureType(UiRadioButtons);
 		return RadioButtons.getSelected(this.handle);
 	}
 
 	set selected(value) {
-		RadioButtons.setSelected(this.handle, value);
+		this._ensureType(UiRadioButtons);
+		RadioButtons.setSelected(this.handle, Boolean(value));
 	}
 
 	/**
@@ -31,7 +33,8 @@ class UiRadioButtons extends UiControl {
 	 * @param  {string} text - the text to append.
 	 */
 	append(text) {
-		RadioButtons.append(this.handle, text);
+		this._ensureType(UiRadioButtons);
+		RadioButtons.append(this.handle, String(text));
 	}
 
 	/**
@@ -42,6 +45,7 @@ class UiRadioButtons extends UiControl {
 	 * fired.
 	 */
 	onSelected(callback) {
+		this._ensureType(UiRadioButtons);
 		RadioButtons.onSelected(this.handle, callback);
 	}
 }

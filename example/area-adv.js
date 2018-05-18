@@ -1,70 +1,62 @@
 'use strict';
 const libui = require('..');
 
-const solidBrush = new libui.AreaDrawBrush(1, 0, 0, 1);
+const solidBrush = new libui.DrawBrush();
+solidBrush.type = libui.brushType.solid;
+solidBrush.color = new libui.Color(1, 0, 0, 1);
+console.log(solidBrush.color)
 
-const dashedStroke = new libui.AreaDrawStroke();
+const dashedStroke = new libui.DrawStrokeParams();
 dashedStroke.thickness = 6;
 dashedStroke.dashes = [10, 5];
 console.log(dashedStroke.dashes);
 
-const linearBrush =
-	new libui.AreaDrawBrushGradient(libui.AreaDrawBrushGradient.type.linear);
-linearBrush.start = {
-	x: 0,
-	y: 0
-};
-linearBrush.end = {
-	x: 200,
-	y: 200
-};
+const linearBrush = new libui.DrawBrush();
+linearBrush.type = libui.brushType.linearGradient;
+linearBrush.start = new libui.Point(0, 0);
+linearBrush.end = new libui.Point(200, 200);
+console.log(linearBrush.end)
 linearBrush.stops = [
-	new libui.AreaDrawBrushGradient.Stop(0, {r: 1, g: 0, b: 1, a: 1}),
-	new libui.AreaDrawBrushGradient.Stop(1, {r: 0, g: 1, b: 0, a: 1})
+	new libui.BrushGradientStop(0, new libui.Color(1, 0, 0, 1)),
+	new libui.BrushGradientStop(1, new libui.Color(0, 1, 0, 1))
 ];
 
-const radialBrush =
-	new libui.AreaDrawBrushGradient(libui.AreaDrawBrushGradient.type.radial);
-radialBrush.start = {
-	x: 250,
-	y: 300
-};
-radialBrush.end = {
-	x: 250,
-	y: 300
-};
+const radialBrush = new libui.DrawBrush();
+radialBrush.type = libui.brushType.radialGradient;
+radialBrush.start = new libui.Point(250, 300);
+radialBrush.end = new libui.Point(250, 300);
 radialBrush.outerRadius = 40;
 radialBrush.stops = [
-	new libui.AreaDrawBrushGradient.Stop(0, {r: 0, g: 0, b: 1, a: 1}),
-	new libui.AreaDrawBrushGradient.Stop(1, {r: 0.5, g: 0.5, b: 1, a: 1})
+	new libui.BrushGradientStop(0, new libui.Color(0, 0, 1, 1)),
+	new libui.BrushGradientStop(1, new libui.Color(0.5, 0.5, 1, 1))
 ];
-console.log(radialBrush.stops);
+console.log(radialBrush.stops.map(v => ({pos: v.pos, color: v.color})));
 
-const matrix = new libui.AreaDrawMatrix();
+const matrix = new libui.UiDrawMatrix();
 matrix.setIdentity();
 matrix.rotate(70, 280, (Math.PI / 180) * 45)
 
 function handlerDraw(area, p) {
-	let path = new libui.AreaDrawPath();
+	let path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.addRectangle(0, 0, 200, 200);
 	path.end();
 	p.context.fill(path, linearBrush);
 
 	// ------
 
-	path = new libui.AreaDrawPath();
+	path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.newFigure(0, 0);
 	path.arcTo(250, 300, 50, 0, 2 * Math.PI, false);
 	path.end();
 	p.context.fill(path, radialBrush);
 
-	path = new libui.AreaDrawPath();
+	path = new libui.UiDrawPath(libui.fillMode.winding);
 	path.newFigure(250, 20);
 	path.lineTo(300, 150);
 	path.end();
 	p.context.stroke(path, solidBrush, dashedStroke);
 
-	path = new libui.AreaDrawPath();
+	path = new libui.UiDrawPath(libui.fillMode.winding);
 	p.context.transform(matrix);
 	path.addRectangle(20, 230, 100, 100);
 	path.end();
@@ -74,7 +66,7 @@ function handlerDraw(area, p) {
 function noop() {}
 
 function main() {
-	const mainwin = new libui.UiWindow('libui textDrawArea Example', 400, 400, true);
+	const mainwin = new libui.UiWindow('libui textDrawArea Example', 400, 400, 1);
 	mainwin.margined = true;
 	mainwin.onClosing(() => {
 		mainwin.close();

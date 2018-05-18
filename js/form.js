@@ -19,10 +19,12 @@ class UiForm extends UiControl {
 	 * @return {boolean}
 	 */
 	get padded() {
+		this._ensureType(UiForm);
 		return Form.getPadded(this.handle);
 	}
 
 	set padded(value) {
+		this._ensureType(UiForm);
 		Form.setPadded(this.handle, Boolean(value));
 	}
 
@@ -34,8 +36,9 @@ class UiForm extends UiControl {
 	 * available space.
 	 */
 	append(label, control, stretchy) {
-
-		Form.append(this.handle, label, control.handle, Boolean(stretchy));
+		this._ensureType(UiForm);
+		control._ensureType(UiControl, 'control');
+		Form.append(this.handle, String(label), control.handle, Boolean(stretchy));
 	}
 
 	/**
@@ -43,6 +46,7 @@ class UiForm extends UiControl {
 	 * @param  {number} index - the index of the control to remove
 	 */
 	deleteAt(index) {
+		this._ensureType(UiForm);
 		Form.deleteAt(this.handle, index);
 	}
 }

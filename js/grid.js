@@ -23,6 +23,7 @@ class UiGrid extends UiControl {
 	}
 
 	set padded(value) {
+		this._ensureType(UiGrid);
 		Grid.setPadded(this.handle, Boolean(value));
 	}
 
@@ -41,6 +42,10 @@ class UiGrid extends UiControl {
 	 components in the row.
 	 */
 	insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpan, valign) {
+		this._ensureType(UiGrid);
+		child._ensureType(UiControl, 'child');
+		before._ensureType(UiControl, 'before');
+
 		Tab.insertAt(this.handle, child.handle, before.handle, at, xspan, yspan, hexpand,
 					 halign, vexpan, valign);
 	}
@@ -64,6 +69,9 @@ class UiGrid extends UiControl {
 	 * components in the row.
 	 */
 	append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign) {
+		this._ensureType(UiGrid);
+		child._ensureType(UiControl, 'control');
+
 		Grid.append(this.handle, child.handle, left, top, xspan, yspan, hexpand, halign,
 					vexpand, valign);
 	}

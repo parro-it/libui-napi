@@ -8,17 +8,21 @@ static const char *MODULE = "Box";
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(3);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_BOOL(stretchy, 2);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiBoxAppend(uiBox(handle->control), child->control, stretchy);
-	add_child(env, handle->children, child);
 	return NULL;
 }
 
 LIBUI_FUNCTION(deleteAt) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(index, 1);
 
 	uiBoxDelete(uiBox(handle->control), index);
@@ -29,6 +33,7 @@ LIBUI_FUNCTION(deleteAt) {
 LIBUI_FUNCTION(setPadded) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	uiBoxSetPadded(uiBox(handle->control), value);
@@ -38,7 +43,7 @@ LIBUI_FUNCTION(setPadded) {
 LIBUI_FUNCTION(getPadded) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	bool value = uiBoxPadded(uiBox(handle->control));
 	return make_bool(env, value);
 }

@@ -20,10 +20,12 @@ class UiLabel extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiLabel);
 		return Label.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiLabel);
 		Label.setText(this.handle, String(value));
 	}
 }

@@ -18,6 +18,7 @@ LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onChanged");
@@ -35,6 +36,7 @@ LIBUI_FUNCTION(onChanged) {
 LIBUI_FUNCTION(setValue) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(value, 1);
 
 	uiSpinboxSetValue(uiSpinbox(handle->control), value);
@@ -44,7 +46,7 @@ LIBUI_FUNCTION(setValue) {
 LIBUI_FUNCTION(getValue) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	int value = uiSpinboxValue(uiSpinbox(handle->control));
 	return make_int32(env, value);
 }

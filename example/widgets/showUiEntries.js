@@ -72,13 +72,13 @@ toggleVisibleBtn.onClicked(() => {
 	setEntryBtn.visible = !setEntryBtn.visible;
 	setSearchBtn.visible = setEntryBtn.visible;
 	setPasswordBtn.visible = setEntryBtn.visible;
-	setSpinboxBtn.visible = setEntryBtn.visible;
+	setSpinboxBtn.setVisible(setEntryBtn.visible);
 	toggleReadOnlyBtn.visible = setEntryBtn.visible;
 });
 toolbar.append(toggleVisibleBtn, false);
 
 const box = new libui.UiVerticalBox();
-box.padded = true;
+box.setPadded(true);
 box.append(entry);
 box.append(entrySearch);
 box.append(entryPassword);

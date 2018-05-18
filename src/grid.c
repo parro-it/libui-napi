@@ -8,6 +8,7 @@ static const char *MODULE = "Grid";
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(10);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_INT32(left, 2);
 	ARG_INT32(top, 3);
@@ -18,9 +19,11 @@ LIBUI_FUNCTION(append) {
 	ARG_INT32(vexpand, 8);
 	ARG_INT32(valign, 9);
 
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiGridAppend(uiGrid(handle->control), child->control, left, top, xspan, yspan, hexpand, halign,
 				 vexpand, valign);
-	add_child(env, handle->children, child);
 
 	return NULL;
 }
@@ -28,6 +31,7 @@ LIBUI_FUNCTION(append) {
 LIBUI_FUNCTION(setPadded) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	uiGridSetPadded(uiGrid(handle->control), value);
@@ -37,7 +41,7 @@ LIBUI_FUNCTION(setPadded) {
 LIBUI_FUNCTION(getPadded) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	bool value = uiGridPadded(uiGrid(handle->control));
 	return make_bool(env, value);
 }
@@ -50,6 +54,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(insertAt) {
 	INIT_ARGS(10);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_POINTER(struct control_handle, child, 1);
 	ARG_POINTER(struct control_handle, before, 2);
 	ARG_INT32(at, 3);
@@ -60,10 +65,12 @@ LIBUI_FUNCTION(insertAt) {
 	ARG_INT32(vexpand, 8);
 	ARG_INT32(valign, 9);
 
+	// TODO: fix this, insert at specific position
+	if (add_child(env, handle->children, child) != napi_ok) {
+		return NULL;
+	}
 	uiGridInsertAt(uiGrid(handle->control), child->control, before->control, at, xspan, yspan,
 				   hexpand, halign, vexpand, valign);
-	// TODO: fix this, insert at specific position
-	add_child(env, handle->children, child);
 	return NULL;
 }
 

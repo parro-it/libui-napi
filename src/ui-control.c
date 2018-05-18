@@ -8,18 +8,21 @@ static const char *MODULE = "ControlBase";
 LIBUI_FUNCTION(toplevel) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	return make_bool(env, uiControlToplevel(handle->control));
 }
 
 LIBUI_FUNCTION(getVisible) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	return make_bool(env, uiControlVisible(handle->control));
 }
 
 LIBUI_FUNCTION(setVisible) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 	if (value) {
 		uiControlShow(handle->control);
@@ -33,12 +36,14 @@ LIBUI_FUNCTION(setVisible) {
 LIBUI_FUNCTION(getEnabled) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	return make_bool(env, uiControlEnabled(handle->control));
 }
 
 LIBUI_FUNCTION(setEnabled) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	if (value) {

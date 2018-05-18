@@ -1,7 +1,7 @@
-const {App, Window, MultilineEntry, Box} = require('.');
+const libui = require('.');
+const {Window, MultilineEntry, Box} = libui;
 
-App.init();
-App.onShouldQuit(() => {
+libui.onShouldQuit(() => {
 	App.stop();
 	global.gc();
 });
@@ -78,7 +78,7 @@ function createWindow() {
 }
 
 createWindow();
-App.start();
+libui.startLoop();
 setInterval(() => {
 	global.gc();
 }, 10);

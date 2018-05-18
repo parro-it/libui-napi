@@ -27,7 +27,7 @@ function renderAll(...classes) {
 }
 
 renderAll(
-	['UiArea', 'js/{area.js,ui-control.js}'],
+	// ['UiArea', 'js/{area.js,ui-control.js}'],
 	['UiButton', 'js/{button.js,ui-control.js}'],
 	['UiCheckbox', 'js/{checkbox.js,ui-control.js}'],
 	['UiColorButton', 'js/{color-button.js,ui-control.js}'],

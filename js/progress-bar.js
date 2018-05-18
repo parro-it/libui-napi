@@ -20,10 +20,12 @@ class UiProgressBar extends UiControl {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiProgressBar);
 		return this._value;
 	}
 
 	set value(value) {
+		this._ensureType(UiProgressBar);
 		this._value = Number(value);
 		ProgressBar.setValue(this.handle, this._value);
 	}

@@ -4,20 +4,6 @@
 
 static const char *MODULE = "Dialogs";
 
-LIBUI_FUNCTION(create) {
-	INIT_ARGS(4);
-
-	ARG_STRING(title, 0);
-	ARG_INT32(width, 1);
-	ARG_INT32(height, 2);
-	ARG_BOOL(has_menubar, 3);
-
-	uiWindow *win = uiNewWindow(title, width, height, has_menubar);
-	free(title);
-
-	return control_handle_new(env, uiControl(win), "window");
-}
-
 LIBUI_FUNCTION(openFile) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, parent, 0);

@@ -15,10 +15,12 @@ class UiEntryBase extends UiControl {
 	 * @return {string}
 	 */
 	get text() {
+		this._ensureType(UiEntryBase);
 		return Entries.getText(this.handle);
 	}
 
 	set text(value) {
+		this._ensureType(UiEntryBase);
 		Entries.setText(this.handle, String(value));
 	}
 
@@ -27,10 +29,12 @@ class UiEntryBase extends UiControl {
 	 * @return {boolean}
 	 */
 	get readOnly() {
+		this._ensureType(UiEntryBase);
 		return Entries.getReadOnly(this.handle);
 	}
 
 	set readOnly(value) {
+		this._ensureType(UiEntryBase);
 		Entries.setReadOnly(this.handle, Boolean(value));
 	}
 
@@ -42,6 +46,7 @@ class UiEntryBase extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiEntryBase);
 		Entries.onChanged(this.handle, callback);
 	}
 }

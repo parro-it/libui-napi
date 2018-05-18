@@ -1,3 +1,4 @@
+
 #include <ui.h>
 #include "napi_utils.h"
 #include "control.h"
@@ -23,7 +24,7 @@ static const char *MODULE = "AreaStrokeParams";
                                                                                                    \
 		ARG_POINTER(uiDrawStrokeParams, handle, 0);                                                \
                                                                                                    \
-		double v = handle->Thickness;                                                              \
+		double v = handle->VALUE;                                                                  \
 		return make_double(env, v);                                                                \
 	}
 
@@ -45,7 +46,7 @@ static const char *MODULE = "AreaStrokeParams";
                                                                                                    \
 		ARG_POINTER(uiDrawStrokeParams, handle, 0);                                                \
                                                                                                    \
-		int v = handle->Thickness;                                                                 \
+		int v = handle->VALUE;                                                                     \
 		return make_int32(env, v);                                                                 \
 	}
 

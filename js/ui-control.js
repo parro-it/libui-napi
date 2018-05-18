@@ -9,6 +9,14 @@ class UiControl {
 		this.handle = handle;
 	}
 
+	_ensureType(expectedContructor, argName = 'this') {
+		if (this instanceof expectedContructor) {
+			return;
+		}
+		throw new TypeError(`Expect a ${expectedContructor.name} "${argName}", got a ${
+			this.constructor.name}`);
+	}
+
 	/**
 	 * Set or return whether the control is enabled.
 	 * @return {boolean}

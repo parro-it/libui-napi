@@ -26,7 +26,7 @@
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
     "test": "cross-env LIBUI_TARGET=test node-gyp configure build && cross-env LIBUI_TARGET=test tape tests/**/*.js",
     "precommit": "check-clang-format \"'npm run lint'\"",
-    "lint": "clang-format -i --glob='{tests/**/*.{h,c,m,js},example/*.js,js/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js,tools/*.js}'"
+    "lint": "clang-format -i --glob='{tests/**/*.{h,c,m,js},example/*.js,js/**/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js,tools/*.js}'"
   },
   "dependencies": {
     "@creditkarma/async-hooks": "0.0.4",

@@ -14,10 +14,12 @@ class UiBox extends UiControl {
 	 * @return {boolean}
 	 */
 	get padded() {
+		this._ensureType(UiBox);
 		return Box.getPadded(this.handle);
 	}
 
 	set padded(value) {
+		this._ensureType(UiBox);
 		Box.setPadded(this.handle, Boolean(value));
 	}
 
@@ -28,6 +30,8 @@ class UiBox extends UiControl {
 	 * available space.
 	 */
 	append(control, stretchy) {
+		this._ensureType(UiBox);
+		control._ensureType(UiControl, 'control');
 		Box.append(this.handle, control.handle, Boolean(stretchy));
 	}
 
@@ -36,6 +40,7 @@ class UiBox extends UiControl {
 	 * @param  {number} index - the index of the control to remove
 	 */
 	deleteAt(index) {
+		this._ensureType(UiBox);
 		Box.deleteAt(this.handle, index);
 	}
 }

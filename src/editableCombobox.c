@@ -13,6 +13,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(setText) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(value, 1);
 	uiEditableComboboxSetText(uiEditableCombobox(handle->control), value);
 	free(value);
@@ -22,6 +23,7 @@ LIBUI_FUNCTION(setText) {
 LIBUI_FUNCTION(getText) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	char *char_ptr = uiEditableComboboxText(uiEditableCombobox(handle->control));
 	napi_value result = make_utf8_string(env, char_ptr);
 	uiFreeText(char_ptr);
@@ -31,6 +33,7 @@ LIBUI_FUNCTION(getText) {
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(value, 1);
 	uiEditableComboboxAppend(uiEditableCombobox(handle->control), value);
 	free(value);
@@ -41,6 +44,7 @@ LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onChanged");

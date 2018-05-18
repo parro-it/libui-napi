@@ -12,7 +12,7 @@ class UiSlider extends UiControl {
 	 * @param  {number} max - maximum value of the slider.
 	 * @return {UiSlider}
 	 */
-	constructor(min, max) {
+	constructor(min = 0, max = 100) {
 		super(Slider.create(min, max));
 	}
 
@@ -21,11 +21,13 @@ class UiSlider extends UiControl {
 	 * @return {number}
 	 */
 	get value() {
+		this._ensureType(UiSlider);
 		return Slider.getValue(this.handle);
 	}
 
 	set value(value) {
-		Slider.setValue(this.handle, Number(value));
+		this._ensureType(UiSlider);
+		Slider.setValue(this.handle, value);
 	}
 
 	/**
@@ -36,6 +38,7 @@ class UiSlider extends UiControl {
 	 * fired.
 	 */
 	onChanged(callback) {
+		this._ensureType(UiSlider);
 		Slider.onChanged(this.handle, callback);
 	}
 }

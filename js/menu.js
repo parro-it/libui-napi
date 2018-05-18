@@ -11,7 +11,7 @@ class UiMenu {
 	 * @return {UiMenu}
 	 */
 	constructor(caption) {
-		this.handle = Menu.create(caption);
+		this.handle = Menu.create(String(caption));
 	}
 
 	/**
@@ -20,7 +20,7 @@ class UiMenu {
 	 * @return {UiMenuItem} the new appended UiMenuItem
 	 */
 	appendItem(caption) {
-		return new UiMenuItem(Menu.appendItem(this.handle, caption));
+		return new UiMenuItem(Menu.appendItem(this.handle, String(caption)));
 	}
 
 	/**
@@ -29,7 +29,7 @@ class UiMenu {
 	 * @return {UiMenuItem} the new appended UiMenuItem
 	 */
 	appendCheckItem(caption) {
-		return new UiMenuItem(Menu.appendCheckItem(this.handle, caption));
+		return new UiMenuItem(Menu.appendCheckItem(this.handle, String(caption)));
 	}
 
 	/**
@@ -113,7 +113,7 @@ class UiMenuItem {
 	}
 
 	set checked(value) {
-		Menu.setItemChecked(this.handle, value);
+		Menu.setItemChecked(this.handle, Boolean(value));
 	}
 }
 
