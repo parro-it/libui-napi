@@ -26,6 +26,8 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_area(env, exports);
 	_libui_init_fontbutton(env, exports);
 	_libui_init_font_descriptor(env, exports);
+	_libui_init_font_attribute(env, exports);
+	_libui_init_font_opentype(env, exports);
 	_libui_init_area(env, exports);
 	_libui_init_area_brush(env, exports);
 	_libui_init_area_context(env, exports);

@@ -8,7 +8,7 @@ static void free_font_descriptor(napi_env env, void *finalize_data, void *finali
 	free(font);
 }
 
-napi_value create_with_descriptor(napi_env env, uiFontDescriptor *font) {
+napi_value create_font_descriptor(napi_env env, uiFontDescriptor *font) {
 	napi_value font_external;
 	napi_status status =
 		napi_create_external(env, font, free_font_descriptor, NULL, &font_external);
@@ -31,7 +31,7 @@ LIBUI_FUNCTION(create) {
 	font->Weight = weight;
 	font->Italic = italic;
 	font->Stretch = stretch;
-	return create_with_descriptor(env, font);
+	return create_font_descriptor(env, font);
 }
 
 LIBUI_FUNCTION(getFamily) {

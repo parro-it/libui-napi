@@ -6,7 +6,8 @@
 
 static const char *MODULE = "FontButton";
 
-napi_value create_with_descriptor(napi_env env, uiFontDescriptor *font);
+// font-descriptor.c
+napi_value create_font_descriptor(napi_env env, uiFontDescriptor *font);
 
 LIBUI_FUNCTION(create) {
 	uiControl *ctrl = uiControl(uiNewFontButton());
@@ -38,7 +39,7 @@ LIBUI_FUNCTION(getFont) {
 
 	uiFontDescriptor *desc = malloc(sizeof(uiFontDescriptor));
 	uiFontButtonFont(uiFontButton(handle->control), desc);
-	return create_with_descriptor(env, desc);
+	return create_font_descriptor(env, desc);
 }
 
 napi_value _libui_init_fontbutton(napi_env env, napi_value exports) {
