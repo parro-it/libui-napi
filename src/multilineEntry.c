@@ -13,7 +13,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	ARG_CB_REF(cb_ref, 1);
 
@@ -32,7 +32,7 @@ LIBUI_FUNCTION(onChanged) {
 
 LIBUI_FUNCTION(setText) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(value, 1);
 	uiMultilineEntrySetText(uiMultilineEntry(handle->control), value);
 	free(value);
@@ -41,7 +41,7 @@ LIBUI_FUNCTION(setText) {
 
 LIBUI_FUNCTION(getText) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	char *char_ptr = uiMultilineEntryText(uiMultilineEntry(handle->control));
 	napi_value result = make_utf8_string(env, char_ptr);
 	uiFreeText(char_ptr);
@@ -50,7 +50,7 @@ LIBUI_FUNCTION(getText) {
 
 LIBUI_FUNCTION(setReadOnly) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiMultilineEntrySetReadOnly(uiMultilineEntry(handle->control), value);
@@ -59,7 +59,7 @@ LIBUI_FUNCTION(setReadOnly) {
 
 LIBUI_FUNCTION(getReadOnly) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	bool value = uiMultilineEntryReadOnly(uiMultilineEntry(handle->control));
 	return make_bool(env, value);
@@ -67,7 +67,7 @@ LIBUI_FUNCTION(getReadOnly) {
 
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("multilineEntry", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(value, 1);
 	uiMultilineEntryAppend(uiMultilineEntry(handle->control), value);
 	free(value);

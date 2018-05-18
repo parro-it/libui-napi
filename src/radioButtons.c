@@ -12,7 +12,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(setSelected) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("radioButtons", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_INT32(idx, 1);
 	uiRadioButtonsSetSelected(uiRadioButtons(handle->control), idx);
 	return NULL;
@@ -20,14 +20,14 @@ LIBUI_FUNCTION(setSelected) {
 
 LIBUI_FUNCTION(getSelected) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("radioButtons", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	int idx = uiRadioButtonsSelected(uiRadioButtons(handle->control));
 	return make_int32(env, idx);
 }
 
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("radioButtons", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(value, 1);
 	uiRadioButtonsAppend(uiRadioButtons(handle->control), value);
 	free(value);
@@ -37,7 +37,7 @@ LIBUI_FUNCTION(append) {
 LIBUI_FUNCTION(onSelected) {
 	INIT_ARGS(2);
 
-	ARG_CTRL_HANDLE("radioButtons", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onSelected");

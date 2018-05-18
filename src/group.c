@@ -7,7 +7,7 @@ static const char *MODULE = "Group";
 
 LIBUI_FUNCTION(setMargined) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("group", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_BOOL(value, 1);
 
 	uiGroupSetMargined(uiGroup(handle->control), value);
@@ -16,7 +16,7 @@ LIBUI_FUNCTION(setMargined) {
 
 LIBUI_FUNCTION(getMargined) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("group", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	bool value = uiGroupMargined(uiGroup(handle->control));
 	return make_bool(env, value);
@@ -31,7 +31,7 @@ LIBUI_FUNCTION(create) {
 
 LIBUI_FUNCTION(getTitle) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("group", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	char *char_ptr = uiGroupTitle(uiGroup(handle->control));
 	napi_value result;
 
@@ -44,7 +44,7 @@ LIBUI_FUNCTION(getTitle) {
 
 LIBUI_FUNCTION(setTitle) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("group", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_STRING(title, 1);
 	uiGroupSetTitle(uiGroup(handle->control), title);
 	free(title);
@@ -53,7 +53,7 @@ LIBUI_FUNCTION(setTitle) {
 
 LIBUI_FUNCTION(setChild) {
 	INIT_ARGS(2);
-	ARG_CTRL_HANDLE("group", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 	ARG_POINTER(struct control_handle, child, 1);
 	uiGroupSetChild(uiGroup(handle->control), child->control);
 	clear_children(env, handle->children);

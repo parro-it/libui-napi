@@ -14,7 +14,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
-	ARG_CTRL_HANDLE("colorButton", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	ARG_CB_REF(cb_ref, 1);
 
@@ -33,7 +33,7 @@ LIBUI_FUNCTION(onChanged) {
 
 LIBUI_FUNCTION(setColor) {
 	INIT_ARGS(5);
-	ARG_CTRL_HANDLE("colorButton", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	ARG_DOUBLE(r, 1);
 	ARG_DOUBLE(g, 2);
@@ -46,7 +46,7 @@ LIBUI_FUNCTION(setColor) {
 
 LIBUI_FUNCTION(getColor) {
 	INIT_ARGS(1);
-	ARG_CTRL_HANDLE("colorButton", handle, 0);
+	ARG_POINTER(struct control_handle, handle, 0);
 
 	double r, g, b, a;
 
