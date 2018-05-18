@@ -15,7 +15,7 @@ LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onChanged");
@@ -34,7 +34,7 @@ LIBUI_FUNCTION(onChanged) {
 LIBUI_FUNCTION(setColor) {
 	INIT_ARGS(5);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	ARG_DOUBLE(r, 1);
 	ARG_DOUBLE(g, 2);
 	ARG_DOUBLE(b, 3);
@@ -47,7 +47,7 @@ LIBUI_FUNCTION(setColor) {
 LIBUI_FUNCTION(getColor) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	double r, g, b, a;
 
 	uiColorButtonColor(uiColorButton(handle->control), &r, &g, &b, &a);

@@ -73,6 +73,7 @@ const {UiHorizontalSeparator} = require('./js/horizontal-separator');
 const {UiVerticalSeparator} = require('./js/vertical-separator');
 const {UiTab} = require('./js/tab');
 const {UiGrid} = require('./js/grid');
+const {UiEntryBase} = require('./js/entry-base');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 
 function applySetterGetter(...classConstructors) {
@@ -139,13 +140,13 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 }
 
 // Takes about 1.8ms:
-applySetterGetter(UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
-				  UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons,
-				  UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry,
-				  UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker,
-				  UiCombobox, UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel,
-				  UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
-				  UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
+applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
+				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
+				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
+				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
+				  UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
+				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
+				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
 				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent);
 applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);

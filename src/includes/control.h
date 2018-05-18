@@ -119,6 +119,11 @@ struct children_node *create_node(struct control_handle *child);
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child);
 
 /*
+	return true if list contains child.
+*/
+bool has_child(struct children_list *list, struct control_handle *child);
+
+/*
 	remove and decrement a child of a control contained at a specified position
    of a children_list.
 */

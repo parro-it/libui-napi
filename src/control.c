@@ -12,6 +12,8 @@ int control_event_cb(void *ctrl, void *data) {
 }
 
 void control_on_destroy(uiControl *control) {
+	LIBUI_NODE_DEBUG("A control is destroying.");
+
 	struct control_handle *handle;
 	ctrl_map_get(&controls_map, control, &handle);
 	LIBUI_NODE_DEBUG_F("Control %s %p destroying.", handle->ctrl_type_name, handle);
@@ -24,6 +26,7 @@ void control_on_destroy(uiControl *control) {
 
 	LIBUI_NODE_DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
 	if (handle->is_garbage_collected) {
+		LIBUI_NODE_DEBUG_F("%s %p handle freeing.", handle->ctrl_type_name, handle);
 		handle->is_freed = true;
 		free(handle->children);
 		free(handle->events);
@@ -32,6 +35,7 @@ void control_on_destroy(uiControl *control) {
 	} else {
 		handle->is_destroyed = true;
 	}
+	LIBUI_NODE_DEBUG("A control is destroyed.");
 }
 
 static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint) {
@@ -75,6 +79,8 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl
 }
 
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child) {
+	printf("removing child %p", child);
+	printf(" list->head %p", list->head);
 	if (list->head == NULL) {
 		return NULL;
 	}
@@ -83,6 +89,7 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 	struct children_node *prev_node = NULL;
 
 	while (node != NULL) {
+		printf("found child %p", node->handle);
 		if (node->handle == child) {
 			uint32_t new_ref_count;
 			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
@@ -113,6 +120,17 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 		node = node->next;
 	}
 	return NULL;
+}
+
+bool has_child(struct children_list *list, struct control_handle *child) {
+	struct children_node *node = list->head;
+	while (node != NULL) {
+		if (node->handle == child) {
+			return true;
+		}
+		node = node->next;
+	}
+	return false;
 }
 
 napi_value add_child_at(napi_env env, struct children_list *list, struct control_handle *child,

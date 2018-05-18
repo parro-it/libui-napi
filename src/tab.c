@@ -8,6 +8,7 @@ static const char *MODULE = "Tab";
 LIBUI_FUNCTION(append) {
 	INIT_ARGS(3);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(label, 1);
 	ARG_POINTER(struct control_handle, child, 2);
 
@@ -19,6 +20,7 @@ LIBUI_FUNCTION(append) {
 LIBUI_FUNCTION(insertAt) {
 	INIT_ARGS(4);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(label, 1);
 	ARG_INT32(before, 2);
 	ARG_POINTER(struct control_handle, child, 3);
@@ -32,6 +34,7 @@ LIBUI_FUNCTION(insertAt) {
 LIBUI_FUNCTION(deleteAt) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(index, 1);
 
 	uiTabDelete(uiTab(handle->control), index);
@@ -42,6 +45,7 @@ LIBUI_FUNCTION(deleteAt) {
 LIBUI_FUNCTION(setMargined) {
 	INIT_ARGS(3);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(page, 1);
 	ARG_BOOL(value, 2);
 
@@ -52,6 +56,7 @@ LIBUI_FUNCTION(setMargined) {
 LIBUI_FUNCTION(getMargined) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_INT32(page, 1);
 
 	bool value = uiTabMargined(uiTab(handle->control), page);
@@ -66,7 +71,7 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(numPages) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	int value = uiTabNumPages(uiTab(handle->control));
 	return make_int32(env, value);
 }

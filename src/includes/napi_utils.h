@@ -179,9 +179,16 @@ NULL, &ret); \
 		return ERROR_RET;                                                                          \
 	}
 
+#define ENSURE_NOT_DESTROYED()                                                                     \
+	{                                                                                              \
+		if (handle->is_destroyed) {                                                                \
+			napi_throw_error(env, NULL, "Method called on destroyed control.");                    \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
 // debug
 
-#define UI_NODE_DEBUG 0
+#define UI_NODE_DEBUG 1
 
 #if UI_NODE_DEBUG
 #define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")

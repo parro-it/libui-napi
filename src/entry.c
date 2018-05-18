@@ -24,6 +24,7 @@ LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_CB_REF(cb_ref, 1);
 
 	struct event_t *event = create_event(env, cb_ref, "onChanged");
@@ -41,6 +42,7 @@ LIBUI_FUNCTION(onChanged) {
 LIBUI_FUNCTION(setText) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_STRING(value, 1);
 	uiEntrySetText(uiEntry(handle->control), value);
 	free(value);
@@ -50,6 +52,7 @@ LIBUI_FUNCTION(setText) {
 LIBUI_FUNCTION(getText) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	char *char_ptr = uiEntryText(uiEntry(handle->control));
 	napi_value result = make_utf8_string(env, char_ptr);
 	uiFreeText(char_ptr);
@@ -59,6 +62,7 @@ LIBUI_FUNCTION(getText) {
 LIBUI_FUNCTION(setReadOnly) {
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
 	ARG_BOOL(value, 1);
 
 	uiEntrySetReadOnly(uiEntry(handle->control), value);
@@ -68,7 +72,7 @@ LIBUI_FUNCTION(setReadOnly) {
 LIBUI_FUNCTION(getReadOnly) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct control_handle, handle, 0);
-
+	ENSURE_NOT_DESTROYED();
 	bool value = uiEntryReadOnly(uiEntry(handle->control));
 	return make_bool(env, value);
 }

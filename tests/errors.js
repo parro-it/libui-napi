@@ -1,5 +1,13 @@
 const test = require('tape');
-const {UiSlider, UiWindow, UiVerticalBox, UiHorizontalBox} = require('..');
+const {
+	UiSlider,
+	UiWindow,
+	UiVerticalBox,
+	UiHorizontalBox,
+	UiMultilineEntry,
+	startLoop,
+	stopLoop
+} = require('..');
 
 test('string arg are coherced', t => {
 	t.plan(1);
@@ -46,4 +54,53 @@ test('handler must be of correct control - arguments', t => {
 	const box = new UiVerticalBox('test', 42, 42, 1);
 	const win = new UiWindow(null, 42, 42, true);
 	t.throws(() => box.append(win, true), /Expect a UiControl "control", got a UiWindow/);
+});
+
+test('call method on destroyed control', t => {
+	t.plan(1);
+	startLoop();
+	const entry = new UiMultilineEntry();
+	const win = new UiWindow(null, 42, 42, true);
+	win.setChild(entry);
+	win.show();
+	win.close();
+	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
+	stopLoop();
+});
+
+test('call method on destroyed window', t => {
+	t.plan(1);
+	startLoop();
+	const win = new UiWindow(null, 42, 42, true);
+	win.show();
+	win.close();
+	t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
+	stopLoop();
+});
+
+test('call window close before show', t => {
+	t.plan(1);
+	startLoop();
+	const win = new UiWindow(null, 42, 42, true);
+	t.throws(() => win.close(), /Close called on closed window./);
+	stopLoop();
+});
+
+test('call window close more then once', t => {
+	t.plan(1);
+	startLoop();
+	const win = new UiWindow(null, 42, 42, true);
+	win.show();
+	win.close();
+	t.throws(() => win.close(), /Close called on closed window./);
+	stopLoop();
+});
+
+test('call window show more then once', t => {
+	t.plan(1);
+	startLoop();
+	const win = new UiWindow(null, 42, 42, true);
+	win.show();
+	t.throws(() => win.show(), /Show called on showed window./);
+	stopLoop();
 });
