@@ -263,7 +263,7 @@ LIBUI_FUNCTION(start) {
 LIBUI_FUNCTION(stop) {
 	destroy_all_children(env, visible_windows);
 	clear_children(env, visible_windows);
-	visible_windows = NULL;
+	visible_windows = create_children_list();
 	stopLoop();
 	return NULL;
 }
