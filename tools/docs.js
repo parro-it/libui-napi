@@ -45,8 +45,9 @@ renderAll(
 		'js/{editable-combobox.js,ui-control.js}',
 	],
 	['UiEntry', 'js/{entry.js,entry-base.js,ui-control.js}'],
-	['UiForm', 'js/{form.js,ui-control.js}'], ['UiGrid', 'js/{grid.js,ui-control.js}'],
-	['UiGroup', 'js/{group.js,ui-control.js}'],
+	['UiForm', 'js/{form.js,ui-control.js}'],
+	['UiFontButton', 'js/{font-button.js,ui-control.js}'],
+	['UiGrid', 'js/{grid.js,ui-control.js}'], ['UiGroup', 'js/{group.js,ui-control.js}'],
 	[
 		'UiHorizontalBox',
 		'js/{horizontal-box.js,box.js,ui-control.js}',

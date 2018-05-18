@@ -142,14 +142,14 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 }
 
 // Takes about 1.8ms:
-applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
-				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
-				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
-				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
-				  UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
-				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
-				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
-				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent);
+applySetterGetter(
+	UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
+	UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup,
+	UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker,
+	UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
+	UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
+	UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath, DrawStrokeParams,
+	UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent, UiFontButton, FontDescriptor);
 applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 

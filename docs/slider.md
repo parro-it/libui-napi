@@ -20,10 +20,10 @@ Horizontal slider to set numerical values.
 Create a new UiSlider object.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| min | <code>number</code> | minimum value of the slider. |
-| max | <code>number</code> | maximum value of the slider. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| min | <code>number</code> | <code>0</code> | minimum value of the slider. |
+| max | <code>number</code> | <code>100</code> | maximum value of the slider. |
 
 <a name="UiSlider+value"></a>
 

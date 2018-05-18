@@ -26,7 +26,7 @@ class FontDescriptor {
 	 * Return the name of the font, e.g. "Helvetica".
 	 * @return {string}
 	 */
-	getFamily() {
+	get family() {
 		return FontDescriptorC.getFamily(this.handle);
 	}
 
@@ -34,7 +34,7 @@ class FontDescriptor {
 	 * Return the size in point of the font.
 	 * @return {number}
 	 */
-	getSize() {
+	get size() {
 		return FontDescriptorC.getSize(this.handle);
 	}
 
@@ -42,7 +42,7 @@ class FontDescriptor {
 	 * Return weight of the font.
 	 * @return {number}
 	 */
-	getWeight() {
+	get weight() {
 		return FontDescriptorC.getWeight(this.handle);
 	}
 
@@ -50,7 +50,7 @@ class FontDescriptor {
 	 * Return 1 if the font is italic, otherwise 0.
 	 * @return {number}
 	 */
-	getItalic() {
+	get italic() {
 		return FontDescriptorC.getItalic(this.handle);
 	}
 
@@ -58,7 +58,7 @@ class FontDescriptor {
 	 * Return horizontal stretch value for the font.
 	 * @return {number}
 	 */
-	getStretch() {
+	get stretch() {
 		return FontDescriptorC.getStretch(this.handle);
 	}
 }
