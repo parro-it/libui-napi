@@ -219,7 +219,7 @@ libui.Area.init(UiAreaMouseEvent, UiAreaKeyEvent, AreaDrawParams, AreaDrawContex
 
 const onShouldQuit = libui.onShouldQuit = libui.App.onShouldQuit;
 libui.Ui = {onShouldQuit};
-
+libui.startTimer = libui.App.startTimer;
 libui.startLoop = () => {
 	asyncHook = async_hooks.createHook({init: initAsyncResource});
 

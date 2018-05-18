@@ -6,7 +6,8 @@ const {
 	UiHorizontalBox,
 	UiMultilineEntry,
 	startLoop,
-	stopLoop
+	stopLoop,
+	startTimer
 } = require('..');
 
 test('string arg are coherced', t => {
@@ -135,10 +136,22 @@ test('Add control to more then one container', t => {
 	t.end();
 });
 
-test.skip('uncaught errors', t => {
-	const entry = new UiMultilineEntry();
+test('uncaught errors', t => {
+	let done = false;
+	const catchErr = (err) => {
+		t.equal(err.message, 'babau');
+		t.end();
+		process.removeListener('uncaughtException', catchErr);
+		done = true;
+	};
+	process.on('uncaughtException', catchErr);
+	startTimer(10, () => {
+		if (done) {
+			setTimeout(() => stopLoop());
+
+			return false;
+		}
+		throw new Error('babau');
+	});
 	startLoop();
-	stopLoop();
-	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
-	t.end();
 });
