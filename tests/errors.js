@@ -22,6 +22,7 @@ test('bad type for number argument', t => {
 
 test('boolean arg are coherced', t => {
 	new UiWindow('test', 42, 42, 1);
+	t.pass();
 	t.end();
 });
 
@@ -103,4 +104,23 @@ test('call window show more then once', t => {
 	win.show();
 	t.throws(() => win.show(), /Show called on showed window./);
 	stopLoop();
+});
+
+test('call method without loop', t => {
+	const entry = new UiMultilineEntry();
+	entry.setText('');
+	t.pass();
+	t.end();
+});
+
+test('call method after stopLoop', t => {
+	t.plan(1);
+	const entry = new UiMultilineEntry();
+	const win = new UiWindow(null, 42, 42, true);
+	win.setChild(entry);
+	win.show();
+	startLoop();
+	stopLoop();
+	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
+	t.end();
 });

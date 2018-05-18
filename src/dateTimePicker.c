@@ -58,10 +58,7 @@ LIBUI_FUNCTION(getTime) {
 	ENSURE_NOT_DESTROYED();
 	struct tm time;
 	uiDateTimePickerTime(uiDateTimePicker(handle->control), &time);
-	// char s[1024];
-	// strftime(s, 1024, "%d/%m/%Y %H:%M", &time);
 
-	// printf("%s\n", s);
 	return make_int64(env, mktime(&time));
 }
 

@@ -73,9 +73,7 @@ LIBUI_FUNCTION(close) {
 	ENSURE_NOT_DESTROYED();
 	uiControlDestroy(handle->control);
 	handle->is_destroyed = true;
-	printf("remove_child\n");
 	remove_child(env, visible_windows, handle);
-	printf("remove_child done\n");
 	return NULL;
 }
 
@@ -94,15 +92,12 @@ LIBUI_FUNCTION(getTitle) {
 }
 
 LIBUI_FUNCTION(setTitle) {
-	printf("setTitle\n");
 
 	INIT_ARGS(2);
 	ARG_POINTER(struct control_handle, handle, 0);
-	printf("window destroyed: %d", handle->is_destroyed);
 	ENSURE_NOT_DESTROYED();
 	ARG_STRING(title, 1);
 	uiWindowSetTitle(uiWindow(handle->control), title);
-	printf("window arg called: %d", handle->is_destroyed);
 	free(title);
 	return NULL;
 }
@@ -116,7 +111,6 @@ LIBUI_FUNCTION(show) {
 	}
 	ENSURE_NOT_DESTROYED();
 	uiControlShow(handle->control);
-	printf("show %p\n", visible_windows);
 	add_child(env, visible_windows, handle);
 	return NULL;
 }

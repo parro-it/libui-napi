@@ -151,7 +151,6 @@ static void redraw(uv_timer_t *handle) {
 
 /* This function start the event loop and exit immediately */
 static void stopAsync(uv_timer_t *handle) {
-	printf("stopAsync entern\n");
 	if (!running) {
 		return;
 	}
@@ -252,7 +251,6 @@ void stopLoop() {
 
 	uv_timer_init(uv_default_loop(), &closeTimer);
 	uv_timer_start(&closeTimer, stopAsync, 1, 0);
-	printf("stopLoop sync done\n");
 }
 
 LIBUI_FUNCTION(start) {

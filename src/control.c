@@ -79,8 +79,6 @@ napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl
 }
 
 napi_value remove_child(napi_env env, struct children_list *list, struct control_handle *child) {
-	printf("removing child %p", child);
-	printf(" list->head %p", list->head);
 	if (list->head == NULL) {
 		return NULL;
 	}
@@ -89,7 +87,6 @@ napi_value remove_child(napi_env env, struct children_list *list, struct control
 	struct children_node *prev_node = NULL;
 
 	while (node != NULL) {
-		printf("found child %p", node->handle);
 		if (node->handle == child) {
 			uint32_t new_ref_count;
 			napi_status status = napi_reference_unref(env, node->handle->ctrl_ref, &new_ref_count);
