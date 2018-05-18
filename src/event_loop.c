@@ -161,7 +161,7 @@ static void redraw(uv_timer_t *handle) {
 
 	// uv_timer_start(redrawTimer, redraw, 100, 0);
 
-	if (gui_running && running) {
+	if (gui_running) {
 		uv_prepare_start(&mainThreadAwakenPhase, uv_awaken_cb);
 		LIBUI_NODE_DEBUG("+++ prepare handler started.\n");
 	}
