@@ -82,9 +82,9 @@ str.appendAttributed('affix', FontAttribute.newOTFeatures(otf));
 // ?
 // console.log(FontAttribute.newOTFeatures(otf).OTFeatures.get("liga"));
 
-// otf.forEach((feat, str, val) => {
-// 	console.log({feat, str, val});
-// });
+otf.forEach((feat, str, val) => {
+	console.log({feat, str, val});
+});
 
 console.log('liga:', otf.get('liga'));
 

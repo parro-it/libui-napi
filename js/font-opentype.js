@@ -29,6 +29,12 @@ class OpenTypeFeatures {
 		}
 		return OpenTypeFeaturesC.getTag(this.handle, tag);
 	}
+
+	forEach(cb) {
+		return OpenTypeFeaturesC.forEach(this.handle, (tag, val) => {
+			return Boolean(cb(this, tag, val));
+		});
+	}
 }
 
 module.exports = {OpenTypeFeatures};

@@ -6,12 +6,6 @@ class AttributedString {
 		this.handle = AttributedStringC.create(s);
 	}
 
-	forEach(cb) {
-		AttributedStringC.forEach(this.handle, (attr, start, end) => {
-			return Boolean(cb(this, new FontAttribute(attr), start, end));
-		})
-	}
-
 	toString() {
 		return AttributedStringC.toString(this.handle);
 	}
@@ -45,6 +39,12 @@ class AttributedString {
 	insertAttributed(s, pos, ...attr) {
 		return AttributedStringC.insertAttributed(this.handle, s, pos,
 												  attr.map(v => v.handle));
+	}
+
+	forEach(cb) {
+		AttributedStringC.forEach(this.handle, (attr, start, end) => {
+			return Boolean(cb(this, new FontAttribute(attr), start, end));
+		});
 	}
 }
 
