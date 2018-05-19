@@ -78,6 +78,7 @@ const {UiMenu, UiMenuItem} = require('./js/menu');
 const {UiFontButton} = require('./js/font-button');
 const {FontDescriptor} = require('./js/font-descriptor');
 const {FontAttribute} = require('./js/font-attribute');
+const {AttributedString} = require('./js/font-string');
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
@@ -159,6 +160,7 @@ Object.assign(libui, {
 	UiFontButton,
 	FontDescriptor,
 	FontAttribute,
+	AttributedString,
 	UiGrid,
 	UiMenuItem,
 	UiMenu,

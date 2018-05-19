@@ -161,6 +161,7 @@ LIBUI_FUNCTION(createUnderlineColor) {
 	ARG_DOUBLE(g, 2);
 	ARG_DOUBLE(b, 3);
 	ARG_DOUBLE(a, 4);
+
 	return create_attribute_external(env, uiNewUnderlineColorAttribute(underline, r, g, b, a));
 }
 

@@ -50,21 +50,20 @@ class FontAttribute {
 	}
 
 	static newColor(c) {
-		return new FontAttribute(FontAttributeC.createColor(v.r, v.g, v.b, b.a));
+		return new FontAttribute(FontAttributeC.createColor(c.r, c.g, c.b, c.a));
 	}
 
 	static newBackgroundColor(c) {
 		return new FontAttribute(
-			FontAttributeC.createBackgroundColor(v.r, v.g, v.b, b.a));
+			FontAttributeC.createBackgroundColor(c.r, c.g, c.b, c.a));
 	}
 
 	static newUnderline(v) {
 		return new FontAttribute(FontAttributeC.createUnderline(v));
 	}
 
-	static newUnderlineColor(type, c) {
-		return new FontAttribute(
-			FontAttributeC.createUnderlineColor(type, v.r, v.g, v.b, b.a));
+	static newUnderlineColor(type, {r = 0, g = 0, b = 0, a = 0} = {}) {
+		return new FontAttribute(FontAttributeC.createUnderlineColor(type, r, g, b, a));
 	}
 
 	// static newOTFeatures(otf){
