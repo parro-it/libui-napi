@@ -27,16 +27,24 @@ class AttributedString {
 	}
 
 	setAttribute(attr, start, end) {
-		// check attr
+		if (!(attr instanceof FontAttribute)) {
+			throw new TypeError('The \'attr\' argument has to be a FontAttribute object');
+		}
 		return AttributedStringC.setAttribute(this.handle, attr.handle, start, end);
 	}
 
 	appendAttributed(s, ...attr) {
+		if (attr.find(v => !(v instanceof FontAttribute))) {
+			throw new TypeError('The \'attr\' argument has to be FontAttribute objects');
+		}
 		return AttributedStringC.appendAttributed(this.handle, s,
 												  attr.map(v => v.handle));
 	}
 
 	insertAttributed(s, pos, ...attr) {
+		if (attr.find(v => !(v instanceof FontAttribute))) {
+			throw new TypeError('The \'attr\' argument has to be FontAttribute objects');
+		}
 		return AttributedStringC.insertAttributed(this.handle, s, pos,
 												  attr.map(v => v.handle));
 	}

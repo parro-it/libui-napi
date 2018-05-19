@@ -177,6 +177,7 @@ static uiForEach forEach_cb(const uiAttributedString *s, const uiAttribute *a, s
 	ForEachData *d = (ForEachData *)data;
 	napi_env env = *(d->env);
 
+	// TODO set appended
 	napi_value args[3] = {create_attribute_external(env, (uiAttribute *)a), make_uint32(env, start),
 						  make_uint32(env, end)};
 
