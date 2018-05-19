@@ -61,6 +61,7 @@ LIBUI_FUNCTION(init) {
 	}
 	controls_map = ctrl_map_create(0, 1);
 	visible_windows = create_children_list();
+	ln_init_loop_status();
 	return NULL;
 }
 

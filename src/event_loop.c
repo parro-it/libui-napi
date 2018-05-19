@@ -9,8 +9,6 @@ static napi_deferred event_loop_closed_deferred = NULL;
 static napi_deferred event_loop_started_deferred = NULL;
 static napi_env resolution_env = NULL;
 
-atomic_bool running;
-
 atomic_bool mainThreadStillWaitingGuiEvents;
 
 static uv_mutex_t mainThreadWaitingGuiEvents;
@@ -31,7 +29,9 @@ static uv_timer_t closeTimer;
    event loop is wake up by calling uiLoopWakeup().
 */
 static void backgroundNodeEventsPoller(void *arg) {
-	while (running) {
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("--- backgroundNodeEventsPoller %d\n", status);
+	while (status == started || status == starting) {
 		LIBUI_NODE_DEBUG("--- wait mainThreadWaitingGuiEvents.\n");
 
 		// wait for the main thread
@@ -61,7 +61,8 @@ static void backgroundNodeEventsPoller(void *arg) {
 
 		LIBUI_NODE_DEBUG_F("--- pendingEvents == %d\n", pendingEvents);
 
-		if (running && mainThreadStillWaitingGuiEvents && pendingEvents > 0) {
+		if ((status == started || status == starting) && mainThreadStillWaitingGuiEvents &&
+			pendingEvents > 0) {
 			LIBUI_NODE_DEBUG("--- wake up main thread\n");
 			// this allow the background thread
 			// to wait for the main thread to complete
@@ -69,7 +70,7 @@ static void backgroundNodeEventsPoller(void *arg) {
 			uiLoopWakeup();
 		}
 
-		if (running && pendingEvents > 0) {
+		if ((status == started || status == starting) && pendingEvents > 0) {
 			// wait for the main thread to complete
 			// its awaken phase.
 			LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locking.\n");
@@ -79,6 +80,8 @@ static void backgroundNodeEventsPoller(void *arg) {
 			// immediately release the lock
 			uv_mutex_unlock(&mainThreadAwakenFromBackground);
 		}
+
+		status = ln_get_loop_status();
 	}
 	LIBUI_NODE_DEBUG("--- Background terminating.\n");
 }
@@ -87,8 +90,9 @@ static void redraw(uv_timer_t *handle);
 
 static void uv_awaken_cb(uv_prepare_t *handle) {
 	uv_prepare_stop(&mainThreadAwakenPhase);
+	enum ln_loop_status status = ln_get_loop_status();
 
-	if (!running) {
+	if (status == stopped || status == stopping) {
 		return;
 	}
 
@@ -114,9 +118,12 @@ static void uv_awaken_cb(uv_prepare_t *handle) {
 	from the background thread for this purpose.
  */
 static void redraw(uv_timer_t *handle) {
-	if (!running) {
+	enum ln_loop_status status = ln_get_loop_status();
+
+	if (status == stopped || status == stopping) {
 		return;
 	}
+
 	uv_timer_stop(handle);
 
 	// signal the background poller thread
@@ -139,6 +146,7 @@ static void redraw(uv_timer_t *handle) {
 		napi_close_handle_scope(resolution_env, handle_scope);
 		resolution_env = NULL;
 		event_loop_started_deferred = NULL;
+		ln_set_loop_status(started);
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
 	}
 
@@ -169,16 +177,15 @@ static void redraw(uv_timer_t *handle) {
 
 /* This function start the event loop and exit immediately */
 static void stopAsync(uv_timer_t *handle) {
-
-	LIBUI_NODE_DEBUG_F("stopAsync %d\n", running);
-	if (!running) {
-		return;
-	}
-
 	uv_timer_stop(&closeTimer);
 	uv_close((uv_handle_t *)&closeTimer, NULL);
 
-	running = false;
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("stopAsync %d\n", status);
+
+	if (status == stopped || status == stopping) {
+		return;
+	}
 
 	LIBUI_NODE_DEBUG("stopAsync starting\n");
 
@@ -235,11 +242,17 @@ static void stopAsync(uv_timer_t *handle) {
 /* This function start the event loop and exit immediately */
 void startLoop() {
 	/* if the loop is already running, this is a noop */
-	if (running) {
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("startLoop %d\n", status);
+
+	if (status == started || status == starting) {
 		return;
 	}
+	LIBUI_NODE_DEBUG_F("startLoop ln_set_loop_status %d\n", starting);
 
-	running = true;
+	ln_set_loop_status(starting);
+	status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("startLoop %d\n", status);
 	mainThreadStillWaitingGuiEvents = false;
 	/* init libui event loop */
 	uiMainSteps();
@@ -298,6 +311,7 @@ LIBUI_FUNCTION(start) {
 		napi_open_handle_scope(env, &handle_scope);
 		napi_reject_deferred(env, deferred, error);
 		napi_close_handle_scope(env, handle_scope);
+		ln_set_loop_status(stopped);
 		return promise;
 	}
 
