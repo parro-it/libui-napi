@@ -286,16 +286,16 @@ Returns a new FontAttribute with the OpenTypeFeatures `otf`.
 
 Returns the type of the attribute. Possible values:
 
-* `libui.textAttributeType.family`
-* `libui.textAttributeType.size`
-* `libui.textAttributeType.weight`
-* `libui.textAttributeType.italic`
-* `libui.textAttributeType.stretch`
-* `libui.textAttributeType.color`
-* `libui.textAttributeType.background`
-* `libui.textAttributeType.underline`
-* `libui.textAttributeType.underlineColor`
-* `libui.textAttributeType.features`
+* `libui.FontAttribute.type.family`
+* `libui.FontAttribute.type.size`
+* `libui.FontAttribute.type.weight`
+* `libui.FontAttribute.type.italic`
+* `libui.FontAttribute.type.stretch`
+* `libui.FontAttribute.type.color`
+* `libui.FontAttribute.type.background`
+* `libui.FontAttribute.type.underline`
+* `libui.FontAttribute.type.underlineColor`
+* `libui.FontAttribute.type.features`
 
 ### getFamily
 

@@ -213,7 +213,7 @@ Object.assign(libui, {
 	textWeight: FontAttribute.weight,
 	textItalic: FontAttribute.italic,
 	textStretch: FontAttribute.stretch,
-	textAttributeType: FontAttribute.attributeType,
+	textAttributeType: FontAttribute.type,
 	textUnderline: FontAttribute.underline,
 	textUnderlineColor: FontAttribute.underlineColor,
 	textAlign: DrawTextLayout.align,

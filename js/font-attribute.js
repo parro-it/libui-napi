@@ -6,27 +6,39 @@ class FontAttribute {
 		this.handle = handle;
 	}
 
+	_check(name) {
+		if (this.type !== FontAttribute.type[name]) {
+			throw new Error('Only ' + name + ' attributes have a \'' + name +
+							'\' attribute')
+		}
+	}
+
 	get type() {
 		return FontAttributeC.getType(this.handle);
 	}
 
 	get family() {
+		this._check('family');
 		return FontAttributeC.getFamily(this.handle);
 	}
 
 	get size() {
+		this._check('size');
 		return FontAttributeC.getSize(this.handle);
 	}
 
 	get weight() {
+		this._check('weight');
 		return FontAttributeC.getWeight(this.handle);
 	}
 
 	get italic() {
+		this._check('italic');
 		return FontAttributeC.getItalic(this.handle);
 	}
 
 	get stretch() {
+		this._check('stretch');
 		return FontAttributeC.getStretch(this.handle);
 	}
 
@@ -110,7 +122,7 @@ FontAttribute.stretch = {
 	ultraExpanded: 8
 };
 
-FontAttribute.attributeType = {
+FontAttribute.type = {
 	family: 0,
 	size: 1,
 	weight: 2,
