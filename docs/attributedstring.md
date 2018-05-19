@@ -152,10 +152,6 @@ Converts a graphmeme index in the string to a byte index.
 
 * pos: Number
 
-### free
-
-Frees the object immediately.
-
 
 # FontAttribute
 
@@ -347,10 +343,6 @@ See [newUnderlineColor](#newunderlinecolor) for `type` values)
 
 Returns the [OpenTypeFeatures](#opentypefeatures) or `null` if called on a non-OpenType-features attribute.
 
-### free
-
-Frees the object immediately.
-
 # OpenTypeFeatures
 
 Defines font glyph settings (ignored if not supported by the font).
@@ -366,18 +358,11 @@ otf.add('liga', 1)
 str.appendAttributed('affix', FontAttribute.newOTFeatures(otf));
 ```
 
-
-## Static Functions
+## Methods
 
 ### clone
 
-Returns a new object containg all tags from f2.
-
-**Arguments**
-
-* f2: OpenTypeFeatures
-
-## Methods
+Returns a new object containg all tags.
 
 ### add
 
@@ -412,10 +397,6 @@ Iterates over all tags. Return `true` in the callback to break.
 **Arguments**
 
 * cb: `function(OpenTypeFeatures, tag: String, value: Number)`
-
-### free
-
-Frees the object immediately.
 
 # FontDescriptor
 
@@ -453,10 +434,6 @@ Returns the italic style.
 
 Returns the font stretch.
 
-### free
-
-Frees the object immediately.
-
 # DrawTextLayout
 
 Defines how an attributed string should get drawn onto an area. (See [Area UiDrawContext.text](area.md#text))
@@ -479,7 +456,3 @@ Defines how an attributed string should get drawn onto an area. (See [Area UiDra
 ### getExtends
 
 Returns a SizeDouble containing the actual width and height of the text.
-
-### free
-
-Frees the object immediately.
