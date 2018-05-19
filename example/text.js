@@ -22,18 +22,19 @@ str.appendUnattributed(', ');
 str.appendAttributed('font size', FontAttribute.newSize(18));
 str.appendUnattributed(', ');
 
-str.appendAttributed('font weight', FontAttribute.newWeight(libui.textWeight.bold));
+str.appendAttributed('font weight', FontAttribute.newWeight(FontAttribute.weight.bold));
 str.appendUnattributed(', ');
 
 // str.forEach((str, attr, start, end) => {
 // 	console.log({str, attr, start, end});
 // });
 
-str.appendAttributed('font italicness', FontAttribute.newItalic(libui.textItalic.italic));
+str.appendAttributed('font italicness',
+					 FontAttribute.newItalic(FontAttribute.italic.italic));
 str.appendUnattributed(', ');
 
 str.appendAttributed('font stretch',
-					 FontAttribute.newStretch(libui.textStretch.condensed));
+					 FontAttribute.newStretch(FontAttribute.stretch.condensed));
 str.appendUnattributed(', ');
 
 str.appendAttributed('text color',
@@ -45,24 +46,26 @@ str.appendAttributed('text background color', FontAttribute.newBackgroundColor(
 str.appendUnattributed(', ');
 
 str.appendAttributed('underline style',
-					 FontAttribute.newUnderline(libui.textUnderline.single));
+					 FontAttribute.newUnderline(FontAttribute.underline.single));
 str.appendUnattributed(', ');
 
 str.appendUnattributed('and ');
 str.appendAttributed(
-	'underline color', FontAttribute.newUnderline(libui.textUnderline.double),
-	FontAttribute.newUnderlineColor(libui.textUnderlineColor.custom,
+	'underline color', FontAttribute.newUnderline(FontAttribute.underline.double),
+	FontAttribute.newUnderlineColor(FontAttribute.underlineColor.custom,
 									new libui.Color(1.0, 0.0, 0.5, 1.0)));
 str.appendUnattributed('. ');
 
 str.appendUnattributed('Furthermore, there are attributes allowing for ');
-str.appendAttributed('special underlines for indicating spelling errors',
-					 FontAttribute.newUnderline(libui.textUnderline.suggestion),
-					 FontAttribute.newUnderlineColor(libui.textUnderlineColor.spelling));
+str.appendAttributed(
+	'special underlines for indicating spelling errors',
+	FontAttribute.newUnderline(FontAttribute.underline.suggestion),
+	FontAttribute.newUnderlineColor(FontAttribute.underlineColor.spelling));
 str.appendUnattributed(' (and ');
-str.appendAttributed('other types of errors',
-					 FontAttribute.newUnderline(libui.textUnderline.suggestion),
-					 FontAttribute.newUnderlineColor(libui.textUnderlineColor.grammar));
+str.appendAttributed(
+	'other types of errors',
+	FontAttribute.newUnderline(FontAttribute.underline.suggestion),
+	FontAttribute.newUnderlineColor(FontAttribute.underlineColor.grammar));
 str.appendUnattributed(') ');
 
 str.appendUnattributed(
@@ -95,15 +98,15 @@ str.appendAttributed('And multiple attributes at once!',
 					 FontAttribute.newFamily('Monaco'));
 
 str.insertAttributed('Styled Strings\n', 0,
-					 FontAttribute.newWeight(libui.textWeight.bold),
+					 FontAttribute.newWeight(FontAttribute.weight.bold),
 					 FontAttribute.newSize(24));
 
 function handlerDraw(area, p) {
-	const font =
-		checkbox.checked
-			? new libui.FontDescriptor('Georgia', 14, libui.textWeight.normal,
-									   libui.textItalic.normal, libui.textStretch.normal)
-			: fontButton.getFont();
+	const font = checkbox.checked ? new libui.FontDescriptor('Georgia', 14,
+															 FontAttribute.weight.normal,
+															 FontAttribute.italic.normal,
+															 FontAttribute.stretch.normal)
+								  : fontButton.getFont();
 
 	const layout =
 		new libui.DrawTextLayout(str, font, p.getAreaWidth(), align.getSelected());
@@ -149,7 +152,7 @@ function main() {
 	vbox.append(checkbox, false);
 
 	align = new libui.UiCombobox();
-	// Note that the items match with the value order of libui.textAlign
+	// Note that the items match with the value order of DrawTextLayout.align
 	align.append('Left');
 	align.append('Center');
 	align.append('Right');
