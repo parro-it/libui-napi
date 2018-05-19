@@ -2,7 +2,7 @@
 #include "event-loop.h"
 
 int uiLoopWakeup() {
-	[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined
+	[NSApp postEvent:[NSEvent otherEventWithType:NSEventTypeApplicationDefined
 										location:NSZeroPoint
 								   modifierFlags:0
 									   timestamp:0.0
@@ -17,11 +17,28 @@ int uiLoopWakeup() {
 }
 
 int uiEventsPending() {
+
 	NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask
 										untilDate:[NSDate distantPast]
 										   inMode:NSDefaultRunLoopMode
 										  dequeue:NO];
 	return nil != event;
+}
+
+bool uiWaitForEvents(int timeout) {
+	NSDate *until;
+	if (timeout == -1) {
+		until = [NSDate distantFuture];
+	} else {
+		until = [NSDate dateWithTimeIntervalSinceNow:(timeout / 1000)];
+	}
+
+	NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask
+										untilDate:until
+										   inMode:NSDefaultRunLoopMode
+										  dequeue:NO];
+	printf("RECEIVED %p modifierFlags %lu, type %lu\n", event, [event modifierFlags], [event type]);
+	return [event modifierFlags] == 426576 && [event type] == NSEventTypeApplicationDefined;
 }
 
 int waitForNodeEvents(uv_loop_t *loop, int timeout) {
