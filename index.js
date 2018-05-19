@@ -77,6 +77,7 @@ const {UiEntryBase} = require('./js/entry-base');
 const {UiMenu, UiMenuItem} = require('./js/menu');
 const {UiFontButton} = require('./js/font-button');
 const {FontDescriptor} = require('./js/font-descriptor');
+const {FontAttribute} = require('./js/font-attribute');
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
@@ -142,20 +143,22 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 }
 
 // Takes about 1.8ms:
-applySetterGetter(
-	UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem, UiMenu, UiSpinbox,
-	UiHorizontalSeparator, UiVerticalSeparator, UiRadioButtons, UiProgressBar, UiGroup,
-	UiEntry, UiPasswordEntry, UiSearchEntry, UiEditableCombobox, UiTimePicker,
-	UiDatePicker, UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
-	UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox, UiVerticalBox,
-	UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath, DrawStrokeParams,
-	UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent, UiFontButton, FontDescriptor);
+applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
+				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
+				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
+				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
+				  UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
+				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
+				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
+				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent,
+				  UiFontButton, FontDescriptor, FontAttribute);
 applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
 Object.assign(libui, {
 	UiFontButton,
 	FontDescriptor,
+	FontAttribute,
 	UiGrid,
 	UiMenuItem,
 	UiMenu,
@@ -201,6 +204,12 @@ Object.assign(libui, {
 	extKeys: UiAreaKeyEvent.extKeys,
 	lineCap: DrawStrokeParams.lineCap,
 	lineJoin: DrawStrokeParams.lineJoin,
+	textWeight: FontAttribute.weight,
+	textItalic: FontAttribute.italic,
+	textStretch: FontAttribute.stretch,
+	textAttributeType: FontAttribute.attributeType,
+	textUnderline: FontAttribute.underline,
+	textUnderlineColor: FontAttribute.underlineColor,
 	UiDialogs: {
 		openFile(parent) {
 			return libui.Dialogs.openFile(parent.handle);
