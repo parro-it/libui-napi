@@ -25,9 +25,9 @@ str.appendUnattributed(', ');
 str.appendAttributed('font weight', FontAttribute.newWeight(FontAttribute.weight.bold));
 str.appendUnattributed(', ');
 
-// str.forEach((str, attr, start, end) => {
-// 	console.log({str, attr, start, end});
-// });
+str.forEach((str, attr, start, end) => {
+	console.log({str, attr, start, end});
+});
 
 str.appendAttributed('font italicness',
 					 FontAttribute.newItalic(FontAttribute.italic.italic));
@@ -78,6 +78,9 @@ str.appendUnattributed(' vs. ');
 
 otf.add('liga', 1);
 str.appendAttributed('affix', FontAttribute.newOTFeatures(otf));
+
+// ?
+// console.log(FontAttribute.newOTFeatures(otf).OTFeatures.get("liga"));
 
 // otf.forEach((feat, str, val) => {
 // 	console.log({feat, str, val});

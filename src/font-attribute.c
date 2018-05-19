@@ -4,6 +4,9 @@
 
 static const char *MODULE = "FontAttribute";
 
+// font-opentype.c
+napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf);
+
 static void free_font_attribute(napi_env env, void *finalize_data, void *finalize_hint) {
 	// uiAttribute *attr = (uiAttribute *)finalize_data;
 	// if (!appended) {
@@ -11,7 +14,7 @@ static void free_font_attribute(napi_env env, void *finalize_data, void *finaliz
 	// }
 }
 
-static napi_value create_attribute_external(napi_env env, uiAttribute *attr) {
+napi_value create_attribute_external(napi_env env, uiAttribute *attr) {
 	napi_value attr_external;
 	napi_status status = napi_create_external(env, attr, free_font_attribute, NULL, &attr_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
@@ -82,26 +85,47 @@ LIBUI_FUNCTION(getColor) {
 	return make_color(env, r, g, b, a);
 }
 
-// std::vector<Color> FontAttribute::getUnderlineColorInternal() {
-// 	double r;
-// 	double g;
-// 	double b;
-// 	double alpha;
+LIBUI_FUNCTION(getUnderlineColor) {
+	INIT_ARGS(1);
+	ARG_POINTER(uiAttribute, attr, 0);
 
-// 	uiUnderlineColor type;
-// 	uiAttributeUnderlineColor(a, &type, &r, &g, &b, &alpha);
+	double r;
+	double g;
+	double b;
+	double a;
 
-// 	return std::vector<Color>{Color(r, g, b, alpha), Color(type, 0, 0, 0)};
-// }
+	uiUnderlineColor type;
+	uiAttributeUnderlineColor(attr, &type, &r, &g, &b, &a);
 
-// LIBUI_FUNCTION(getOTFeatures) {
-// 	INIT_ARGS(1);
-// 	ARG_POINTER(uiAttribute, attr, 0);
+	napi_value obj;
 
-// 	const uiOpenTypeFeatures *otf = uiAttributeFeatures(a)
+	napi_handle_scope scope;
+	napi_status status = napi_open_handle_scope(env, &scope);
+	CHECK_STATUS_THROW(status, napi_open_handle_scope);
 
-// 	return make_color(env, r, g, b, a);
-// }
+	status = napi_create_object(env, &obj);
+	CHECK_STATUS_THROW(status, napi_create_object);
+
+	status = napi_set_named_property(env, obj, "color", make_color(env, r, g, b, a));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+
+	status = napi_set_named_property(env, obj, "type", make_int32(env, type));
+	CHECK_STATUS_THROW(status, napi_set_named_property);
+
+	status = napi_close_handle_scope(env, scope);
+	CHECK_STATUS_THROW(status, napi_close_handle_scope);
+
+	return obj;
+}
+
+LIBUI_FUNCTION(getOTFeatures) {
+	INIT_ARGS(1);
+	ARG_POINTER(uiAttribute, attr, 0);
+
+	uiOpenTypeFeatures *otf = (uiOpenTypeFeatures *)uiAttributeFeatures(attr);
+
+	return create_otf_external(env, otf);
+}
 
 LIBUI_FUNCTION(createFamily) {
 	INIT_ARGS(1);
@@ -186,6 +210,8 @@ napi_value _libui_init_font_attribute(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(getStretch);
 	LIBUI_EXPORT(getUnderline);
 	LIBUI_EXPORT(getColor);
+	LIBUI_EXPORT(getUnderlineColor);
+	LIBUI_EXPORT(getOTFeatures);
 
 	LIBUI_EXPORT(createFamily);
 	LIBUI_EXPORT(createSize);

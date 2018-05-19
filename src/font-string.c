@@ -4,6 +4,9 @@
 
 static const char *MODULE = "AttributedString";
 
+// font-attribute.c
+napi_value create_attribute_external(napi_env env, uiAttribute *attr);
+
 static void free_string(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiAttributedString *str = (uiAttributedString *)finalize_data;
 	uiFreeAttributedString(str);
@@ -162,6 +165,53 @@ LIBUI_FUNCTION(graphemeToByteIndex) {
 	return make_uint32(env, uiAttributedStringGraphemeToByteIndex(str, pos));
 }
 
+typedef struct {
+	napi_env *env;
+	napi_value *cb;
+	napi_value *null;
+} ForEachData;
+
+static uiForEach forEach_cb(const uiAttributedString *s, const uiAttribute *a, size_t start,
+							size_t end, void *data) {
+
+	ForEachData *d = (ForEachData *)data;
+	napi_env env = *(d->env);
+
+	napi_value args[3] = {
+		create_attribute_external(env, (uiAttribute *)a),
+		make_uint32(env, start),
+		make_uint32(env, end),
+	};
+
+	napi_value result;
+
+	napi_status status = napi_call_function(env, *(d->null), *(d->cb), 3, args, &result);
+	// CHECK_STATUS_THROW(status, napi_call_function);
+
+	bool b;
+	status = napi_get_value_bool(env, result, &b);
+	// CHECK_STATUS_THROW(status, napi_get_value_bool);
+
+	return b ? uiForEachStop : uiForEachContinue;
+}
+
+LIBUI_FUNCTION(forEach) {
+	INIT_ARGS(2);
+
+	ARG_POINTER(uiAttributedString, str, 0);
+	napi_value cb = argv[1];
+
+	napi_value null;
+	napi_status status = napi_get_null(env, &null);
+	CHECK_STATUS_THROW(status, napi_get_null);
+
+	ForEachData d = {&env, &cb, &null};
+
+	uiAttributedStringForEachAttribute(str, forEach_cb, &d);
+
+	return NULL;
+}
+
 napi_value _libui_init_font_string(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
@@ -177,6 +227,8 @@ napi_value _libui_init_font_string(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(numGraphemes);
 	LIBUI_EXPORT(byteIndexToGrapheme);
 	LIBUI_EXPORT(graphemeToByteIndex);
+
+	LIBUI_EXPORT(forEach);
 
 	return module;
 }

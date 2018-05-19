@@ -42,6 +42,21 @@ class FontAttribute {
 		return FontAttributeC.getStretch(this.handle);
 	}
 
+	get color() {
+		this._check('color');
+		return FontAttributeC.getColor(this.handle);
+	}
+
+	get underlineColor() {
+		this._check('underlineColor');
+		return FontAttributeC.getUnderlineColor(this.handle);
+	}
+
+	get OTFeatures() {
+		this._check('features');
+		return new OpenTypeFeatures(FontAttributeC.getOTFeatures(this.handle));
+	}
+
 	static newFamily(v) {
 		return new FontAttribute(FontAttributeC.createFamily(v));
 	}

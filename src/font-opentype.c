@@ -9,7 +9,7 @@ static void free_otf(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiFreeOpenTypeFeatures(otf);
 }
 
-static napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf) {
+napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf) {
 	napi_value otf_external;
 	napi_status status = napi_create_external(env, otf, free_otf, NULL, &otf_external);
 	CHECK_STATUS_THROW(status, napi_create_external);

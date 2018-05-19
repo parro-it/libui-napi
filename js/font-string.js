@@ -1,8 +1,15 @@
 const {AttributedString: AttributedStringC} = require('..');
+const {FontAttribute} = require('./font-attribute');
 
 class AttributedString {
 	constructor(s) {
 		this.handle = AttributedStringC.create(s);
+	}
+
+	forEach(cb) {
+		AttributedStringC.forEach(this.handle, (attr, start, end) => {
+			return Boolean(cb(this, new FontAttribute(attr), start, end));
+		})
 	}
 
 	toString() {
