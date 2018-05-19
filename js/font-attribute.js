@@ -1,4 +1,5 @@
 const {FontAttribute: FontAttributeC} = require('..');
+const {OpenTypeFeatures} = require('./font-opentype')
 
 class FontAttribute {
 	constructor(handle) {
@@ -66,9 +67,13 @@ class FontAttribute {
 		return new FontAttribute(FontAttributeC.createUnderlineColor(type, r, g, b, a));
 	}
 
-	// static newOTFeatures(otf){
-
-	// }
+	static newOTFeatures(otf) {
+		if (!(otf instanceof OpenTypeFeatures)) {
+			throw new TypeError(
+				'The \'otf\' argument has to be a OpenTypeFeatures object');
+		}
+		return new FontAttribute(FontAttributeC.createOTFeatures(otf.handle));
+	}
 }
 
 FontAttribute.weight = {

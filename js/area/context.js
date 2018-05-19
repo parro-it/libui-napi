@@ -1,6 +1,7 @@
 const {AreaContext} = require('../..');
 const {UiDrawPath, DrawBrush, DrawStrokeParams} = require('./draw');
 const UiDrawMatrix = require('./matrix');
+const DrawTextLayout = require('./textlayout');
 
 class AreaDrawParams {
 	constructor(context, areaWidth, areaHeight, clipX, clipY, clipWidth, clipHeight) {
@@ -66,7 +67,6 @@ class AreaDrawContext {
 	}
 
 	/**
-	 * TODO
 	 * @param {UiDrawPath} path -
 	 */
 	clip(path) {
@@ -88,6 +88,14 @@ class AreaDrawContext {
 	 */
 	restore() {
 		AreaContext.restore(this.handle);
+	}
+
+	text(x, y, textLayout) {
+		if (!(textLayout instanceof DrawTextLayout)) {
+			throw new TypeError(
+				'The \'textLayout\' argument has to be a DrawTextLayout object');
+		}
+		AreaContext.text(this.handle, x, y, textLayout.handle);
 	}
 }
 

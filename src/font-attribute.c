@@ -94,8 +94,13 @@ LIBUI_FUNCTION(getColor) {
 // 	return std::vector<Color>{Color(r, g, b, alpha), Color(type, 0, 0, 0)};
 // }
 
-// OpenTypeFeatures FontAttribute::getOTFeaturesInternal() {
-// 	return OpenTypeFeatures((uiOpenTypeFeatures *)uiAttributeFeatures(a));
+// LIBUI_FUNCTION(getOTFeatures) {
+// 	INIT_ARGS(1);
+// 	ARG_POINTER(uiAttribute, attr, 0);
+
+// 	const uiOpenTypeFeatures *otf = uiAttributeFeatures(a)
+
+// 	return make_color(env, r, g, b, a);
 // }
 
 LIBUI_FUNCTION(createFamily) {
@@ -165,9 +170,11 @@ LIBUI_FUNCTION(createUnderlineColor) {
 	return create_attribute_external(env, uiNewUnderlineColorAttribute(underline, r, g, b, a));
 }
 
-// FontAttribute FontAttribute::newOTFeatures(OpenTypeFeatures *otf) {
-// 	return FontAttribute(uiNewFeaturesAttribute(otf->getHandle()));
-// }
+LIBUI_FUNCTION(createOTFeatures) {
+	INIT_ARGS(1);
+	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	return create_attribute_external(env, uiNewFeaturesAttribute(otf));
+}
 
 napi_value _libui_init_font_attribute(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
@@ -189,5 +196,6 @@ napi_value _libui_init_font_attribute(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(createBackgroundColor);
 	LIBUI_EXPORT(createUnderline);
 	LIBUI_EXPORT(createUnderlineColor);
+	LIBUI_EXPORT(createOTFeatures);
 	return module;
 }

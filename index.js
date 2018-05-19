@@ -42,7 +42,8 @@ const {
 	DrawStrokeParams,
 	UiDrawMatrix,
 	AreaDrawBrushGradient,
-	BrushGradientStop
+	BrushGradientStop,
+	DrawTextLayout
 } = require('./js/area');
 const {UiBox} = require('./js/box');
 const {SeparatorBase} = require('./js/separator-base');
@@ -79,6 +80,7 @@ const {UiFontButton} = require('./js/font-button');
 const {FontDescriptor} = require('./js/font-descriptor');
 const {FontAttribute} = require('./js/font-attribute');
 const {AttributedString} = require('./js/font-string');
+const {OpenTypeFeatures} = require('./js/font-opentype');
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
@@ -152,7 +154,7 @@ applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuIt
 				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
 				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
 				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent,
-				  UiFontButton, FontDescriptor, FontAttribute);
+				  UiFontButton, FontDescriptor, FontAttribute, DrawTextLayout);
 applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
@@ -161,6 +163,7 @@ Object.assign(libui, {
 	FontDescriptor,
 	FontAttribute,
 	AttributedString,
+	OpenTypeFeatures,
 	UiGrid,
 	UiMenuItem,
 	UiMenu,
@@ -200,6 +203,7 @@ Object.assign(libui, {
 	Size,
 	UiAreaKeyEvent,
 	UiAreaMouseEvent,
+	DrawTextLayout,
 	fillMode: UiDrawPath.fillMode,
 	brushType: DrawBrush.type,
 	modifierKeys: UiAreaKeyEvent.modifierKeys,
@@ -212,6 +216,7 @@ Object.assign(libui, {
 	textAttributeType: FontAttribute.attributeType,
 	textUnderline: FontAttribute.underline,
 	textUnderlineColor: FontAttribute.underlineColor,
+	textAlign: DrawTextLayout.align,
 	UiDialogs: {
 		openFile(parent) {
 			return libui.Dialogs.openFile(parent.handle);
