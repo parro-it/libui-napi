@@ -17,7 +17,6 @@ static uv_async_t keep_alive;
 static uv_thread_t thread;
 
 static uv_timer_t main_thread_timer;
-static uv_timer_t closeTimer;
 
 void wait_node_io(int timeout) {
 	int ret;
@@ -175,6 +174,8 @@ static void main_thread(uv_timer_t *handle) {
 		uv_close((uv_handle_t *)&keep_alive, NULL);
 		LIBUI_NODE_DEBUG("uv_close keep_alive done");
 
+		/* await for the background thread to finish */
+		LIBUI_NODE_DEBUG("uv_thread_join wait");
 		uv_thread_join(&thread);
 		LIBUI_NODE_DEBUG("uv_thread_join done");
 
@@ -192,62 +193,6 @@ static void main_thread(uv_timer_t *handle) {
 			LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
 		}
 	}
-}
-
-/* This function start the event loop and exit immediately */
-static void stopAsync(uv_timer_t *handle) {
-	uv_timer_stop(&closeTimer);
-	uv_close((uv_handle_t *)&closeTimer, NULL);
-
-	enum ln_loop_status status = ln_get_loop_status();
-	LIBUI_NODE_DEBUG_F("stopAsync %d", status);
-
-	if (status == stopped) {
-		return;
-	}
-
-	/* quit libui event loop */
-	uiQuit();
-
-	/* await for the background thread to finish */
-	LIBUI_NODE_DEBUG("uv_thread_join wait");
-	uv_async_send(&keep_alive);
-}
-
-/* This function start the event loop and exit immediately */
-void startLoop() {
-	enum ln_loop_status status = ln_get_loop_status();
-	LIBUI_NODE_DEBUG_F("startLoop %d", status);
-
-	/* if the loop is already running, this is a noop */
-	if (status == started || status == starting) {
-		return;
-	}
-	LIBUI_NODE_DEBUG_F("startLoop ln_set_loop_status %d", starting);
-
-	ln_set_loop_status(starting);
-	ln_set_main_thread_waiting(false);
-	ln_set_background_thread_waiting(false);
-	ln_set_main_thread_quitted(false);
-
-	status = ln_get_loop_status();
-	LIBUI_NODE_DEBUG_F("startLoop %d", status);
-
-	/* init libui event loop */
-	uiMainSteps();
-	LIBUI_NODE_DEBUG("libui loop initialized");
-
-	/* start the background thread that check for node evnts pending */
-	uv_thread_create(&thread, background_thread, NULL);
-	LIBUI_NODE_DEBUG("background thread started...");
-
-	// Add dummy handle for libuv, otherwise libuv would quit when there is
-	// nothing to do.
-	uv_async_init(uv_default_loop(), &keep_alive, NULL);
-
-	/* start main_thread timer */
-	uv_timer_init(uv_default_loop(), &main_thread_timer);
-	uv_timer_start(&main_thread_timer, main_thread, 1, 0);
 }
 
 static void reject_promise(napi_env env, napi_deferred deferred, const char *error_message) {
@@ -289,7 +234,26 @@ LIBUI_FUNCTION(start) {
 
 	resolution_env = env;
 
-	startLoop();
+	ln_set_loop_status(starting);
+	ln_set_main_thread_waiting(false);
+	ln_set_background_thread_waiting(false);
+	ln_set_main_thread_quitted(false);
+
+	/* init libui event loop */
+	uiMainSteps();
+	LIBUI_NODE_DEBUG("libui loop initialized");
+
+	/* start the background thread that check for node evnts pending */
+	uv_thread_create(&thread, background_thread, NULL);
+	LIBUI_NODE_DEBUG("background thread started...");
+
+	// Add dummy handle for libuv, otherwise libuv would quit when there is
+	// nothing to do.
+	uv_async_init(uv_default_loop(), &keep_alive, NULL);
+
+	/* start main_thread timer */
+	uv_timer_init(uv_default_loop(), &main_thread_timer);
+	uv_timer_start(&main_thread_timer, main_thread, 1, 0);
 
 	LIBUI_NODE_DEBUG("startLoop async started");
 
@@ -328,10 +292,9 @@ LIBUI_FUNCTION(stop) {
 
 	LIBUI_NODE_DEBUG("visible windows cleaned up");
 
-	uv_timer_init(uv_default_loop(), &closeTimer);
-	uv_timer_start(&closeTimer, stopAsync, 1, 0);
+	uiQuit();
 
-	LIBUI_NODE_DEBUG("stop async started");
+	LIBUI_NODE_DEBUG("uiQuit called");
 
 	return promise;
 }
