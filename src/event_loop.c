@@ -144,16 +144,16 @@ static void redraw(uv_timer_t *handle) {
 
 	/* Blocking call that wait for a node or GUI event pending */
 	LIBUI_NODE_DEBUG("+++ blocking GUI\n");
-	uiMainStep(true);
+	int gui_running = 1;
+
+	gui_running = uiMainStep(true);
 	mainThreadStillWaitingGuiEvents = false;
 	uv_mutex_lock(&mainThreadWaitingGuiEvents);
 	LIBUI_NODE_DEBUG("+++ mainThreadWaitingGuiEvents locked.\n");
 
 	/* dequeue and run every event pending */
-	int gui_running = 1;
 	while (gui_running && uiEventsPending()) {
 		gui_running = uiMainStep(false);
-		LIBUI_NODE_DEBUG("+++ other GUI event dequeued.\n");
 	}
 	LIBUI_NODE_DEBUG("+++ all GUI events dequeued.\n");
 
