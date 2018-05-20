@@ -5,22 +5,33 @@
 
 static const char *MODULE = "EventLoop";
 
+static uv_barrier_t all_threads_are_waiting;
+static uv_barrier_t all_threads_are_awaked;
+
 static napi_deferred event_loop_closed_deferred = NULL;
 static napi_deferred event_loop_started_deferred = NULL;
 static napi_env resolution_env = NULL;
 
-atomic_bool running;
-
-atomic_bool mainThreadStillWaitingGuiEvents;
-
-static uv_mutex_t mainThreadWaitingGuiEvents;
-static uv_mutex_t mainThreadAwakenFromBackground;
-static uv_prepare_t mainThreadAwakenPhase;
-static uv_async_t keepAliveTimer;
+static uv_async_t keep_alive;
 
 static uv_thread_t thread;
-static uv_timer_t redrawTimer;
+
+static uv_timer_t main_thread_timer;
 static uv_timer_t closeTimer;
+
+void wait_node_io(int timeout) {
+	int ret;
+	do {
+
+		LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d", timeout);
+		/*
+			wait for pending events
+			a timeout of -1 means to wait forever.
+		*/
+		ret = waitForNodeEvents(uv_default_loop(), timeout);
+		LIBUI_NODE_DEBUG("--- wait done");
+	} while (ret == -1 && errno == EINTR);
+}
 
 /*
    This function is executed in the
@@ -30,77 +41,45 @@ static uv_timer_t closeTimer;
    When pending node events are found, the native GUI
    event loop is wake up by calling uiLoopWakeup().
 */
-static void backgroundNodeEventsPoller(void *arg) {
-	while (running) {
-		LIBUI_NODE_DEBUG("--- wait mainThreadWaitingGuiEvents.\n");
+static void background_thread(void *arg) {
+	LIBUI_NODE_DEBUG("--- start background_thread ");
+
+	while (!ln_get_main_thread_quitted()) {
+		LIBUI_NODE_DEBUG("--- wait on all_threads_are_waiting.");
+
+		ln_set_background_thread_waiting(true);
 
 		// wait for the main thread
 		// to be blocked waiting for GUI events
-		uv_mutex_lock(&mainThreadWaitingGuiEvents);
+		uv_barrier_wait(&all_threads_are_waiting);
+		LIBUI_NODE_DEBUG("--- all_threads_are_waiting passed.");
 
-		// immediately release the lock
-		uv_mutex_unlock(&mainThreadWaitingGuiEvents);
-
-		int pendingEvents = 1;
 		int timeout = uv_backend_timeout(uv_default_loop());
-		LIBUI_NODE_DEBUG_F("--- uv_backend_timeout == %d\n", timeout);
+		LIBUI_NODE_DEBUG_F("--- uv_backend_timeout == %d", timeout);
 
+		// if timeout == 0, it means there are
+		// already some callback to execute, so no
+		// IO wait is necessary.
 		if (timeout != 0) {
-			do {
+			LIBUI_NODE_DEBUG("--- wait node io");
+			wait_node_io(timeout);
+			LIBUI_NODE_DEBUG("--- done wait node io");
 
-				LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d\n", timeout);
-				/* wait for pending events*/
-				pendingEvents = waitForNodeEvents(uv_default_loop(), timeout);
-
-				if (pendingEvents == 0 && timeout > 0) {
-					// timers
-					pendingEvents = 1;
-				}
-			} while (pendingEvents == -1 && errno == EINTR);
+			if (ln_get_main_thread_waiting()) {
+				LIBUI_NODE_DEBUG("--- wake up main thread");
+				ln_set_background_thread_waiting(false);
+				uiLoopWakeup();
+			}
+		} else {
+			ln_set_background_thread_waiting(false);
 		}
 
-		LIBUI_NODE_DEBUG_F("--- pendingEvents == %d\n", pendingEvents);
-
-		if (running && mainThreadStillWaitingGuiEvents && pendingEvents > 0) {
-			LIBUI_NODE_DEBUG("--- wake up main thread\n");
-			// this allow the background thread
-			// to wait for the main thread to complete
-			// running node callbacks
-			uiLoopWakeup();
-		}
-
-		if (running && pendingEvents > 0) {
-			// wait for the main thread to complete
-			// its awaken phase.
-			LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locking.\n");
-			uv_mutex_lock(&mainThreadAwakenFromBackground);
-			LIBUI_NODE_DEBUG("--- mainThreadAwakenFromBackground locked.\n");
-
-			// immediately release the lock
-			uv_mutex_unlock(&mainThreadAwakenFromBackground);
-		}
-	}
-	LIBUI_NODE_DEBUG("--- Background terminating.\n");
-}
-
-static void redraw(uv_timer_t *handle);
-
-static void uv_awaken_cb(uv_prepare_t *handle) {
-	uv_prepare_stop(&mainThreadAwakenPhase);
-
-	if (!running) {
-		return;
+		// wait for the main thread
+		// to be blocked waiting for GUI events
+		uv_barrier_wait(&all_threads_are_awaked);
 	}
 
-	LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocking.\n");
-	uv_mutex_unlock(&mainThreadAwakenFromBackground);
-	LIBUI_NODE_DEBUG("+++ mainThreadAwakenFromBackground unlocked.\n");
-
-	// schedule another call to redraw as soon as possible
-	// how to find a correct amount of time to schedule next call?
-	//.because too long and UI is not responsive, too short and node
-	// become really slow
-	uv_timer_start(&redrawTimer, redraw, 10, 0);
+	LIBUI_NODE_DEBUG("--- background terminating.");
 }
 
 /*
@@ -113,21 +92,14 @@ static void uv_awaken_cb(uv_prepare_t *handle) {
 	events, because uiLoopWakeup function posts a GUI event
 	from the background thread for this purpose.
  */
-static void redraw(uv_timer_t *handle) {
-	if (!running) {
-		return;
-	}
+static void main_thread(uv_timer_t *handle) {
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("+++ start main_thread with status %d", status);
 	uv_timer_stop(handle);
 
-	// signal the background poller thread
-	// that the main one is about to enter
-	// the blocking call to wait for GUI events.
-	uv_mutex_unlock(&mainThreadWaitingGuiEvents);
-	mainThreadStillWaitingGuiEvents = true;
-
-	LIBUI_NODE_DEBUG("+++ locking mainThreadAwakenFromBackground\n");
-	uv_mutex_lock(&mainThreadAwakenFromBackground);
-	LIBUI_NODE_DEBUG("+++ locked mainThreadAwakenFromBackground\n");
+	if (status == stopped) {
+		return;
+	}
 
 	if (event_loop_started_deferred != NULL) {
 		napi_value null;
@@ -139,140 +111,156 @@ static void redraw(uv_timer_t *handle) {
 		napi_close_handle_scope(resolution_env, handle_scope);
 		resolution_env = NULL;
 		event_loop_started_deferred = NULL;
+		ln_set_loop_status(started);
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
 	}
 
-	/* Blocking call that wait for a node or GUI event pending */
-	LIBUI_NODE_DEBUG("+++ blocking GUI\n");
+	LIBUI_NODE_DEBUG("+++ wait on all_threads_are_waiting");
+
+	// wait for the background thread
+	// to be blocked waiting for node events
+	uv_barrier_wait(&all_threads_are_waiting);
+
+	LIBUI_NODE_DEBUG("+++ passed all_threads_are_waiting");
+
+	int timeout = uv_backend_timeout(uv_default_loop());
+
 	int gui_running = 1;
 
-	gui_running = uiMainStep(true);
-	mainThreadStillWaitingGuiEvents = false;
-	uv_mutex_lock(&mainThreadWaitingGuiEvents);
-	LIBUI_NODE_DEBUG("+++ mainThreadWaitingGuiEvents locked.\n");
+	if (timeout != 0) {
+
+		LIBUI_NODE_DEBUG("+++ wait GUI events");
+
+		ln_set_main_thread_waiting(true);
+		LIBUI_NODE_DEBUG("+++ ln_set_main_thread_waiting true");
+
+		gui_running = uiMainStep(true);
+		LIBUI_NODE_DEBUG("+++ uiWaitForEvents done");
+
+		ln_set_main_thread_waiting(false);
+		LIBUI_NODE_DEBUG("+++ ln_set_main_thread_waiting false");
+	}
+
+	if (ln_get_background_thread_waiting()) {
+		LIBUI_NODE_DEBUG("+++ wake up background thread");
+		uv_async_send(&keep_alive);
+	}
 
 	/* dequeue and run every event pending */
 	while (gui_running && uiEventsPending()) {
 		gui_running = uiMainStep(false);
 	}
-	LIBUI_NODE_DEBUG("+++ all GUI events dequeued.\n");
+	LIBUI_NODE_DEBUG("+++ all GUI events worked.");
 
-	// uv_mutex_unlock(&mainThreadAwakenFromBackground);
+	if (!gui_running) {
+		ln_set_main_thread_quitted(true);
+	}
 
-	// uv_timer_start(redrawTimer, redraw, 100, 0);
+	// wait for the background thread
+	// to be unblocked from waiting for node events
+	LIBUI_NODE_DEBUG("+++ wait all_threads_are_awaked");
+	uv_barrier_wait(&all_threads_are_awaked);
+	LIBUI_NODE_DEBUG("+++ passed all_threads_are_awaked");
 
-	if (gui_running && running) {
-		uv_prepare_start(&mainThreadAwakenPhase, uv_awaken_cb);
-		LIBUI_NODE_DEBUG("+++ prepare handler started.\n");
+	LIBUI_NODE_DEBUG_F("+++ libui is running: %d", gui_running);
+
+	if (gui_running) {
+		LIBUI_NODE_DEBUG("+++ schedule next main_thread call.");
+		uv_timer_start(&main_thread_timer, main_thread, 10, 0);
+	} else {
+		uv_close((uv_handle_t *)&main_thread_timer, NULL);
+		LIBUI_NODE_DEBUG("+++ main_thread_timer closed");
+
+		/* stop keep alive timer */
+		uv_close((uv_handle_t *)&keep_alive, NULL);
+		LIBUI_NODE_DEBUG("uv_close keep_alive done");
+
+		uv_thread_join(&thread);
+		LIBUI_NODE_DEBUG("uv_thread_join done");
+
+		if (event_loop_closed_deferred != NULL) {
+			napi_value null;
+			napi_get_null(resolution_env, &null);
+			napi_handle_scope handle_scope;
+			napi_open_handle_scope(resolution_env, &handle_scope);
+			napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
+			napi_close_handle_scope(resolution_env, handle_scope);
+			resolution_env = NULL;
+			event_loop_closed_deferred = NULL;
+			ln_set_loop_status(stopped);
+
+			LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
+		}
 	}
 }
 
 /* This function start the event loop and exit immediately */
 static void stopAsync(uv_timer_t *handle) {
-
-	LIBUI_NODE_DEBUG_F("stopAsync %d\n", running);
-	if (!running) {
-		return;
-	}
-
 	uv_timer_stop(&closeTimer);
 	uv_close((uv_handle_t *)&closeTimer, NULL);
 
-	running = false;
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("stopAsync %d", status);
 
-	LIBUI_NODE_DEBUG("stopAsync starting\n");
-
-	/* stop redraw handler */
-	uv_timer_stop(&redrawTimer);
-	uv_close((uv_handle_t *)&redrawTimer, NULL);
-	LIBUI_NODE_DEBUG("redrawTimer stopped\n");
-
-	if (uv_mutex_trylock(&mainThreadWaitingGuiEvents)) {
-		uv_mutex_unlock(&mainThreadWaitingGuiEvents);
+	if (status == stopped) {
+		return;
 	}
-
-	if (uv_mutex_trylock(&mainThreadAwakenFromBackground)) {
-		uv_mutex_unlock(&mainThreadAwakenFromBackground);
-	}
-
-	/* await for the background thread to finish */
-	LIBUI_NODE_DEBUG("uv_thread_join wait\n");
-	uv_async_send(&keepAliveTimer);
-	uv_thread_join(&thread);
-	LIBUI_NODE_DEBUG("uv_thread_join done\n");
-
-	uv_mutex_destroy(&mainThreadWaitingGuiEvents);
-	LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadWaitingGuiEvents done\n");
-
-	// TODO: improve synchronization
-	// some examples crash while running this
-	// uv_mutex_destroy(&mainThreadAwakenFromBackground);
-	LIBUI_NODE_DEBUG("uv_mutex_destroy mainThreadAwakenFromBackground done\n");
-
-	/* stop keep alive timer */
-	uv_close((uv_handle_t *)&keepAliveTimer, NULL);
-
-	LIBUI_NODE_DEBUG("uv_close keepAliveTimer done\n");
-
-	uv_close((uv_handle_t *)&mainThreadAwakenPhase, NULL);
 
 	/* quit libui event loop */
 	uiQuit();
 
-	if (event_loop_closed_deferred != NULL) {
-		napi_value null;
-		napi_get_null(resolution_env, &null);
-		napi_handle_scope handle_scope;
-		napi_open_handle_scope(resolution_env, &handle_scope);
-		napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
-		napi_close_handle_scope(resolution_env, handle_scope);
-		resolution_env = NULL;
-		event_loop_closed_deferred = NULL;
-		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
-	}
+	/* await for the background thread to finish */
+	LIBUI_NODE_DEBUG("uv_thread_join wait");
+	uv_async_send(&keep_alive);
 }
 
 /* This function start the event loop and exit immediately */
 void startLoop() {
+	enum ln_loop_status status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("startLoop %d", status);
+
 	/* if the loop is already running, this is a noop */
-	if (running) {
+	if (status == started || status == starting) {
 		return;
 	}
+	LIBUI_NODE_DEBUG_F("startLoop ln_set_loop_status %d", starting);
 
-	running = true;
-	mainThreadStillWaitingGuiEvents = false;
+	ln_set_loop_status(starting);
+	ln_set_main_thread_waiting(false);
+	ln_set_background_thread_waiting(false);
+	ln_set_main_thread_quitted(false);
+
+	status = ln_get_loop_status();
+	LIBUI_NODE_DEBUG_F("startLoop %d", status);
+
 	/* init libui event loop */
 	uiMainSteps();
 	LIBUI_NODE_DEBUG("libui loop initialized");
 
-	// this is used to signal the background thread
-	// that the main one is entering a blocking call
-	// waiting for GUI events.
-	uv_mutex_init(&mainThreadWaitingGuiEvents);
-
-	// lock the mutex to signal that main
-	// thread is not yet blocked waiting
-	// for GUI events
-	uv_mutex_lock(&mainThreadWaitingGuiEvents);
-
-	// this is used to signal the background thread
-	// when all pending callback of current tick are
-	// called.
-	uv_mutex_init(&mainThreadAwakenFromBackground);
-
-	uv_prepare_init(uv_default_loop(), &mainThreadAwakenPhase);
-
 	/* start the background thread that check for node evnts pending */
-	uv_thread_create(&thread, backgroundNodeEventsPoller, NULL);
-	LIBUI_NODE_DEBUG("background thread started...\n");
+	uv_thread_create(&thread, background_thread, NULL);
+	LIBUI_NODE_DEBUG("background thread started...");
 
 	// Add dummy handle for libuv, otherwise libuv would quit when there is
 	// nothing to do.
-	uv_async_init(uv_default_loop(), &keepAliveTimer, NULL);
+	uv_async_init(uv_default_loop(), &keep_alive, NULL);
 
-	/* start redraw timer */
-	uv_timer_init(uv_default_loop(), &redrawTimer);
-	uv_timer_start(&redrawTimer, redraw, 1, 0);
+	/* start main_thread timer */
+	uv_timer_init(uv_default_loop(), &main_thread_timer);
+	uv_timer_start(&main_thread_timer, main_thread, 1, 0);
+}
+
+static void reject_promise(napi_env env, napi_deferred deferred, const char *error_message) {
+	napi_value napi_error_msg;
+	napi_create_string_utf8(env, error_message, NAPI_AUTO_LENGTH, &napi_error_msg);
+
+	napi_value error;
+	napi_create_error(env, NULL, napi_error_msg, &error);
+
+	napi_handle_scope handle_scope;
+	napi_open_handle_scope(env, &handle_scope);
+	napi_reject_deferred(env, deferred, error);
+	napi_close_handle_scope(env, handle_scope);
 }
 
 /* This function start the event loop and exit immediately */
@@ -282,39 +270,20 @@ LIBUI_FUNCTION(start) {
 
 	napi_status status = napi_create_promise(env, &deferred, &promise);
 	CHECK_STATUS_THROW(status, napi_create_promise);
-	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
-
-	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p\n",
-		   event_loop_closed_deferred, event_loop_started_deferred);
 
 	if (event_loop_closed_deferred != NULL) {
-		napi_value error;
-		napi_value error_msg;
-		napi_create_string_utf8(env, "Cannot start. A stop loop operation is pending.",
-								NAPI_AUTO_LENGTH, &error_msg);
-
-		napi_create_error(env, NULL, error_msg, &error);
-		napi_handle_scope handle_scope;
-		napi_open_handle_scope(env, &handle_scope);
-		napi_reject_deferred(env, deferred, error);
-		napi_close_handle_scope(env, handle_scope);
+		reject_promise(env, deferred, "Cannot start. A stop loop operation is pending.");
 		return promise;
 	}
 
 	if (event_loop_started_deferred != NULL) {
-		napi_value error;
-		napi_value error_msg;
-		napi_create_string_utf8(env, "Cannot start. A start loop operation is pending.",
-								NAPI_AUTO_LENGTH, &error_msg);
-
-		napi_create_error(env, NULL, error_msg, &error);
-
-		napi_handle_scope handle_scope;
-		napi_open_handle_scope(env, &handle_scope);
-		napi_reject_deferred(env, deferred, error);
-		napi_close_handle_scope(env, handle_scope);
+		reject_promise(env, deferred, "Cannot start. A start loop operation is pending.");
 		return promise;
 	}
+
+	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
+	uv_barrier_init(&all_threads_are_waiting, 2);
+	uv_barrier_init(&all_threads_are_awaked, 2);
 
 	event_loop_started_deferred = deferred;
 
@@ -335,37 +304,20 @@ LIBUI_FUNCTION(stop) {
 	CHECK_STATUS_THROW(status, napi_create_promise);
 	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
-	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p\n",
+	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p",
 		   event_loop_closed_deferred, event_loop_started_deferred);
 
 	if (event_loop_closed_deferred != NULL) {
-		napi_value error;
-		napi_value error_msg;
-		napi_create_string_utf8(env, "Cannot start. A stop loop operation is pending.",
-								NAPI_AUTO_LENGTH, &error_msg);
-
-		napi_create_error(env, NULL, error_msg, &error);
-		napi_handle_scope handle_scope;
-		napi_open_handle_scope(env, &handle_scope);
-		napi_reject_deferred(env, deferred, error);
-		napi_close_handle_scope(env, handle_scope);
+		reject_promise(env, deferred, "Cannot start. A stop loop operation is pending.");
 		return promise;
 	}
 
 	if (event_loop_started_deferred != NULL) {
-		napi_value error;
-		napi_value error_msg;
-		napi_create_string_utf8(env, "Cannot start. A start loop operation is pending.",
-								NAPI_AUTO_LENGTH, &error_msg);
-
-		napi_create_error(env, NULL, error_msg, &error);
-
-		napi_handle_scope handle_scope;
-		napi_open_handle_scope(env, &handle_scope);
-		napi_reject_deferred(env, deferred, error);
-		napi_close_handle_scope(env, handle_scope);
+		reject_promise(env, deferred, "Cannot start. A start loop operation is pending.");
 		return promise;
 	}
+
+	ln_set_loop_status(stopping);
 
 	event_loop_closed_deferred = deferred;
 	resolution_env = env;
@@ -389,7 +341,7 @@ LIBUI_FUNCTION(stop) {
 // to update the list of handles it's
 // awaiting for.
 LIBUI_FUNCTION(wakeupBackgroundThread) {
-	uv_async_send(&keepAliveTimer);
+	uv_async_send(&keep_alive);
 	return NULL;
 }
 

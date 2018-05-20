@@ -1,24 +1,25 @@
 const test = require('tape');
+
 const {
-	UiSlider,
-	UiWindow,
-	UiVerticalBox,
+	startLoop,
+	startTimer,
+	stopLoop,
 	UiHorizontalBox,
 	UiMultilineEntry,
-	startLoop,
-	stopLoop,
-	startTimer
+	UiSlider,
+	UiVerticalBox,
+	UiWindow
 } = require('..');
 
 test('string arg are coherced', t => {
-	t.plan(1);
 	const w = new UiWindow(null, 42, 42, true);
 	t.equal(w.title, 'null');
+	t.end();
 });
 
 test('bad type for number argument', t => {
-	t.plan(1);
 	t.throws(() => new UiWindow('test', '42'), /Argument width: A number was expected/);
+	t.end();
 });
 
 test('boolean arg are coherced', t => {
@@ -28,66 +29,69 @@ test('boolean arg are coherced', t => {
 });
 
 test('handler must be of correct control', t => {
-	t.plan(1);
 	const win = new UiWindow('test', 42, 42, 1);
 	const slider = new UiSlider();
 	t.throws(() => win.setTitle.call(slider, 'test'),
 			 /Expect a UiWindow "this", got a UiSlider/);
+	t.end();
 });
 
 test('handler must be of correct control - inherited', t => {
-	t.plan(1);
 	const win = new UiVerticalBox('test', 42, 42, 1);
 	const slider = new UiSlider();
 	t.throws(() => win.setPadded.call(slider, true),
 			 /Expect a UiBox "this", got a UiSlider/);
+	t.end();
 });
 
 test('handler must be of correct control - correct inheritance', t => {
-	t.plan(1);
 	const vBox = new UiVerticalBox('test', 42, 42, 1);
 	const hBox = new UiHorizontalBox();
 	vBox.setPadded.call(hBox, true);
 	t.equal(hBox.padded, true);
+	t.end();
 });
 
 test('handler must be of correct control - arguments', t => {
-	t.plan(1);
 	const box = new UiVerticalBox('test', 42, 42, 1);
 	const win = new UiWindow(null, 42, 42, true);
 	t.throws(() => box.append(win, true), /Expect a UiControl "control", got a UiWindow/);
+	t.end();
 });
 
-test('call method on destroyed control',
-	 t => (async () => {
-			  console.log('CALL METHOD ON DESTROYED CONTROL');
-			  await startLoop();
-			  console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
-			  const entry = new UiMultilineEntry();
-			  const win = new UiWindow(null, 42, 42, true);
-			  win.setChild(entry);
-			  win.show();
-			  win.close();
-			  t.throws(() => {
-				  entry.append('ciao');
-			  }, /Method called on destroyed control./);
-			  await stopLoop();
-			  t.end();
-		  })().catch(t.fail));
+test('call method on destroyed control', t => {
+	console.log('CALL METHOD ON DESTROYED CONTROL');
+	startLoop()
+		.then(() => {
+			console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
+			const entry = new UiMultilineEntry();
+			const win = new UiWindow(null, 42, 42, true);
+			win.setChild(entry);
+			win.show();
+			win.close();
+			t.throws(() => {
+				entry.append('ciao');
+			}, /Method called on destroyed control./);
+			return stopLoop();
+		})
+		.then(() => t.end())
+		.catch(err => t.fail(err));
+});
 
-test('call method on destroyed window',
-	 t => (async () => {
-			  console.log('CALL METHOD ON DESTROYED WINDOW');
-			  await startLoop();
-
-			  console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
-			  const win = new UiWindow(null, 42, 42, true);
-			  win.show();
-			  win.close();
-			  t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
-			  await stopLoop();
-			  t.end();
-		  })().catch(t.fail));
+test('call method on destroyed window', t => {
+	console.log('CALL METHOD ON DESTROYED WINDOW');
+	startLoop()
+		.then(() => {
+			console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
+			const win = new UiWindow(null, 42, 42, true);
+			win.show();
+			win.close();
+			t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
+			return stopLoop();
+		})
+		.then(() => t.end())
+		.catch(err => t.fail(err));
+});
 /*
 test('call window close before show', t => {
 	startLoop();
@@ -124,7 +128,6 @@ test('call method without loop', t => {
 });
 
 test('call method after stopLoop', t => {
-	t.plan(1);
 	const entry = new UiMultilineEntry();
 	const win = new UiWindow(null, 42, 42, true);
 	win.setChild(entry);
@@ -136,7 +139,6 @@ test('call method after stopLoop', t => {
 });
 
 test('Add control to more then one container', t => {
-	t.plan(1);
 	const entry = new UiMultilineEntry();
 	const win = new UiWindow(null, 42, 42, true);
 	const win2 = new UiWindow(null, 42, 42, true);
