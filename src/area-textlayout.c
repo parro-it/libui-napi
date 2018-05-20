@@ -6,6 +6,12 @@
 
 static const char *MODULE = "DrawTextLayout";
 
+// font-descriptor.c
+typedef struct {
+	uiFontDescriptor *font;
+	bool fromButton;
+} FontHandle;
+
 static void free_layout(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiDrawTextLayout *layout = (uiDrawTextLayout *)finalize_data;
 	uiDrawFreeTextLayout(layout);
@@ -14,12 +20,12 @@ static void free_layout(napi_env env, void *finalize_data, void *finalize_hint) 
 LIBUI_FUNCTION(create) {
 	INIT_ARGS(4);
 	ARG_POINTER(uiAttributedString, str, 0);
-	ARG_POINTER(uiFontDescriptor, f, 1);
+	ARG_POINTER(FontHandle, h, 1);
 	ARG_DOUBLE(width, 2);
 	ARG_INT32(align, 3);
 
 	// ok with memory?
-	uiDrawTextLayoutParams params = {str, f, width, (uiDrawTextAlign)align};
+	uiDrawTextLayoutParams params = {str, h->font, width, (uiDrawTextAlign)align};
 
 	uiDrawTextLayout *layout = uiDrawNewTextLayout(&params);
 
