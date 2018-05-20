@@ -17,6 +17,10 @@ class FontAttribute {
 		return FontAttributeC.getType(this.handle);
 	}
 
+	getAttributeType() {
+		return this.type;
+	}
+
 	get family() {
 		this._check('family');
 		return FontAttributeC.getFamily(this.handle);
