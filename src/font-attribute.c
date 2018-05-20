@@ -7,14 +7,20 @@ static const char *MODULE = "FontAttribute";
 // font-opentype.c
 napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf);
 
+typedef struct {
+	uiAttribute *attr;
+	bool appended;
+} AttributeHandle;
+
 static void free_font_attribute(napi_env env, void *finalize_data, void *finalize_hint) {
-	// uiAttribute *attr = (uiAttribute *)finalize_data;
-	// if (!appended) {
-	// 	uiFreeAttribute(a);
-	// }
+	AttributeHandle *h = (AttributeHandle *)finalize_data;
+	if (!h->appended) {
+		uiFreeAttribute(h->attr);
+	}
+	free(h);
 }
 
-napi_value create_attribute_external(napi_env env, uiAttribute *attr) {
+napi_value create_attribute_external(napi_env env, AttributeHandle *attr) {
 	napi_value attr_external;
 	napi_status status = napi_create_external(env, attr, free_font_attribute, NULL, &attr_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
@@ -22,72 +28,48 @@ napi_value create_attribute_external(napi_env env, uiAttribute *attr) {
 	return attr_external;
 }
 
-LIBUI_FUNCTION(getType) {
+LIBUI_FUNCTION(setAppended) {
 	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
+	ARG_POINTER(AttributeHandle, h, 0);
 
-	return make_int32(env, uiAttributeGetType(attr));
+	h->appended = true;
+
+	return NULL;
 }
 
-LIBUI_FUNCTION(getFamily) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
+#define GET(NAME, TYPE, FUNC)                                                                      \
+	LIBUI_FUNCTION(NAME) {                                                                         \
+		INIT_ARGS(1);                                                                              \
+		ARG_POINTER(AttributeHandle, h, 0);                                                        \
+		return TYPE(env, FUNC(h->attr));                                                           \
+	}
 
-	return make_utf8_string(env, uiAttributeFamily(attr));
-}
-
-LIBUI_FUNCTION(getSize) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
-
-	return make_double(env, uiAttributeSize(attr));
-}
-
-LIBUI_FUNCTION(getWeight) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
-
-	return make_int32(env, uiAttributeWeight(attr));
-}
-
-LIBUI_FUNCTION(getItalic) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
-
-	return make_int32(env, uiAttributeItalic(attr));
-}
-
-LIBUI_FUNCTION(getStretch) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
-
-	return make_int32(env, uiAttributeStretch(attr));
-}
-
-LIBUI_FUNCTION(getUnderline) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
-
-	return make_int32(env, uiAttributeUnderline(attr));
-}
+GET(getType, make_int32, uiAttributeGetType);
+GET(getFamily, make_utf8_string, uiAttributeFamily);
+GET(getSize, make_double, uiAttributeSize);
+GET(getWeight, make_int32, uiAttributeWeight);
+GET(getItalic, make_int32, uiAttributeItalic);
+GET(getStretch, make_int32, uiAttributeStretch);
+GET(getUnderline, make_int32, uiAttributeUnderline);
+GET(getOTFeatures, create_otf_external, (uiOpenTypeFeatures *)uiAttributeFeatures);
 
 LIBUI_FUNCTION(getColor) {
 	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
+	ARG_POINTER(AttributeHandle, h, 0);
 
 	double r;
 	double g;
 	double b;
 	double a;
 
-	uiAttributeColor(attr, &r, &g, &b, &a);
+	uiAttributeColor(h->attr, &r, &g, &b, &a);
 
 	return make_color(env, r, g, b, a);
 }
 
 LIBUI_FUNCTION(getUnderlineColor) {
 	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
+	ARG_POINTER(AttributeHandle, h, 0);
 
 	double r;
 	double g;
@@ -95,7 +77,7 @@ LIBUI_FUNCTION(getUnderlineColor) {
 	double a;
 
 	uiUnderlineColor type;
-	uiAttributeUnderlineColor(attr, &type, &r, &g, &b, &a);
+	uiAttributeUnderlineColor(h->attr, &type, &r, &g, &b, &a);
 
 	napi_value obj;
 
@@ -118,43 +100,34 @@ LIBUI_FUNCTION(getUnderlineColor) {
 	return obj;
 }
 
-LIBUI_FUNCTION(getOTFeatures) {
+#define CREATE(NAME, TYPE, FUNC)                                                                   \
+	LIBUI_FUNCTION(NAME) {                                                                         \
+		INIT_ARGS(1);                                                                              \
+		TYPE(v, 0);                                                                                \
+                                                                                                   \
+		AttributeHandle *h = malloc(sizeof(AttributeHandle));                                      \
+		h->attr = FUNC(v);                                                                         \
+		h->appended = false;                                                                       \
+                                                                                                   \
+		return create_attribute_external(env, h);                                                  \
+	}
+
+CREATE(createFamily, ARG_STRING, uiNewFamilyAttribute);
+CREATE(createSize, ARG_DOUBLE, uiNewSizeAttribute);
+CREATE(createWeight, ARG_INT32, uiNewWeightAttribute);
+CREATE(createItalic, ARG_INT32, uiNewItalicAttribute);
+CREATE(createStretch, ARG_INT32, uiNewStretchAttribute);
+CREATE(createUnderline, ARG_INT32, uiNewUnderlineAttribute);
+
+LIBUI_FUNCTION(createOTFeatures) {
 	INIT_ARGS(1);
-	ARG_POINTER(uiAttribute, attr, 0);
+	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
 
-	uiOpenTypeFeatures *otf = (uiOpenTypeFeatures *)uiAttributeFeatures(attr);
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = uiNewFeaturesAttribute(otf);
+	h->appended = false;
 
-	return create_otf_external(env, otf);
-}
-
-LIBUI_FUNCTION(createFamily) {
-	INIT_ARGS(1);
-	ARG_STRING(family, 0);
-	return create_attribute_external(env, uiNewFamilyAttribute(family));
-}
-
-LIBUI_FUNCTION(createSize) {
-	INIT_ARGS(1);
-	ARG_DOUBLE(size, 0);
-	return create_attribute_external(env, uiNewSizeAttribute(size));
-}
-
-LIBUI_FUNCTION(createWeight) {
-	INIT_ARGS(1);
-	ARG_INT32(weight, 0);
-	return create_attribute_external(env, uiNewWeightAttribute(weight));
-}
-
-LIBUI_FUNCTION(createItalic) {
-	INIT_ARGS(1);
-	ARG_INT32(italic, 0);
-	return create_attribute_external(env, uiNewItalicAttribute(italic));
-}
-
-LIBUI_FUNCTION(createStretch) {
-	INIT_ARGS(1);
-	ARG_INT32(stretch, 0);
-	return create_attribute_external(env, uiNewStretchAttribute(stretch));
+	return create_attribute_external(env, h);
 }
 
 LIBUI_FUNCTION(createColor) {
@@ -164,7 +137,11 @@ LIBUI_FUNCTION(createColor) {
 	ARG_DOUBLE(b, 2);
 	ARG_DOUBLE(a, 3);
 
-	return create_attribute_external(env, uiNewColorAttribute(r, g, b, a));
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = uiNewColorAttribute(r, g, b, a);
+	h->appended = false;
+
+	return create_attribute_external(env, h);
 }
 
 LIBUI_FUNCTION(createBackgroundColor) {
@@ -174,13 +151,11 @@ LIBUI_FUNCTION(createBackgroundColor) {
 	ARG_DOUBLE(b, 2);
 	ARG_DOUBLE(a, 3);
 
-	return create_attribute_external(env, uiNewBackgroundAttribute(r, g, b, a));
-}
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = uiNewBackgroundAttribute(r, g, b, a);
+	h->appended = false;
 
-LIBUI_FUNCTION(createUnderline) {
-	INIT_ARGS(1);
-	ARG_INT32(underline, 0);
-	return create_attribute_external(env, uiNewUnderlineAttribute(underline));
+	return create_attribute_external(env, h);
 }
 
 LIBUI_FUNCTION(createUnderlineColor) {
@@ -191,17 +166,17 @@ LIBUI_FUNCTION(createUnderlineColor) {
 	ARG_DOUBLE(b, 3);
 	ARG_DOUBLE(a, 4);
 
-	return create_attribute_external(env, uiNewUnderlineColorAttribute(underline, r, g, b, a));
-}
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = uiNewUnderlineColorAttribute(underline, r, g, b, a);
+	h->appended = false;
 
-LIBUI_FUNCTION(createOTFeatures) {
-	INIT_ARGS(1);
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
-	return create_attribute_external(env, uiNewFeaturesAttribute(otf));
+	return create_attribute_external(env, h);
 }
 
 napi_value _libui_init_font_attribute(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
+	LIBUI_EXPORT(setAppended);
+
 	LIBUI_EXPORT(getType);
 	LIBUI_EXPORT(getFamily);
 	LIBUI_EXPORT(getSize);

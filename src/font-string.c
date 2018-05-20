@@ -5,7 +5,11 @@
 static const char *MODULE = "AttributedString";
 
 // font-attribute.c
-napi_value create_attribute_external(napi_env env, uiAttribute *attr);
+typedef struct {
+	uiAttribute *attr;
+	bool appended;
+} AttributeHandle;
+napi_value create_attribute_external(napi_env env, AttributeHandle *h);
 
 static void free_string(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiAttributedString *str = (uiAttributedString *)finalize_data;
@@ -73,11 +77,12 @@ LIBUI_FUNCTION(deleteString) {
 LIBUI_FUNCTION(setAttribute) {
 	INIT_ARGS(4);
 	ARG_POINTER(uiAttributedString, str, 0);
-	ARG_POINTER(uiAttribute, a, 1);
+	ARG_POINTER(AttributeHandle, h, 1);
 	ARG_UINT32(start, 2);
 	ARG_UINT32(end, 3);
 
-	uiAttributedStringSetAttribute(str, a, start, end);
+	uiAttributedStringSetAttribute(str, h->attr, start, end);
+	h->appended = true;
 
 	return NULL;
 }
@@ -103,11 +108,12 @@ LIBUI_FUNCTION(appendAttributed) {
 		status = napi_get_element(env, array, i, &v);
 		CHECK_STATUS_THROW(status, napi_get_element);
 
-		uiAttribute *attr;
-		status = napi_get_value_external(env, v, (void **)&attr);
+		AttributeHandle *h;
+		status = napi_get_value_external(env, v, (void **)&h);
 		CHECK_STATUS_THROW(status, napi_get_value_external);
 
-		uiAttributedStringSetAttribute(str, attr, start, end);
+		uiAttributedStringSetAttribute(str, h->attr, start, end);
+		h->appended = true;
 	}
 
 	return NULL;
@@ -132,11 +138,12 @@ LIBUI_FUNCTION(insertAttributed) {
 		status = napi_get_element(env, array, i, &v);
 		CHECK_STATUS_THROW(status, napi_get_element);
 
-		uiAttribute *attr;
-		status = napi_get_value_external(env, v, (void **)&attr);
+		AttributeHandle *h;
+		status = napi_get_value_external(env, v, (void **)&h);
 		CHECK_STATUS_THROW(status, napi_get_value_external);
 
-		uiAttributedStringSetAttribute(str, attr, start, end);
+		uiAttributedStringSetAttribute(str, h->attr, start, end);
+		h->appended = true;
 	}
 
 	return NULL;
@@ -177,8 +184,12 @@ static uiForEach forEach_cb(const uiAttributedString *s, const uiAttribute *a, s
 	ForEachData *d = (ForEachData *)data;
 	napi_env env = *(d->env);
 
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = (uiAttribute *)a;
+	h->appended = true;
+
 	// TODO set appended
-	napi_value args[3] = {create_attribute_external(env, (uiAttribute *)a), make_uint32(env, start),
+	napi_value args[3] = {create_attribute_external(env, h), make_uint32(env, start),
 						  make_uint32(env, end)};
 
 	napi_value result;
