@@ -1,8 +1,8 @@
+#include <assert.h>
 #include <stdbool.h>
 #include "napi_utils.h"
 #include "app.h"
 #include "event-loop.h"
-
 static const char *MODULE = "EventLoop";
 
 static uv_barrier_t all_threads_are_waiting;
@@ -96,11 +96,9 @@ static void main_thread(uv_timer_t *handle) {
 	LIBUI_NODE_DEBUG_F("+++ start main_thread with status %d", status);
 	uv_timer_stop(handle);
 
-	if (status == stopped) {
-		return;
-	}
+	if (status == starting) {
+		assert(event_loop_started_deferred != NULL);
 
-	if (event_loop_started_deferred != NULL) {
 		napi_value null;
 		napi_get_null(resolution_env, &null);
 		napi_handle_scope handle_scope;
@@ -151,7 +149,7 @@ static void main_thread(uv_timer_t *handle) {
 	}
 	LIBUI_NODE_DEBUG("+++ all GUI events worked.");
 
-	if (!gui_running) {
+	if (!gui_running && ln_get_loop_status() == stopping) {
 		ln_set_main_thread_quitted(true);
 	}
 
@@ -163,35 +161,39 @@ static void main_thread(uv_timer_t *handle) {
 
 	LIBUI_NODE_DEBUG_F("+++ libui is running: %d", gui_running);
 
-	if (gui_running) {
+	if (gui_running || ln_get_loop_status() != stopping) {
 		LIBUI_NODE_DEBUG("+++ schedule next main_thread call.");
 		uv_timer_start(&main_thread_timer, main_thread, 10, 0);
 	} else {
 		uv_close((uv_handle_t *)&main_thread_timer, NULL);
 		LIBUI_NODE_DEBUG("+++ main_thread_timer closed");
 
-		/* stop keep alive timer */
-		uv_close((uv_handle_t *)&keep_alive, NULL);
-		LIBUI_NODE_DEBUG("uv_close keep_alive done");
-
 		/* await for the background thread to finish */
 		LIBUI_NODE_DEBUG("uv_thread_join wait");
 		uv_thread_join(&thread);
 		LIBUI_NODE_DEBUG("uv_thread_join done");
 
-		if (event_loop_closed_deferred != NULL) {
-			napi_value null;
-			napi_get_null(resolution_env, &null);
-			napi_handle_scope handle_scope;
-			napi_open_handle_scope(resolution_env, &handle_scope);
-			napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
-			napi_close_handle_scope(resolution_env, handle_scope);
-			resolution_env = NULL;
-			event_loop_closed_deferred = NULL;
-			ln_set_loop_status(stopped);
+		assert(event_loop_closed_deferred != NULL);
 
-			LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
-		}
+		napi_value null;
+		napi_get_null(resolution_env, &null);
+		napi_handle_scope handle_scope;
+		LIBUI_NODE_DEBUG("resolving stop promise");
+
+		napi_open_handle_scope(resolution_env, &handle_scope);
+		napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
+		napi_close_handle_scope(resolution_env, handle_scope);
+		LIBUI_NODE_DEBUG("resolved stop promise");
+
+		resolution_env = NULL;
+		event_loop_closed_deferred = NULL;
+		ln_set_loop_status(stopped);
+
+		/* stop keep alive timer */
+		uv_close((uv_handle_t *)&keep_alive, NULL);
+		LIBUI_NODE_DEBUG("uv_close keep_alive done");
+
+		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
 	}
 }
 
