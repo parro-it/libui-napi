@@ -89,7 +89,11 @@ test('call method on destroyed window', t => {
 			t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
 			return stopLoop();
 		})
-		.then(() => t.end())
+		.then(() => {
+			console.log('TEST ENDED');
+			t.end();
+			console.log('TEST ENDED DONE');
+		})
 		.catch(err => t.fail(err));
 });
 /*

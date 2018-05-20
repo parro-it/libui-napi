@@ -270,9 +270,6 @@ LIBUI_FUNCTION(stop) {
 	CHECK_STATUS_THROW(status, napi_create_promise);
 	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
-	printf("start event_loop_closed_deferred %p event_loop_started_deferred %p",
-		   event_loop_closed_deferred, event_loop_started_deferred);
-
 	if (event_loop_closed_deferred != NULL) {
 		reject_promise(env, deferred, "Cannot start. A stop loop operation is pending.");
 		return promise;
@@ -306,7 +303,7 @@ LIBUI_FUNCTION(stop) {
 // to update the list of handles it's
 // awaiting for.
 LIBUI_FUNCTION(wakeupBackgroundThread) {
-	if (uv_is_active(&keep_alive)) {
+	if (uv_is_active((const uv_handle_t *)&keep_alive)) {
 		uv_async_send(&keep_alive);
 	}
 	return NULL;
