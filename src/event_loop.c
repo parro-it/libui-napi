@@ -306,7 +306,9 @@ LIBUI_FUNCTION(stop) {
 // to update the list of handles it's
 // awaiting for.
 LIBUI_FUNCTION(wakeupBackgroundThread) {
-	uv_async_send(&keep_alive);
+	if (uv_is_active(&keep_alive)) {
+		uv_async_send(&keep_alive);
+	}
 	return NULL;
 }
 
