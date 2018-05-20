@@ -24,7 +24,7 @@ int uiEventsPending() {
 										  dequeue:NO];
 	return nil != event;
 }
-
+/*
 bool uiWaitForEvents(int timeout) {
 	NSDate *until;
 	if (timeout == -1) {
@@ -40,7 +40,7 @@ bool uiWaitForEvents(int timeout) {
 	printf("RECEIVED %p modifierFlags %lu, type %lu\n", event, [event modifierFlags], [event type]);
 	return [event modifierFlags] == 426576 && [event type] == NSEventTypeApplicationDefined;
 }
-
+*/
 int waitForNodeEvents(uv_loop_t *loop, int timeout) {
 	int nodeBackendFd = uv_backend_fd(loop);
 	if (nodeBackendFd == -1) {

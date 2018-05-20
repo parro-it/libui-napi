@@ -8,7 +8,7 @@
 int uiEventsPending();
 int uiLoopWakeup();
 int waitForNodeEvents(uv_loop_t *loop, int timeout);
-bool uiWaitForEvents(int timeout);
+// bool uiWaitForEvents(int timeout);
 
 void stopLoop();
 void startLoop();
@@ -22,6 +22,11 @@ void ln_set_main_thread_waiting(bool value);
 void ln_set_background_thread_waiting(bool value);
 bool ln_get_main_thread_waiting();
 bool ln_get_background_thread_waiting();
+
+void ln_set_main_thread_quitted(bool value);
+void ln_set_background_thread_quitted(bool value);
+bool ln_get_main_thread_quitted();
+bool ln_get_background_thread_quitted();
 
 napi_status ln_init_loop_status();
 
