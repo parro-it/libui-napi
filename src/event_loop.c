@@ -40,8 +40,10 @@ static void resolve_promise_with_null(napi_env env, napi_deferred deferred) {
 	napi_handle_scope handle_scope;
 	status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
-
+	LIBUI_NODE_DEBUG("Resolving start promise");
 	status = napi_resolve_deferred(env, deferred, null);
+	LIBUI_NODE_DEBUG("Resolved start promise");
+
 	CHECK_STATUS_UNCAUGHT(status, napi_resolve_deferred, );
 
 	status = napi_close_handle_scope(env, handle_scope);
@@ -129,7 +131,7 @@ static void main_thread(uv_timer_t *handle) {
 	enum ln_loop_status status = ln_get_loop_status();
 	LIBUI_NODE_DEBUG_F("+++ start main_thread with status %d", status);
 	uv_timer_stop(handle);
-
+	bool pending_start_promise_resolution = false;
 	if (status == starting) {
 		assert(event_loop_started_deferred != NULL);
 
@@ -137,7 +139,15 @@ static void main_thread(uv_timer_t *handle) {
 		resolution_env = NULL;
 		event_loop_started_deferred = NULL;
 		ln_set_loop_status(started);
+		pending_start_promise_resolution = true;
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
+		uv_barrier_wait(&all_threads_are_waiting);
+		if (ln_get_background_thread_waiting()) {
+			LIBUI_NODE_DEBUG("+++ wake up background thread");
+			uv_async_send(&keep_alive);
+		}
+		uv_barrier_wait(&all_threads_are_awaked);
+		uv_timer_start(&main_thread_timer, main_thread, 10, 0);
 	}
 
 	LIBUI_NODE_DEBUG("+++ wait on all_threads_are_waiting");
@@ -152,7 +162,7 @@ static void main_thread(uv_timer_t *handle) {
 
 	int gui_running = 1;
 
-	if (timeout != 0) {
+	if (timeout != 0 && !pending_start_promise_resolution) {
 
 		LIBUI_NODE_DEBUG("+++ wait GUI events");
 
