@@ -96,11 +96,27 @@ static uiForEach forEach_cb(const uiOpenTypeFeatures *otf, char a, char b, char 
 	napi_value result_v;
 
 	napi_status status = napi_call_function(env, *(dat->null), *(dat->cb), 2, args, &result_v);
-	// CHECK_STATUS_THROW(status, napi_call_function);
+	if (status != napi_ok) {
+		const napi_extended_error_info *result;
+		napi_get_last_error_info(env, &result);
+		char err[1024];
+		snprintf(err, 1024, "napi_call_function failed with code %d: %s\n",
+				 result->engine_error_code, result->error_message);
+		napi_throw_error(env, NULL, err);
+		return uiForEachStop;
+	}
 
 	bool result;
 	status = napi_get_value_bool(env, result_v, &result);
-	// CHECK_STATUS_THROW(status, napi_get_value_bool);
+	if (status != napi_ok) {
+		const napi_extended_error_info *result;
+		napi_get_last_error_info(env, &result);
+		char err[1024];
+		snprintf(err, 1024, "napi_get_value_bool failed with code %d: %s\n",
+				 result->engine_error_code, result->error_message);
+		napi_throw_error(env, NULL, err);
+		return uiForEachStop;
+	}
 
 	return result ? uiForEachStop : uiForEachContinue;
 }
