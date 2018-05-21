@@ -278,7 +278,7 @@ Returns a new FontAttribute with the OpenTypeFeatures `otf`.
 
 ## Methods
 
-### getAttributeType
+### getType
 
 Returns the type of the attribute. Possible values:
 
@@ -349,6 +349,8 @@ Defines font glyph settings (ignored if not supported by the font).
 
 See [here](https://docs.microsoft.com/de-de/typography/opentype/spec/featuretags) for more information and a list of feature tags.
 
+All `tag` arguments in the following methods *must* be strings of length 4.
+
 Example: Setting `liga` to `1` enables ligatures (not supported by every font):
 
 ```js
@@ -362,7 +364,7 @@ str.appendAttributed('affix', FontAttribute.newOTFeatures(otf));
 
 ### clone
 
-Returns a new object containg all tags.
+Returns a copy of the object.
 
 ### add
 
@@ -453,6 +455,6 @@ Defines how an attributed string should get drawn onto an area. (See [Area UiDra
 
 ## Methods
 
-### getExtends
+### getExtents
 
 Returns a SizeDouble containing the actual width and height of the text.
