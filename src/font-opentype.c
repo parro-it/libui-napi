@@ -40,6 +40,7 @@ LIBUI_FUNCTION(addTag) {
 
 	uiOpenTypeFeaturesAdd(otf, tag[0], tag[1], tag[2], tag[3], value);
 
+	free(tag);
 	return NULL;
 }
 
@@ -51,6 +52,7 @@ LIBUI_FUNCTION(removeTag) {
 
 	uiOpenTypeFeaturesRemove(otf, tag[0], tag[1], tag[2], tag[3]);
 
+	free(tag);
 	return NULL;
 }
 
@@ -62,6 +64,8 @@ LIBUI_FUNCTION(getTag) {
 
 	unsigned int value = 0;
 	unsigned int exists = uiOpenTypeFeaturesGet(otf, tag[0], tag[1], tag[2], tag[3], &value);
+
+	free(tag);
 
 	if (exists) {
 		return make_uint32(env, value);

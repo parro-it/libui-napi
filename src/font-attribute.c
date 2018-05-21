@@ -112,12 +112,23 @@ LIBUI_FUNCTION(getUnderlineColor) {
 		return create_attribute_external(env, h);                                                  \
 	}
 
-CREATE(createFamily, ARG_STRING, uiNewFamilyAttribute);
 CREATE(createSize, ARG_DOUBLE, uiNewSizeAttribute);
 CREATE(createWeight, ARG_INT32, uiNewWeightAttribute);
 CREATE(createItalic, ARG_INT32, uiNewItalicAttribute);
 CREATE(createStretch, ARG_INT32, uiNewStretchAttribute);
 CREATE(createUnderline, ARG_INT32, uiNewUnderlineAttribute);
+
+LIBUI_FUNCTION(createFamily) {
+	INIT_ARGS(1);
+	ARG_STRING(v, 0);
+
+	AttributeHandle *h = malloc(sizeof(AttributeHandle));
+	h->attr = uiNewFamilyAttribute(v);
+	h->appended = false;
+
+	free(v);
+	return create_attribute_external(env, h);
+}
 
 LIBUI_FUNCTION(createOTFeatures) {
 	INIT_ARGS(1);

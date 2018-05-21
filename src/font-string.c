@@ -25,6 +25,7 @@ LIBUI_FUNCTION(create) {
 		napi_create_external(env, uiNewAttributedString(s), free_string, NULL, &str_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
+	free(s);
 	return str_external;
 }
 
@@ -49,6 +50,7 @@ LIBUI_FUNCTION(appendUnattributed) {
 
 	uiAttributedStringAppendUnattributed(str, s);
 
+	free(s);
 	return NULL;
 }
 
@@ -60,6 +62,7 @@ LIBUI_FUNCTION(insertUnattributed) {
 
 	uiAttributedStringInsertAtUnattributed(str, s, pos);
 
+	free(s);
 	return NULL;
 }
 
@@ -103,6 +106,8 @@ LIBUI_FUNCTION(appendAttributed) {
 	size_t end = start + strlen(s);
 
 	uiAttributedStringAppendUnattributed(str, s);
+	free(s);
+
 	for (size_t i = 0; i < length; i++) {
 		napi_value v;
 		status = napi_get_element(env, array, i, &v);
@@ -133,6 +138,7 @@ LIBUI_FUNCTION(insertAttributed) {
 	size_t end = start + strlen(s);
 
 	uiAttributedStringInsertAtUnattributed(str, s, start);
+	free(s);
 	for (size_t i = 0; i < length; i++) {
 		napi_value v;
 		status = napi_get_element(env, array, i, &v);
