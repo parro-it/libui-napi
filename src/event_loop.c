@@ -15,30 +15,51 @@ static napi_env resolution_env = NULL;
 static uv_async_t keep_alive;
 
 static uv_thread_t thread;
-
 static uv_timer_t main_thread_timer;
 
-void wait_node_io(int timeout) {
-	int ret;
-	do {
+static void reject_promise(napi_env env, napi_deferred deferred, const char *error_message) {
+	napi_value napi_error_msg;
+	napi_create_string_utf8(env, error_message, NAPI_AUTO_LENGTH, &napi_error_msg);
 
-		LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d", timeout);
-		/*
-			wait for pending events
-			a timeout of -1 means to wait forever.
-		*/
-		ret = waitForNodeEvents(uv_default_loop(), timeout);
-		LIBUI_NODE_DEBUG("--- wait done");
-	} while (ret == -1 && errno == EINTR);
+	napi_value error;
+	napi_create_error(env, NULL, napi_error_msg, &error);
+
+	napi_handle_scope handle_scope;
+	napi_open_handle_scope(env, &handle_scope);
+	napi_reject_deferred(env, deferred, error);
+	napi_close_handle_scope(env, handle_scope);
+}
+
+static void resolve_promise_with_null(napi_env env, napi_deferred deferred) {
+	napi_value null;
+	napi_get_null(env, &null);
+
+	napi_handle_scope handle_scope;
+	napi_open_handle_scope(env, &handle_scope);
+	napi_resolve_deferred(env, deferred, null);
+	napi_close_handle_scope(env, handle_scope);
 }
 
 /*
-   This function is executed in the
-   background thread and is responsible for continuosly polling
-   the node backend for pending events.
+	wait for pending events
 
-   When pending node events are found, the native GUI
-   event loop is wake up by calling uiLoopWakeup().
+*/
+void wait_node_io(int timeout) {
+	int ret;
+	LIBUI_NODE_DEBUG_F("--- entering wait with timeout %d", timeout);
+	do {
+		ret = waitForNodeEvents(uv_default_loop(), timeout);
+	} while (ret == -1 && errno == EINTR);
+	LIBUI_NODE_DEBUG("--- wait done");
+}
+
+/*
+	This function is executed in the
+	background thread and is responsible for continuosly polling
+	the node backend for pending events.
+
+	When pending node events are found, the main GUI
+	thread, if it's waiting, is wake up by calling uiLoopWakeup().
 */
 static void background_thread(void *arg) {
 	LIBUI_NODE_DEBUG("--- start background_thread ");
@@ -59,6 +80,11 @@ static void background_thread(void *arg) {
 		// if timeout == 0, it means there are
 		// already some callback to execute, so no
 		// IO wait is necessary.
+		// If timeout == -1, it means to wait forever.
+		// When timeout > 0. it means there are one or more timers
+		// pending, and the first one will expire in
+		// `timeout` ms
+
 		if (timeout != 0) {
 			LIBUI_NODE_DEBUG("--- wait node io");
 			wait_node_io(timeout);
@@ -74,7 +100,7 @@ static void background_thread(void *arg) {
 		}
 
 		// wait for the main thread
-		// to be blocked waiting for GUI events
+		// to be unblocked.
 		uv_barrier_wait(&all_threads_are_awaked);
 	}
 
@@ -86,9 +112,9 @@ static void background_thread(void *arg) {
 	using libui calls.
 
 	It first do a blocking call to uiMainStep that
-	wait for pending GUI events.
-	The function also exit when there are pending node
-	events, because uiLoopWakeup function posts a GUI event
+	wait for pending GUI events. This blocking call also exit
+	when there are pending node events, because uiLoopWakeup
+	function posts a GUI event
 	from the background thread for this purpose.
  */
 static void main_thread(uv_timer_t *handle) {
@@ -99,13 +125,7 @@ static void main_thread(uv_timer_t *handle) {
 	if (status == starting) {
 		assert(event_loop_started_deferred != NULL);
 
-		napi_value null;
-		napi_get_null(resolution_env, &null);
-		napi_handle_scope handle_scope;
-
-		napi_open_handle_scope(resolution_env, &handle_scope);
-		napi_resolve_deferred(resolution_env, event_loop_started_deferred, null);
-		napi_close_handle_scope(resolution_env, handle_scope);
+		resolve_promise_with_null(resolution_env, event_loop_started_deferred);
 		resolution_env = NULL;
 		event_loop_started_deferred = NULL;
 		ln_set_loop_status(started);
@@ -173,41 +193,19 @@ static void main_thread(uv_timer_t *handle) {
 		uv_thread_join(&thread);
 		LIBUI_NODE_DEBUG("uv_thread_join done");
 
-		assert(event_loop_closed_deferred != NULL);
-
-		napi_value null;
-		napi_get_null(resolution_env, &null);
-		napi_handle_scope handle_scope;
-		LIBUI_NODE_DEBUG("resolving stop promise");
-
-		napi_open_handle_scope(resolution_env, &handle_scope);
-		napi_resolve_deferred(resolution_env, event_loop_closed_deferred, null);
-		napi_close_handle_scope(resolution_env, handle_scope);
-		LIBUI_NODE_DEBUG("resolved stop promise");
-
-		resolution_env = NULL;
-		event_loop_closed_deferred = NULL;
-		ln_set_loop_status(stopped);
-
 		/* stop keep alive timer */
 		uv_close((uv_handle_t *)&keep_alive, NULL);
 		LIBUI_NODE_DEBUG("uv_close keep_alive done");
 
+		assert(event_loop_closed_deferred != NULL);
+		resolve_promise_with_null(resolution_env, event_loop_closed_deferred);
+		LIBUI_NODE_DEBUG("resolved stop promise");
+		resolution_env = NULL;
+		event_loop_closed_deferred = NULL;
+
+		ln_set_loop_status(stopped);
 		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
 	}
-}
-
-static void reject_promise(napi_env env, napi_deferred deferred, const char *error_message) {
-	napi_value napi_error_msg;
-	napi_create_string_utf8(env, error_message, NAPI_AUTO_LENGTH, &napi_error_msg);
-
-	napi_value error;
-	napi_create_error(env, NULL, napi_error_msg, &error);
-
-	napi_handle_scope handle_scope;
-	napi_open_handle_scope(env, &handle_scope);
-	napi_reject_deferred(env, deferred, error);
-	napi_close_handle_scope(env, handle_scope);
 }
 
 /* This function start the event loop and exit immediately */
@@ -298,10 +296,10 @@ LIBUI_FUNCTION(stop) {
 	return promise;
 }
 
-// this function signal make background
+// this function signal background thread
 // to stop awaiting node events, allowing it
 // to update the list of handles it's
-// awaiting for.
+// awaiting on.
 LIBUI_FUNCTION(wakeupBackgroundThread) {
 	if (uv_is_active((const uv_handle_t *)&keep_alive)) {
 		uv_async_send(&keep_alive);

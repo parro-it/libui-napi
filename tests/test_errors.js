@@ -74,7 +74,11 @@ test('call method on destroyed control', t => {
 			}, /Method called on destroyed control./);
 			return stopLoop();
 		})
-		.then(() => t.end())
+		.then(() => {
+			console.log('TEST ENDED');
+			t.end();
+			console.log('TEST ENDED DONE');
+		})
 		.catch(err => t.fail(err));
 });
 
