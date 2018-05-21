@@ -5,6 +5,7 @@
 #include "event-loop.h"
 static const char *MODULE = "EventLoop";
 
+static bool timer_initialized = false;
 static uv_barrier_t all_threads_are_waiting;
 static uv_barrier_t all_threads_are_awaked;
 
@@ -198,15 +199,12 @@ static void main_thread(uv_timer_t *handle) {
 	if (status == starting) {
 		assert(event_loop_started_deferred != NULL);
 
-		napi_env env = resolution_env;
-		napi_deferred def = event_loop_started_deferred;
+		env_to_resolve = resolution_env;
+		deferred_to_resolve = event_loop_started_deferred;
 		resolution_env = NULL;
 		event_loop_started_deferred = NULL;
 		ln_set_loop_status(started);
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
-
-		env_to_resolve = env;
-		deferred_to_resolve = def;
 		uv_timer_start(&resolve_timer, resolve_promise_with_null, 1, 0);
 	}
 
@@ -332,7 +330,10 @@ LIBUI_FUNCTION(start) {
 	// nothing to do.
 	uv_async_init(uv_default_loop(), &keep_alive, NULL);
 
-	uv_timer_init(uv_default_loop(), &resolve_timer);
+	if (!timer_initialized) {
+		uv_timer_init(uv_default_loop(), &resolve_timer);
+		timer_initialized = true;
+	}
 
 	/* start main_thread timer */
 	uv_timer_init(uv_default_loop(), &main_thread_timer);
