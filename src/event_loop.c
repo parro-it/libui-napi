@@ -32,12 +32,20 @@ static void reject_promise(napi_env env, napi_deferred deferred, const char *err
 
 static void resolve_promise_with_null(napi_env env, napi_deferred deferred) {
 	napi_value null;
-	napi_get_null(env, &null);
+	napi_status status;
+
+	status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
 
 	napi_handle_scope handle_scope;
-	napi_open_handle_scope(env, &handle_scope);
-	napi_resolve_deferred(env, deferred, null);
-	napi_close_handle_scope(env, handle_scope);
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
+
+	status = napi_resolve_deferred(env, deferred, null);
+	CHECK_STATUS_UNCAUGHT(status, napi_resolve_deferred, );
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
 }
 
 /*
