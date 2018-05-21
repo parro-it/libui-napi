@@ -25,6 +25,7 @@
   - [UiRadioButtons](radio-buttons.md)
 * Static controls
   - [UiArea](area.md)
+      + [AttributedString](attributedstring.md)
   - [UiLabel](label.md)
   - [UiHorizontalSeparator](horizontal-separator.md)
   - [UiVerticalSeparator](vertical-separator.md)
@@ -35,5 +36,3 @@
   - [UiFontButton](font-button)
   - [UiMenu](menu.md)
   - [UiMenuItem](menu.md)
-* Utility classes
-  - [FontDescriptor](font-descriptor.md)
