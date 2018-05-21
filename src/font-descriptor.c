@@ -12,6 +12,8 @@ static void free_font_descriptor(napi_env env, void *finalize_data, void *finali
 	FontHandle *h = (FontHandle *)finalize_data;
 	if (h->fromButton) {
 		uiFreeFontButtonFont(h->font);
+	} else {
+		free(h->font->Family);
 	}
 	free(h->font);
 	free(h);
