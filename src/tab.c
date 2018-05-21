@@ -16,6 +16,7 @@ LIBUI_FUNCTION(append) {
 		return NULL;
 	}
 	uiTabAppend(uiTab(handle->control), label, child->control);
+	free(label);
 	return NULL;
 }
 
@@ -32,6 +33,7 @@ LIBUI_FUNCTION(insertAt) {
 		return NULL;
 	}
 	uiTabInsertAt(uiTab(handle->control), label, before, child->control);
+	free(label);
 	return NULL;
 }
 
