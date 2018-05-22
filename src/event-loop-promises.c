@@ -137,13 +137,14 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	napi_value null;
 	napi_status status;
 
-	status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
 
 	napi_handle_scope handle_scope;
 	status = napi_open_handle_scope(env, &handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
 	LIBUI_NODE_DEBUG("timer napi_open_handle_scope");
+
+	status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
 
 	napi_value async_resource_name;
 	status =
