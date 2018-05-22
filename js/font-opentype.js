@@ -6,7 +6,7 @@ class OpenTypeFeatures {
 	}
 
 	clone() {
-		return OpenTypeFeaturesC.clone(this.handle);
+		return new OpenTypeFeatures(OpenTypeFeaturesC.clone(this.handle));
 	}
 
 	add(tag, value) {
