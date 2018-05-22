@@ -12,7 +12,7 @@ static napi_deferred event_loop_closed_deferred = NULL;
 static napi_deferred event_loop_started_deferred = NULL;
 static napi_env resolution_env = NULL;
 
-static uv_async_t keep_alive;
+static uv_async_t *keep_alive;
 
 static uv_thread_t thread;
 static uv_timer_t main_thread_timer;
@@ -133,7 +133,7 @@ static void main_thread(uv_timer_t *handle) {
 
 	if (ln_get_background_thread_waiting()) {
 		LIBUI_NODE_DEBUG("+++ wake up background thread");
-		uv_async_send(&keep_alive);
+		uv_async_send(keep_alive);
 	}
 
 	/* dequeue and run every event pending */
@@ -158,7 +158,7 @@ static void main_thread(uv_timer_t *handle) {
 		LIBUI_NODE_DEBUG("+++ schedule next main_thread call.");
 		uv_timer_start(&main_thread_timer, main_thread, 10, 0);
 	} else {
-		uv_close((uv_handle_t *)&main_thread_timer, NULL);
+		// uv_close((uv_handle_t *)&main_thread_timer, NULL);
 		LIBUI_NODE_DEBUG("+++ main_thread_timer closed");
 
 		/* await for the background thread to finish */
@@ -167,7 +167,7 @@ static void main_thread(uv_timer_t *handle) {
 		LIBUI_NODE_DEBUG("uv_thread_join done");
 
 		/* stop keep alive timer */
-		uv_close((uv_handle_t *)&keep_alive, NULL);
+		uv_close((uv_handle_t *)keep_alive, NULL);
 		LIBUI_NODE_DEBUG("uv_close keep_alive done");
 
 		assert(event_loop_closed_deferred != NULL);
@@ -220,7 +220,8 @@ LIBUI_FUNCTION(start) {
 
 	// Add dummy handle for libuv, otherwise libuv would quit when there is
 	// nothing to do.
-	uv_async_init(uv_default_loop(), &keep_alive, NULL);
+	keep_alive = malloc(sizeof(uv_async_t));
+	uv_async_init(uv_default_loop(), keep_alive, NULL);
 
 	/* start main_thread timer */
 	uv_timer_init(uv_default_loop(), &main_thread_timer);
