@@ -90,8 +90,6 @@ LIBUI_FUNCTION(setAttribute) {
 	return NULL;
 }
 
-// forEach
-
 LIBUI_FUNCTION(appendAttributed) {
 	INIT_ARGS(3);
 	ARG_POINTER(uiAttributedString, str, 0);
@@ -194,7 +192,6 @@ static uiForEach forEach_cb(const uiAttributedString *s, const uiAttribute *a, s
 	h->attr = (uiAttribute *)a;
 	h->appended = true;
 
-	// TODO set appended
 	napi_value args[3] = {create_attribute_external(env, h), make_uint32(env, start),
 						  make_uint32(env, end)};
 

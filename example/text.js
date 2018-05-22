@@ -79,9 +79,6 @@ str.appendUnattributed(' vs. ');
 otf.add('liga', 1);
 str.appendAttributed('affix', FontAttribute.newOTFeatures(otf));
 
-// ?
-// console.log(FontAttribute.newOTFeatures(otf).OTFeatures.get("liga"));
-
 otf.forEach((feat, str, val) => {
 	console.log({feat, str, val});
 });
