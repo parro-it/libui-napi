@@ -12,25 +12,43 @@ typedef struct {
 	bool fromButton;
 } FontHandle;
 
+typedef struct {
+	uiDrawTextLayout *layout;
+	napi_ref str_ref;
+	napi_ref font_ref;
+} LayoutHandle;
+
 static void free_layout(napi_env env, void *finalize_data, void *finalize_hint) {
-	uiDrawTextLayout *layout = (uiDrawTextLayout *)finalize_data;
-	uiDrawFreeTextLayout(layout);
+	LayoutHandle *h = (LayoutHandle *)finalize_data;
+	uiDrawFreeTextLayout(h->layout);
+	napi_delete_reference(env, h->str_ref);
+	napi_delete_reference(env, h->font_ref);
+	free(h);
 }
 
 LIBUI_FUNCTION(create) {
 	INIT_ARGS(4);
 	ARG_POINTER(uiAttributedString, str, 0);
-	ARG_POINTER(FontHandle, h, 1);
+	ARG_POINTER(FontHandle, font_h, 1);
 	ARG_DOUBLE(width, 2);
 	ARG_INT32(align, 3);
 
-	// ok with memory?
-	uiDrawTextLayoutParams params = {str, h->font, width, (uiDrawTextAlign)align};
+	napi_value str_value = argv[0];
+	napi_value font_value = argv[1];
 
-	uiDrawTextLayout *layout = uiDrawNewTextLayout(&params);
+	LayoutHandle *h = malloc(sizeof(LayoutHandle));
+
+	uiDrawTextLayoutParams params = {str, font_h->font, width, (uiDrawTextAlign)align};
+
+	h->layout = uiDrawNewTextLayout(&params);
+
+	napi_status status = napi_create_reference(env, str_value, 1, &(h->str_ref));
+	CHECK_STATUS_THROW(status, napi_create_reference);
+	status = napi_create_reference(env, font_value, 1, &(h->font_ref));
+	CHECK_STATUS_THROW(status, napi_create_reference);
 
 	napi_value external;
-	napi_status status = napi_create_external(env, layout, free_layout, NULL, &external);
+	status = napi_create_external(env, h, free_layout, NULL, &external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
 	return external;
@@ -39,12 +57,12 @@ LIBUI_FUNCTION(create) {
 LIBUI_FUNCTION(getExtents) {
 	INIT_ARGS(1);
 
-	ARG_POINTER(uiDrawTextLayout, layout, 0);
+	ARG_POINTER(LayoutHandle, h, 0);
 
 	double width;
 	double height;
 
-	uiDrawTextLayoutExtents(layout, &width, &height);
+	uiDrawTextLayoutExtents(h->layout, &width, &height);
 
 	return make_size_double(env, width, height);
 }
