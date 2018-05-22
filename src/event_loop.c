@@ -5,7 +5,6 @@
 #include "event-loop.h"
 static const char *MODULE = "EventLoop";
 
-static bool timer_initialized = false;
 static uv_barrier_t all_threads_are_waiting;
 static uv_barrier_t all_threads_are_awaked;
 
@@ -17,103 +16,6 @@ static uv_async_t keep_alive;
 
 static uv_thread_t thread;
 static uv_timer_t main_thread_timer;
-static uv_timer_t resolve_timer;
-
-static void reject_promise(napi_env env, napi_deferred deferred, const char *error_message) {
-	napi_value napi_error_msg;
-	napi_create_string_utf8(env, error_message, NAPI_AUTO_LENGTH, &napi_error_msg);
-
-	napi_value error;
-	napi_create_error(env, NULL, napi_error_msg, &error);
-
-	napi_status status;
-
-	napi_handle_scope handle_scope;
-	status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
-
-	napi_value resource_object;
-	status = napi_create_object(env, &resource_object);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_object, );
-
-	napi_value async_resource_name;
-	status = napi_create_string_utf8(env, "start_promise", NAPI_AUTO_LENGTH, &async_resource_name);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_string_utf8, );
-
-	napi_async_context async_context;
-	status = napi_async_init(env, NULL, async_resource_name, &async_context);
-	CHECK_STATUS_UNCAUGHT(status, napi_async_init, );
-
-	napi_callback_scope scope;
-	status = napi_open_callback_scope(env, resource_object, async_context, &scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, );
-
-	LIBUI_NODE_DEBUG("Resolving start promise");
-	status = napi_reject_deferred(env, deferred, error);
-
-	LIBUI_NODE_DEBUG("Resolved start promise");
-
-	CHECK_STATUS_UNCAUGHT(status, napi_resolve_deferred, );
-
-	status = napi_close_callback_scope(env, scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, );
-
-	status = napi_async_destroy(env, async_context);
-	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
-
-	status = napi_close_handle_scope(env, handle_scope);
-}
-
-static napi_env env_to_resolve;
-static napi_deferred deferred_to_resolve;
-
-static void resolve_promise_with_null(uv_timer_t *handle) {
-	uv_timer_stop(handle);
-
-	napi_env env = env_to_resolve;
-	napi_deferred deferred = deferred_to_resolve;
-
-	napi_value null;
-	napi_status status;
-
-	status = napi_get_null(env, &null);
-	CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
-
-	napi_handle_scope handle_scope;
-	status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
-
-	napi_value resource_object;
-	status = napi_create_object(env, &resource_object);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_object, );
-
-	napi_value async_resource_name;
-	status = napi_create_string_utf8(env, "start_promise", NAPI_AUTO_LENGTH, &async_resource_name);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_string_utf8, );
-
-	napi_async_context async_context;
-	status = napi_async_init(env, NULL, async_resource_name, &async_context);
-	CHECK_STATUS_UNCAUGHT(status, napi_async_init, );
-
-	napi_callback_scope scope;
-	status = napi_open_callback_scope(env, resource_object, async_context, &scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, );
-
-	LIBUI_NODE_DEBUG("Resolving start promise");
-	status = napi_resolve_deferred(env, deferred, null);
-	LIBUI_NODE_DEBUG("Resolved start promise");
-
-	CHECK_STATUS_UNCAUGHT(status, napi_resolve_deferred, );
-
-	status = napi_close_callback_scope(env, scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, );
-
-	status = napi_async_destroy(env, async_context);
-	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
-}
 
 /*
 	wait for pending events
@@ -199,13 +101,8 @@ static void main_thread(uv_timer_t *handle) {
 	if (status == starting) {
 		assert(event_loop_started_deferred != NULL);
 
-		env_to_resolve = resolution_env;
-		deferred_to_resolve = event_loop_started_deferred;
-		resolution_env = NULL;
-		event_loop_started_deferred = NULL;
-		ln_set_loop_status(started);
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
-		uv_timer_start(&resolve_timer, resolve_promise_with_null, 1, 0);
+		resolve_promise_null(&resolution_env, &event_loop_started_deferred, started);
 	}
 
 	LIBUI_NODE_DEBUG("+++ wait on all_threads_are_waiting");
@@ -274,15 +171,10 @@ static void main_thread(uv_timer_t *handle) {
 		LIBUI_NODE_DEBUG("uv_close keep_alive done");
 
 		assert(event_loop_closed_deferred != NULL);
-		napi_env _env = resolution_env;
-		napi_deferred _def = event_loop_closed_deferred;
-		resolution_env = NULL;
-		event_loop_closed_deferred = NULL;
-		ln_set_loop_status(stopped);
+
 		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
-		env_to_resolve = _env;
-		deferred_to_resolve = _def;
-		uv_timer_start(&resolve_timer, resolve_promise_with_null, 1, 0);
+		resolve_promise_null(&resolution_env, &event_loop_closed_deferred, stopped);
+
 		LIBUI_NODE_DEBUG("resolved stop promise");
 	}
 }
@@ -296,12 +188,12 @@ LIBUI_FUNCTION(start) {
 	CHECK_STATUS_THROW(status, napi_create_promise);
 
 	if (event_loop_closed_deferred != NULL) {
-		reject_promise(env, deferred, "Cannot start. A stop loop operation is pending.");
+		reject_promise(&env, &deferred, "Cannot start. A stop loop operation is pending.");
 		return promise;
 	}
 
 	if (event_loop_started_deferred != NULL) {
-		reject_promise(env, deferred, "Cannot start. A start loop operation is pending.");
+		reject_promise(&env, &deferred, "Cannot start. A start loop operation is pending.");
 		return promise;
 	}
 
@@ -330,11 +222,6 @@ LIBUI_FUNCTION(start) {
 	// nothing to do.
 	uv_async_init(uv_default_loop(), &keep_alive, NULL);
 
-	if (!timer_initialized) {
-		uv_timer_init(uv_default_loop(), &resolve_timer);
-		timer_initialized = true;
-	}
-
 	/* start main_thread timer */
 	uv_timer_init(uv_default_loop(), &main_thread_timer);
 	uv_timer_start(&main_thread_timer, main_thread, 1, 0);
@@ -353,12 +240,12 @@ LIBUI_FUNCTION(stop) {
 	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
 	if (event_loop_closed_deferred != NULL) {
-		reject_promise(env, deferred, "Cannot start. A stop loop operation is pending.");
+		reject_promise(&env, &deferred, "Cannot start. A stop loop operation is pending.");
 		return promise;
 	}
 
 	if (event_loop_started_deferred != NULL) {
-		reject_promise(env, deferred, "Cannot start. A start loop operation is pending.");
+		reject_promise(&env, &deferred, "Cannot start. A start loop operation is pending.");
 		return promise;
 	}
 
