@@ -4,41 +4,55 @@
 
 static const char *MODULE = "OpenTypeFeatures";
 
+typedef struct {
+	uiOpenTypeFeatures *otf;
+	bool shouldFree;
+} FeaturesHandle;
+
 static void free_otf(napi_env env, void *finalize_data, void *finalize_hint) {
-	uiOpenTypeFeatures *otf = (uiOpenTypeFeatures *)finalize_data;
-	uiFreeOpenTypeFeatures(otf);
+	FeaturesHandle *h = (FeaturesHandle *)finalize_data;
+	if (h->shouldFree) {
+		uiFreeOpenTypeFeatures(h->otf);
+	}
+	free(h);
 }
 
-napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf) {
+napi_value create_otf_external(napi_env env, FeaturesHandle *h) {
 	napi_value otf_external;
-	napi_status status = napi_create_external(env, otf, free_otf, NULL, &otf_external);
+	napi_status status = napi_create_external(env, h, free_otf, NULL, &otf_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
 	return otf_external;
 }
 
 LIBUI_FUNCTION(create) {
-	uiOpenTypeFeatures *otf = uiNewOpenTypeFeatures();
+	FeaturesHandle *h = malloc(sizeof(FeaturesHandle));
+	h->otf = uiNewOpenTypeFeatures();
+	h->shouldFree = true;
 
-	return create_otf_external(env, otf);
+	return create_otf_external(env, h);
 }
 
 LIBUI_FUNCTION(clone) {
 	INIT_ARGS(1);
 
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, h2, 0);
 
-	return create_otf_external(env, uiOpenTypeFeaturesClone(otf));
+	FeaturesHandle *h = malloc(sizeof(FeaturesHandle));
+	h->otf = uiOpenTypeFeaturesClone(h2->otf);
+	h->shouldFree = true;
+
+	return create_otf_external(env, h);
 }
 
 LIBUI_FUNCTION(addTag) {
 	INIT_ARGS(3);
 
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, h, 0);
 	ARG_STRING(tag, 1);
 	ARG_UINT32(value, 2);
 
-	uiOpenTypeFeaturesAdd(otf, tag[0], tag[1], tag[2], tag[3], value);
+	uiOpenTypeFeaturesAdd(h->otf, tag[0], tag[1], tag[2], tag[3], value);
 
 	free(tag);
 	return NULL;
@@ -47,10 +61,10 @@ LIBUI_FUNCTION(addTag) {
 LIBUI_FUNCTION(removeTag) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, h, 0);
 	ARG_STRING(tag, 1);
 
-	uiOpenTypeFeaturesRemove(otf, tag[0], tag[1], tag[2], tag[3]);
+	uiOpenTypeFeaturesRemove(h->otf, tag[0], tag[1], tag[2], tag[3]);
 
 	free(tag);
 	return NULL;
@@ -59,11 +73,11 @@ LIBUI_FUNCTION(removeTag) {
 LIBUI_FUNCTION(getTag) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, h, 0);
 	ARG_STRING(tag, 1);
 
 	unsigned int value = 0;
-	unsigned int exists = uiOpenTypeFeaturesGet(otf, tag[0], tag[1], tag[2], tag[3], &value);
+	unsigned int exists = uiOpenTypeFeaturesGet(h->otf, tag[0], tag[1], tag[2], tag[3], &value);
 
 	free(tag);
 
@@ -124,7 +138,7 @@ static uiForEach forEach_cb(const uiOpenTypeFeatures *otf, char a, char b, char 
 LIBUI_FUNCTION(forEach) {
 	INIT_ARGS(2);
 
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, h, 0);
 	napi_value cb = argv[1];
 
 	napi_value null;
@@ -133,7 +147,7 @@ LIBUI_FUNCTION(forEach) {
 
 	ForEachData d = {&env, &cb, &null};
 
-	uiOpenTypeFeaturesForEach(otf, forEach_cb, &d);
+	uiOpenTypeFeaturesForEach(h->otf, forEach_cb, &d);
 
 	return NULL;
 }

@@ -5,7 +5,11 @@
 static const char *MODULE = "FontAttribute";
 
 // font-opentype.c
-napi_value create_otf_external(napi_env env, uiOpenTypeFeatures *otf);
+typedef struct {
+	uiOpenTypeFeatures *otf;
+	bool shouldFree;
+} FeaturesHandle;
+napi_value create_otf_external(napi_env env, FeaturesHandle *h);
 
 typedef struct {
 	uiAttribute *attr;
@@ -51,7 +55,17 @@ GET(getWeight, make_int32, uiAttributeWeight);
 GET(getItalic, make_int32, uiAttributeItalic);
 GET(getStretch, make_int32, uiAttributeStretch);
 GET(getUnderline, make_int32, uiAttributeUnderline);
-GET(getOTFeatures, create_otf_external, (uiOpenTypeFeatures *)uiAttributeFeatures);
+
+LIBUI_FUNCTION(getOTFeatures) {
+	INIT_ARGS(1);
+	ARG_POINTER(AttributeHandle, h, 0);
+
+	FeaturesHandle *otf_h = malloc(sizeof(FeaturesHandle));
+	otf_h->otf = (uiOpenTypeFeatures *)uiAttributeFeatures(h->attr);
+	otf_h->shouldFree = false;
+
+	return create_otf_external(env, otf_h);
+}
 
 LIBUI_FUNCTION(getColor) {
 	INIT_ARGS(1);
@@ -132,10 +146,10 @@ LIBUI_FUNCTION(createFamily) {
 
 LIBUI_FUNCTION(createOTFeatures) {
 	INIT_ARGS(1);
-	ARG_POINTER(uiOpenTypeFeatures, otf, 0);
+	ARG_POINTER(FeaturesHandle, otf_h, 0);
 
 	AttributeHandle *h = malloc(sizeof(AttributeHandle));
-	h->attr = uiNewFeaturesAttribute(otf);
+	h->attr = uiNewFeaturesAttribute(otf_h->otf);
 	h->appended = false;
 
 	return create_attribute_external(env, h);

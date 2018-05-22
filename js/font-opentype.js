@@ -1,8 +1,12 @@
 const {OpenTypeFeatures: OpenTypeFeaturesC} = require('..');
 
 class OpenTypeFeatures {
-	constructor(s) {
-		this.handle = OpenTypeFeaturesC.create();
+	constructor(handle) {
+		if (handle) {
+			this.handle = handle;
+		} else {
+			this.handle = OpenTypeFeaturesC.create();
+		}
 	}
 
 	clone() {
