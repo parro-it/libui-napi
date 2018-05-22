@@ -4,12 +4,9 @@
 static const char *MODULE = "EventLoop";
 
 static napi_env *env_to_resolve;
-static napi_deferred *deferred_to_resolve;
 static char *error_message_to_resolve;
 enum ln_loop_status new_status_to_set;
-static uv_prepare_t resolve_timer;
-static bool timer_initialized = false;
-
+/*
 static void reject_promise_timer(uv_prepare_t *handle) {
 	uv_prepare_stop(handle);
 
@@ -119,8 +116,10 @@ static void resolve_promise_timer(uv_prepare_t *handle) {
 
 	uv_close((uv_handle_t *)handle, NULL);
 }
+*/
+void reject_promise(napi_env *env, napi_ref *cb_ref, char *error_message) {
+	printf(error_message);
 
-void reject_promise(napi_env *env, napi_deferred *deferred, char *error_message) {
 	/*env_to_resolve = env;
 	deferred_to_resolve = deferred;
 	error_message_to_resolve = error_message;
@@ -132,15 +131,56 @@ void reject_promise(napi_env *env, napi_deferred *deferred, char *error_message)
 	*/
 }
 
-void resolve_promise_null(napi_env *env, napi_deferred *deferred, enum ln_loop_status new_status) {
-	env_to_resolve = env;
-	deferred_to_resolve = deferred;
-	new_status_to_set = new_status;
+void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new_status) {
 
 	LIBUI_NODE_DEBUG("uv_timer_init");
+	napi_value null;
+	napi_status status;
 
-	uv_prepare_init(uv_default_loop(), &resolve_timer);
-	LIBUI_NODE_DEBUG("uv_timer_start");
-	uv_prepare_start(&resolve_timer, resolve_promise_timer);
-	LIBUI_NODE_DEBUG("uv_timer_started");
+	status = napi_get_null(env, &null);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
+
+	napi_handle_scope handle_scope;
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
+	LIBUI_NODE_DEBUG("timer napi_open_handle_scope");
+
+	napi_value async_resource_name;
+	status =
+		napi_create_string_utf8(env, "event_loop_promise", NAPI_AUTO_LENGTH, &async_resource_name);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_string_utf8, );
+
+	napi_async_context async_context;
+	status = napi_async_init(env, NULL, async_resource_name, &async_context);
+	CHECK_STATUS_UNCAUGHT(status, napi_async_init, );
+
+	napi_value resource_object;
+	status = napi_create_object(env, &resource_object);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_object, );
+
+	ln_set_loop_status(new_status);
+	napi_value cb;
+	status = napi_get_reference_value(env, cb_ref, &cb);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, );
+
+	napi_value result;
+	status = napi_make_callback(env, async_context, resource_object, cb, 0, NULL, &result);
+
+	if (status == napi_pending_exception) {
+		napi_value last_exception;
+		napi_get_and_clear_last_exception(env, &last_exception);
+		napi_fatal_exception(env, last_exception);
+		return;
+	}
+
+	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, );
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
+
+	status = napi_async_destroy(env, async_context);
+	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
+
+	uint32_t new_ref_count;
+	status = napi_reference_unref(env, cb_ref, &new_ref_count);
+	CHECK_STATUS_UNCAUGHT(status, napi_reference_unref, );
 }

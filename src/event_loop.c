@@ -8,8 +8,8 @@ static const char *MODULE = "EventLoop";
 static uv_barrier_t all_threads_are_waiting;
 static uv_barrier_t all_threads_are_awaked;
 
-static napi_deferred event_loop_closed_deferred = NULL;
-static napi_deferred event_loop_started_deferred = NULL;
+static napi_ref event_loop_closed_cb_ref = NULL;
+static napi_ref event_loop_started_cb_ref = NULL;
 static napi_env resolution_env = NULL;
 
 static uv_async_t *keep_alive;
@@ -99,10 +99,12 @@ static void main_thread(uv_timer_t *handle) {
 	LIBUI_NODE_DEBUG_F("+++ start main_thread with status %d", status);
 	uv_timer_stop(handle);
 	if (status == starting) {
-		assert(event_loop_started_deferred != NULL);
+		assert(event_loop_started_cb_ref != NULL);
 
 		LIBUI_NODE_DEBUG("🧐 LOOP STARTED");
-		resolve_promise_null(&resolution_env, &event_loop_started_deferred, started);
+		napi_ref ref = event_loop_started_cb_ref;
+		event_loop_started_cb_ref = NULL;
+		resolve_promise_null(resolution_env, ref, started);
 	}
 
 	LIBUI_NODE_DEBUG("+++ wait on all_threads_are_waiting");
@@ -170,10 +172,12 @@ static void main_thread(uv_timer_t *handle) {
 		uv_close((uv_handle_t *)keep_alive, NULL);
 		LIBUI_NODE_DEBUG("uv_close keep_alive done");
 
-		assert(event_loop_closed_deferred != NULL);
+		assert(event_loop_closed_cb_ref != NULL);
 
 		LIBUI_NODE_DEBUG("🧐 LOOP STOPPED");
-		resolve_promise_null(&resolution_env, &event_loop_closed_deferred, stopped);
+		napi_ref ref = event_loop_closed_cb_ref;
+		event_loop_closed_cb_ref = NULL;
+		resolve_promise_null(resolution_env, ref, stopped);
 
 		LIBUI_NODE_DEBUG("resolved stop promise");
 	}
@@ -181,27 +185,24 @@ static void main_thread(uv_timer_t *handle) {
 
 /* This function start the event loop and exit immediately */
 LIBUI_FUNCTION(start) {
-	napi_value promise;
-	napi_deferred deferred;
+	INIT_ARGS(1);
+	ARG_CB_REF(cb_ref, 0);
 
-	napi_status status = napi_create_promise(env, &deferred, &promise);
-	CHECK_STATUS_THROW(status, napi_create_promise);
-
-	if (event_loop_closed_deferred != NULL) {
-		reject_promise(&env, &deferred, "Cannot start. A stop loop operation is pending.");
-		return promise;
+	if (event_loop_closed_cb_ref != NULL) {
+		reject_promise(&env, &cb_ref, "Cannot start. A stop loop operation is pending.");
+		return NULL;
 	}
 
-	if (event_loop_started_deferred != NULL) {
-		reject_promise(&env, &deferred, "Cannot start. A start loop operation is pending.");
-		return promise;
+	if (event_loop_started_cb_ref != NULL) {
+		reject_promise(&env, &cb_ref, "Cannot start. A start loop operation is pending.");
+		return NULL;
 	}
 
 	LIBUI_NODE_DEBUG("🧐 LOOP STARTING");
 	uv_barrier_init(&all_threads_are_waiting, 2);
 	uv_barrier_init(&all_threads_are_awaked, 2);
 
-	event_loop_started_deferred = deferred;
+	event_loop_started_cb_ref = cb_ref;
 
 	resolution_env = env;
 
@@ -229,30 +230,28 @@ LIBUI_FUNCTION(start) {
 
 	LIBUI_NODE_DEBUG("startLoop async started");
 
-	return promise;
+	return NULL;
 }
 
 LIBUI_FUNCTION(stop) {
-	napi_value promise;
-	napi_deferred deferred;
+	INIT_ARGS(1);
+	ARG_CB_REF(cb_ref, 0);
 
-	napi_status status = napi_create_promise(env, &deferred, &promise);
-	CHECK_STATUS_THROW(status, napi_create_promise);
 	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
-	if (event_loop_closed_deferred != NULL) {
-		reject_promise(&env, &deferred, "Cannot start. A stop loop operation is pending.");
-		return promise;
+	if (event_loop_closed_cb_ref != NULL) {
+		reject_promise(&env, &cb_ref, "Cannot start. A stop loop operation is pending.");
+		return NULL;
 	}
 
-	if (event_loop_started_deferred != NULL) {
-		reject_promise(&env, &deferred, "Cannot start. A start loop operation is pending.");
-		return promise;
+	if (event_loop_started_cb_ref != NULL) {
+		reject_promise(&env, &cb_ref, "Cannot start. A start loop operation is pending.");
+		return NULL;
 	}
 
 	ln_set_loop_status(stopping);
 
-	event_loop_closed_deferred = deferred;
+	event_loop_closed_cb_ref = cb_ref;
 	resolution_env = env;
 
 	destroy_all_children(env, visible_windows);
@@ -265,7 +264,7 @@ LIBUI_FUNCTION(stop) {
 
 	LIBUI_NODE_DEBUG("uiQuit called");
 
-	return promise;
+	return NULL;
 }
 
 // this function signal background thread
@@ -273,8 +272,8 @@ LIBUI_FUNCTION(stop) {
 // to update the list of handles it's
 // awaiting on.
 LIBUI_FUNCTION(wakeupBackgroundThread) {
-	if (uv_is_active((const uv_handle_t *)&keep_alive)) {
-		uv_async_send(&keep_alive);
+	if (uv_is_active((const uv_handle_t *)keep_alive)) {
+		uv_async_send(keep_alive);
 	}
 	return NULL;
 }
