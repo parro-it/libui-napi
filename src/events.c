@@ -90,22 +90,51 @@ static struct events_node *new_events_node(struct event_t *event) {
 }
 
 void install_event(struct events_list *events, struct event_t *event) {
+	struct events_node *new_node = new_events_node(event);
+
 	if (events->head == NULL) {
 		// First event for this control
-		struct events_node *new_node = new_events_node(event);
 		events->head = new_node;
 		events->tail = new_node;
 		return;
 	}
 
-	// TODO: we need to remove existing events_node for the same event
-	// and support NULL event to only remove event.
+	if (strcmp(event->name, events->head->event->name) == 0) {
+		// clear_event(events->head->event);
+		struct events_node *new_head = events->head->next;
+		free(events->head);
+		events->head = new_head;
+
+		if (events->head == NULL) {
+			// The only event got removed
+			events->head = new_node;
+			events->tail = new_node;
+			return;
+		}
+	} else {
+		struct events_node *current = events->head->next;
+		struct events_node *previous = events->head;
+
+		while (current != NULL && previous != NULL) {
+			if (strcmp(event->name, current->event->name) == 0) {
+				previous->next = current->next;
+				// clear_event(current->event);
+				free(current);
+				if (previous->next == NULL) {
+					events->tail = previous;
+				}
+				break;
+			}
+			previous = current;
+			current = current->next;
+		}
+	}
+
+	// TODO: we need to support NULL event to only remove event.
 
 	// Control already has other events. Append to tail
-	struct events_node *new_node = new_events_node(event);
 	events->tail->next = new_node;
-
-	// set this node as the new tail
+	// and set this node as the new tail
 	events->tail = new_node;
 }
 
