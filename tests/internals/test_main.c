@@ -2,7 +2,13 @@
 #include "tests.h"
 static const char *MODULE = "check_c_tests";
 
+int test_counter = 1;
+bool test_failed = false;
+char *test_error;
+
 LIBUI_FUNCTION(run_tests) {
+	test_error = malloc(sizeof(char) * 256);
+
 	children_list_create_suite(env);
 	children_list_add_child_suite(env);
 	children_list_clear_children_suite(env);
@@ -14,6 +20,7 @@ LIBUI_FUNCTION(run_tests) {
 	clear_event_suite(env);
 	install_event_suite(env);
 
+	free(test_error);
 	return NULL;
 }
 
