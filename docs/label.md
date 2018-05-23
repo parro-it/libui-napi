@@ -1,5 +1,5 @@
-<a name="UiLabel"></a>
 
+<a id="uilabel"></a>
 ## UiLabel ⇐ <code>UiControl</code>
 A static text label.
 
@@ -8,13 +8,13 @@ A static text label.
 
 * [UiLabel](#UiLabel) ⇐ <code>UiControl</code>
     * [new UiLabel(text)](#new_UiLabel_new)
-    * [.text](#UiLabel+text) ⇒ <code>string</code>
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.text](#UiLabel_text) ⇒ <code>string</code>
+    * [.enabled](#UiLabel_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiLabel_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiLabel_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiLabel_new"></a>
 
+<a id="new_uilabel_new"></a>
 ### new UiLabel(text)
 Create a new UiLabel object.
 
@@ -23,26 +23,26 @@ Create a new UiLabel object.
 | --- | --- | --- |
 | text | <code>string</code> | initial content of the label |
 
-<a name="UiLabel+text"></a>
 
+<a id="uilabel_text"></a>
 ### uiLabel.text ⇒ <code>string</code>
 Set or return the the content of the label.
 
 **Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
-<a name=""></a>
 
+<a id="uilabel_enabled"></a>
 ### uiLabel.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
-<a name=""></a>
 
+<a id="uilabel_visible"></a>
 ### uiLabel.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiLabel</code>](#UiLabel)  
-<a name=""></a>
 
+<a id="uilabel_toplevel"></a>
 ### uiLabel.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

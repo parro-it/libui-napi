@@ -1,5 +1,5 @@
-<a name="UiGrid"></a>
 
+<a id="uigrid"></a>
 ## UiGrid ⇐ <code>UiControl</code>
 A powerful container that allow to specify size and position of each children.
 
@@ -8,26 +8,26 @@ A powerful container that allow to specify size and position of each children.
 
 * [UiGrid](#UiGrid) ⇐ <code>UiControl</code>
     * [new UiGrid()](#new_UiGrid_new)
-    * [.padded](#UiGrid+padded) ⇒ <code>boolean</code>
-    * [.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+insertAt)
-    * [.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid+append)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.padded](#UiGrid_padded) ⇒ <code>boolean</code>
+    * [.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid_insertAt)
+    * [.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)](#UiGrid_append)
+    * [.enabled](#UiGrid_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiGrid_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiGrid_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiGrid_new"></a>
 
+<a id="new_uigrid_new"></a>
 ### new UiGrid()
 Create a new UiGrid object.
 
-<a name="UiGrid+padded"></a>
 
+<a id="uigrid_padded"></a>
 ### uiGrid.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
 
 **Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
-<a name="UiGrid+insertAt"></a>
 
+<a id="uigrid_insertat"></a>
 ### uiGrid.insertAt(child, before, at, xspan, yspan, hexpand, halign, vexpand, valign)
 Insert a new child control before specified control.
 
@@ -45,8 +45,8 @@ Insert a new child control before specified control.
 | vexpand | <code>number</code> | whether the component can expand vertically. |
 | valign | <code>number</code> | whether the component is aligned with the other 	 components in the row. |
 
-<a name="UiGrid+append"></a>
 
+<a id="uigrid_append"></a>
 ### uiGrid.append(child, left, top, xspan, yspan, hexpand, halign, vexpand, valign)
 Insert a new child control.
 
@@ -67,20 +67,20 @@ vertical are set. You must choose one so libui knows which direction to expand.
 | vexpand | <code>number</code> | whether the component can expand vertically. |
 | valign | <code>number</code> | whether the component is aligned with the other components in the row. |
 
-<a name=""></a>
 
+<a id="uigrid_enabled"></a>
 ### uiGrid.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
-<a name=""></a>
 
+<a id="uigrid_visible"></a>
 ### uiGrid.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiGrid</code>](#UiGrid)  
-<a name=""></a>
 
+<a id="uigrid_toplevel"></a>
 ### uiGrid.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
