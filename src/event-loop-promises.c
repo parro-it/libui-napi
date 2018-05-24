@@ -132,6 +132,8 @@ void reject_promise(napi_env *env, napi_ref *cb_ref, char *error_message) {
 }
 
 void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new_status) {
+	printf("ciccio\n");
+	ln_set_loop_status(new_status);
 
 	LIBUI_NODE_DEBUG("uv_timer_init");
 	napi_value null;
@@ -159,7 +161,7 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, );
 
-	ln_set_loop_status(new_status);
+	
 	napi_value cb;
 	status = napi_get_reference_value(env, cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, );
@@ -175,13 +177,15 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	}
 
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, );
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
-
-	status = napi_async_destroy(env, async_context);
-	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
-
+	
 	uint32_t new_ref_count;
 	status = napi_reference_unref(env, cb_ref, &new_ref_count);
 	CHECK_STATUS_UNCAUGHT(status, napi_reference_unref, );
+	
+	status = napi_async_destroy(env, async_context);
+	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
+
 }
