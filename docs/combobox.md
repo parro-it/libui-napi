@@ -8,7 +8,7 @@ A drop down combo box that allow list selection only.
 
 * [UiCombobox](#UiCombobox) ⇐ <code>UiControl</code>
     * [new UiCombobox()](#new_UiCombobox_new)
-    * [.selected](#UiCombobox+selected) ⇒ <code>string</code>
+    * [.selected](#UiCombobox+selected) ⇒ <code>number</code>
     * [.append(text)](#UiCombobox+append)
     * [.onSelected(callback)](#UiCombobox+onSelected)
     * [.enabled](#) ⇒ <code>boolean</code>
@@ -22,7 +22,7 @@ Create a new UiCombobox object.
 
 <a name="UiCombobox+selected"></a>
 
-### uiCombobox.selected ⇒ <code>string</code>
+### uiCombobox.selected ⇒ <code>number</code>
 Return or set the current selected item by index.
 
 **Kind**: instance property of [<code>UiCombobox</code>](#UiCombobox)  
