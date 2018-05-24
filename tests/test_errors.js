@@ -59,23 +59,6 @@ test('handler must be of correct control - arguments', t => {
 	t.end();
 });
 
-function runAsync(t, ...thens) {
-	const fns = [...thens];
-	const doStep = value => {
-		const fn = fns.shift();
-		if (fn) {
-			console.log(fn);
-			const result = fn(value);
-			if (result && typeof result.then === 'function') {
-				return result.then(doStep);
-			}
-			return result;
-		}
-		return value;
-	};
-	doStep().then(() => t.end()).catch(err => t.fail(err));
-}
-
 test('call method on destroyed control', t => {
 	console.log('CALL METHOD ON DESTROYED CONTROL');
 	runAsync(t, startLoop, () => {
@@ -157,22 +140,51 @@ test('Add control to more then one container', t => {
 	t.end();
 });
 
-test.skip('uncaught errors', t => {
-	let done = false;
-	const catchErr = (err) => {
-		t.equal(err.message, 'babau');
-		t.end();
-		process.removeListener('uncaughtException', catchErr);
-		done = true;
-	};
-	process.on('uncaughtException', catchErr);
-	startTimer(10, () => {
-		if (done) {
-			setTimeout(() => stopLoop());
+test('uncaught errors', t => {
+	let resolver;
 
-			return false;
-		}
-		throw new Error('babau');
+	const catchErr = (err) => {
+		console.log('equal ', err)
+
+		t.equal(err.message, 'babau');
+		process.off('uncaughtException', catchErr);
+		console.log('uncaughtException removed')
+		t.end();
+		stopLoop();
+		console.log('resolver called')
+	};
+
+	process.on('uncaughtException', catchErr);
+
+	startLoop().then(() => {
+		startTimer(10, () => {
+			throw new Error('babau');
+		});
 	});
-	startLoop();
 });
+
+function runAsync(t, ...thens) {
+	const fns = [...thens];
+	const doStep = value => {
+		const fn = fns.shift();
+		if (fn) {
+			console.log(fn.name);
+			const result = fn(value);
+			console.log({result, value})
+			if (result && typeof result.then === 'function') {
+				return result.then(doStep);
+			}
+			console.log('return ', result)
+			return result;
+		}
+		return value;
+	};
+	console.log('start', {})
+	const result = doStep();
+	console.log('last', {result})
+	if (result && typeof result.then === 'function') {
+		console.log('promise is pending');
+		return result.then(() => t.end()).catch(err => t.fail(err))
+	};
+	return t.end();
+}
