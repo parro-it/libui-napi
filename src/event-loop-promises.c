@@ -118,7 +118,7 @@ static void resolve_promise_timer(uv_prepare_t *handle) {
 }
 */
 void reject_promise(napi_env *env, napi_ref *cb_ref, char *error_message) {
-	printf(error_message);
+	printf("%s\n", error_message);
 
 	/*env_to_resolve = env;
 	deferred_to_resolve = deferred;
@@ -138,7 +138,6 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	LIBUI_NODE_DEBUG("uv_timer_init");
 	napi_value null;
 	napi_status status;
-
 
 	napi_handle_scope handle_scope;
 	status = napi_open_handle_scope(env, &handle_scope);
@@ -161,7 +160,6 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, );
 
-	
 	napi_value cb;
 	status = napi_get_reference_value(env, cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, );
@@ -177,15 +175,14 @@ void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new
 	}
 
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, );
-	
+
 	uint32_t new_ref_count;
 	status = napi_reference_unref(env, cb_ref, &new_ref_count);
 	CHECK_STATUS_UNCAUGHT(status, napi_reference_unref, );
-	
+
 	status = napi_async_destroy(env, async_context);
 	CHECK_STATUS_UNCAUGHT(status, napi_async_destroy, );
 
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
-
 }

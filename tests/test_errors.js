@@ -59,47 +59,44 @@ test('handler must be of correct control - arguments', t => {
 	t.end();
 });
 
+function runAsync(t, ...thens) {
+	const fns = [...thens];
+	const doStep = value => {
+		const fn = fns.shift();
+		if (fn) {
+			console.log(fn);
+			return fn(value).then(doStep);
+		}
+		return value;
+	};
+	doStep().then(() => t.end()).catch(err => t.fail(err));
+}
+
 test('call method on destroyed control', t => {
 	console.log('CALL METHOD ON DESTROYED CONTROL');
-	startLoop()
-		.then(() => {
-			console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
-			const entry = new UiMultilineEntry();
-			const win = new UiWindow(null, 42, 42, true);
-			win.setChild(entry);
-			win.show();
-			win.close();
-			t.throws(() => {
-				entry.append('ciao');
-			}, /Method called on destroyed control./);
-			console.log('STOPSTOP')
-			return stopLoop();
-		})
-		.then(() => {
-			console.log('TEST ENDED');
-			t.end();
-			console.log('TEST ENDED DONE');
-		})
-		.catch(err => t.fail(err));
+	runAsync(t, startLoop, () => {
+		console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
+		const entry = new UiMultilineEntry();
+		const win = new UiWindow(null, 42, 42, true);
+		win.setChild(entry);
+		win.show();
+		win.close();
+		t.throws(() => {
+			entry.append('ciao');
+		}, /Method called on destroyed control./);
+		return stopLoop();
+	});
 });
 
 test('call method on destroyed window', t => {
-	console.log('CALL METHOD ON DESTROYED WINDOW');
-	startLoop()
-		.then(() => {
-			console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
-			const win = new UiWindow(null, 42, 42, true);
-			win.show();
-			win.close();
-			t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
-			return stopLoop();
-		})
-		.then(() => {
-			console.log('TEST ENDED');
-			t.end();
-			console.log('TEST ENDED DONE');
-		})
-		.catch(err => t.fail(err));
+	runAsync(t, startLoop, () => {
+		console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
+		const win = new UiWindow(null, 42, 42, true);
+		win.show();
+		win.close();
+		t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./);
+		return stopLoop();
+	});
 });
 /*
 test('call window close before show', t => {
