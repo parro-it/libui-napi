@@ -65,7 +65,11 @@ function runAsync(t, ...thens) {
 		const fn = fns.shift();
 		if (fn) {
 			console.log(fn);
-			return fn(value).then(doStep);
+			const result = fn(value);
+			if (result && typeof result.then === 'function') {
+				return result.then(doStep);
+			}
+			return result;
 		}
 		return value;
 	};
@@ -98,33 +102,30 @@ test('call method on destroyed window', t => {
 		return stopLoop();
 	});
 });
-/*
-test('call window close before show', t => {
-	startLoop();
-	const win = new UiWindow(null, 42, 42, true);
-	t.throws(() => win.close(), /Close called on closed window./);
-	stopLoop();
-	setTimeout(() => t.end(), 100);
-});
 
-test('call window close more then once', t => {
-	startLoop();
-	const win = new UiWindow(null, 42, 42, true);
-	win.show();
-	win.close();
-	t.throws(() => win.close(), /Close called on closed window./);
-	stopLoop();
-	setTimeout(() => t.end(), 100);
-});
+test('call window close before show', t => runAsync(t, startLoop, () => {
+										  const win = new UiWindow(null, 42, 42, true);
+										  t.throws(() => win.close(),
+												   /Close called on closed window./);
+										  return stopLoop();
+									  }));
 
-test('call window show more then once', t => {
-	startLoop();
-	const win = new UiWindow(null, 42, 42, true);
-	win.show();
-	t.throws(() => win.show(), /Show called on showed window./);
-	stopLoop();
-	setTimeout(() => t.end(), 100);
-});
+test('call window close more then once', t => runAsync(t, startLoop, () => {
+											 const win = new UiWindow(null, 42, 42, true);
+											 win.show();
+											 win.close();
+											 t.throws(() => win.close(),
+													  /Close called on closed window./);
+											 return stopLoop();
+										 }));
+
+test('call window show more then once', t => runAsync(t, startLoop, () => {
+											const win = new UiWindow(null, 42, 42, true);
+											win.show();
+											t.throws(() => win.show(),
+													 /Show called on showed window./);
+											return stopLoop();
+										}));
 
 test('call method without loop', t => {
 	const entry = new UiMultilineEntry();
@@ -133,16 +134,19 @@ test('call method without loop', t => {
 	t.end();
 });
 
-test('call method after stopLoop', t => {
-	const entry = new UiMultilineEntry();
-	const win = new UiWindow(null, 42, 42, true);
-	win.setChild(entry);
-	win.show();
-	startLoop();
-	stopLoop();
-	t.throws(() => entry.append('ciao'), /Method called on destroyed control./);
-	setTimeout(() => t.end(), 100);
-});
+test('call method after stopLoop',
+	 t => runAsync(t, startLoop,
+				   () => {
+					   entry = new UiMultilineEntry();
+					   const win = new UiWindow(null, 42, 42, true);
+					   win.setChild(entry);
+					   win.show();
+					   return stopLoop().then(() => entry);
+				   },
+				   entry => {
+					   t.throws(() => entry.append('ciao'),
+								/Method called on destroyed control./);
+				   }));
 
 test('Add control to more then one container', t => {
 	const entry = new UiMultilineEntry();
@@ -172,4 +176,3 @@ test.skip('uncaught errors', t => {
 	});
 	startLoop();
 });
-*/

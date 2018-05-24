@@ -3,8 +3,6 @@
 
 static const char *MODULE = "EventLoop";
 
-static napi_env *env_to_resolve;
-static char *error_message_to_resolve;
 enum ln_loop_status new_status_to_set;
 /*
 static void reject_promise_timer(uv_prepare_t *handle) {
