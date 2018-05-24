@@ -189,12 +189,12 @@ LIBUI_FUNCTION(start) {
 	ARG_CB_REF(cb_ref, 0);
 
 	if (event_loop_closed_cb_ref != NULL) {
-		reject_promise(&env, &cb_ref, "Cannot start. A stop loop operation is pending.");
+		napi_throw_error(env, NULL, "Cannot start. A stop loop operation is pending.");
 		return NULL;
 	}
 
 	if (event_loop_started_cb_ref != NULL) {
-		reject_promise(&env, &cb_ref, "Cannot start. A start loop operation is pending.");
+		napi_throw_error(env, NULL, "Cannot start. A start loop operation is pending.");
 		return NULL;
 	}
 
@@ -240,12 +240,12 @@ LIBUI_FUNCTION(stop) {
 	LIBUI_NODE_DEBUG("🧐 LOOP STOPPING");
 
 	if (event_loop_closed_cb_ref != NULL) {
-		reject_promise(&env, &cb_ref, "Cannot start. A stop loop operation is pending.");
+		napi_throw_error(env, NULL, "Cannot start. A stop loop operation is pending.");
 		return NULL;
 	}
 
 	if (event_loop_started_cb_ref != NULL) {
-		reject_promise(&env, &cb_ref, "Cannot start. A start loop operation is pending.");
+		napi_throw_error(env, NULL, "Cannot start. A start loop operation is pending.");
 		return NULL;
 	}
 
