@@ -60,9 +60,7 @@ test('handler must be of correct control - arguments', t => {
 });
 
 test('call method on destroyed control', t => {
-	console.log('CALL METHOD ON DESTROYED CONTROL');
 	runAsync(t, startLoop, () => {
-		console.log('CALL METHOD ON DESTROYED CONTROL: STARTED');
 		const entry = new UiMultilineEntry();
 		const win = new UiWindow(null, 42, 42, true);
 		win.setChild(entry);
@@ -77,7 +75,6 @@ test('call method on destroyed control', t => {
 
 test('call method on destroyed window', t => {
 	runAsync(t, startLoop, () => {
-		console.log('CALL METHOD ON DESTROYED WINDOW: STARTED');
 		const win = new UiWindow(null, 42, 42, true);
 		win.show();
 		win.close();
@@ -144,14 +141,11 @@ test('uncaught errors', t => {
 	let resolver;
 
 	const catchErr = (err) => {
-		console.log('equal ', err)
 
 		t.equal(err.message, 'babau');
 		process.off('uncaughtException', catchErr);
-		console.log('uncaughtException removed')
 		t.end();
 		stopLoop();
-		console.log('resolver called')
 	};
 
 	process.on('uncaughtException', catchErr);
@@ -168,22 +162,16 @@ function runAsync(t, ...thens) {
 	const doStep = value => {
 		const fn = fns.shift();
 		if (fn) {
-			console.log(fn.name);
 			const result = fn(value);
-			console.log({result, value})
 			if (result && typeof result.then === 'function') {
 				return result.then(doStep);
 			}
-			console.log('return ', result)
 			return result;
 		}
 		return value;
 	};
-	console.log('start', {})
 	const result = doStep();
-	console.log('last', {result})
 	if (result && typeof result.then === 'function') {
-		console.log('promise is pending');
 		return result.then(() => t.end()).catch(err => t.fail(err))
 	};
 	return t.end();

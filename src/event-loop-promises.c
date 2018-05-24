@@ -130,7 +130,6 @@ void reject_promise(napi_env *env, napi_ref *cb_ref, char *error_message) {
 }
 
 void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new_status) {
-	printf("ciccio\n");
 	ln_set_loop_status(new_status);
 
 	LIBUI_NODE_DEBUG("uv_timer_init");
