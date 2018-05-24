@@ -98,7 +98,7 @@ test('call window close more then once', t => runAsync(t, startLoop, () => {
 													  /Close called on closed window./);
 											 return stopLoop();
 										 }));
-
+/*
 test('call window show more then once', t => runAsync(t, startLoop, () => {
 											const win = new UiWindow(null, 42, 42, true);
 											win.show();
@@ -106,7 +106,7 @@ test('call window show more then once', t => runAsync(t, startLoop, () => {
 													 /Show called on showed window./);
 											return stopLoop();
 										}));
-
+*/
 test('call method without loop', t => {
 	const entry = new UiMultilineEntry();
 	entry.setText('');
