@@ -1,5 +1,5 @@
-<a name="UiDatePicker"></a>
 
+<a id="uidatepicker"></a>
 ## UiDatePicker ⇐ <code>DateTimePickerBase</code>
 A control to set a date.
 
@@ -8,25 +8,25 @@ A control to set a date.
 
 * [UiDatePicker](#UiDatePicker) ⇐ <code>DateTimePickerBase</code>
     * [new UiDatePicker()](#new_UiDatePicker_new)
-    * [.time](#) ⇒ <code>Date</code>
-    * [.onChanged(callback)](#)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.time](#UiDatePicker_time) ⇒ <code>Date</code>
+    * [.onChanged(callback)](#UiDatePicker_onChanged)
+    * [.enabled](#UiDatePicker_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiDatePicker_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiDatePicker_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiDatePicker_new"></a>
 
+<a id="new_uidatepicker_new"></a>
 ### new UiDatePicker()
 Create a new UiDatePicker object.
 
-<a name=""></a>
 
+<a id="uidatepicker_time"></a>
 ### uiDatePicker.time ⇒ <code>Date</code>
 Set or return the date/time represented by the control.
 
 **Kind**: instance property of [<code>UiDatePicker</code>](#UiDatePicker)  
-<a name=""></a>
 
+<a id="uidatepicker_onchanged"></a>
 ### uiDatePicker.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry contents
 changed.
@@ -37,20 +37,20 @@ changed.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name=""></a>
 
+<a id="uidatepicker_enabled"></a>
 ### uiDatePicker.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiDatePicker</code>](#UiDatePicker)  
-<a name=""></a>
 
+<a id="uidatepicker_visible"></a>
 ### uiDatePicker.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiDatePicker</code>](#UiDatePicker)  
-<a name=""></a>
 
+<a id="uidatepicker_toplevel"></a>
 ### uiDatePicker.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
