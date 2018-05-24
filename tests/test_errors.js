@@ -143,7 +143,7 @@ test('uncaught errors', t => {
 	const catchErr = (err) => {
 
 		t.equal(err.message, 'babau');
-		process.off('uncaughtException', catchErr);
+		process.removeListener('uncaughtException', catchErr);
 		t.end();
 		stopLoop();
 	};
