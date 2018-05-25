@@ -103,7 +103,7 @@ void install_event(struct events_list *events, struct event_t *event) {
 		return;
 	}
 
-	if (strcmp(event->name, events->head->event->name) == 0) {
+	if (event->name == events->head->event->name) {
 		// clear_event(events->head->event);
 		struct events_node *new_head = events->head->next;
 		free(events->head);
@@ -120,7 +120,7 @@ void install_event(struct events_list *events, struct event_t *event) {
 		struct events_node *previous = events->head;
 
 		while (current != NULL && previous != NULL) {
-			if (strcmp(event->name, current->event->name) == 0) {
+			if (event->name == current->event->name) {
 				previous->next = current->next;
 				// clear_event(current->event);
 				free(current);
