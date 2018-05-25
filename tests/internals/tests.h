@@ -31,7 +31,7 @@ extern char *test_error;
 		}                                                                                          \
 	}
 
-#define SUITE(NAME)                                                                                \
+#define SUITE()                                                                                    \
 	{ printf("# %s\n", __func__); }
 
 void children_list_create_suite(napi_env env);
