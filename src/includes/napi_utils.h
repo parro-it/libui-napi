@@ -203,7 +203,7 @@ NULL, &ret); \
 	}
 // debug
 
-#define UI_NODE_DEBUG 0
+#define UI_NODE_DEBUG 1
 
 #if UI_NODE_DEBUG
 
