@@ -25,7 +25,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -39,7 +39,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -53,7 +53,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -67,7 +67,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -81,7 +81,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -95,7 +95,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -110,7 +110,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
@@ -122,7 +122,7 @@
 			const napi_extended_error_info *result;                                                \
 			napi_get_last_error_info(env, &result);                                                \
 			char err[1024];                                                                        \
-			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
 			napi_throw_type_error(env, NULL, err);                                                 \
 			return NULL;                                                                           \
 		}                                                                                          \
