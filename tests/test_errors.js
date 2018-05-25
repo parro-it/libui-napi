@@ -141,7 +141,6 @@ test('uncaught errors', t => {
 	let resolver;
 
 	const catchErr = (err) => {
-
 		t.equal(err.message, 'babau');
 		process.removeListener('uncaughtException', catchErr);
 		t.end();

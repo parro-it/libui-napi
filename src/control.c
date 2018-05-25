@@ -27,32 +27,17 @@ void control_on_destroy(uiControl *control) {
 	clear_children(handle->env, handle->children);
 
 	LIBUI_NODE_DEBUG_F("Control %s %p destroyed.", handle->ctrl_type_name, handle);
-	if (handle->is_garbage_collected && !handle->is_freed) {
-		LIBUI_NODE_DEBUG_F("%s %p handle freeing.", handle->ctrl_type_name, handle);
-		handle->is_freed = true;
-		free(handle->children);
-		free(handle->events);
-		// free(handle);
-		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
-	} else {
-		handle->is_destroyed = true;
-	}
-	LIBUI_NODE_DEBUG("A control is destroyed.");
+	handle->is_destroyed = true;
 }
 
 static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint) {
 	struct control_handle *handle = (struct control_handle *)finalize_data;
 	LIBUI_NODE_DEBUG_F("Control %s %p garbage collected.", handle->ctrl_type_name, handle);
 
-	if (handle->is_destroyed && !handle->is_freed) {
-		handle->is_freed = true;
-		free(handle->children);
-		free(handle->events);
-		// free(handle);
-		LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
-	} else {
-		handle->is_garbage_collected = true;
-	}
+	free(handle->children);
+	free(handle->events);
+	LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
+	free(handle);
 }
 
 napi_value control_handle_new(napi_env env, uiControl *control, const char *ctrl_type_name) {
