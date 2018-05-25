@@ -1,7 +1,9 @@
 #include "napi_utils.h"
 #include "event-loop.h"
 
+#if UI_NODE_DEBUG
 static const char *MODULE = "EventLoop";
+#endif
 
 void resolve_promise_null(napi_env env, napi_ref cb_ref, enum ln_loop_status new_status) {
 	ln_set_loop_status(new_status);

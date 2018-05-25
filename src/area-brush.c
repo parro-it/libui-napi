@@ -140,7 +140,7 @@ LIBUI_FUNCTION(setStops) {
 
 	uint32_t numStops;
 	napi_status status = napi_get_array_length(env, array, &numStops);
-	CHECK_STATUS_THROW(status, napi_array_elgnth);
+	CHECK_STATUS_THROW(status, napi_get_array_length);
 
 	if (brush->NumStops > 0) {
 		free(brush->Stops);

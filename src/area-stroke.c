@@ -98,7 +98,7 @@ LIBUI_FUNCTION(setDashes) {
 
 	uint32_t numDashes;
 	napi_status status = napi_get_array_length(env, array, &numDashes);
-	CHECK_STATUS_THROW(status, napi_array_elgnth);
+	CHECK_STATUS_THROW(status, napi_get_array_length);
 
 	handle->NumDashes = numDashes;
 	handle->Dashes = malloc(numDashes * sizeof(double));

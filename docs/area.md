@@ -361,10 +361,6 @@ To determine the interiors of closed figures in the alternate mode (`libui.UiDra
 
 ## Methods
 
-### freePath
-
-Dispose a path object.
-
 ### newFigure
 
 Starts a new figure at the specified point. Call this method when you want to create a new path.
@@ -451,10 +447,6 @@ It end the path.
 > Defines the color(s) to draw a path with.
 
 ## Methods
-
-### free
-
-Free the DrawBrush object.
 
 ### setType/getType
 
@@ -611,10 +603,6 @@ It's also possible to use the `color` property.
 
 ## Methods
 
-### free
-
-Frees the object.
-
 ### setThickness/getThickness
 
 Sets and gets the thickness of the stroke.
@@ -725,10 +713,6 @@ p.getContext().fill(myPath, myBrush);
 ```
 
 ## Methods
-
-### free
-
-Frees the object.
 
 ### setM11/getM11/...
 

@@ -1,6 +1,8 @@
 #include "events.h"
 
+#if UI_NODE_DEBUG
 static const char *MODULE = "EventsInternal";
+#endif
 
 napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
 	napi_status status;
