@@ -37,6 +37,7 @@ static void on_control_gc(napi_env env, void *finalize_data, void *finalize_hint
 	free(handle->children);
 	free(handle->events);
 	LIBUI_NODE_DEBUG_F("%s %p handle freed.", handle->ctrl_type_name, handle);
+	handle->ctrl_type_name = NULL;
 	free(handle);
 }
 

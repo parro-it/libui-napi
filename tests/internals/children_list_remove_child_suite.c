@@ -17,7 +17,6 @@ static void test_remove_child_empty_list(napi_env env) {
 	struct children_list *list = create_children_list();
 	napi_value ret = remove_child(env, list, child);
 	assert(ret == NULL);
-	free(list);
 }
 
 static void test_remove_child_one_child_list(napi_env env) {
@@ -28,9 +27,6 @@ static void test_remove_child_one_child_list(napi_env env) {
 
 	assert(list->head == NULL);
 	assert(list->tail == NULL);
-
-	free(child);
-	free(list);
 }
 
 static void test_remove_child_deref_control(napi_env env) {
@@ -48,9 +44,6 @@ static void test_remove_child_deref_control(napi_env env) {
 
 	napi_reference_ref(env, child->ctrl_ref, &ref_count);
 	assert(ref_count == 1);
-
-	free(child);
-	free(list);
 }
 
 static void test_remove_nonexistent_child_from_child_list(napi_env env) {
@@ -63,9 +56,6 @@ static void test_remove_nonexistent_child_from_child_list(napi_env env) {
 
 	assert(list->head->handle == child);
 	assert(list->tail == list->head);
-
-	free(child);
-	free(list);
 }
 
 static void test_remove_child_one_from_two_child_list(napi_env env) {
@@ -79,10 +69,6 @@ static void test_remove_child_one_from_two_child_list(napi_env env) {
 
 	assert(list->head->handle == child2);
 	assert(list->tail == list->head);
-
-	free(child1);
-	free(child2);
-	free(list);
 }
 
 static void test_remove_child_two_from_two_child_list(napi_env env) {
@@ -96,10 +82,6 @@ static void test_remove_child_two_from_two_child_list(napi_env env) {
 
 	assert(list->head->handle == child1);
 	assert(list->tail == list->head);
-
-	free(child1);
-	free(child2);
-	free(list);
 }
 
 static void test_remove_middle_child_from_three_child_list(napi_env env) {
@@ -121,11 +103,6 @@ static void test_remove_middle_child_from_three_child_list(napi_env env) {
 	assert(list->head->handle == child1);
 	assert(list->head->next == list->tail);
 	assert(list->tail->handle == child3);
-
-	free(child1);
-	free(child2);
-	free(child3);
-	free(list);
 }
 
 void children_list_remove_child_suite(napi_env env) {
