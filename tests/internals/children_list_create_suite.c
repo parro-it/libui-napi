@@ -12,8 +12,6 @@ static void test_create_node(napi_env env) {
 	assert(node != NULL);
 	assert(node->handle == child);
 	assert(node->next == NULL);
-	free(node);
-	free(child);
 }
 
 static void test_create_children_list(napi_env env) {
@@ -21,7 +19,6 @@ static void test_create_children_list(napi_env env) {
 	assert(list != NULL);
 	assert(list->head == NULL);
 	assert(list->tail == NULL);
-	free(list);
 }
 
 static struct control_handle *get_control(napi_env env) {
@@ -38,8 +35,6 @@ static void control_handle_new_has_refcount_0(napi_env env) {
 	uint32_t ref_count;
 	napi_reference_ref(env, control->ctrl_ref, &ref_count);
 	assert(ref_count == 1);
-
-	free(control);
 }
 
 static void control_handle_new_insert_in_map(napi_env env) {
@@ -47,8 +42,6 @@ static void control_handle_new_insert_in_map(napi_env env) {
 	struct control_handle *saved_handle;
 	ctrl_map_get(&controls_map, handle->control, &saved_handle);
 	assert(saved_handle == handle);
-
-	free(handle);
 }
 
 static void control_handle_new_set_members(napi_env env) {
@@ -60,7 +53,6 @@ static void control_handle_new_set_members(napi_env env) {
 	assert(handle->ctrl_type_name == ctrl_type_name);
 	assert(handle->original_destroy == fake_destroy);
 	assert(handle->control->Destroy != NULL);
-	free(handle);
 }
 
 static void control_handle_new_return_non_null_on_success(napi_env env) {

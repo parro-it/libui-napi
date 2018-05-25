@@ -17,9 +17,6 @@ static void test_add_child_return_napi_ok_on_success(napi_env env) {
 	struct control_handle *child = get_child(env);
 	napi_status ret = add_child(env, list, child);
 	assert(ret == napi_ok);
-
-	free(child);
-	free(list);
 }
 
 static void test_add_child_set_head_tail_on_success(napi_env env) {
@@ -32,9 +29,6 @@ static void test_add_child_set_head_tail_on_success(napi_env env) {
 
 	assert(list->head != NULL);
 	assert(list->head == list->tail);
-
-	free(child);
-	free(list);
 }
 
 static void test_add_child_next_null_on_success(napi_env env) {
@@ -46,9 +40,6 @@ static void test_add_child_next_null_on_success(napi_env env) {
 	assert(ret == napi_ok);
 
 	assert(list->head->next == NULL);
-
-	free(child);
-	free(list);
 }
 
 static void test_add_child_handle_set_on_success(napi_env env) {
@@ -60,9 +51,6 @@ static void test_add_child_handle_set_on_success(napi_env env) {
 	assert(ret == napi_ok);
 
 	assert(list->head->handle == child);
-
-	free(child);
-	free(list);
 }
 
 static void test_add_two_child_set_head_tail(napi_env env) {
@@ -79,10 +67,6 @@ static void test_add_two_child_set_head_tail(napi_env env) {
 	assert(list->tail->handle == child2);
 	assert(list->head->next == list->tail);
 	assert(list->tail->next == NULL);
-
-	free(child1);
-	free(child2);
-	free(list);
 }
 
 static void test_add_child_has_refcount_1(napi_env env) {
@@ -101,9 +85,6 @@ static void test_add_child_has_refcount_1(napi_env env) {
 
 	napi_reference_unref(env, child->ctrl_ref, &ref_count);
 	assert(ref_count == 0);
-
-	free(child);
-	free(list);
 }
 
 void children_list_add_child_suite(napi_env env) {

@@ -22,9 +22,6 @@ static void test_clear_children_reset_head_tail(napi_env env) {
 	clear_children(env, list);
 	assert(list->head == NULL);
 	assert(list->tail == NULL);
-
-	free(child);
-	free(list);
 }
 
 static void test_clear_list_with_two_controls(napi_env env) {
@@ -46,10 +43,6 @@ static void test_clear_list_with_two_controls(napi_env env) {
 	assert(ref_count == 1);
 	napi_reference_ref(env, child2->ctrl_ref, &ref_count);
 	assert(ref_count == 1);
-
-	free(child1);
-	free(child2);
-	free(list);
 }
 
 static void test_clear_empty_list_is_noop(napi_env env) {
@@ -58,7 +51,6 @@ static void test_clear_empty_list_is_noop(napi_env env) {
 	clear_children(env, list);
 	assert(list->head == NULL);
 	assert(list->tail == NULL);
-	free(list);
 }
 
 static void test_clear_children_decrease_control_ref(napi_env env) {
@@ -76,9 +68,6 @@ static void test_clear_children_decrease_control_ref(napi_env env) {
 
 	napi_reference_ref(env, child->ctrl_ref, &ref_count);
 	assert(ref_count == 1);
-
-	free(child);
-	free(list);
 }
 
 void children_list_clear_children_suite(napi_env env) {

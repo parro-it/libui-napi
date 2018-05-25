@@ -228,7 +228,7 @@ libui.startLoop = () => {
 	// to begin executing callbacks.
 	asyncHook.enable();
 
-	EventLoop.start();
+	return new Promise((resolve, reject) => EventLoop.start(resolve));
 };
 
 libui.stopLoop = () => {
@@ -238,7 +238,7 @@ libui.stopLoop = () => {
 	asyncHook.disable();
 	asyncHook = null;
 
-	EventLoop.stop();
+	return new Promise((resolve, reject) => EventLoop.stop(resolve));
 };
 
 // This is called when a new async handle
