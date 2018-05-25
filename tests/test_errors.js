@@ -117,7 +117,7 @@ test('call method without loop', t => {
 test('call method after stopLoop',
 	 t => runAsync(t, startLoop,
 				   () => {
-					   entry = new UiMultilineEntry();
+					   const entry = new UiMultilineEntry();
 					   const win = new UiWindow(null, 42, 42, true);
 					   win.setChild(entry);
 					   win.show();
