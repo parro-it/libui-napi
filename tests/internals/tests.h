@@ -4,6 +4,8 @@
 #include <ui.h>
 
 extern int test_counter;
+extern int test_counter_pass;
+extern int test_counter_fail;
 extern bool test_failed;
 extern char *test_error;
 
@@ -14,8 +16,10 @@ extern char *test_error;
 		if (test_failed) {                                                                         \
 			printf("not ok %d %s\n", test_counter++, #FN);                                         \
 			printf("  ---\n    message: %s\n  ...", test_error);                                   \
+			test_counter_fail++;                                                                   \
 		} else {                                                                                   \
 			printf("ok %d %s\n", test_counter++, #FN);                                             \
+			test_counter_pass++;                                                                   \
 		}                                                                                          \
 	}
 
