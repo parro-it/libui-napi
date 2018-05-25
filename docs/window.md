@@ -1,5 +1,5 @@
-<a name="UiWindow"></a>
 
+<a id="uiwindow"></a>
 ## UiWindow
 The UiWindow class is responsible for showing and managing native windows.
 A UiWindow instance can contain only one child. If you need
@@ -9,19 +9,19 @@ more than one, you have to use [Containers](containers.md).
 
 * [UiWindow](#UiWindow)
     * [new UiWindow(title, width, height, hasMenubar)](#new_UiWindow_new)
-    * [.show()](#UiWindow+show)
-    * [.onClosing(callback)](#UiWindow+onClosing)
-    * [.onContentSizeChanged(callback)](#UiWindow+onContentSizeChanged)
-    * [.close()](#UiWindow+close)
-    * [.title](#UiWindow+title) ⇒ <code>string</code>
-    * [.contentSize](#UiWindow+contentSize) ⇒ <code>Object</code>
-    * [.setChild(control, stretchy)](#UiWindow+setChild)
-    * [.margined](#UiWindow+margined) ⇒ <code>boolean</code>
-    * [.borderless](#UiWindow+borderless) ⇒ <code>boolean</code>
-    * [.fullscreen](#UiWindow+fullscreen) ⇒ <code>boolean</code>
+    * [.show()](#UiWindow_show)
+    * [.onClosing(callback)](#UiWindow_onClosing)
+    * [.onContentSizeChanged(callback)](#UiWindow_onContentSizeChanged)
+    * [.close()](#UiWindow_close)
+    * [.title](#UiWindow_title) ⇒ <code>string</code>
+    * [.contentSize](#UiWindow_contentSize) ⇒ <code>Object</code>
+    * [.setChild(control, stretchy)](#UiWindow_setChild)
+    * [.margined](#UiWindow_margined) ⇒ <code>boolean</code>
+    * [.borderless](#UiWindow_borderless) ⇒ <code>boolean</code>
+    * [.fullscreen](#UiWindow_fullscreen) ⇒ <code>boolean</code>
 
-<a name="new_UiWindow_new"></a>
 
+<a id="new_uiwindow_new"></a>
 ### new UiWindow(title, width, height, hasMenubar)
 Create a new UiWindow object.
 
@@ -33,14 +33,14 @@ Create a new UiWindow object.
 | height | <code>number</code> | height of window in pixels. |
 | hasMenubar | <code>boolean</code> | whether this window has a menu bar. See [Menu](#menubar). |
 
-<a name="UiWindow+show"></a>
 
+<a id="uiwindow_show"></a>
 ### uiWindow.show()
 Show the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+onClosing"></a>
 
+<a id="uiwindow_onclosing"></a>
 ### uiWindow.onClosing(callback)
 Add a listener to the `closing` event. This event is emitted when the OS
 window close button is clicked. You are responsible for closing the
@@ -52,8 +52,8 @@ window in response to this event.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name="UiWindow+onContentSizeChanged"></a>
 
+<a id="uiwindow_oncontentsizechanged"></a>
 ### uiWindow.onContentSizeChanged(callback)
 Add a listener to the `contentSizeChanged` event. This event is emitted
 when window content size change.
@@ -64,28 +64,28 @@ when window content size change.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name="UiWindow+close"></a>
 
+<a id="uiwindow_close"></a>
 ### uiWindow.close()
 Close the window.
 
 **Kind**: instance method of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+title"></a>
 
+<a id="uiwindow_title"></a>
 ### uiWindow.title ⇒ <code>string</code>
 Set or return the text to show in window title bar.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+contentSize"></a>
 
+<a id="uiwindow_contentsize"></a>
 ### uiWindow.contentSize ⇒ <code>Object</code>
 Set or return the size in pixel of the content area of the window
 (excluding the size of the window decoration). This mean that if you set window
 size to 0,0 you still see title bar and OS window buttons.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+setChild"></a>
 
+<a id="uiwindow_setchild"></a>
 ### uiWindow.setChild(control, stretchy)
 Set the control to show in this window content area.
 UiWindow instances can contain only one child. If you need
@@ -98,20 +98,20 @@ more, you have to use [Containers](containers.md).
 | control | <code>UiControl</code> | the control to add as child. |
 | stretchy | <code>boolean</code> | whever the control should fill all the available space. |
 
-<a name="UiWindow+margined"></a>
 
+<a id="uiwindow_margined"></a>
 ### uiWindow.margined ⇒ <code>boolean</code>
 When true, an internal margin is added to the window.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+borderless"></a>
 
+<a id="uiwindow_borderless"></a>
 ### uiWindow.borderless ⇒ <code>boolean</code>
 When true, the window is displayed without a border.
 
 **Kind**: instance property of [<code>UiWindow</code>](#UiWindow)  
-<a name="UiWindow+fullscreen"></a>
 
+<a id="uiwindow_fullscreen"></a>
 ### uiWindow.fullscreen ⇒ <code>boolean</code>
 When true, the window is displayed in full screen mode.
 

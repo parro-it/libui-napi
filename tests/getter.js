@@ -2,8 +2,6 @@ const test = require('tape');
 const {DrawBrush, Point, UiAreaKeyEvent} = require('..');
 
 test('getters and setters', t => {
-	t.plan(8);
-
 	const x = new DrawBrush();
 	t.equal(x.getType(), 0);
 	x.setType(1);
@@ -19,4 +17,5 @@ test('getters and setters', t => {
 	t.equal(z.modifier, UiAreaKeyEvent.modifierKeys.alt);
 	t.equal(z.getModifier(), UiAreaKeyEvent.modifierKeys.alt);
 	t.throws(() => z.setKey(40), /TypeError: z\.setKey is not a function/);
+	t.end();
 });

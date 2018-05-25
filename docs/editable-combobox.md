@@ -1,5 +1,5 @@
-<a name="UiEditableCombobox"></a>
 
+<a id="uieditablecombobox"></a>
 ## UiEditableCombobox ⇐ <code>UiControl</code>
 A drop down combo box that allows to select an item from list or to specify a custom
 value.
@@ -9,26 +9,26 @@ value.
 
 * [UiEditableCombobox](#UiEditableCombobox) ⇐ <code>UiControl</code>
     * [new UiEditableCombobox()](#new_UiEditableCombobox_new)
-    * [.text](#UiEditableCombobox+text) ⇒ <code>string</code>
-    * [.append(text)](#UiEditableCombobox+append)
-    * [.onChanged(callback)](#UiEditableCombobox+onChanged)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.text](#UiEditableCombobox_text) ⇒ <code>string</code>
+    * [.append(text)](#UiEditableCombobox_append)
+    * [.onChanged(callback)](#UiEditableCombobox_onChanged)
+    * [.enabled](#UiEditableCombobox_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiEditableCombobox_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiEditableCombobox_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiEditableCombobox_new"></a>
 
+<a id="new_uieditablecombobox_new"></a>
 ### new UiEditableCombobox()
 Create a new UiEditableCombobox object.
 
-<a name="UiEditableCombobox+text"></a>
 
+<a id="uieditablecombobox_text"></a>
 ### uiEditableCombobox.text ⇒ <code>string</code>
 Return or set the current text.
 
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name="UiEditableCombobox+append"></a>
 
+<a id="uieditablecombobox_append"></a>
 ### uiEditableCombobox.append(text)
 Append a new text item to the drop down list.
 
@@ -38,8 +38,8 @@ Append a new text item to the drop down list.
 | --- | --- | --- |
 | text | <code>string</code> | the item to append. |
 
-<a name="UiEditableCombobox+onChanged"></a>
 
+<a id="uieditablecombobox_onchanged"></a>
 ### uiEditableCombobox.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
 
@@ -49,20 +49,20 @@ Add a listener to the `changed` event. Emitted whenever the text (or item) chang
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name=""></a>
 
+<a id="uieditablecombobox_enabled"></a>
 ### uiEditableCombobox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name=""></a>
 
+<a id="uieditablecombobox_visible"></a>
 ### uiEditableCombobox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiEditableCombobox</code>](#UiEditableCombobox)  
-<a name=""></a>
 
+<a id="uieditablecombobox_toplevel"></a>
 ### uiEditableCombobox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

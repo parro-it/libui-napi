@@ -54,13 +54,6 @@ struct control_handle {
 		getting called on destroyed controls
 	*/
 	bool is_destroyed;
-	/*
-		A flag set when the control is destroyed, used to
-		avoid freeing valid JS objects when controls are destroyed
-	*/
-	bool is_garbage_collected;
-
-	bool is_freed;
 
 	/*
 		pointer to original control Destroy function.

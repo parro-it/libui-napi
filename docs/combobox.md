@@ -1,5 +1,5 @@
-<a name="UiCombobox"></a>
 
+<a id="uicombobox"></a>
 ## UiCombobox ⇐ <code>UiControl</code>
 A drop down combo box that allow list selection only.
 
@@ -8,26 +8,26 @@ A drop down combo box that allow list selection only.
 
 * [UiCombobox](#UiCombobox) ⇐ <code>UiControl</code>
     * [new UiCombobox()](#new_UiCombobox_new)
-    * [.selected](#UiCombobox+selected) ⇒ <code>number</code>
-    * [.append(text)](#UiCombobox+append)
-    * [.onSelected(callback)](#UiCombobox+onSelected)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.selected](#UiCombobox_selected) ⇒ <code>number</code>
+    * [.append(text)](#UiCombobox_append)
+    * [.onSelected(callback)](#UiCombobox_onSelected)
+    * [.enabled](#UiCombobox_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiCombobox_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiCombobox_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiCombobox_new"></a>
 
+<a id="new_uicombobox_new"></a>
 ### new UiCombobox()
 Create a new UiCombobox object.
 
-<a name="UiCombobox+selected"></a>
 
+<a id="uicombobox_selected"></a>
 ### uiCombobox.selected ⇒ <code>number</code>
 Return or set the current selected item by index.
 
 **Kind**: instance property of [<code>UiCombobox</code>](#UiCombobox)  
-<a name="UiCombobox+append"></a>
 
+<a id="uicombobox_append"></a>
 ### uiCombobox.append(text)
 Append a new text item to the drop down list.
 
@@ -37,8 +37,8 @@ Append a new text item to the drop down list.
 | --- | --- | --- |
 | text | <code>string</code> | the item to append. |
 
-<a name="UiCombobox+onSelected"></a>
 
+<a id="uicombobox_onselected"></a>
 ### uiCombobox.onSelected(callback)
 Add a listener to the `selected` event. Emitted whenever the selected
 item changes.
@@ -49,20 +49,20 @@ item changes.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name=""></a>
 
+<a id="uicombobox_enabled"></a>
 ### uiCombobox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiCombobox</code>](#UiCombobox)  
-<a name=""></a>
 
+<a id="uicombobox_visible"></a>
 ### uiCombobox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiCombobox</code>](#UiCombobox)  
-<a name=""></a>
 
+<a id="uicombobox_toplevel"></a>
 ### uiCombobox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
