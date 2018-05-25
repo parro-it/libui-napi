@@ -1,5 +1,5 @@
-<a name="UiHorizontalBox"></a>
 
+<a id="uihorizontalbox"></a>
 ## UiHorizontalBox ⇐ <code>UiBox</code>
 A container that stacks its chidren horizontally.
 
@@ -8,26 +8,26 @@ A container that stacks its chidren horizontally.
 
 * [UiHorizontalBox](#UiHorizontalBox) ⇐ <code>UiBox</code>
     * [new UiHorizontalBox()](#new_UiHorizontalBox_new)
-    * [.padded](#) ⇒ <code>boolean</code>
-    * [.append(control, stretchy)](#)
-    * [.deleteAt(index)](#)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.padded](#UiHorizontalBox_padded) ⇒ <code>boolean</code>
+    * [.append(control, stretchy)](#UiHorizontalBox_append)
+    * [.deleteAt(index)](#UiHorizontalBox_deleteAt)
+    * [.enabled](#UiHorizontalBox_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiHorizontalBox_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiHorizontalBox_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiHorizontalBox_new"></a>
 
+<a id="new_uihorizontalbox_new"></a>
 ### new UiHorizontalBox()
 Create a new UiHorizontalBox object.
 
-<a name=""></a>
 
+<a id="uihorizontalbox_padded"></a>
 ### uiHorizontalBox.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
 
 **Kind**: instance property of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
-<a name=""></a>
 
+<a id="uihorizontalbox_append"></a>
 ### uiHorizontalBox.append(control, stretchy)
 Append a new child control as the last child.
 
@@ -38,8 +38,8 @@ Append a new child control as the last child.
 | control | <code>UiControl</code> | the control to add as a child. |
 | stretchy | <code>boolean</code> | whever the control should fill all the available space. |
 
-<a name=""></a>
 
+<a id="uihorizontalbox_deleteat"></a>
 ### uiHorizontalBox.deleteAt(index)
 Remove a child control at specified position.
 
@@ -49,20 +49,20 @@ Remove a child control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the control to remove |
 
-<a name=""></a>
 
+<a id="uihorizontalbox_enabled"></a>
 ### uiHorizontalBox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
-<a name=""></a>
 
+<a id="uihorizontalbox_visible"></a>
 ### uiHorizontalBox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiHorizontalBox</code>](#UiHorizontalBox)  
-<a name=""></a>
 
+<a id="uihorizontalbox_toplevel"></a>
 ### uiHorizontalBox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

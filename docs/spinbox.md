@@ -1,5 +1,5 @@
-<a name="UiSpinbox"></a>
 
+<a id="uispinbox"></a>
 ## UiSpinbox ⇐ <code>UiControl</code>
 An entry control for numerical values.
 
@@ -8,14 +8,14 @@ An entry control for numerical values.
 
 * [UiSpinbox](#UiSpinbox) ⇐ <code>UiControl</code>
     * [new UiSpinbox(min, max)](#new_UiSpinbox_new)
-    * [.value](#UiSpinbox+value) ⇒ <code>number</code>
-    * [.onChanged(callback)](#UiSpinbox+onChanged)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.value](#UiSpinbox_value) ⇒ <code>number</code>
+    * [.onChanged(callback)](#UiSpinbox_onChanged)
+    * [.enabled](#UiSpinbox_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiSpinbox_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiSpinbox_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiSpinbox_new"></a>
 
+<a id="new_uispinbox_new"></a>
 ### new UiSpinbox(min, max)
 Create a new UiSpinbox object.
 
@@ -25,14 +25,14 @@ Create a new UiSpinbox object.
 | min | <code>number</code> | minimum value of the spinbox. |
 | max | <code>number</code> | maximum value of the spinbox. |
 
-<a name="UiSpinbox+value"></a>
 
+<a id="uispinbox_value"></a>
 ### uiSpinbox.value ⇒ <code>number</code>
 Set or return the the content of spinbox.
 
 **Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
-<a name="UiSpinbox+onChanged"></a>
 
+<a id="uispinbox_onchanged"></a>
 ### uiSpinbox.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
 
@@ -42,20 +42,20 @@ Add a listener to the `changed` event. Emitted whenever the spinbox value change
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name=""></a>
 
+<a id="uispinbox_enabled"></a>
 ### uiSpinbox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
-<a name=""></a>
 
+<a id="uispinbox_visible"></a>
 ### uiSpinbox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiSpinbox</code>](#UiSpinbox)  
-<a name=""></a>
 
+<a id="uispinbox_toplevel"></a>
 ### uiSpinbox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 
