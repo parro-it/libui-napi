@@ -145,7 +145,7 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 	}
 }
 
-// Takes about 1.8ms:
+// Takes about 3.5ms:
 applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
 				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
 				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
