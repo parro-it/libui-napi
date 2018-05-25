@@ -115,23 +115,23 @@ void install_event(struct events_list *events, struct event_t *event) {
 			events->tail = new_node;
 			return;
 		}
-	}
+	} else {
+		struct events_node *current = events->head->next;
+		struct events_node *previous = events->head;
 
-	struct events_node *current = events->head->next;
-	struct events_node *previous = events->head;
-
-	while (current != NULL && previous != NULL) {
-		if (strcmp(event->name, current->event->name) == 0) {
-			previous->next = current->next;
-			// clear_event(current->event);
-			free(current);
-			if (previous->next == NULL) {
-				events->tail = previous;
+		while (current != NULL && previous != NULL) {
+			if (strcmp(event->name, current->event->name) == 0) {
+				previous->next = current->next;
+				// clear_event(current->event);
+				free(current);
+				if (previous->next == NULL) {
+					events->tail = previous;
+				}
+				break;
 			}
-			break;
+			previous = current;
+			current = current->next;
 		}
-		previous = current;
-		current = current->next;
 	}
 
 	// TODO: we need to support NULL event to only remove event.
