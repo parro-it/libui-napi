@@ -77,6 +77,7 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 napi_value clear_event(struct event_t *event) {
 	uint32_t new_ref_count;
 	napi_env env = event->env;
+
 	napi_status status = napi_reference_unref(env, event->cb_ref, &new_ref_count);
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 
@@ -104,7 +105,7 @@ void install_event(struct events_list *events, struct event_t *event) {
 	}
 
 	if (event->name == events->head->event->name) {
-		// clear_event(events->head->event);
+		clear_event(events->head->event);
 		struct events_node *new_head = events->head->next;
 		free(events->head);
 		events->head = new_head;
@@ -122,7 +123,7 @@ void install_event(struct events_list *events, struct event_t *event) {
 		while (current != NULL && previous != NULL) {
 			if (event->name == current->event->name) {
 				previous->next = current->next;
-				// clear_event(current->event);
+				clear_event(current->event);
 				free(current);
 				if (previous->next == NULL) {
 					events->tail = previous;

@@ -13,7 +13,7 @@ static struct event_t *make_event(napi_env env, char *name) {
 	napi_value object;
 	napi_create_object(env, &object);
 	napi_ref ref;
-	napi_create_reference(env, object, 0, &ref);
+	napi_create_reference(env, object, 1, &ref);
 	struct event_t *event = create_event(env, ref, name);
 	return event;
 }
