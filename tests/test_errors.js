@@ -41,47 +41,53 @@ test('control constructor argument type', t => {
 	t.end();
 });
 
-test('call method on destroyed window', t => {
-	runAsync(t, startLoop, () => {
-		const entry = new UiMultilineEntry();
-		const win = new UiWindow(null, 42, 42, true);
-		win.setChild(entry);
-		win.show();
-		win.close();
-		t.throws(() => {
-			entry.append('ciao');
-		}, /Method called on destroyed control./, 'modify control');
-		return stopLoop();
-	});
+test('Add control to more then one container', t => {
+	const entry = new UiMultilineEntry();
+	const win = new UiWindow(null, 42, 42, true);
+	const win2 = new UiWindow(null, 42, 42, true);
+	win.setChild(entry);
+	t.throws(() => win2.setChild(entry), /Child control already has parent./);
+	t.end();
 });
 
 test('call method on destroyed window', t => {
-	runAsync(t, startLoop, () => {
-		const win = new UiWindow(null, 42, 42, true);
-		win.show();
-		win.close();
-		t.throws(() => win.setTitle('ciao'), /Method called on destroyed control./,
-				 'window title');
-		return stopLoop();
-	});
-});
-
-test('call window close before show', t => {
-	runAsync(t, startLoop, () => {
-		const win = new UiWindow(null, 42, 42, true);
-		t.throws(() => win.close(), /Close called on closed window./);
-		return stopLoop();
-	});
-});
-
-test('call window close more then once', t => {
-	runAsync(t, startLoop, () => {
-		const win = new UiWindow(null, 42, 42, true);
-		win.show();
-		win.close();
-		t.throws(() => win.close(), /Close called on closed window./);
-		return stopLoop();
-	});
+	runAsync(t, startLoop,
+			 () => {
+				 const entry = new UiMultilineEntry();
+				 const win = new UiWindow(null, 42, 42, true);
+				 win.setChild(entry);
+				 win.show();
+				 win.close();
+				 t.throws(() => {
+					 entry.append('ciao');
+				 }, /Method called on destroyed control./, 'modify control');
+				 return stopLoop();
+			 },
+			 startLoop,
+			 () => {
+				 const win = new UiWindow(null, 42, 42, true);
+				 win.show();
+				 win.close();
+				 t.throws(() => win.setTitle('ciao'),
+						  /Method called on destroyed control./, 'window title');
+				 return stopLoop();
+			 },
+			 startLoop,
+			 () => {
+				 const win = new UiWindow(null, 42, 42, true);
+				 t.throws(() => win.close(), /Close called on closed window./,
+						  'call window close before show');
+				 return stopLoop();
+			 },
+			 startLoop,
+			 () => {
+				 const win = new UiWindow(null, 42, 42, true);
+				 win.show();
+				 win.close();
+				 t.throws(() => win.close(), /Close called on closed window./,
+						  'call window close more then once');
+				 return stopLoop();
+			 });
 });
 
 // test('call window show more then once', t => {
@@ -93,34 +99,24 @@ test('call window close more then once', t => {
 // 	});
 // });
 
-test('call method without loop', t => {
+test('event loop', t => {
 	const entry = new UiMultilineEntry();
 	entry.setText('');
-	t.pass();
-	t.end();
-});
+	t.pass('call method without loop');
 
-test('call method after stopLoop',
-	 t => runAsync(t, startLoop,
-				   () => {
-					   entry = new UiMultilineEntry();
-					   const win = new UiWindow(null, 42, 42, true);
-					   win.setChild(entry);
-					   win.show();
-					   return stopLoop().then(() => entry);
-				   },
-				   entry => {
-					   t.throws(() => entry.append('ciao'),
-								/Method called on destroyed control./);
-				   }));
-
-test('Add control to more then one container', t => {
-	const entry = new UiMultilineEntry();
-	const win = new UiWindow(null, 42, 42, true);
-	const win2 = new UiWindow(null, 42, 42, true);
-	win.setChild(entry);
-	t.throws(() => win2.setChild(entry), /Child control already has parent./);
-	t.end();
+	runAsync(t, startLoop,
+			 () => {
+				 const entry = new UiMultilineEntry();
+				 const win = new UiWindow(null, 42, 42, true);
+				 win.setChild(entry);
+				 win.show();
+				 return stopLoop().then(() => entry);
+			 },
+			 entry => {
+				 t.throws(() => entry.append('ciao'),
+						  /Method called on destroyed control./,
+						  'call method after stopLoop');
+			 });
 });
 
 test('uncaught errors', t => {
@@ -157,7 +153,7 @@ function runAsync(t, ...thens) {
 	};
 	const result = doStep();
 	if (result && typeof result.then === 'function') {
-		return result.then(() => t.end()).catch(err => t.fail(err))
-	};
+		return result.then(() => t.end()).catch(err => t.fail(err));
+	}
 	return t.end();
 }
