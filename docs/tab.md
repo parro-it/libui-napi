@@ -1,5 +1,5 @@
-<a name="UiTab"></a>
 
+<a id="uitab"></a>
 ## UiTab ⇐ <code>UiControl</code>
 A container that show each chidren in a separate tab.
 
@@ -8,28 +8,28 @@ A container that show each chidren in a separate tab.
 
 * [UiTab](#UiTab) ⇐ <code>UiControl</code>
     * [new UiTab()](#new_UiTab_new)
-    * [.margined](#UiTab+margined) ⇒ <code>boolean</code>
-    * [.append(control, string)](#UiTab+append)
-    * [.insertAt(label, before, control)](#UiTab+insertAt)
-    * [.numPages()](#UiTab+numPages) ⇒ <code>number</code>
-    * [.deleteAt(index)](#UiTab+deleteAt)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.margined](#UiTab_margined) ⇒ <code>boolean</code>
+    * [.append(control, string)](#UiTab_append)
+    * [.insertAt(label, before, control)](#UiTab_insertAt)
+    * [.numPages()](#UiTab_numPages) ⇒ <code>number</code>
+    * [.deleteAt(index)](#UiTab_deleteAt)
+    * [.enabled](#UiTab_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiTab_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiTab_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiTab_new"></a>
 
+<a id="new_uitab_new"></a>
 ### new UiTab()
 Create a new UiTab object.
 
-<a name="UiTab+margined"></a>
 
+<a id="uitab_margined"></a>
 ### uiTab.margined ⇒ <code>boolean</code>
 When true, an internal margin is added to the Tab.
 
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name="UiTab+append"></a>
 
+<a id="uitab_append"></a>
 ### uiTab.append(control, string)
 Append a new child control as last tab page.
 
@@ -40,8 +40,8 @@ Append a new child control as last tab page.
 | control | <code>UiControl</code> | the control to add as a child. |
 | string | <code>boolean</code> | the text to show for the new page caption. |
 
-<a name="UiTab+insertAt"></a>
 
+<a id="uitab_insertat"></a>
 ### uiTab.insertAt(label, before, control)
 Insert a new child control before specified position.
 
@@ -53,15 +53,15 @@ Insert a new child control before specified position.
 | before | <code>number</code> | the control will be inserted before this position |
 | control | <code>UiControl</code> | the control to insert |
 
-<a name="UiTab+numPages"></a>
 
+<a id="uitab_numpages"></a>
 ### uiTab.numPages() ⇒ <code>number</code>
 Return the total number of tab pages contained in the control.
 
 **Kind**: instance method of [<code>UiTab</code>](#UiTab)  
 **Returns**: <code>number</code> - number of pages  
-<a name="UiTab+deleteAt"></a>
 
+<a id="uitab_deleteat"></a>
 ### uiTab.deleteAt(index)
 Remove the tab and control at specified position.
 
@@ -71,20 +71,20 @@ Remove the tab and control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the tab to remove. |
 
-<a name=""></a>
 
+<a id="uitab_enabled"></a>
 ### uiTab.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name=""></a>
 
+<a id="uitab_visible"></a>
 ### uiTab.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiTab</code>](#UiTab)  
-<a name=""></a>
 
+<a id="uitab_toplevel"></a>
 ### uiTab.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

@@ -5,6 +5,13 @@
 
 static const char *MODULE = "AreaContext";
 
+// area-textlayout.c
+typedef struct {
+	uiDrawTextLayout *layout;
+	napi_ref str_ref;
+	napi_ref font_ref;
+} LayoutHandle;
+
 LIBUI_FUNCTION(fill) {
 	INIT_ARGS(3);
 
@@ -72,6 +79,19 @@ LIBUI_FUNCTION(restore) {
 	return NULL;
 }
 
+LIBUI_FUNCTION(text) {
+	INIT_ARGS(4);
+
+	ARG_POINTER(uiDrawContext, ctx, 0);
+	ARG_DOUBLE(x, 1);
+	ARG_DOUBLE(y, 2);
+	ARG_POINTER(LayoutHandle, h, 3);
+
+	uiDrawText(ctx, h->layout, x, y);
+
+	return NULL;
+}
+
 napi_value _libui_init_area_context(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(fill);
@@ -80,5 +100,6 @@ napi_value _libui_init_area_context(napi_env env, napi_value exports) {
 	LIBUI_EXPORT(clip);
 	LIBUI_EXPORT(save);
 	LIBUI_EXPORT(restore);
+	LIBUI_EXPORT(text);
 	return module;
 }

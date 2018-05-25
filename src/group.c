@@ -27,6 +27,7 @@ LIBUI_FUNCTION(create) {
 	INIT_ARGS(1);
 	ARG_STRING(title, 0);
 	uiControl *ctrl = uiControl(uiNewGroup(title));
+	free(title);
 	return control_handle_new(env, ctrl, "group");
 }
 

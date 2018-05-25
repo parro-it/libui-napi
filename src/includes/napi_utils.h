@@ -31,6 +31,20 @@
 		}                                                                                          \
 	}
 
+#define ARG_UINT32(ARG_NAME, ARG_IDX)                                                              \
+	uint32_t ARG_NAME;                                                                             \
+	{                                                                                              \
+		napi_status status = napi_get_value_uint32(env, argv[ARG_IDX], &ARG_NAME);                 \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s\n", result->error_message);            \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_INT64(ARG_NAME, ARG_IDX)                                                               \
 	int64_t ARG_NAME;                                                                              \
 	{                                                                                              \
@@ -206,11 +220,25 @@ NULL, &ret); \
 #define UI_NODE_DEBUG 0
 
 #if UI_NODE_DEBUG
-#define LIBUI_NODE_DEBUG(msg) fprintf(stderr, msg "\n")
-#define LIBUI_NODE_DEBUG_F(msg, ...) fprintf(stderr, msg "\n", __VA_ARGS__)
+
+bool debug_enabled_for_module(const char *module);
+#define LIBUI_NODE_DEBUG(msg)                                                                      \
+	{                                                                                              \
+		if (debug_enabled_for_module(MODULE)) {                                                    \
+			fprintf(stderr, msg "\n");                                                             \
+		}                                                                                          \
+	}
+#define LIBUI_NODE_DEBUG_F(msg, ...)                                                               \
+	{                                                                                              \
+		if (debug_enabled_for_module(MODULE)) {                                                    \
+			fprintf(stderr, msg "\n", __VA_ARGS__);                                                \
+		}                                                                                          \
+	}
 #else
+
 #define LIBUI_NODE_DEBUG(msg) ;
 #define LIBUI_NODE_DEBUG_F(msg, ...) ;
+
 #endif
 
 // return values

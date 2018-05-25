@@ -1,5 +1,5 @@
-<a name="UiMultilineEntry"></a>
 
+<a id="uimultilineentry"></a>
 ## UiMultilineEntry ⇐ <code>UiControl</code>
 A multiline text entry.
 
@@ -8,33 +8,33 @@ A multiline text entry.
 
 * [UiMultilineEntry](#UiMultilineEntry) ⇐ <code>UiControl</code>
     * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
-    * [.text](#UiMultilineEntry+text) ⇒ <code>string</code>
-    * [.readOnly](#UiMultilineEntry+readOnly) ⇒ <code>boolean</code>
-    * [.append(text)](#UiMultilineEntry+append)
-    * [.onChanged(callback)](#UiMultilineEntry+onChanged)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.text](#UiMultilineEntry_text) ⇒ <code>string</code>
+    * [.readOnly](#UiMultilineEntry_readOnly) ⇒ <code>boolean</code>
+    * [.append(text)](#UiMultilineEntry_append)
+    * [.onChanged(callback)](#UiMultilineEntry_onChanged)
+    * [.enabled](#UiMultilineEntry_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiMultilineEntry_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiMultilineEntry_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiMultilineEntry_new"></a>
 
+<a id="new_uimultilineentry_new"></a>
 ### new UiMultilineEntry()
 Create a new UiMultilineEntry object.
 
-<a name="UiMultilineEntry+text"></a>
 
+<a id="uimultilineentry_text"></a>
 ### uiMultilineEntry.text ⇒ <code>string</code>
 Set or return the the content of the multiline entry.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
-<a name="UiMultilineEntry+readOnly"></a>
 
+<a id="uimultilineentry_readonly"></a>
 ### uiMultilineEntry.readOnly ⇒ <code>boolean</code>
 Whether the user is allowed to change the entry's contents.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
-<a name="UiMultilineEntry+append"></a>
 
+<a id="uimultilineentry_append"></a>
 ### uiMultilineEntry.append(text)
 Append the specified text to the entry's contents.
 
@@ -44,8 +44,8 @@ Append the specified text to the entry's contents.
 | --- | --- | --- |
 | text | <code>string</code> | the text to append. |
 
-<a name="UiMultilineEntry+onChanged"></a>
 
+<a id="uimultilineentry_onchanged"></a>
 ### uiMultilineEntry.onChanged(callback)
 Add a listener to the `changed` event. Emitted whenever the entry's contents
 changed.
@@ -56,20 +56,20 @@ changed.
 | --- | --- | --- |
 | callback | <code>function</code> | callback to execute when the event is fired. |
 
-<a name=""></a>
 
+<a id="uimultilineentry_enabled"></a>
 ### uiMultilineEntry.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
-<a name=""></a>
 
+<a id="uimultilineentry_visible"></a>
 ### uiMultilineEntry.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiMultilineEntry</code>](#UiMultilineEntry)  
-<a name=""></a>
 
+<a id="uimultilineentry_toplevel"></a>
 ### uiMultilineEntry.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

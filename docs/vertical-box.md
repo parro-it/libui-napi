@@ -1,5 +1,5 @@
-<a name="UiVerticalBox"></a>
 
+<a id="uiverticalbox"></a>
 ## UiVerticalBox ⇐ <code>UiBox</code>
 A container that stacks its children vertically.
 
@@ -8,26 +8,26 @@ A container that stacks its children vertically.
 
 * [UiVerticalBox](#UiVerticalBox) ⇐ <code>UiBox</code>
     * [new UiVerticalBox()](#new_UiVerticalBox_new)
-    * [.padded](#) ⇒ <code>boolean</code>
-    * [.append(control, stretchy)](#)
-    * [.deleteAt(index)](#)
-    * [.enabled](#) ⇒ <code>boolean</code>
-    * [.visible](#) ⇒ <code>boolean</code>
-    * [.toplevel](#) ⇒ <code>boolean</code>
+    * [.padded](#UiVerticalBox_padded) ⇒ <code>boolean</code>
+    * [.append(control, stretchy)](#UiVerticalBox_append)
+    * [.deleteAt(index)](#UiVerticalBox_deleteAt)
+    * [.enabled](#UiVerticalBox_enabled) ⇒ <code>boolean</code>
+    * [.visible](#UiVerticalBox_visible) ⇒ <code>boolean</code>
+    * [.toplevel](#UiVerticalBox_toplevel) ⇒ <code>boolean</code>
 
-<a name="new_UiVerticalBox_new"></a>
 
+<a id="new_uiverticalbox_new"></a>
 ### new UiVerticalBox()
 Create a new UiVerticalBox object.
 
-<a name=""></a>
 
+<a id="uiverticalbox_padded"></a>
 ### uiVerticalBox.padded ⇒ <code>boolean</code>
 If true, the container inserts some space between children.
 
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
-<a name=""></a>
 
+<a id="uiverticalbox_append"></a>
 ### uiVerticalBox.append(control, stretchy)
 Append a new child control as the last child.
 
@@ -38,8 +38,8 @@ Append a new child control as the last child.
 | control | <code>UiControl</code> | the control to add as a child. |
 | stretchy | <code>boolean</code> | whever the control should fill all the available space. |
 
-<a name=""></a>
 
+<a id="uiverticalbox_deleteat"></a>
 ### uiVerticalBox.deleteAt(index)
 Remove a child control at specified position.
 
@@ -49,20 +49,20 @@ Remove a child control at specified position.
 | --- | --- | --- |
 | index | <code>number</code> | the index of the control to remove |
 
-<a name=""></a>
 
+<a id="uiverticalbox_enabled"></a>
 ### uiVerticalBox.enabled ⇒ <code>boolean</code>
 Set or return whether the control is enabled.
 
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
-<a name=""></a>
 
+<a id="uiverticalbox_visible"></a>
 ### uiVerticalBox.visible ⇒ <code>boolean</code>
 Set or return whether the control is visible.
 
 **Kind**: instance property of [<code>UiVerticalBox</code>](#UiVerticalBox)  
-<a name=""></a>
 
+<a id="uiverticalbox_toplevel"></a>
 ### uiVerticalBox.toplevel ⇒ <code>boolean</code>
 Set or return whether the control is a top level one.
 

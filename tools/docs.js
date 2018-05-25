@@ -15,7 +15,11 @@ async function render([mainClass, input]) {
 	}
 
 	const output = 'docs/' + toDotCase(mainClass.slice(2)).replace(/\./g, '-') + '.md';
-	const d = await jsdoc2md.render({data: mainClassData});
+	const d = await jsdoc2md.render({
+		data: mainClassData,
+		partial: 'tools/docs/header.hbs',
+		helper: 'tools/docs/hbs_helper.js'
+	});
 	await fs.promises.writeFile(output, d);
 	console.log(`${mainClass} -> ${output}`);
 }
@@ -27,7 +31,6 @@ function renderAll(...classes) {
 }
 
 renderAll(
-	// ['UiArea', 'js/{area.js,ui-control.js}'],
 	['UiButton', 'js/{button.js,ui-control.js}'],
 	['UiCheckbox', 'js/{checkbox.js,ui-control.js}'],
 	['UiColorButton', 'js/{color-button.js,ui-control.js}'],
@@ -45,8 +48,9 @@ renderAll(
 		'js/{editable-combobox.js,ui-control.js}',
 	],
 	['UiEntry', 'js/{entry.js,entry-base.js,ui-control.js}'],
-	['UiForm', 'js/{form.js,ui-control.js}'], ['UiGrid', 'js/{grid.js,ui-control.js}'],
-	['UiGroup', 'js/{group.js,ui-control.js}'],
+	['UiForm', 'js/{form.js,ui-control.js}'],
+	['UiFontButton', 'js/{font-button.js,ui-control.js}'],
+	['UiGrid', 'js/{grid.js,ui-control.js}'], ['UiGroup', 'js/{group.js,ui-control.js}'],
 	[
 		'UiHorizontalBox',
 		'js/{horizontal-box.js,box.js,ui-control.js}',
