@@ -5,7 +5,9 @@
 
 struct ctrl_map controls_map;
 
+#if UI_NODE_DEBUG
 static const char *MODULE = "ControlInternal";
+#endif
 
 int control_event_cb(void *ctrl, void *data) {
 	struct event_t *event = (struct event_t *)data;

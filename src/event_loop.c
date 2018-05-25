@@ -3,8 +3,8 @@
 #include "napi_utils.h"
 #include "app.h"
 #include "event-loop.h"
-static const char *MODULE = "EventLoop";
 
+static const char *MODULE = "EventLoop";
 static uv_barrier_t all_threads_are_waiting;
 static uv_barrier_t all_threads_are_awaked;
 

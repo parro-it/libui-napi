@@ -10,7 +10,10 @@ static uv_sem_t sem_status;
 static uv_sem_t sem_quitted;
 static uv_sem_t sem_main_thread;
 static uv_sem_t sem_background_thread;
+
+#if UI_NODE_DEBUG
 static const char *MODULE = "EventLoop";
+#endif
 
 void ln_set_main_thread_quitted(bool value) {
 	uv_sem_wait(&sem_quitted);

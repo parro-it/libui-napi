@@ -2,7 +2,10 @@
 #include <uv.h>
 #define UNINITIALIZED 100042
 
+#if UI_NODE_DEBUG
 static char enabled_debug_module[100];
+#endif
+
 size_t env_var_size = UNINITIALIZED;
 
 napi_value make_bool(napi_env env, bool value) {
