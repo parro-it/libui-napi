@@ -21,15 +21,15 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+ - OS: [e.g. Windows 10]
+ - Version [e.g. Version 1803 (OS build 17134)]
+ - Node.js version to use
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**For C programmers**
+Try to reproduce the problem in [libui repo](https://github.com/andlabs/libui).
+If you can, the issue you are going to open belong there.
+If the issue is not present in libui, go on and open here. A screenshot of
+the test app in libui-node could be useful.
 
 **Additional context**
 Add any other context about the problem here.
