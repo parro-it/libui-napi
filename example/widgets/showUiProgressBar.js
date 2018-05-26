@@ -5,9 +5,9 @@ const libui = require('../..');
 const win = new libui.UiWindow('UiProgressBar example', 320, 60, true);
 win.margined = true;
 
-const widget = new libui.UiProgressBar();
-widget.value = 50;
-win.setChild(widget);
+const control = new libui.UiProgressBar();
+control.value = 50;
+win.setChild(control);
 
 win.onClosing(() => {
 	if (interval) {
@@ -21,9 +21,9 @@ win.onClosing(() => {
 win.show();
 
 let interval = setInterval(() => {
-	widget.value++;
-	if (widget.value === 100) {
-		widget.value = -1;
+	control.value++;
+	if (control.value === 100) {
+		control.value = -1;
 		if (interval) {
 			clearInterval(interval);
 			interval = null;

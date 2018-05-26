@@ -1,6 +1,6 @@
-# libui-node widgets properties
+# libui-node controls properties
 
-Every widget properties has a dual implementation.
+Every control properties has a dual implementation.
 
 You can read and write them both using javascript properties and using setter/getter methods.
 
@@ -11,23 +11,23 @@ We've choosen to provide access to getter/setter method to increase flexibility.
 ### using javascript properties
 
 ```js
-var widget = new libui.UiEntry();
+var control = new libui.UiEntry();
 // set the text contained in the entry
-widget.text = 'sample text';
+control.text = 'sample text';
 
 // retrieve it
-console.log(widget.text);
+console.log(control.text);
 ```
 
 ### using setter/getter methods
 
 ```js
-var widget = new libui.UiEntry();
+var control = new libui.UiEntry();
 // set the text contained in the entry
-widget.setText('sample text');
+control.setText('sample text');
 
 // retrieve it
-console.log(widget.getText());
+console.log(control.getText());
 ```
 
 

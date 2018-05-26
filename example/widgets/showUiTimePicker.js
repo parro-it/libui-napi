@@ -5,11 +5,11 @@ const libui = require('../..');
 const win = new libui.UiWindow('UiTimePicker example', 320, 60, true);
 win.margined = true;
 
-const widget = new libui.UiTimePicker();
-win.setChild(widget);
+const control = new libui.UiTimePicker();
+win.setChild(control);
 
-widget.onChanged(() => {
-	console.log(widget.time.toLocaleString());
+control.onChanged(() => {
+	console.log(control.time.toLocaleString());
 });
 
 win.onClosing(() => {

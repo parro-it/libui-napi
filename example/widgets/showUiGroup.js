@@ -5,16 +5,16 @@ const libui = require('../..');
 const win = new libui.UiWindow('UiGroup example', 320, 60, true);
 win.margined = true;
 
-const widget = new libui.UiVerticalBox();
-widget.padded = true;
-widget.append(new libui.UiEntry(), false);
-widget.append(new libui.UiEntry(), false);
-widget.append(new libui.UiEntry(), false);
+const control = new libui.UiVerticalBox();
+control.padded = true;
+control.append(new libui.UiEntry(), false);
+control.append(new libui.UiEntry(), false);
+control.append(new libui.UiEntry(), false);
 
 const group = new libui.UiGroup();
 group.margined = true;
 group.title = 'A group of entries';
-group.setChild(widget);
+group.setChild(control);
 
 win.setChild(group);
 

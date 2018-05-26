@@ -1,6 +1,6 @@
-# Container widgets
+# Container controls
 
-`libui-node` provide various widgets that could contains children and that layout them using different strategies.
+`libui-node` provide various controls that could contains children and that layout them using different strategies.
 
 * [UiWindow](window.md) - A OS native window that contains only one child.
 * [UiForm](form.md) - organize children as labeled fields.
@@ -25,7 +25,7 @@ A container with padded property set to `true` will separate its children with a
 
 ### stretchy
 
-A widget appended to its container with `stretchy` argument `true` will increase its size when parent size change.
+A control appended to its container with `stretchy` argument `true` will increase its size when parent size change.
 
 ### append
 
@@ -41,4 +41,4 @@ Append method allows to insert children as last one of the container.
 
 ### setChild
 
-`setChild` method set the child widget of containers that contains only one (group, window).
+`setChild` method set the child control of containers that contains only one (group, window).
