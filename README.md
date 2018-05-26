@@ -126,17 +126,16 @@ node example/core-api.js
 
 # Contribution & design
 
-* Each `libui` control implementation is written in it's own C++ file in `src` folder.
-* Each control is implemented in it's own C++ class, each class is a simple wrapper of related libui C functions.
-* Header files are in `src/includes` folder.
-* Control events does not follow `node` convention: if you attach an handler to an event, previous one will be overwritten and never be called.
-* We build the project using the awesome [nbind](https://github.com/charto/nbind) tool, that automate the process of linking a straight C++ class to Node.js stuff...
+1) Make sure to read and agree with our [code of conduct](CODE_OF_CONDUCT.md)
+2) Follow guidelines provided in our [contribution guide](CONTRIBUTING.md)
 
 # Related projects
 
 * [libui](https://github.com/andlabs/libui) - Simple and portable (but not inflexible) GUI library in C that uses the native GUI technologies of each platform it supports.
 * [nbind](https://github.com/charto/nbind) - Magical headers that make your C++ library accessible from JavaScript
 * [proton-native](https://github.com/kusti8/proton-native) - A React environment for cross platform native desktop apps https://proton-native.js.org
+* [vuido](https://github.com/mimecorg/vuido) - Native desktop applications using Vue.js.
+https://proton-native.js.org
 
 # Contributors
 
