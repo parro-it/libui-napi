@@ -17,15 +17,11 @@ It is in early stage of development, but is evolving at great pace and is really
 
 # Screenshots
 
----
-
 <p align="center">
 macOS
 </p>
 
 ![macOS](docs/media/Window-macOS.png)
-
----
 
 <p align="center">
 Linux
@@ -33,15 +29,11 @@ Linux
 
 ![Linux](docs/media/Window-Linux.png)
 
----
-
 <p align="center">
 Windows
 </p>
 
 ![Windows](docs/media/Window-Windows.png)
-
----
 
 # Supported platforms
 
