@@ -5,7 +5,6 @@
   - [Properties](properties.md)
   - [Events](events.md)
   - [Containers](containers.md)
-  - [Attributed Strings](attributedstring.md)
 * Containers
   - [UiWindow](window.md)
   - [UiGroup](group.md)
