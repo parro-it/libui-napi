@@ -1,17 +1,33 @@
 const {
+	UiCheckbox,
 	UiWindow,
 	UiHorizontalBox,
 	UiMultilineEntry,
 	UiVerticalBox,
+	UiForm,
 	UiGroup,
+	UiEntry,
+	UiSearchEntry,
+	UiPasswordEntry,
+	UiButton,
+	UiTab,
 	startLoop,
 	stopLoop,
-	onShouldQuit
+	onShouldQuit,
+	UiLabel,
+	UiHorizontalSeparator,
+	UiVerticalSeparator,
+	UiDatePicker,
+	UiTimePicker,
+	UiDateTimePicker,
+	UiColorButton
 } = require('..');
 
-function appendAll(children, parent, stretchy = false) {
+function* forEachChildren(children, parent) {
 	for (const ctrl of children) {
-		const stretch = ctrl.stretchy === undefined ? stretchy : Boolean(ctrl.stretchy);
+		if (ctrl === null) {
+			continue;
+		}
 		ctrl._parent = parent;
 		if (ctrl.id) {
 
@@ -27,9 +43,33 @@ function appendAll(children, parent, stretchy = false) {
 				currentParent = parent._parent;
 			}
 		}
-		parent.append(ctrl, stretch);
+		yield ctrl;
 	}
 }
+
+const appendAll =
+	(children, parent) => {
+		const allChild = forEachChildren(children, parent);
+		for (const child of allChild) {
+			const stretch =
+				child.stretchy === undefined ? false : Boolean(child.stretchy);
+			parent.append(child, stretch);
+		}
+	}
+
+const appendTab =
+	(children, parent, defaultLabel = '<empty label>') => {
+		const allChild = forEachChildren(children, parent);
+		for (const child of allChild) {
+			const label =
+				typeof child.label === undefined ? defaultLabel : String(child.label);
+			child.label = label;
+			if (typeof child.margined === 'boolean') {
+				ctrl.setMargined(ctrl.numPages() - 1, child.margined);
+			}
+			parent.append(label, child);
+		}
+	}
 
 function wrapChildren(children) {
 	const childs = Array.from(children);
@@ -66,8 +106,7 @@ function mkControl(Class, defaults) {
 				if (props[propName]) {
 					ctrl[propName](props[propName]);
 				}
-			} else if (props[propName] !== undefined &&
-					   props[propName] !== defaultValue) {
+			} else if (props[propName] !== undefined) {
 				ctrl[propName] = props[propName];
 			}
 		}
@@ -96,6 +135,7 @@ const tags = {
 		borderless = false,
 		onClosing = null
 	},
+
 		   children) {
 		const win = new UiWindow(title, width, height, hasMenubar);
 		win.margined = margined;
@@ -112,11 +152,14 @@ const tags = {
 		}
 		return win;
 	},
-	['text-area']: mkControl(UiMultilineEntry, {
+
+	textarea: mkControl(UiMultilineEntry, {
 		readOnly: false,
 		enabled: true,
 		text: '',
 		visible: true,
+		label: '',
+		stretchy: false,
 		onChanged: EventHandler,
 		handleChildren(ctrl, children) {
 			for (const child of children) {
@@ -124,23 +167,41 @@ const tags = {
 			}
 		}
 	}),
-	['h-box']: mkControl(UiHorizontalBox, {
+
+	hbox: mkControl(UiHorizontalBox, {
 		padded: false,
 		enabled: true,
 		visible: true,
+		label: '',
+		stretchy: false,
+		handleChildren(ctrl, children) {
+			appendAll(children, ctrl);
+		}
+	}),
+
+	br() {
+		return '\n';
+	},
+
+	vbox: mkControl(UiVerticalBox, {
+		padded: false,
+		enabled: true,
+		visible: true,
+		label: '',
+		stretchy: false,
 		handleChildren(ctrl, children) {
 			appendAll(children, ctrl, true);
 		}
 	}),
-	br() {
-		return '\n';
-	},
-	['v-box']: mkControl(UiVerticalBox, {
-		padded: false,
+
+	tab: mkControl(UiTab, {
 		enabled: true,
 		visible: true,
+		margined: true,
+		label: '',
+		stretchy: false,
 		handleChildren(ctrl, children) {
-			appendAll(children, ctrl, true);
+			appendTab(children, ctrl);
 		}
 	}),
 
@@ -149,46 +210,141 @@ const tags = {
 		margined: true,
 		enabled: true,
 		visible: true,
+		label: '',
+		stretchy: false,
 		handleChildren(ctrl, children) {
-			ctrl.setChild(wrapChildren(children));
+			const allChild = forEachChildren(children, ctrl);
+			ctrl.setChild(wrapChildren(allChild));
 		}
+	}),
+
+	checkbox: mkControl(UiCheckbox, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		text: '',
+		checked: false,
+		onToggled: EventHandler
+	}),
+
+	form: mkControl(UiForm, {
+		label: '',
+		stretchy: false,
+		padded: true,
+		enabled: true,
+		visible: true,
+		handleChildren(ctrl, children) {
+			const allChild = forEachChildren(children, ctrl);
+			for (const child of allChild) {
+				const label =
+					typeof child.label === undefined ? defaultLabel : String(child.label);
+				const stretchy =
+					typeof child.stretchy === undefined ? false : Boolean(child.stretchy);
+				child.label = label;
+				child.stretchy = stretchy;
+				ctrl.append(label, child, stretchy);
+			}
+		}
+	}),
+
+	button: mkControl(UiButton, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		text: '',
+		onClicked: EventHandler
+	}),
+
+	entry: mkControl(UiEntry, {
+		label: '',
+		stretchy: false,
+		readOnly: false,
+		enabled: true,
+		text: '',
+		visible: true,
+		onChanged: EventHandler
+	}),
+
+	search: mkControl(UiSearchEntry, {
+		label: '',
+		stretchy: false,
+		readOnly: false,
+		enabled: true,
+		text: '',
+		visible: true,
+		onChanged: EventHandler
+	}),
+
+	password: mkControl(UiPasswordEntry, {
+		label: '',
+		stretchy: false,
+		readOnly: false,
+		enabled: true,
+		text: '',
+		visible: true,
+		onChanged: EventHandler
+	}),
+
+	textarea: mkControl(UiMultilineEntry, {
+		label: '',
+		stretchy: false,
+		readOnly: false,
+		enabled: true,
+		text: '',
+		visible: true,
+		onChanged: EventHandler
+	}),
+
+	label: mkControl(UiLabel, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		text: '',
+		visible: true,
+		handleChildren(ctrl, children) {
+			ctrl.text = children.join('');
+		}
+	}),
+
+	hseparator: mkControl(UiHorizontalSeparator,
+						  {label: '', stretchy: false, enabled: true, visible: true}),
+
+	vseparator: mkControl(UiVerticalSeparator,
+						  {label: '', stretchy: false, enabled: true, visible: true}),
+
+	datePicker: mkControl(UiDatePicker, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		time: new Date(),
+		onChanged: EventHandler
+	}),
+
+	timePicker: mkControl(UiTimePicker, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		time: new Date(),
+		onChanged: EventHandler
+	}),
+
+	dateTimePicker: mkControl(UiDateTimePicker, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		time: new Date(),
+		onChanged: EventHandler
 	})
+
 };
 /*
-const entry = mkControl(
-	libui.UiEntry,
-	{readOnly: false, enabled: true, text: '', visible: true, onChanged: EventHandler});
+colorButton: mkControl(UiColorButton, {enabled: true, visible: true});
 
-const searchEntry = mkControl(
-	libui.UiSearchEntry,
-	{readOnly: false, enabled: true, text: '', visible: true, onChanged: EventHandler});
-
-const passwordEntry = mkControl(
-	libui.UiPasswordEntry,
-	{readOnly: false, enabled: true, text: '', visible: true, onChanged: EventHandler});
-
-const multilineEntry = mkControl(
-	libui.UiMultilineEntry,
-	{readOnly: false, enabled: true, text: '', visible: true, onChanged: EventHandler});
-
-const label = mkControl(libui.UiLabel, {enabled: true, text: '', visible: true});
-
-const separator = mkControl(libui.UiHorizontalSeparator, {enabled: true, visible: true});
-
-const datePicker = mkControl(libui.UiDatePicker, {enabled: true, visible: true});
-
-const timePicker = mkControl(libui.UiTimePicker, {enabled: true, visible: true});
-
-const dateTimePicker = mkControl(libui.UiDateTimePicker, {enabled: true, visible: true});
-
-const button = mkControl(
-	libui.UiButton, {enabled: true, visible: true, text: '', onClicked: EventHandler});
-
-const colorButton = mkControl(libui.UiColorButton, {enabled: true, visible: true});
-
-const checkBox = mkControl(
-	libui.UiCheckbox,
-	{enabled: true, visible: true, text: '', checked: false, onToggled: EventHandler});
 
 const spinbox = mkControl(
 	libui.UiSpinbox, {enabled: true, visible: true, value: 0, onChanged: EventHandler});
@@ -235,17 +391,6 @@ const editableCombobox = (props, ...children) => {
 	return ctrl;
 };
 
-const tab = (props, ...children) => {
-	const ctrl =
-		mkControl(libui.UiTab, {enabled: true, visible: true, margined: true})(props);
-
-	for (const child of children) {
-		const title = child.props.tabTitle || '';
-		ctrl.append(title, child);
-	}
-
-	return ctrl;
-};
 }
 ;
 */
@@ -265,7 +410,6 @@ exports.start = async function(win) {
 		try {
 			win.close();
 			await stopLoop();
-			console.log('app closed...');
 		} catch (err) {
 			console.error(err);
 		}
