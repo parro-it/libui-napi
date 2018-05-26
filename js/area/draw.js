@@ -135,7 +135,7 @@ class BrushGradientStop {
 
 class UiDrawPath {
 	constructor(mode) {
-		mode = typeof a === 'undefined' ? UiDrawPath.fillMode.winding : mode;
+		mode = typeof mode === 'undefined' ? UiDrawPath.fillMode.winding : mode;
 		this.handle = AreaPath.create(mode);
 		this.began = false;
 		this.ended = false;
