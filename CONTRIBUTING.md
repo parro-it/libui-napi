@@ -82,3 +82,11 @@ We have a [chat](https://spectrum.chat/libui-node). Jump in there and lurk, talk
 
 *Looking to make your first ever contribution to an open-source project? Look no further! libui-node may be one of the most welcoming projects and communities out there. Check out ["Making your first contribution"](https://medium.com/@vadimdemedes/making-your-first-contribution-de6576ddb190) blog post to start off the right way and make your work a part of libui-node!*
 
+
+# Other stuff
+
+* Each `libui` control implementation is written in it's own C++ file in `src` folder.
+* Each control is implemented in it's own C++ class, each class is a simple wrapper of related libui C functions.
+* Header files are in `src/includes` folder.
+* Control events does not follow `node` convention: if you attach an handler to an event, previous one will be overwritten and never be called.
+* We build the project using the awesome [nbind](https://github.com/charto/nbind) tool, that automate the process of linking a straight C++ class to Node.js stuff...
