@@ -128,7 +128,7 @@ node example/core-api.js
 * [libui](https://github.com/andlabs/libui) - Simple and portable (but not inflexible) GUI library in C that uses the native GUI technologies of each platform it supports.
 * [nbind](https://github.com/charto/nbind) - Magical headers that make your C++ library accessible from JavaScript
 * [proton-native](https://github.com/kusti8/proton-native) - A React environment for cross platform native desktop apps https://proton-native.js.org
-* [vuido](https://github.com/mimecorg/vuido) - Native desktop applications using Vue.js.
+* [vuido](https://vuido.mimec.org/) - Native desktop applications using Vue.js.
 https://proton-native.js.org
 
 # Contributors
