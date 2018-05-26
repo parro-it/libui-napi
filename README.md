@@ -6,10 +6,14 @@
 
 It is in early stage of development, but is evolving at great pace and is really awesome. It could become an awesome alternative to Electron to develop multiplatform GUI, expecially suited to develop small apps.
 
+<p align="center">
+[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/libui-node)
 [![Travis Build Status](https://img.shields.io/travis/parro-it/libui-node/master.svg)](http://travis-ci.org/parro-it/libui-node)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ebcssfrpaypfwha4?svg=true)](https://ci.appveyor.com/project/parro-it/libui-node)
 [![NPM module](https://img.shields.io/npm/v/libui-node.svg)](https://npmjs.org/package/libui-node)
 [![NPM downloads](https://img.shields.io/npm/dt/libui-node.svg)](https://npmjs.org/package/libui-node)
+</p>
+
 
 # Screenshots
 
