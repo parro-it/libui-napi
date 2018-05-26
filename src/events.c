@@ -5,6 +5,10 @@ static const char *MODULE = "EventsInternal";
 #endif
 
 napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
+	if (event->is_empty) {
+		return NULL;
+	}
+
 	napi_status status;
 	napi_env env = event->env;
 
@@ -61,15 +65,21 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	CHECK_STATUS_THROW(status, napi_create_string_utf8);
 
 	napi_async_context async_context;
-	status = napi_async_init(env, NULL, async_resource_name, &async_context);
-	CHECK_STATUS_THROW(status, napi_async_init);
+	if (cb_ref != null_ref) {
+		status = napi_async_init(env, NULL, async_resource_name, &async_context);
+		CHECK_STATUS_THROW(status, napi_async_init);
+	} else {
+		async_context = NULL;
+	}
 
 	struct event_t *event = calloc(1, sizeof(struct event_t));
 	event->cb_ref = cb_ref;
 	event->name = name;
 	event->env = env;
 	event->context = async_context;
-
+	if (cb_ref == null_ref) {
+		event->is_empty = true;
+	}
 	LIBUI_NODE_DEBUG_F("Create event %s %p", event->name, event);
 	return event;
 }
@@ -95,7 +105,10 @@ static struct events_node *new_events_node(struct event_t *event) {
 }
 
 void install_event(struct events_list *events, struct event_t *event) {
-	struct events_node *new_node = new_events_node(event);
+	struct events_node *new_node = NULL;
+	if (!event->is_empty) {
+		new_node = new_events_node(event);
+	}
 
 	if (events->head == NULL) {
 		// First event for this control
@@ -135,12 +148,12 @@ void install_event(struct events_list *events, struct event_t *event) {
 		}
 	}
 
-	// TODO: we need to support NULL event to only remove event.
-
-	// Control already has other events. Append to tail
-	events->tail->next = new_node;
-	// and set this node as the new tail
-	events->tail = new_node;
+	if (new_node != NULL) {
+		// Control already has other events. Append to tail
+		events->tail->next = new_node;
+		// and set this node as the new tail
+		events->tail = new_node;
+	}
 }
 
 void clear_all_events(struct events_list *events) {
