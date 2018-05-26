@@ -102,7 +102,7 @@ str.insertAttributed('Styled Strings\n', 0,
 					 FontAttribute.newSize(24));
 
 function handlerDraw(area, p) {
-	const font = checkbox.checked ? new libui.FontDescriptor('Georgia', 14,
+	const font = checkbox.checked ? new libui.FontDescriptor('Georgia', 12,
 															 FontAttribute.weight.normal,
 															 FontAttribute.italic.normal,
 															 FontAttribute.stretch.normal)
@@ -121,7 +121,7 @@ function redraw() {
 }
 
 function main() {
-	mainwin = new libui.UiWindow('libui textDrawArea Example', 640, 480, 1);
+	mainwin = new libui.UiWindow('textDrawArea Example', 640, 480, 1);
 	mainwin.margined = true;
 	mainwin.onClosing(() => {
 		libui.stopLoop();
@@ -136,6 +136,7 @@ function main() {
 	hbox.append(vbox, false);
 
 	fontButton = new libui.UiFontButton();
+	fontButton.enabled = false;
 	fontButton.onChanged(redraw);
 	vbox.append(fontButton, false);
 
@@ -144,6 +145,7 @@ function main() {
 	vbox.append(form, false);
 
 	checkbox = new libui.UiCheckbox();
+	checkbox.checked = true;
 	checkbox.text = 'Use Georgia instead of button';
 	checkbox.onToggled(() => {
 		fontButton.enabled = !checkbox.checked;

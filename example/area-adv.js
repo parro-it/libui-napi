@@ -66,7 +66,7 @@ function handlerDraw(area, p) {
 function noop() {}
 
 function main() {
-	const mainwin = new libui.UiWindow('libui textDrawArea Example', 400, 400, 1);
+	const mainwin = new libui.UiWindow('Area Advanced', 400, 400, 1);
 	mainwin.margined = true;
 	mainwin.onClosing(() => {
 		mainwin.close();
