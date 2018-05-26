@@ -128,11 +128,20 @@
 		}                                                                                          \
 	}
 
+extern napi_ref null_ref;
+
 #define ARG_CB_REF(ARG_NAME, ARG_IDX)                                                              \
 	napi_ref ARG_NAME;                                                                             \
 	{                                                                                              \
-		napi_status status = napi_create_reference(env, argv[ARG_IDX], 1, &ARG_NAME);              \
-		CHECK_STATUS_THROW(status, napi_create_reference);                                         \
+		napi_valuetype arg_type;                                                                   \
+		napi_status status = napi_typeof(env, argv[ARG_IDX], &arg_type);                           \
+                                                                                                   \
+		if (arg_type == napi_null) {                                                               \
+			ARG_NAME = null_ref;                                                                   \
+		} else {                                                                                   \
+			status = napi_create_reference(env, argv[ARG_IDX], 1, &ARG_NAME);                      \
+			CHECK_STATUS_THROW(status, napi_create_reference);                                     \
+		}                                                                                          \
 	}
 
 // return values

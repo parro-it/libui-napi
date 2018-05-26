@@ -6,6 +6,7 @@
 static char enabled_debug_module[100];
 #endif
 
+napi_ref null_ref;
 size_t env_var_size = UNINITIALIZED;
 
 napi_value make_bool(napi_env env, bool value) {

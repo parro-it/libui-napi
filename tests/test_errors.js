@@ -99,6 +99,13 @@ test('call method on destroyed window', t => {
 // 	});
 // });
 
+test('remove an event', t => {
+	const entry = new UiMultilineEntry();
+	entry.onChanged(null);
+	t.pass();
+	t.end();
+});
+
 test('event loop', t => {
 	const entry = new UiMultilineEntry();
 	entry.setText('');
