@@ -1,11 +1,11 @@
 <!-- docs/_sidebar.md -->
 
 * [Home](/)
-  - [Initialization & Event Loop](initialization.md) - explains how to initialize the framework and how the event loop works.
-  - [Properties](properties.md) - explains how widgets properties are implemented by `libui-node`.
-  - [Events](events.md) - explains how widgets events are implemented by `libui-node`.
-  - [Containers](containers.md) - explains how you can group widgets in tree hierarchies using different layout strategies.
-  - [Attributed Strings](attributedstring.md) - explains how you can style text (font, color, underline, ...)
+  - [Initialization & Event Loop](initialization.md)
+  - [Properties](properties.md)
+  - [Events](events.md)
+  - [Containers](containers.md)
+  - [Attributed Strings](attributedstring.md)
 * Containers
   - [UiWindow](window.md)
   - [UiGroup](group.md)
