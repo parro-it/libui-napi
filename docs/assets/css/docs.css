@@ -164,7 +164,7 @@ a {
   position: relative;
   padding-bottom: 80px;
   color: #fff;
-  background-image: url("assets/media/unsplash.jpg");
+  background-image: url("/assets/media/unsplash.jpg");
   background-size: cover;
 }
 .masthead:after {
