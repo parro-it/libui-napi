@@ -114,6 +114,13 @@ test('call method without loop', t => {
 	t.end();
 });
 
+test('remove an event', t => {
+	const entry = new UiMultilineEntry();
+	entry.onChanged(null);
+	t.pass();
+	t.end();
+});
+
 test('call method after stopLoop',
 	 t => runAsync(t, startLoop,
 				   () => {

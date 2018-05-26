@@ -1,7 +1,13 @@
 const {startLoop, stopLoop, onShouldQuit} = require('../..');
 
-const {UiWindow, UiHorizontalBox, UiMultilineEntry, UiVerticalSeparator} =
-	require('../..');
+const {
+	UiWindow,
+	UiHorizontalBox,
+	UiVerticalBox,
+	UiCheckbox,
+	UiMultilineEntry,
+	UiVerticalSeparator
+} = require('../..');
 
 onShouldQuit(() => {
 	stopLoop();
@@ -16,19 +22,36 @@ function createWindow() {
 	const entry = new UiMultilineEntry();
 	entry.text = 'A test line\n';
 	entry.append('A second test line\n');
-	entry.onChanged(() => {
+	function logChanges() {
 		const msg = `Text changed to ${entry.text}`;
 		console.log(msg);
 		logEntry.append(msg + '\n');
+	}
+
+	entry.onChanged(logChanges);
+
+	const vbox = new UiVerticalBox();
+	vbox.padded = true;
+
+	const chkLog = new UiCheckbox('log');
+	chkLog.checked = true;
+	chkLog.onToggled(() => {
+		if (chkLog.checked) {
+			entry.onChanged(logChanges);
+		} else {
+			entry.onChanged(null);
+		}
 	});
+	vbox.append(chkLog, false);
 
 	const box = new UiHorizontalBox();
 	box.padded = true;
 	box.append(entry, true);
 	box.append(new UiVerticalSeparator(), false);
 	box.append(logEntry, true);
+	vbox.append(box, true);
 
-	win.setChild(box);
+	win.setChild(vbox);
 
 	win.onContentSizeChanged(() => {
 		const size = win.contentSize;
