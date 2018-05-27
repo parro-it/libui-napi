@@ -1,4 +1,6 @@
 const {
+	UiFontButton,
+	UiGrid,
 	UiSpinbox,
 	UiSlider,
 	UiProgressBar,
@@ -67,13 +69,9 @@ const appendTab =
 	(children, parent, defaultLabel = '<empty label>') => {
 		const allChild = forEachChildren(children, parent);
 		for (const child of allChild) {
-			const label =
-				typeof child.label === undefined ? defaultLabel : String(child.label);
-			child.label = label;
-			if (typeof child.margined === 'boolean') {
-				ctrl.setMargined(ctrl.numPages() - 1, child.margined);
-			}
-			parent.append(label, child);
+			child.label = child.label || defaultLabel;
+			parent.append(child.label, child);
+			parent.setMargined(parent.numPages() - 1, child.margined);
 		}
 	}
 
@@ -104,7 +102,7 @@ function mkControl(Class, defaults) {
 		}
 		const handleChildren = defaults.handleChildren;
 		for (const propName of Object.keys(defaults)) {
-			if (propName === 'handleChildren') {
+			if (propName === 'handleChildren' || propName === 'afterConstruction') {
 				continue;
 			}
 			const defaultValue = defaults[propName];
@@ -114,15 +112,15 @@ function mkControl(Class, defaults) {
 				}
 			} else if (props[propName] !== undefined) {
 				ctrl[propName] = props[propName];
+			} else {
+				ctrl[propName] = defaults[propName];
 			}
 		}
-		if (props.stretchy !== undefined) {
-			ctrl.stretchy = props.stretchy;
+
+		if (children && handleChildren) {
+			handleChildren(ctrl, children);
 		}
-		if (children && handleChildren)
-			 {
-				handleChildren(ctrl, children);
-			}
+
 		if (defaults.afterConstruction) {
 			defaults.afterConstruction(ctrl, props);
 		}
@@ -131,6 +129,22 @@ function mkControl(Class, defaults) {
 
 	return contructor;
 }
+
+const propsWithCommon = props => Object.assign(props, {
+	left: 0,
+	top: 0,
+	xspan: 1,
+	yspan: 1,
+	hexpand: false,
+	halign: UiGrid.align.fill,
+	vexpand: false,
+	valign: UiGrid.align.fill,
+	enabled: true,
+	visible: true,
+	label: '',
+	stretchy: false,
+	margined: false
+});
 
 const tags = {
 	window({
@@ -161,286 +175,172 @@ const tags = {
 		return win;
 	},
 
-	textarea: mkControl(UiMultilineEntry, {
-		readOnly: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		label: '',
-		stretchy: false,
-		onChanged: EventHandler,
-		handleChildren(ctrl, children) {
-			for (const child of children) {
-				ctrl.append(child);
-			}
-		}
-	}),
+	textarea: mkControl(UiMultilineEntry, propsWithCommon({
+							readOnly: false,
+							text: '',
+							onChanged: EventHandler,
+							handleChildren(ctrl, children) {
+								for (const child of children) {
+									ctrl.append(child);
+								}
+							}
+						})),
 
-	hbox: mkControl(UiHorizontalBox, {
-		padded: false,
-		enabled: true,
-		visible: true,
-		label: '',
-		stretchy: false,
-		handleChildren(ctrl, children) {
-			appendAll(children, ctrl);
-		}
-	}),
+	hbox: mkControl(UiHorizontalBox, propsWithCommon({
+						padded: false,
+						handleChildren(ctrl, children) {
+							appendAll(children, ctrl);
+						}
+					})),
 
 	br() {
 		return '\n';
 	},
 
-	vbox: mkControl(UiVerticalBox, {
-		padded: false,
-		enabled: true,
-		visible: true,
-		label: '',
-		stretchy: false,
-		handleChildren(ctrl, children) {
-			appendAll(children, ctrl, true);
-		}
-	}),
+	vbox: mkControl(UiVerticalBox, propsWithCommon({
+						padded: false,
+						handleChildren(ctrl, children) {
+							appendAll(children, ctrl, true);
+						}
+					})),
 
-	tab: mkControl(UiTab, {
-		enabled: true,
-		visible: true,
-		margined: true,
-		label: '',
-		stretchy: false,
-		handleChildren(ctrl, children) {
-			appendTab(children, ctrl);
-		}
-	}),
+	tab: mkControl(UiTab, propsWithCommon({
+					   margined: true,
+					   handleChildren(ctrl, children) {
+						   appendTab(children, ctrl);
+					   }
+				   })),
 
-	group: mkControl(UiGroup, {
-		title: '',
-		margined: true,
-		enabled: true,
-		visible: true,
-		label: '',
-		stretchy: false,
-		handleChildren(ctrl, children) {
-			const allChild = forEachChildren(children, ctrl);
-			ctrl.setChild(wrapChildren(allChild));
-		}
-	}),
+	group: mkControl(UiGroup, propsWithCommon({
+						 title: '',
+						 margined: true,
+						 handleChildren(ctrl, children) {
+							 const allChild = forEachChildren(children, ctrl);
+							 ctrl.setChild(wrapChildren(allChild));
+						 }
+					 })),
 
-	checkbox: mkControl(UiCheckbox, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		text: '',
-		checked: false,
-		onToggled: EventHandler
-	}),
+	checkbox: mkControl(
+		UiCheckbox, propsWithCommon({text: '', checked: false, onToggled: EventHandler})),
 
-	form: mkControl(UiForm, {
-		label: '',
-		stretchy: false,
-		padded: true,
-		enabled: true,
-		visible: true,
-		handleChildren(ctrl, children) {
-			const allChild = forEachChildren(children, ctrl);
-			for (const child of allChild) {
-				const label =
-					typeof child.label === undefined ? defaultLabel : String(child.label);
-				const stretchy =
-					typeof child.stretchy === undefined ? false : Boolean(child.stretchy);
-				child.label = label;
-				child.stretchy = stretchy;
-				ctrl.append(label, child, stretchy);
-			}
-		}
-	}),
+	form: mkControl(UiForm, propsWithCommon({
+						padded: true,
+						handleChildren(ctrl, children) {
+							const allChild = forEachChildren(children, ctrl);
+							for (const child of allChild) {
+								const label = typeof child.label === undefined
+												  ? defaultLabel
+												  : String(child.label);
+								const stretchy = typeof child.stretchy === undefined
+													 ? false
+													 : Boolean(child.stretchy);
+								child.label = label;
+								child.stretchy = stretchy;
+								ctrl.append(label, child, stretchy);
+							}
+						}
+					})),
 
-	button: mkControl(UiButton, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		text: '',
-		onClicked: EventHandler
-	}),
+	grid: mkControl(UiGrid, propsWithCommon({
+						padded: true,
+						handleChildren(ctrl, children) {
+							const allChild = forEachChildren(children, ctrl);
+							for (const child of allChild) {
+								ctrl.append(child, child.left, child.top, child.xspan,
+											child.yspan, child.hexpand, child.halign,
+											child.vexpand, child.valign);
+							}
+						}
+					})),
 
-	entry: mkControl(UiEntry, {
-		label: '',
-		stretchy: false,
-		readOnly: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		onChanged: EventHandler
-	}),
+	button: mkControl(UiButton, propsWithCommon({text: '', onClicked: EventHandler})),
 
-	search: mkControl(UiSearchEntry, {
-		label: '',
-		stretchy: false,
-		readOnly: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		onChanged: EventHandler
-	}),
+	entry: mkControl(
+		UiEntry, propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
 
-	password: mkControl(UiPasswordEntry, {
-		label: '',
-		stretchy: false,
-		readOnly: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		onChanged: EventHandler
-	}),
+	search:
+		mkControl(UiSearchEntry,
+				  propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
 
-	textarea: mkControl(UiMultilineEntry, {
-		label: '',
-		stretchy: false,
-		readOnly: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		onChanged: EventHandler
-	}),
+	password:
+		mkControl(UiPasswordEntry,
+				  propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
 
-	label: mkControl(UiLabel, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		text: '',
-		visible: true,
-		handleChildren(ctrl, children) {
-			ctrl.text = children.join('');
-		}
-	}),
+	textarea:
+		mkControl(UiMultilineEntry,
+				  propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
 
-	hseparator: mkControl(UiHorizontalSeparator,
-						  {label: '', stretchy: false, enabled: true, visible: true}),
+	label: mkControl(UiLabel, propsWithCommon({
+						 text: '',
+						 handleChildren(ctrl, children) {
+							 ctrl.text = children.join('');
+						 }
+					 })),
 
-	vseparator: mkControl(UiVerticalSeparator,
-						  {label: '', stretchy: false, enabled: true, visible: true}),
+	hseparator: mkControl(UiHorizontalSeparator, propsWithCommon({})),
 
-	datePicker: mkControl(UiDatePicker, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		time: new Date(),
-		onChanged: EventHandler
-	}),
+	vseparator: mkControl(UiVerticalSeparator, propsWithCommon({})),
 
-	timePicker: mkControl(UiTimePicker, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		time: new Date(),
-		onChanged: EventHandler
-	}),
+	date: mkControl(UiDatePicker,
+					propsWithCommon({time: new Date(), onChanged: EventHandler})),
 
-	dateTimePicker: mkControl(UiDateTimePicker, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		time: new Date(),
-		onChanged: EventHandler
-	}),
+	time: mkControl(UiTimePicker,
+					propsWithCommon({time: new Date(), onChanged: EventHandler})),
 
-	spinbox: mkControl(UiSpinbox, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		value: 0,
-		onChanged: EventHandler
-	}),
+	datetime: mkControl(UiDateTimePicker,
+						propsWithCommon({time: new Date(), onChanged: EventHandler})),
 
-	slider: mkControl(UiSlider, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		value: 0,
-		min: 0,
-		max: 100,
-		onChanged: EventHandler
-	}),
+	spinbox: mkControl(UiSpinbox, propsWithCommon({value: 0, onChanged: EventHandler})),
 
-	progressbar: mkControl(UiProgressBar, {
-		label: '',
-		stretchy: false,
-		enabled: true,
-		visible: true,
-		value: 0,
-		min: 0,
-		max: 100
-	}),
+	slider: mkControl(
+		UiSlider, propsWithCommon({value: 0, min: 0, max: 100, onChanged: EventHandler})),
 
-	combobox: mkControl(UiCombobox, {
-		label: '',
-		stretchy: false,
-		items: [],
-		enabled: true,
-		visible: true,
-		selected: 0,
-		onSelected: EventHandler,
-		afterConstruction(ctrl, {items}) {
-			for (const item of items) {
-				ctrl.append(item);
-			}
-		}
-	}),
+	progressbar: mkControl(UiProgressBar, propsWithCommon({value: 0, min: 0, max: 100})),
 
-	radio: mkControl(UiRadioButtons, {
-		label: '',
-		stretchy: false,
-		items: [],
-		enabled: true,
-		visible: true,
-		selected: 0,
-		onSelected: EventHandler,
-		afterConstruction(ctrl, {items}) {
-			for (const item of items) {
-				ctrl.append(item);
-			}
-		}
-	}),
+	combobox: mkControl(UiCombobox, propsWithCommon({
+							items: [],
+							selected: 0,
+							onSelected: EventHandler,
+							afterConstruction(ctrl, {items}) {
+								for (const item of items) {
+									ctrl.append(item);
+								}
+							}
+						})),
 
-	editcombo: mkControl(UiEditableCombobox, {
-		label: '',
-		stretchy: false,
-		items: [],
-		enabled: true,
-		visible: true,
-		text: '',
-		onChanged: EventHandler,
-		afterConstruction(ctrl, {items}) {
-			for (const item of items) {
-				ctrl.append(item);
-			}
-		}
-	})
+	radio: mkControl(UiRadioButtons, propsWithCommon({
+						 items: [],
+						 selected: 0,
+						 onSelected: EventHandler,
+						 afterConstruction(ctrl, {items}) {
+							 for (const item of items) {
+								 ctrl.append(item);
+							 }
+						 }
+					 })),
+
+	editcombo: mkControl(UiEditableCombobox, propsWithCommon({
+							 items: [],
+							 text: '',
+							 onChanged: EventHandler,
+							 afterConstruction(ctrl, {items}) {
+								 for (const item of items) {
+									 ctrl.append(item);
+								 }
+							 }
+						 })),
+
+	colorpicker: mkControl(UiColorButton, propsWithCommon({
+							   color: {r: 0, g: 0, b: 0, a: 1}
+
+						   })),
+
+	fontpicker: mkControl(UiFontButton, propsWithCommon({font: {}})),
+
 };
 /*
 colorButton: mkControl(UiColorButton, {enabled: true, visible: true});
 
-const editableCombobox = (props, ...children) => {
-	const ctrl = mkControl(
-		libui.UiEditableCombobox,
-		{enabled: true, visible: true, text: '', onChanged: EventHandler})(props);
-
-	for (const child of children) {
-		ctrl.append(child);
-	}
-
-	return ctrl;
-};
-
-}
-;
 */
 exports.ui = function ui(tag, props, ...children) {
 	if (typeof tags[tag] !== 'function') {
@@ -467,3 +367,8 @@ exports.start = async function(win) {
 	win.onClosing(close);
 	win.show();
 };
+
+exports.ui.grid = {
+	align: UiGrid.align,
+	at: UiGrid.at
+}

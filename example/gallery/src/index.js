@@ -66,4 +66,91 @@ const numbersPage = (
 	</hbox>
 );
 
-const dataChoosersPage = null
+const dataChoosersPage = (
+	<hbox padded>
+		<vbox padded>
+			<date />
+			<time />
+			<datetime />
+			<fontpicker />
+			<colorpicker />
+		</vbox>
+		<vseparator />
+		<vbox padded stretchy>
+			<grid padded>
+				<button
+	left = {0} top = {0} xspan = {1} vspan = {1} hexpand = {false} halign =
+		{ui.grid.align.fill} vexpand = {false} valign = {ui.grid.align.fill} text =
+			'Open File'
+	onClicked =
+	{
+		onOpenFileClicked
+	} />
+				<entry
+					left={1}
+					top={0}
+					xspan={1}
+					vspan={1}
+					hexpand={true}
+					halign={ui.grid.align.fill}
+					vexpand={false}
+					valign={ui.grid.align.fill}
+					id="filename"
+					readonly/ >
+
+		< button
+	left = {0} top = {1} xspan = {1} vspan = {1} hexpand = {false} halign =
+		{ui.grid.align.fill} vexpand = {false} valign = {ui.grid.align.fill} text =
+			'Save File'
+	onClicked =
+	{
+		onSaveFileClicked
+	} />
+				<entry
+					left={1}
+					top={1}
+					xspan={1}
+					vspan={1}
+					hexpand={true}
+					halign={ui.grid.align.fill}
+					vexpand={false}
+					valign={ui.grid.align.fill}
+					id="saveFilename"
+					readonly/ >
+
+		< grid
+	padded
+	left = {0} top = {2} xspan = {2} vspan = {1} hexpand = {false} halign = {
+		ui.grid.align.center} vexpand = {false} valign = {ui.grid.align.start} > < button
+	left = {0} top = {0} xspan = {1} vspan = {1} hexpand = {false} halign =
+		{ui.grid.align.fill} vexpand = {false} valign = {ui.grid.align.fill} text =
+			'Message Box'
+						onClicked={
+		onMsgboxClicked}
+						/>
+
+					<button
+						left={1}
+						top={0}
+						xspan={1}
+						vspan={1}
+						hexpand={false}
+						halign={ui.grid.align.fill}
+						vexpand={false}
+						valign={ui.grid.align.fill}
+						text="Error Box"
+						onClicked={onErrorboxClicked}
+						/>
+				</grid>
+			</grid>
+		</vbox>
+	</hbox>
+);
+
+						function onErrorboxClicked() {}
+
+						function onMsgboxClicked() {}
+
+						function onOpenFileClicked() {}
+
+						function onSaveFileClicked() {}
