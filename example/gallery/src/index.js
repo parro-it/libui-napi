@@ -1,7 +1,8 @@
 import {start, ui} from '../../../js/fancy-api.js';
+let win;
 
 start(() => {
-	const win = (<window title='Control Gallery' width={800} height={600} margined={true}>
+	win = (<window title='Control Gallery' width={800} height={600} margined={true}>
 		<tab>
 			<vbox label='Basic Controls'>
 				{basicControlsPage}
@@ -147,10 +148,18 @@ const dataChoosersPage = (
 	</hbox>
 );
 
-						function onErrorboxClicked() {}
+						function onErrorboxClicked() {
+							ui.msgBoxError(win, 'Error', 'This is a message');
+						}
 
-						function onMsgboxClicked() {}
+						function onMsgboxClicked() {
+							ui.msgBox(win, 'Error', 'This is an error');
+						}
 
-						function onOpenFileClicked() {}
+						function onOpenFileClicked() {
+							win.filename.text = ui.openFile(win);
+						}
 
-						function onSaveFileClicked() {}
+						function onSaveFileClicked() {
+							win.saveFilename.text = ui.saveFile(win);
+						}

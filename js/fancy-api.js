@@ -1,4 +1,5 @@
 const {
+	UiDialogs,
 	UiFontButton,
 	UiGrid,
 	UiSpinbox,
@@ -37,20 +38,21 @@ function* forEachChildren(children, parent) {
 			continue;
 		}
 		ctrl._parent = parent;
-		if (ctrl.id) {
 
-			let currentParent = parent;
-			while (currentParent) {
-				if (!currentParent.ids) {
-					currentParent.ids = {};
-				}
-				if (ctrl.ids) {
-					Object.assign(currentParent.ids, ctrl.ids);
-				}
-				currentParent.ids[ctrl.id] = ctrl;
-				currentParent = parent._parent;
+		let currentParent = parent;
+		while (currentParent) {
+			if (!currentParent.ids) {
+				currentParent.ids = {};
 			}
+			if (ctrl.ids) {
+				Object.assign(currentParent.ids, ctrl.ids);
+			}
+			if (ctrl.id) {
+				currentParent.ids[ctrl.id] = ctrl;
+			}
+			currentParent = parent._parent;
 		}
+
 		yield ctrl;
 	}
 }
@@ -241,17 +243,17 @@ const tags = {
 						}
 					})),
 
-	grid: mkControl(UiGrid, propsWithCommon({
-						padded: true,
-						handleChildren(ctrl, children) {
-							const allChild = forEachChildren(children, ctrl);
-							for (const child of allChild) {
-								ctrl.append(child, child.left, child.top, child.xspan,
-											child.yspan, child.hexpand, child.halign,
-											child.vexpand, child.valign);
-							}
-						}
-					})),
+	grid: mkControl(
+		UiGrid, propsWithCommon({
+			padded: true,
+			handleChildren(ctrl, children) {
+				const allChild = forEachChildren(children, ctrl);
+				for (const child of [...allChild].filter(c => typeof c !== 'string')) {
+					ctrl.append(child, child.left, child.top, child.xspan, child.yspan,
+								child.hexpand, child.halign, child.vexpand, child.valign);
+				}
+			}
+		})),
 
 	button: mkControl(UiButton, propsWithCommon({text: '', onClicked: EventHandler})),
 
@@ -367,6 +369,7 @@ exports.start = async function(win) {
 	win.onClosing(close);
 	win.show();
 };
+Object.assign(exports.ui, UiDialogs);
 
 exports.ui.grid = {
 	align: UiGrid.align,
