@@ -7,10 +7,10 @@ start(() => {
 				{basicControlsPage}
 			</vbox>
 			<vbox label="Numbers and Lists">
-				{makeNumbersPage()}
+				{numbersPage}
 			</vbox>
 			<vbox label='Data Choosers'>
-				{makeDataChoosersPage()}
+				{dataChoosersPage}
 			</vbox>
 		</tab>
 	</window>);
@@ -40,9 +40,30 @@ const basicControlsPage = (
 	</vbox>
 );
 
-function makeDataChoosersPage() {
-	return null;
-}
-function makeNumbersPage() {
-	return null;
-}
+const numbersPage = (
+	<hbox padded>
+		<group margined stretchy title='Numbers'>
+			<spinbox min={0} max={100}/>
+			<slider min={0} max={
+		100}/>
+			<progressbar value={42}/>
+			<progressbar value={
+		-1}/>
+		</group>
+		<group stretchy margined title='Lists'>
+			<combobox items={
+		['Combobox Item 1', 'Combobox Item 2', 'Combobox Item 3']}/>
+
+			<editcombo items={[
+				"Editable Item 1",
+				"Editable Item 2",
+				"Editable Item 3"]}/>
+
+			<radio items={
+		['Radio Item 1', 'Radio Item 2', 'Radio Item 3']}/>
+		</group>
+
+	</hbox>
+);
+
+const dataChoosersPage = null

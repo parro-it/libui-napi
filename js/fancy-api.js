@@ -1,4 +1,10 @@
 const {
+	UiSpinbox,
+	UiSlider,
+	UiProgressBar,
+	UiCombobox,
+	UiRadioButtons,
+	UiEditableCombobox,
 	UiCheckbox,
 	UiWindow,
 	UiHorizontalBox,
@@ -117,7 +123,9 @@ function mkControl(Class, defaults) {
 			 {
 				handleChildren(ctrl, children);
 			}
-
+		if (defaults.afterConstruction) {
+			defaults.afterConstruction(ctrl, props);
+		}
 		return ctrl;
 	};
 
@@ -339,45 +347,85 @@ const tags = {
 		visible: true,
 		time: new Date(),
 		onChanged: EventHandler
-	})
+	}),
 
+	spinbox: mkControl(UiSpinbox, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		value: 0,
+		onChanged: EventHandler
+	}),
+
+	slider: mkControl(UiSlider, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		value: 0,
+		min: 0,
+		max: 100,
+		onChanged: EventHandler
+	}),
+
+	progressbar: mkControl(UiProgressBar, {
+		label: '',
+		stretchy: false,
+		enabled: true,
+		visible: true,
+		value: 0,
+		min: 0,
+		max: 100
+	}),
+
+	combobox: mkControl(UiCombobox, {
+		label: '',
+		stretchy: false,
+		items: [],
+		enabled: true,
+		visible: true,
+		selected: 0,
+		onSelected: EventHandler,
+		afterConstruction(ctrl, {items}) {
+			for (const item of items) {
+				ctrl.append(item);
+			}
+		}
+	}),
+
+	radio: mkControl(UiRadioButtons, {
+		label: '',
+		stretchy: false,
+		items: [],
+		enabled: true,
+		visible: true,
+		selected: 0,
+		onSelected: EventHandler,
+		afterConstruction(ctrl, {items}) {
+			for (const item of items) {
+				ctrl.append(item);
+			}
+		}
+	}),
+
+	editcombo: mkControl(UiEditableCombobox, {
+		label: '',
+		stretchy: false,
+		items: [],
+		enabled: true,
+		visible: true,
+		text: '',
+		onChanged: EventHandler,
+		afterConstruction(ctrl, {items}) {
+			for (const item of items) {
+				ctrl.append(item);
+			}
+		}
+	})
 };
 /*
 colorButton: mkControl(UiColorButton, {enabled: true, visible: true});
-
-
-const spinbox = mkControl(
-	libui.UiSpinbox, {enabled: true, visible: true, value: 0, onChanged: EventHandler});
-
-const slider = mkControl(
-	libui.UiSlider, {enabled: true, visible: true, value: 0, onChanged: EventHandler});
-
-const progressBar =
-	mkControl(libui.UiProgressBar, {enabled: true, visible: true, value: 0});
-
-const combobox = (props, ...children) => {
-	const ctrl = mkControl(
-		libui.UiCombobox,
-		{enabled: true, visible: true, selected: 0, onSelected: EventHandler})(props);
-
-	for (const child of children) {
-		ctrl.append(child);
-	}
-
-	return ctrl;
-};
-
-const radioButtons = (props, ...children) => {
-	const ctrl = mkControl(
-		libui.UiRadioButtons,
-		{enabled: true, visible: true, selected: 0, onSelected: EventHandler})(props);
-
-	for (const child of children) {
-		ctrl.append(child);
-	}
-
-	return ctrl;
-};
 
 const editableCombobox = (props, ...children) => {
 	const ctrl = mkControl(
