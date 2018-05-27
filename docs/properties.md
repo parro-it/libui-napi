@@ -2,9 +2,9 @@
 
 Every control properties has a dual implementation.
 
-You can read and write them both using javascript properties and using setter/getter methods.
+You can read and write them both using JavaScript properties and using setter/getter methods.
 
-Javascript properties are implemented on top of getter/setter methods provided by `libui`.
+JavaScript properties are implemented on top of getter/setter methods provided by `libui`.
 We've choosen to provide access to getter/setter method to increase flexibility. They could be useful for a functional style paradigm style coding. You can bind / map / filter on them.
 
 

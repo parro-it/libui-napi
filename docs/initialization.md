@@ -1,12 +1,15 @@
 # Event loop
 
-`libui-node` runs an event loop independent of that of Node.js that takes care of processing GUI events. This event loop can run seamlessy together with the Node.js one, so you can still use any asynchronous Node.js function.
+`libui-node` runs an event loop independent of that of `Node.js` that takes care of processing GUI events. This event loop can run seamlessy together with the Node.js one, so you can still use any asynchronous Node.js function.
 
 You are responsible to start and stop the loop, by calling the `startLoop` and `stopLoop` functions.
 
 `startLoop` returns immediately after it started the event loop. It keeps
 a Node.js handle active, so it prevents your process to terminate, until
 you call `stopLoop` later.
+
+Both the function return a promise resolved when the start/stop operation is completed.
+If you call start/stop when one of these operations is not complited, you'll get an exception.
 
 # Quit handler
 
@@ -27,7 +30,7 @@ const {
 const menu = new UiMenu('File');
 menu.appendQuitItem();
 
-const window = UiWindow('Initialization Example', 400, 300, true);
+const window = new UiWindow('Initialization Example', 400, 300, true);
 
 onShouldQuit(() => {
 	window.close();
