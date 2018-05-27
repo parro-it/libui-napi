@@ -20,10 +20,10 @@ An entry control for numerical values.
 Create a new UiSpinbox object.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| min | <code>number</code> | minimum value of the spinbox. |
-| max | <code>number</code> | maximum value of the spinbox. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| min | <code>number</code> | <code>0</code> | minimum value of the spinbox. defaults to 0 |
+| max | <code>number</code> | <code>100</code> | maximum value of the spinbox. defaults to 100 |
 
 
 <a id="uispinbox_value"></a>
