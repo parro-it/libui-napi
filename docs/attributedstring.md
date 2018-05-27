@@ -3,7 +3,7 @@
 An AttributedString is a string which also contains information about styles such as text color, font, font size. It gets drawn in an UiArea element.
 
 ```js
-var libui = require('.');
+var libui = require('libui-node');
 
 var str = new libui.AttributedString('');
 str.appendAttributed('Test\n', libui.FontAttribute.newSize(24));
@@ -12,7 +12,7 @@ str.appendAttributed('Background', libui.FontAttribute.newBackgroundColor(new li
 function draw(area, p) {
     const font = new libui.FontDescriptor('Georgia', 14, libui.textWeight.normal, libui.FontAttribute.italic.normal, libui.FontAttribute.stretch.normal);
 
-    console.log(p.getAreaWidth())
+    console.log(p.getAreaWidth());
     const layout = new libui.DrawTextLayout(str, font, p.getAreaWidth(), libui.DrawTextLayout.align.left);
 
     p.getContext().text(0, 0, layout);
