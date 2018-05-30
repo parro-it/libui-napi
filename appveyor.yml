@@ -11,7 +11,7 @@ environment:
     - nodejs_version: "8"
     - nodejs_version: "6"
   NOW_TOKEN:
-    secure: a++tt838XiaQu/c7uPe9sv+adjvhmaL//kqCgtZBofA=
+    secure: DF3YDyyn4Yrrc5EtFTht9oVVKdMkXTvp+Fi6gRpAV0c=
 
 configuration: Release
 platform: x64
