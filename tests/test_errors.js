@@ -13,10 +13,10 @@ const {
 
 test('control constructor argument type', t => {
 	const win = new UiWindow(null, 42, 42, true);
-	t.equal(win.title, 'null', 'string arg are coherced');
+	t.equal(win.title, 'null', 'string args are coherced');
 
 	t.doesNotThrow(() => new UiWindow('test', 42, 42, 1), /A boolean was expected/,
-				   'boolean arg are coherced');
+				   'boolean args are coherced');
 
 	t.throws(() => new UiWindow('test', '42'), /Argument width: A number was expected/,
 			 'bad type for number argument');
@@ -102,7 +102,7 @@ test('call method on destroyed window', t => {
 test('remove an event', t => {
 	const entry = new UiMultilineEntry();
 	entry.onChanged(null);
-	t.pass();
+	t.pass('doesn\'t crash');
 	t.end();
 });
 
