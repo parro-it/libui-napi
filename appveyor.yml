@@ -14,10 +14,12 @@ environment:
     secure: DF3YDyyn4Yrrc5EtFTht9oVVKdMkXTvp+Fi6gRpAV0c=
 
 configuration: Release
-platform: x64
+platform:
+- x86
+- x64
 
 install:
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
+  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:platform;
   - node --version
   - npm --version
   - npm install
