@@ -2,8 +2,13 @@ sudo: false
 
 language: node_js
 
-include: &toolchain_linux_amd64
 
+include: &toolchain_linux_amd64
+  node_js:
+  - '10'
+  - '9'
+  - '8'
+  - '6'
   os: linux
   dist: trusty
   addons:
@@ -62,12 +67,13 @@ include: &toolchain_osx_amd64
 # Travis CI build matrix.
 # Each entry below will trigger an extra, parallel build on Travis.
 matrix:
-  - env: arch=amd64
-    <<: *toolchain_linux_amd64
-  - env: arch=386
-    <<: *toolchain_linux_386
-  - env: arch=amd64
-    <<: *toolchain_osx_amd64
+  include:
+    - env: arch=amd64
+      <<: *toolchain_linux_amd64
+    - env: arch=386
+      <<: *toolchain_linux_386
+    - env: arch=amd64
+      <<: *toolchain_osx_amd64
 
 after_script:
   - (cd tests/_snapshots && ../../node_modules/.bin/now --public --token "$NOW_TOKEN")
