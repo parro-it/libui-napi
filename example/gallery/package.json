@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "babel src --out-file gallery.js",
+		"build": "babel src -d dist",
 		"start": "babel-node src/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

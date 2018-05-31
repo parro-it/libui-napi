@@ -21,6 +21,9 @@ install:
   - node --version
   - npm --version
   - npm install
+  - cd example\gallery
+  - npm install
+  - cd ..\..
 
 before_test:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/set-screenresolution.ps1'))
