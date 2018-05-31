@@ -2,12 +2,13 @@ sudo: true
 
 language: node_js
 
-include: &toolchain_linux_amd64
-  node_js:
+node_js:
   - '10'
   - '9'
   - '8'
   - '6'
+
+include: &toolchain_linux_amd64
   os: linux
   dist: trusty
   addons:
@@ -24,18 +25,12 @@ include: &toolchain_linux_amd64
   - export CC="gcc-5"
 
 include: &toolchain_linux_386
-  node_js:
-  - '10'
-  - '9'
-  - '8'
-  - '6'
   os: linux
   dist: trusty
 
   addons:
     apt:
       packages:
-        - gcc-5
         - xvfb
         - gcc-multilib
         - g++-multilib
@@ -59,11 +54,6 @@ include: &toolchain_linux_386
   - export CC="gcc-5"
 
 include: &toolchain_osx_amd64
-  node_js:
-  - '10'
-  - '9'
-  - '8'
-  - '6'
   os: osx
   osx_image: xcode8
   before_install:
