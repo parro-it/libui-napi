@@ -1,5 +1,3 @@
-#include <assert.h>
-#include <stdlib.h>
 #include "control.h"
 #include "tests.h"
 
@@ -62,6 +60,8 @@ static void control_handle_new_return_non_null_on_success(napi_env env) {
 }
 
 void children_list_create_suite(napi_env env) {
+	SUITE();
+
 	fake_destroy = malloc(1);
 
 	RUN_TEST(test_create_node);

@@ -24,9 +24,9 @@
     "rebuild": "rimraf build *.node && node-gyp configure build",
     "build": "node-gyp configure build",
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
-    "test": "cross-env LIBUI_TARGET=test node-gyp configure build && cross-env LIBUI_TARGET=test DEBUG=ControlInternal tape tests/*.js",
+    "test": "cross-env LIBUI_TARGET=test node-gyp configure build && cross-env LIBUI_TARGET=test DEBUG=ControlInternal tape tests/*.js | tap-spec",
     "precommit": "check-clang-format \"'npm run lint'\"",
-    "lint": "clang-format -i --glob='{tests/**/*.{h,c,m,js},example/*.js,js/**/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js,tools/**/*.js}'"
+    "lint": "clang-format -i --glob='{tests/**/*.{h,c,m,js},example/*.js,js/**/*.js,src/**/*.{h,c,m},index.js,example.js,test.js,example/*/*.js,tools/**/*.js,test_ui.js}'"
   },
   "dependencies": {
     "@creditkarma/async-hooks": "0.0.4",
@@ -45,8 +45,11 @@
     "debug": "^3.1.0",
     "husky": "^0.14.3",
     "jsdoc-to-markdown": "^4.0.1",
+    "now": "^11.1.11",
     "p-map": "^1.2.0",
     "rimraf": "^2.6.2",
+    "screenshot-tester": "^0.2.0",
+    "tap-spec": "^4.1.1",
     "tape": "^4.9.0",
     "tape-async": "^2.3.0",
     "to-dot-case": "^1.0.0"

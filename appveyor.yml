@@ -10,6 +10,8 @@ environment:
     - nodejs_version: "9"
     - nodejs_version: "8"
     - nodejs_version: "6"
+  NOW_TOKEN:
+    secure: DF3YDyyn4Yrrc5EtFTht9oVVKdMkXTvp+Fi6gRpAV0c=
 
 configuration: Release
 platform: x64
@@ -19,6 +21,10 @@ install:
   - node --version
   - npm --version
   - npm install
+
+before_test:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/set-screenresolution.ps1'))
+  - ps: Set-ScreenResolution 1920 1080
 
 test_script:
   - npm test
@@ -43,3 +49,7 @@ deploy:
     on:
       appveyor_repo_tag: true
       nodejs_version: "10"
+
+on_finish:
+  - cd tests\_snapshots
+  - ..\..\node_modules\.bin\now --public --token %NOW_TOKEN%

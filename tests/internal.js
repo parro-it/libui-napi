@@ -10,7 +10,12 @@ test('c tests for internal files', t => {
 	}
 
 	const {check_c_tests} = require('../ui.node');
-	check_c_tests.run_tests();
+
+	const results = check_c_tests.run_tests(test.getHarness()._results.count + 1);
+
+	test.getHarness()._results.count += results.count;
+	test.getHarness()._results.fail += results.fail;
+	test.getHarness()._results.pass += results.pass;
 
 	t.pass('tests executed');
 	t.end();

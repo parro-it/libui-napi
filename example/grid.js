@@ -32,6 +32,8 @@ grid.append(age, 2, 2, 2, 1, 0, 0, 0, 1);
 
 grid.append(JSONData, 4, 0, 1, 3, 1, 0, 1, 0);
 
+setJSON();
+
 win.setChild(grid);
 win.show();
 libui.startLoop();
