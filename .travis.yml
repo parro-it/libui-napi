@@ -71,7 +71,6 @@ include: &toolchain_osx_amd64
   - brew upgrade python
   - pip3 install click pyobjc-framework-Quartz
 
-
 # Travis CI build matrix.
 # Each entry below will trigger an extra, parallel build on Travis.
 matrix:
