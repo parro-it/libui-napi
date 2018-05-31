@@ -15,8 +15,8 @@ environment:
 
 configuration: Release
 platform:
-- x86
-- x64
+  - x86
+  - x64
 
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version) $env:platform;
