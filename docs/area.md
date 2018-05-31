@@ -46,7 +46,7 @@ function buildSolidBrush(color, alpha) {
     return brush;
 }
 
-const widget = new libui.UiArea(
+const control = new libui.UiArea(
     function draw(area, p) {
         // fill the area with a dodger blue color rectangle
         const brush = buildSolidBrush(colorDodgerBlue, 1.0);
@@ -61,7 +61,7 @@ const widget = new libui.UiArea(
     function keyEvent() {}
 );
 
-win.setChild(widget);
+win.setChild(control);
 
 win.onClosing(function () {
     win.close();
@@ -275,7 +275,7 @@ class UiAreaDrawParams {
 
 # UiDrawContext
 
-> The UiDrawContext class is used for drawing rectangles, text, images and other objects onto the UiArea widget. It provides the 2D rendering context for the drawing surface of a UiArea widget.
+> The UiDrawContext class is used for drawing rectangles, text, images and other objects onto the UiArea control. It provides the 2D rendering context for the drawing surface of a UiArea control.
 
 The current context is available using the `context` property of the `UiAreaDrawParams` argument you receive in the `draw` callback:
 

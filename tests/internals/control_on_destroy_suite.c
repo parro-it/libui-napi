@@ -1,7 +1,3 @@
-#include <assert.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "control.h"
 #include "tests.h"
 
@@ -47,6 +43,7 @@ static void control_on_destroy_calls_original_destroy(napi_env env) {
 }
 
 void control_on_destroy_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(control_on_destroy_remove_ctrl_from_map);
 	RUN_TEST(control_on_destroy_calls_original_destroy);
 }

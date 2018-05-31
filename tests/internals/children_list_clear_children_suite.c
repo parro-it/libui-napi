@@ -1,6 +1,3 @@
-#include <assert.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "control.h"
 #include "tests.h"
 
@@ -71,6 +68,7 @@ static void test_clear_children_decrease_control_ref(napi_env env) {
 }
 
 void children_list_clear_children_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(test_clear_children_reset_head_tail);
 	RUN_TEST(test_clear_children_decrease_control_ref);
 	RUN_TEST(test_clear_empty_list_is_noop);

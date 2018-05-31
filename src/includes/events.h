@@ -28,6 +28,13 @@ struct events_list {
 */
 struct event_t {
 	/*
+		This flag is set when a struct event_t
+		represent an empty event, used to remove
+		existing events from an events_list
+	*/
+	bool is_empty;
+
+	/*
 		a reference to the JavaScript function to call when event is fired.
 		It prevent the JavaScript function to be garbage collected, and is
 	   normally released when the event control is destroyed.

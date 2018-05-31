@@ -1,6 +1,3 @@
-#include <assert.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "control.h"
 #include "tests.h"
 
@@ -105,6 +102,7 @@ static void test_remove_middle_child_from_three_child_list(napi_env env) {
 }
 
 void children_list_remove_child_at_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(test_remove_child_at_one_child_list);
 	RUN_TEST(test_remove_child_at_empty_list);
 	RUN_TEST(test_remove_child_overflow_at_one_child_list);

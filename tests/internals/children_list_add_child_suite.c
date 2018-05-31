@@ -1,6 +1,3 @@
-#include <assert.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "control.h"
 #include "tests.h"
 
@@ -88,6 +85,7 @@ static void test_add_child_has_refcount_1(napi_env env) {
 }
 
 void children_list_add_child_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(test_add_child_return_napi_ok_on_success);
 	RUN_TEST(test_add_child_set_head_tail_on_success);
 	RUN_TEST(test_add_child_next_null_on_success);

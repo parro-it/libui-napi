@@ -32,6 +32,8 @@ form.append('age', age, 0);
 hBox.append(form, 1);
 hBox.append(JSONData, 1);
 
+setJSON();
+
 win.setChild(hBox);
 win.show();
 libui.startLoop();

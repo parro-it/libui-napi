@@ -1,7 +1,3 @@
-#include <assert.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "events.h"
 #include "tests.h"
 
@@ -24,5 +20,6 @@ static void clear_event_set_reference_0(napi_env env) {
 }
 
 void clear_event_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(clear_event_set_reference_0);
 }

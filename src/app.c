@@ -62,6 +62,14 @@ LIBUI_FUNCTION(init) {
 	controls_map = ctrl_map_create(0, 1);
 	visible_windows = create_children_list();
 	ln_init_loop_status();
+
+	napi_value global;
+	napi_status status = napi_get_global(env, &global);
+	CHECK_STATUS_THROW(status, napi_get_global);
+
+	status = napi_create_reference(env, global, 1, &null_ref);
+	CHECK_STATUS_THROW(status, napi_create_reference);
+
 	return NULL;
 }
 

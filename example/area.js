@@ -9,9 +9,22 @@ win.onClosing(() => {
 
 const vBox = new libui.UiVerticalBox();
 
-const brushRed = new libui.DrawBrush(1, 0, 0);
+function transformHelper(params, change, f) {
+	const matrix = new libui.UiDrawMatrix();
+	matrix.setIdentity();
+	change(matrix);
+
+	params.context.save();
+	params.context.transform(matrix);
+
+	f();
+
+	params.context.restore();
+}
+
+const brushRed = new libui.DrawBrush();
 brushRed.color = new libui.Color(1, 0, 0, 1);
-const brushBrown = new libui.DrawBrush(0.7, 0.5, 0);
+const brushBrown = new libui.DrawBrush();
 brushBrown.color = new libui.Color(0.7, 0.5, 0, 1);
 const brushLinear = new libui.DrawBrush();
 brushLinear.type = libui.brushType.linearGradient;
@@ -69,41 +82,67 @@ const area = new libui.UiArea(
 		spDashed.dashPhase = x * 10;
 		params.context.stroke(path, brushBrown, spDashed);
 
+		//
+
 		path = new libui.UiDrawPath();
 		path.newFigure(0, 0);
 		path.arcTo(210, 65, 50, 0, 2 * Math.PI, false);
 		path.end();
 		params.context.fill(path, brushRadial);
 
-		const matrixScale = new libui.UiDrawMatrix();
-		matrixScale.setIdentity();
-		matrixScale.scale(0, 0, x, y);
+		transformHelper(params,
+						matrix => {
+							matrix.scale(0, 0, 0.5, 0.5);
+							matrix.translate(0, 350);
+						},
+						() => {
+							const path = new libui.UiDrawPath(libui.fillMode.alternate);
+							path.newFigure(230, 230);
+							path.lineTo(5, 230);
+							path.lineTo(5, 5);
+							path.lineTo(230, 5);
+							path.lineTo(230, 230);
+							path.closeFigure();
 
-		params.context.save();
-		params.context.transform(matrixScale);
+							path.newFigure(200, 200);
+							path.lineTo(42, 200);
+							path.lineTo(42, 42);
+							path.lineTo(200, 42);
+							path.lineTo(200, 200);
+							path.closeFigure();
 
-		path = new libui.UiDrawPath();
-		path.newFigure(150, 150);
-		path.lineTo(200, 150);
-		path.arcTo(200, 200, 50, -Math.PI / (down + 1), Math.PI, false);
-		path.closeFigure();
-		path.end();
-		params.context.stroke(path, brushRed, sp);
+							path.end();
+							params.getContext().fill(path, brushRed);
+							params.getContext().stroke(path, brushBrown, sp);
+						})
 
-		params.context.restore();
+		transformHelper(params,
+						matrix => {
+							matrix.scale(0, 0, x, y);
+						},
+						() => {
+							const path = new libui.UiDrawPath();
+							path.newFigure(150, 150);
+							path.lineTo(200, 150);
+							path.arcTo(200, 200, 50, -Math.PI / (down + 1), Math.PI,
+									   false);
+							path.closeFigure();
+							path.end();
+							params.context.stroke(path, brushRed, sp);
+						});
 
-		const matrixTranslate = new libui.UiDrawMatrix();
-		matrixTranslate.setIdentity();
-		matrixTranslate.translate(260, -20);
-		matrixTranslate.scale(0, 0, 0.5, 0.5);
-
-		params.context.transform(matrixTranslate);
-
-		path = new libui.UiDrawPath();
-		path.newFigure(100, 250);
-		path.bezierTo(15, 10, 495, 5, 400, 250);
-		path.end();
-		params.context.stroke(path, brushBrown, spCap);
+		transformHelper(params,
+						matrix => {
+							matrix.translate(260, -20);
+							matrix.scale(0, 0, 0.5, 0.5);
+						},
+						() => {
+							const path = new libui.UiDrawPath();
+							path.newFigure(100, 250);
+							path.bezierTo(15, 10, 495, 5, 400, 250);
+							path.end();
+							params.context.stroke(path, brushBrown, spCap);
+						});
 	},
 	(area, mouseEvent) => {
 		// console.log(area, mouseEvent);

@@ -5,6 +5,10 @@ static const char *MODULE = "EventsInternal";
 #endif
 
 napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
+	if (event->is_empty) {
+		return NULL;
+	}
+
 	napi_status status;
 	napi_env env = event->env;
 
@@ -61,15 +65,21 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 	CHECK_STATUS_THROW(status, napi_create_string_utf8);
 
 	napi_async_context async_context;
-	status = napi_async_init(env, NULL, async_resource_name, &async_context);
-	CHECK_STATUS_THROW(status, napi_async_init);
+	if (cb_ref != null_ref) {
+		status = napi_async_init(env, NULL, async_resource_name, &async_context);
+		CHECK_STATUS_THROW(status, napi_async_init);
+	} else {
+		async_context = NULL;
+	}
 
 	struct event_t *event = calloc(1, sizeof(struct event_t));
 	event->cb_ref = cb_ref;
 	event->name = name;
 	event->env = env;
 	event->context = async_context;
-
+	if (cb_ref == null_ref) {
+		event->is_empty = true;
+	}
 	LIBUI_NODE_DEBUG_F("Create event %s %p", event->name, event);
 	return event;
 }
@@ -77,6 +87,7 @@ struct event_t *create_event(napi_env env, napi_ref cb_ref, const char *name) {
 napi_value clear_event(struct event_t *event) {
 	uint32_t new_ref_count;
 	napi_env env = event->env;
+
 	napi_status status = napi_reference_unref(env, event->cb_ref, &new_ref_count);
 	CHECK_STATUS_THROW(status, napi_reference_unref);
 
@@ -94,23 +105,55 @@ static struct events_node *new_events_node(struct event_t *event) {
 }
 
 void install_event(struct events_list *events, struct event_t *event) {
+	struct events_node *new_node = NULL;
+	if (!event->is_empty) {
+		new_node = new_events_node(event);
+	}
+
 	if (events->head == NULL) {
 		// First event for this control
-		struct events_node *new_node = new_events_node(event);
 		events->head = new_node;
 		events->tail = new_node;
 		return;
 	}
 
-	// TODO: we need to remove existing events_node for the same event
-	// and support NULL event to only remove event.
+	if (event->name == events->head->event->name) {
+		clear_event(events->head->event);
+		struct events_node *new_head = events->head->next;
+		free(events->head);
+		events->head = new_head;
 
-	// Control already has other events. Append to tail
-	struct events_node *new_node = new_events_node(event);
-	events->tail->next = new_node;
+		if (events->head == NULL) {
+			// The only event got removed
+			events->head = new_node;
+			events->tail = new_node;
+			return;
+		}
+	} else {
+		struct events_node *current = events->head->next;
+		struct events_node *previous = events->head;
 
-	// set this node as the new tail
-	events->tail = new_node;
+		while (current != NULL && previous != NULL) {
+			if (event->name == current->event->name) {
+				previous->next = current->next;
+				clear_event(current->event);
+				free(current);
+				if (previous->next == NULL) {
+					events->tail = previous;
+				}
+				break;
+			}
+			previous = current;
+			current = current->next;
+		}
+	}
+
+	if (new_node != NULL) {
+		// Control already has other events. Append to tail
+		events->tail->next = new_node;
+		// and set this node as the new tail
+		events->tail = new_node;
+	}
 }
 
 void clear_all_events(struct events_list *events) {

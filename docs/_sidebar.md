@@ -1,6 +1,10 @@
 <!-- docs/_sidebar.md -->
 
 * [Home](/)
+  - [Initialization & Event Loop](initialization.md)
+  - [Properties](properties.md)
+  - [Events](events.md)
+  - [Containers](containers.md)
 * Containers
   - [UiWindow](window.md)
   - [UiGroup](group.md)

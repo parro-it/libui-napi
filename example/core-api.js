@@ -53,6 +53,7 @@ box.append(cmb, false);
 const hBox4 = new libui.UiHorizontalBox();
 
 const dtPick = new libui.UiDateTimePicker();
+dtPick.time = new Date(2018, 2, 12, 13, 2, 0);
 dtPick.onChanged(() => {
 	console.log(dtPick.time.toLocaleString());
 });

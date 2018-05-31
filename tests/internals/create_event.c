@@ -1,7 +1,3 @@
-#include <assert.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <ui.h>
 #include "events.h"
 #include "tests.h"
 
@@ -40,6 +36,7 @@ static void create_event_set_async_context(napi_env env) {
 }
 
 void create_event_suite(napi_env env) {
+	SUITE();
 	RUN_TEST(create_event_set_reference);
 	RUN_TEST(create_event_set_name);
 	RUN_TEST(create_event_set_env);
