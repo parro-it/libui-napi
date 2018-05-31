@@ -1,14 +1,9 @@
-sudo: true
+sudo: false
 
 language: node_js
 
-node_js:
-  - '10'
-  - '9'
-  - '8'
-  - '6'
-
 include: &toolchain_linux_amd64
+
   os: linux
   dist: trusty
   addons:
@@ -25,12 +20,14 @@ include: &toolchain_linux_amd64
   - export CC="gcc-5"
 
 include: &toolchain_linux_386
+
   os: linux
   dist: trusty
 
   addons:
     apt:
       packages:
+        - gcc-5
         - xvfb
         - gcc-multilib
         - g++-multilib
@@ -51,8 +48,10 @@ include: &toolchain_linux_386
   before_install:
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  - export CC="gcc-5"
 
 include: &toolchain_osx_amd64
+
   os: osx
   osx_image: xcode8
   before_install:
@@ -63,13 +62,12 @@ include: &toolchain_osx_amd64
 # Travis CI build matrix.
 # Each entry below will trigger an extra, parallel build on Travis.
 matrix:
-  include:
-    - env: arch=amd64
-      <<: *toolchain_linux_amd64
-    - env: arch=386
-      <<: *toolchain_linux_386
-    - env: arch=amd64
-      <<: *toolchain_osx_amd64
+  - env: arch=amd64
+    <<: *toolchain_linux_amd64
+  - env: arch=386
+    <<: *toolchain_linux_386
+  - env: arch=amd64
+    <<: *toolchain_osx_amd64
 
 after_script:
   - (cd tests/_snapshots && ../../node_modules/.bin/now --public --token "$NOW_TOKEN")
