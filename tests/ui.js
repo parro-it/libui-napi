@@ -32,12 +32,16 @@ function tapLogger(type, file, err) {
 process.chdir(__dirname);
 const tester = require('screenshot-tester')(
 	{outDir: '_snapshots', accuracy: 500, logger: tapLogger});
+const testerRaw = require('screenshot-tester')(
+	{raw: 'node', outDir: '_snapshots', accuracy: 500, logger: tapLogger});
 
 test('ui', t => {
 	const start = test.getHarness()._results.count;
 	total = start;
 
 	tester('../example/area-adv.js', 'Area Advanced', {delay: 500, delta: 100})
+		.then(() => tester('../example/gallery/start.js', 'Control Gallery',
+						   {delay: 2500, delta: 100}))
 		.then(() => tester('../example/area-scrolling.js', 'Area window',
 						   {delay: 500, delta: 100}))
 		.then(() => tester('../example/area.js', 'Area window', {delay: 500, delta: 100}))
