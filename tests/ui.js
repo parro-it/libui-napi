@@ -51,22 +51,23 @@ test('ui', t => {
 	tester('example/area-adv.js', 'Area Advanced', {delay: 500, delta: 100})
 		.then(() => tester('example/area-scrolling.js', 'Area window',
 						   {delay: 500, delta: 100}))
+		.then(() => {
+			execFileSync('npm', ['install'], {cwd: path.join('example', 'gallery')});
+			return tester('example/gallery/start.js', 'Control Gallery',
+						  {delay: 5000, delta: 100});
+		})
 		.then(() => tester('example/area.js', 'Area window', {delay: 500, delta: 100}))
 		.then(() => tester('example/core-api.js', 'Test window'))
 		.then(() => tester('example/forms.js', 'Forms window'))
 		.then(() => tester('example/grid.js', 'Forms window'))
 		.then(() => tester('example/node-pad.js', 'Node Pad'))
 		.then(() => tester('example/text.js', 'textDrawArea Example'))
-		.then(() => {
-			execFileSync('npm', ['install'], {cwd: path.join('example', 'gallery')});
-			execFileSync('npm', ['run', 'build'], {cwd: path.join('example', 'gallery')});
-			return tester('example/gallery/dist/index.js', 'Control Gallery');
-		})
 		.then(() => tester.generateHTML())
 		.then(() => {
 			test.getHarness()._results.count += total - start;
 			test.getHarness()._results.pass += passed;
 			test.getHarness()._results.fail += failed;
 			t.end();
-		});
+		})
+		.catch(err => console.error(err));
 });
