@@ -58,10 +58,11 @@ test('ui', t => {
 		.then(() => tester('example/node-pad.js', 'Node Pad'))
 		.then(() => tester('example/text.js', 'textDrawArea Example'))
 		.then(() => {
-			execFileSync('npm', ['install'], {cwd: path.join('example', 'gallery')});
-			execFileSync('npm', ['run', 'build'], {cwd: path.join('example', 'gallery')});
-			return tester('example/gallery/dist/index.js', 'Control Gallery');
-		})
+				  /*execFileSync('npm', ['install'], {cwd: path.join('example',
+				  'gallery')}); execFileSync('npm', ['run', 'build'], {cwd:
+				  path.join('example', 'gallery')}); return
+				  tester('example/gallery/dist/index.js', 'Control Gallery');*/
+			  })
 		.then(() => tester.generateHTML())
 		.then(() => {
 			test.getHarness()._results.count += total - start;
