@@ -8,11 +8,11 @@ const {UiControl} = require('./ui-control');
 class UiSpinbox extends UiControl {
 	/**
 	 * Create a new UiSpinbox object.
-	 * @param  {number} min - minimum value of the spinbox.
-	 * @param  {number} max - maximum value of the spinbox.
+	 * @param  {number} min - minimum value of the spinbox. defaults to 0
+	 * @param  {number} max - maximum value of the spinbox. defaults to 100
 	 * @return {UiSpinbox}
 	 */
-	constructor(min, max) {
+	constructor(min = 0, max = 100) {
 		super(Spinbox.create(min, max));
 	}
 

@@ -16,17 +16,23 @@ class UiTab extends UiControl {
 	}
 
 	/**
-	 * When true, an internal margin is added to the Tab.
-	 * @return {boolean}
+	 * Return whether an internal margin is added to a page of the tab.
+	 * @param  {number} index - the index of the page to check.
+	 * @return {boolean} - whether the page has margins
 	 */
-	get margined() {
+	getMargined(index) {
 		this._ensureType(UiTab);
-		return Tab.getMargined(this.handle);
+		return Tab.getMargined(this.handle, index);
 	}
 
-	set margined(value) {
+	/**
+	 * Add an internal margin to a page of the Tab.
+	 * @param  {number} index - the index of the page to set the margin on.
+	 * @param  {boolean} value - whether to enable or disable the margin.
+	 */
+	setMargined(index, value) {
 		this._ensureType(UiTab);
-		Tab.setMargined(this.handle, Boolean(value));
+		Tab.setMargined(this.handle, index, Boolean(value));
 	}
 
 	/**

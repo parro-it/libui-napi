@@ -1,4 +1,6 @@
 const test = require('tape');
+const path = require('path');
+const execFileSync = require('child_process').execFileSync;
 const isCI = require('is-ci');
 
 let total = 0, passed = 0, failed = 0;
@@ -15,6 +17,7 @@ function tapLogger(type, file, err) {
 			break;
 		case 'FAILED':
 		case 'ERROR':
+
 			if (!isCI && file == 'core-api.js - "Test window"') {
 				total++;
 				passed++;
@@ -37,23 +40,28 @@ function tapLogger(type, file, err) {
 	}
 }
 
-process.chdir(__dirname);
+process.chdir(path.resolve(__dirname, '..'));
 const tester = require('screenshot-tester')(
-	{outDir: '_snapshots', accuracy: 500, logger: tapLogger});
+	{outDir: 'tests/_snapshots', accuracy: 500, logger: tapLogger});
 
 test('ui', t => {
 	const start = test.getHarness()._results.count;
 	total = start;
 
-	tester('../example/area-adv.js', 'Area Advanced', {delay: 500, delta: 100})
-		.then(() => tester('../example/area-scrolling.js', 'Area window',
+	tester('example/area-adv.js', 'Area Advanced', {delay: 500, delta: 100})
+		.then(() => tester('example/area-scrolling.js', 'Area window',
 						   {delay: 500, delta: 100}))
-		.then(() => tester('../example/area.js', 'Area window', {delay: 500, delta: 100}))
-		.then(() => tester('../example/core-api.js', 'Test window'))
-		.then(() => tester('../example/forms.js', 'Forms window'))
-		.then(() => tester('../example/grid.js', 'Forms window'))
-		.then(() => tester('../example/node-pad.js', 'Node Pad'))
-		.then(() => tester('../example/text.js', 'textDrawArea Example'))
+		.then(() => tester('example/area.js', 'Area window', {delay: 500, delta: 100}))
+		.then(() => tester('example/core-api.js', 'Test window'))
+		.then(() => tester('example/forms.js', 'Forms window'))
+		.then(() => tester('example/grid.js', 'Forms window'))
+		.then(() => tester('example/node-pad.js', 'Node Pad'))
+		.then(() => tester('example/text.js', 'textDrawArea Example'))
+		.then(() => {
+			execFileSync('npm', ['install'], {cwd: path.join('example', 'gallery')});
+			execFileSync('npm', ['run', 'build'], {cwd: path.join('example', 'gallery')});
+			return tester('example/gallery/dist/index.js', 'Control Gallery');
+		})
 		.then(() => tester.generateHTML())
 		.then(() => {
 			test.getHarness()._results.count += total - start;

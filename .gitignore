@@ -109,3 +109,5 @@ uitable.h
 
 tests/_snapshots/index.html
 tests/_snapshots/temp/
+example/gallery/dist/
+example/gallery/package-lock.json

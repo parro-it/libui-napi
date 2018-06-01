@@ -8,7 +8,8 @@ A container that show each chidren in a separate tab.
 
 * [UiTab](#UiTab) ⇐ <code>UiControl</code>
     * [new UiTab()](#new_UiTab_new)
-    * [.margined](#UiTab_margined) ⇒ <code>boolean</code>
+    * [.getMargined(index)](#UiTab_getMargined) ⇒ <code>boolean</code>
+    * [.setMargined(index, value)](#UiTab_setMargined)
     * [.append(control, string)](#UiTab_append)
     * [.insertAt(label, before, control)](#UiTab_insertAt)
     * [.numPages()](#UiTab_numPages) ⇒ <code>number</code>
@@ -23,11 +24,29 @@ A container that show each chidren in a separate tab.
 Create a new UiTab object.
 
 
-<a id="uitab_margined"></a>
-### uiTab.margined ⇒ <code>boolean</code>
-When true, an internal margin is added to the Tab.
+<a id="uitab_getmargined"></a>
+### uiTab.getMargined(index) ⇒ <code>boolean</code>
+Return whether an internal margin is added to a page of the tab.
 
-**Kind**: instance property of [<code>UiTab</code>](#UiTab)  
+**Kind**: instance method of [<code>UiTab</code>](#UiTab)  
+**Returns**: <code>boolean</code> - - whether the page has margins  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | the index of the page to check. |
+
+
+<a id="uitab_setmargined"></a>
+### uiTab.setMargined(index, value)
+Add an internal margin to a page of the Tab.
+
+**Kind**: instance method of [<code>UiTab</code>](#UiTab)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | the index of the page to set the margin on. |
+| value | <code>boolean</code> | whether to enable or disable the margin. |
+
 
 <a id="uitab_append"></a>
 ### uiTab.append(control, string)

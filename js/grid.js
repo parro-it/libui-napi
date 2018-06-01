@@ -72,8 +72,8 @@ class UiGrid extends UiControl {
 		this._ensureType(UiGrid);
 		child._ensureType(UiControl, 'control');
 
-		Grid.append(this.handle, child.handle, left, top, xspan, yspan, hexpand, halign,
-					vexpand, valign);
+		Grid.append(this.handle, child.handle, left, top, xspan, yspan, Number(hexpand),
+					halign, Number(vexpand), valign);
 	}
 }
 
