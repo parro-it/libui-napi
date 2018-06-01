@@ -2,7 +2,7 @@ build: false
 
 skip_branch_with_pr: true
 
-image: Visual Studio 2017
+image: Visual Studio 2013
 
 environment:
   matrix:
@@ -15,7 +15,6 @@ environment:
 
 configuration: Release
 platform:
-  - x86
   - x64
 
 install:
