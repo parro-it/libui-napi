@@ -2,7 +2,7 @@ const {readdirSync, existsSync} = require('fs');
 const {platform} = require('os')
 
 function listDir(dir) {
-	if (existsSync(src)) {
+	if (existsSync(dir)) {
 		readdirSync(dir)
 			.filter(f => f.endsWith('.c') || f.endsWith('.m'))
 			.forEach(f => console.log(`${dir}/${f}`));
