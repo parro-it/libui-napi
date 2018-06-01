@@ -51,11 +51,11 @@ test('ui', t => {
 	tester('example/area-adv.js', 'Area Advanced', {delay: 500, delta: 100})
 		.then(() => tester('example/area-scrolling.js', 'Area window',
 						   {delay: 500, delta: 100}))
-		.then(() => {
+		/*.then(() => {
 			execFileSync('npm', ['install'], {cwd: path.join('example', 'gallery')});
 			return tester('example/gallery/start.js', 'Control Gallery',
 						  {delay: 5000, delta: 100});
-		})
+		})*/
 		.then(() => tester('example/area.js', 'Area window', {delay: 500, delta: 100}))
 		.then(() => tester('example/core-api.js', 'Test window'))
 		.then(() => tester('example/forms.js', 'Forms window'))
