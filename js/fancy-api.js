@@ -92,12 +92,12 @@ function wrapChildren(children) {
 
 const EventHandler = Symbol('EventHandler');
 
-function mkControl(Class, defaults) {
+function mkControl(Class, defaults, customConstructor) {
 	const contructor = (props, children) => {
-		const ctrl = new Class();
 		if (!props) {
 			props = {};
 		}
+		const ctrl = customConstructor ? customConstructor(props, children) : new Class();
 		ctrl.props = props;
 		if (props.id) {
 			ctrl.id = props.id;
@@ -177,16 +177,18 @@ const tags = {
 		return win;
 	},
 
-	textarea: mkControl(UiMultilineEntry, propsWithCommon({
-							readOnly: false,
-							text: '',
-							onChanged: EventHandler,
-							handleChildren(ctrl, children) {
-								for (const child of children) {
-									ctrl.append(child);
-								}
-							}
-						})),
+	textarea:
+		mkControl(UiMultilineEntry, propsWithCommon({
+					  readOnly: false,
+					  text: '',
+					  onChanged: EventHandler,
+					  handleChildren(ctrl, children) {
+						  for (const child of children) {
+							  ctrl.append(child);
+						  }
+					  }
+				  }),
+				  (props, children) => new UiMultilineEntry(props.wrapped || false)),
 
 	hbox: mkControl(UiHorizontalBox, propsWithCommon({
 						padded: false,
@@ -266,10 +268,6 @@ const tags = {
 
 	password:
 		mkControl(UiPasswordEntry,
-				  propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
-
-	textarea:
-		mkControl(UiMultilineEntry,
 				  propsWithCommon({readOnly: false, text: '', onChanged: EventHandler})),
 
 	label: mkControl(UiLabel, propsWithCommon({

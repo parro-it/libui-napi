@@ -7,7 +7,7 @@ A multiline text entry.
 **Extends**: <code>UiControl</code>  
 
 * [UiMultilineEntry](#UiMultilineEntry) ⇐ <code>UiControl</code>
-    * [new UiMultilineEntry()](#new_UiMultilineEntry_new)
+    * [new UiMultilineEntry(wrapping)](#new_UiMultilineEntry_new)
     * [.text](#UiMultilineEntry_text) ⇒ <code>string</code>
     * [.readOnly](#UiMultilineEntry_readOnly) ⇒ <code>boolean</code>
     * [.append(text)](#UiMultilineEntry_append)
@@ -18,8 +18,13 @@ A multiline text entry.
 
 
 <a id="new_uimultilineentry_new"></a>
-### new UiMultilineEntry()
+### new UiMultilineEntry(wrapping)
 Create a new UiMultilineEntry object.
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| wrapping | <code>boolean</code> | <code>false</code> | wheter the multiline entry wrap text. Defaults to false. |
 
 
 <a id="uimultilineentry_text"></a>

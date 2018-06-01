@@ -8,10 +8,16 @@ const {UiControl} = require('./ui-control');
 class UiMultilineEntry extends UiControl {
 	/**
 	 * Create a new UiMultilineEntry object.
+	 * @param  {boolean} wrapping - wheter the multiline entry wrap text. Defaults to
+	 * false.
 	 * @return {UiMultilineEntry}
 	 */
-	constructor() {
-		super(MultilineEntry.create());
+	constructor(wrapping = false) {
+		if (wrapping) {
+			super(MultilineEntry.createWrapping());
+		} else {
+			super(MultilineEntry.create());
+		}
 	}
 
 	/**

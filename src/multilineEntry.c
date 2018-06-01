@@ -10,6 +10,11 @@ LIBUI_FUNCTION(create) {
 	return control_handle_new(env, ctrl, "multilineEntry");
 }
 
+LIBUI_FUNCTION(createWrapping) {
+	uiControl *ctrl = uiControl(uiNewMultilineEntry());
+	return control_handle_new(env, ctrl, "multilineEntry");
+}
+
 LIBUI_FUNCTION(onChanged) {
 	INIT_ARGS(2);
 
@@ -81,6 +86,7 @@ LIBUI_FUNCTION(append) {
 napi_value _libui_init_multilineEntry(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
+	LIBUI_EXPORT(createWrapping);
 	LIBUI_EXPORT(getText);
 	LIBUI_EXPORT(setText);
 	LIBUI_EXPORT(getReadOnly);
