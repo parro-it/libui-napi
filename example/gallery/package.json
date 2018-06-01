@@ -12,7 +12,7 @@
 	"author": "Andrea Parodi <andrea@parro.it>",
 	"license": "MIT",
 	"dependencies": {
-		"libui-napi": "file:../.."
+		"libui-napi": "*"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
