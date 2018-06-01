@@ -1,7 +1,7 @@
 {
   "name": "libui-napi",
   "author": "Andrea Parodi (andrea@parro.it)",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "Experimental bindings for libui using n-api",
   "repository": "parro-it/libui-napi",
   "license": "MIT",
