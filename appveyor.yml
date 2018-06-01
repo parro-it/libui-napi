@@ -2,7 +2,7 @@ build: false
 
 skip_branch_with_pr: true
 
-image: Visual Studio 2013
+image: Visual Studio 2017
 
 environment:
   matrix:
