@@ -9,9 +9,16 @@ LIBUI_FUNCTION(openFile) {
 	ARG_POINTER(struct control_handle, parent, 0);
 
 	char *char_ptr = uiOpenFile(uiWindow(parent->control));
-	napi_value result = make_utf8_string(env, char_ptr);
-	uiFreeText(char_ptr);
-	return result;
+	if (char_ptr == NULL) {
+		napi_value null;
+		napi_status status = napi_get_null(env, &null);
+		CHECK_STATUS_THROW(status, napi_get_null);
+		return null;
+	} else {
+		napi_value result = make_utf8_string(env, char_ptr);
+		uiFreeText(char_ptr);
+		return result;
+	}
 }
 
 LIBUI_FUNCTION(saveFile) {
@@ -19,9 +26,16 @@ LIBUI_FUNCTION(saveFile) {
 	ARG_POINTER(struct control_handle, parent, 0);
 
 	char *char_ptr = uiSaveFile(uiWindow(parent->control));
-	napi_value result = make_utf8_string(env, char_ptr);
-	uiFreeText(char_ptr);
-	return result;
+	if (char_ptr == NULL) {
+		napi_value null;
+		napi_status status = napi_get_null(env, &null);
+		CHECK_STATUS_THROW(status, napi_get_null);
+		return null;
+	} else {
+		napi_value result = make_utf8_string(env, char_ptr);
+		uiFreeText(char_ptr);
+		return result;
+	}
 }
 
 LIBUI_FUNCTION(msgBox) {
