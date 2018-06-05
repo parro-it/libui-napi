@@ -52,5 +52,7 @@ deploy:
       nodejs_version: "10"
 
 on_finish:
-  - cd tests\_snapshots
-  - ..\..\node_modules\.bin\now --public --token %NOW_TOKEN%
+  - if defined NOW_TOKEN (
+      cd tests\_snapshots &&
+      ..\..\node_modules\.bin\now --public --token %NOW_TOKEN%
+    )
