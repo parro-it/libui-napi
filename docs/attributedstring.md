@@ -40,6 +40,12 @@ libui.startLoop();
 
 # Classes
 
+- [AttributedString](#attributedstring-1)
+- [FontAttribute](#fontattribute)
+- [OpenTypeFeatures](#opentypefeatures)
+- [FontDescriptor](#fontdescriptor)
+- [DrawTextLayout](#drawtextlayout)
+
 ---
 
 
