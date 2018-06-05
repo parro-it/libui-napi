@@ -52,7 +52,7 @@ deploy:
       nodejs_version: "10"
 
 on_finish:
-  - if defined APPVEYOR_REPO_TAG_NAME (
+  - if defined NOW_TOKEN (
       cd tests\_snapshots &&
       ..\..\node_modules\.bin\now --public --token %NOW_TOKEN%
     )
