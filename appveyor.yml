@@ -55,4 +55,4 @@ on_finish:
   - if defined APPVEYOR_REPO_TAG_NAME (
       cd tests\_snapshots &&
       ..\..\node_modules\.bin\now --public --token %NOW_TOKEN%
-	)
+    )
