@@ -56,6 +56,7 @@
   },
   "files": [
     "tools",
+    "js",
     "index.js",
     "src",
     "binding.gyp"
