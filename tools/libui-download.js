@@ -24,11 +24,14 @@ function nodePlatformToOS(arch) {
 
 function download(opts) {
 	const platform = nodePlatformToOS(opts.platform || os.platform());
-	const arch = opts.arch || os.arch();
+	let arch = opts.arch || os.arch();
+	if (arch === 'x64') {
+		arch = 'amd64';
+	}
 	const version = opts.version;
 	const symbols = opts.symbols || false;
-	const filename = 'libui-shared-' + platform + '-' + arch + '-' + version +
-					 (symbols ? '-symbols' : '') + '.tar.gz';
+	const filename = 'libui-' + version + '-' + platform + '-' + arch + '-shared' +
+					 '.tgz';
 
 	if (!version) {
 		throw new Error('must specify needed version of libui in package.json');
