@@ -10,15 +10,12 @@ const {mkCacheDir, cacheDir, buildUrl, requestHttps, doDownload} =
 const debug = _debug('libui-download');
 
 function nodePlatformToOS(arch) {
+
 	switch (arch) {
-		case 'darwin':
-			return 'osx';
 		case 'win32':
 			return 'windows';
-		case 'linux':
-			return 'linux';
 		default:
-			throw new Error('Unknown platform ' + arch);
+			return arch;
 	}
 }
 
