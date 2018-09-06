@@ -25,6 +25,11 @@ function download(opts) {
 	if (arch === 'x64') {
 		arch = 'amd64';
 	}
+
+	if (arch === 'ia32') {
+		arch = '386';
+	}
+
 	const version = opts.version;
 	const symbols = opts.symbols || false;
 	const filename = 'libui-' + version + '-' + platform + '-' + arch + '-shared' +
