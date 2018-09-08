@@ -50,51 +50,6 @@ LIBUI_FUNCTION(create) {
 	ARG_CB_REF(cellValue, 3);
 	ARG_CB_REF(setCellValue, 4);
 
-	napi_value global;
-	napi_status status = napi_get_global(env, &global);
-	CHECK_STATUS_THROW(status, napi_get_global);
-
-	napi_value function_contructor;
-	status = napi_get_named_property(env, global, "Function", &function_contructor);
-	CHECK_STATUS_THROW(status, napi_get_named_property);
-
-	bool is_function = false;
-	status = napi_instanceof(env, argv[0], function_contructor, &is_function);
-//	printf("%d == %d, %d\n", status, napi_ok, is_function);
-	if (status != napi_ok || !is_function) {
-		napi_throw_type_error(env, NULL, "Argument numColumns: a function was expected"); 
-		return NULL;
-	}
-
-	status = napi_instanceof(env, argv[1], function_contructor, &is_function);
-	if (status != napi_ok || !is_function) {
-		napi_throw_type_error(env, NULL, "Argument numRows: a function was expected"); 
-		return NULL;
-	}
-
-	status = napi_instanceof(env, argv[2], function_contructor, &is_function);
-	if (status != napi_ok || !is_function) {
-		napi_throw_type_error(env, NULL, "Argument columnType: a function was expected"); 
-		return NULL;
-	}
-
-	status = napi_instanceof(env, argv[3], function_contructor, &is_function);
-	if (status != napi_ok || !is_function) {
-		napi_throw_type_error(env, NULL, "Argument cellValue: a function was expected"); 
-		return NULL;
-	}
-
-	
-	status = napi_instanceof(env, argv[4], function_contructor, &is_function);
-	if (status != napi_ok || !is_function) {
-		napi_throw_type_error(env, NULL, "Argument setCellValue: a function was expected"); 
-		return NULL;
-	}
-
-/*
-	uiControl *ctrl = uiControl(uiNewButton(label));
-	free(label);
-	return control_handle_new(env, ctrl, "button");*/
 	return NULL;
 }
 /*
