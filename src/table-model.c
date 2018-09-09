@@ -5,25 +5,36 @@
 
 static const char *MODULE = "TableModel";
 
-static int numColumns (uiTableModelHandler *mh, uiTableModel *m) {
-	
-}
-static uiTableValueType columnType (uiTableModelHandler *mh, uiTableModel *m, int column) {
-	
-}
-static int numRows (uiTableModelHandler *mh, uiTableModel *m) {
-	
-}
-static uiTableValue *cellValue (uiTableModelHandler *mh, uiTableModel *m, int row, int column) {
-	
-}
-static void setCellValue (uiTableModelHandler *mh, uiTableModel *m, int row, int column, const uiTableValue *value) {
-	
+static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
+	return 0;
 }
 
+static uiTableValueType c_columnType(uiTableModelHandler *mh, uiTableModel *m, int column) {
+	return uiTableValueTypeInt;
+}
+
+static int c_numRows(uiTableModelHandler *mh, uiTableModel *m) {
+	return 0;
+}
+
+static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column) {
+	return NULL;
+}
+
+static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column,
+						   const uiTableValue *value) {}
+
+static void on_model_gc(napi_env env, void *finalize_data, void *finalize_hint) {
+	uiTableModel *model = (uiTableModel *)finalize_data;
+	struct binding_handler *handler = (struct binding_handler *)finalize_hint;
+
+	uiFreeTableModel(model);
+	free(handler);
+}
 
 struct binding_handler {
 	uiTableModelHandler handler;
+	napi_ref model_ref;
 	napi_ref jsNumColumns;
 	napi_ref jsColumnType;
 	napi_ref jsNumRows;
@@ -40,7 +51,31 @@ LIBUI_FUNCTION(create) {
 	ARG_CB_REF(cellValue, 3);
 	ARG_CB_REF(setCellValue, 4);
 
-	return NULL;
+	struct binding_handler *model_handler =
+		(struct binding_handler *)malloc(sizeof(struct binding_handler));
+
+	model_handler->jsNumColumns = numColumns;
+	model_handler->jsNumRows = numRows;
+	model_handler->jsColumnType = columnType;
+	model_handler->jsCellValue = cellValue;
+	model_handler->jsSetCellValue = setCellValue;
+	model_handler->handler.NumColumns = c_numColumns;
+	model_handler->handler.NumRows = c_numRows;
+	model_handler->handler.ColumnType = c_columnType;
+	model_handler->handler.CellValue = c_cellValue;
+	model_handler->handler.SetCellValue = c_setCellValue;
+
+	uiTableModel *model = uiNewTableModel((uiTableModelHandler *)model_handler);
+
+	napi_value model_external;
+	napi_status status =
+		napi_create_external(env, model, on_model_gc, model_handler, &model_external);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	status = napi_create_reference(env, model_external, 0, &model_handler->model_ref);
+	CHECK_STATUS_THROW(status, napi_create_reference);
+
+	return model_external;
 }
 /*
 LIBUI_FUNCTION(onClicked) {
@@ -87,6 +122,6 @@ LIBUI_FUNCTION(getText) {
 napi_value _libui_init_table_model(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
-	
+
 	return module;
 }

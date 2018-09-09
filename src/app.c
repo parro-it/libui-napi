@@ -10,8 +10,6 @@
 static const char *MODULE = "App";
 
 struct children_list *visible_windows = NULL;
-	
-
 
 static int c_wrap_cb(void *data) {
 	struct event_t *event = (struct event_t *)data;
