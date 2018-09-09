@@ -17,11 +17,7 @@ struct binding_handler {
 	napi_ref jsSetCellValue;
 };
 
-static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
-	struct binding_handler *bh = (struct binding_handler *)mh;
-	int argc = 0;
-	napi_value *argv = NULL;
-
+static napi_value run_handler_fn(struct binding_handler *bh, int argc, napi_value *argv) {
 	napi_value fn;
 	napi_status status = napi_get_reference_value(bh->env, bh->jsNumColumns, &fn);
 
@@ -29,11 +25,11 @@ static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 
 	napi_handle_scope handle_scope;
 	status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
 
 	napi_value resource_object;
 	status = napi_create_object(env, &resource_object);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_object, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
 
 	LIBUI_NODE_DEBUG("Calling numColumns method");
 
@@ -47,15 +43,28 @@ static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 		return 0;
 	}
 
-	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, NULL);
 
 	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
 
 	LIBUI_NODE_DEBUG("Method called");
 
+	return result;
+}
+
+static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
+	struct binding_handler *bh = (struct binding_handler *)mh;
+
+	napi_value result = run_handler_fn(bh, 0, NULL);
+	napi_env env = bh->env;
+
+	if (result == NULL) {
+		return 0;
+	}
+
 	int32_t int_result;
-	status = napi_get_value_int32(bh->env, result, &int_result);
+	napi_status status = napi_get_value_int32(env, result, &int_result);
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, 0);
 
 	return int_result;
