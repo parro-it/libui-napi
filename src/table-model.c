@@ -80,6 +80,7 @@ static void on_model_gc(napi_env env, void *finalize_data, void *finalize_hint) 
 	uiTableModel *model = (uiTableModel *)finalize_data;
 	struct binding_handler *handler = (struct binding_handler *)finalize_hint;
 	/* TODO: decrease to 0 all fns references */
+	/* TODO: clean up async context */
 	uiFreeTableModel(model);
 	free(handler);
 }
