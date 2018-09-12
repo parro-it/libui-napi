@@ -23,10 +23,6 @@ static napi_value run_handler_fn(struct binding_handler *bh, napi_ref fn_ref, in
 
 	napi_env env = bh->env;
 
-	napi_handle_scope handle_scope;
-	status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
-
 	napi_value resource_object;
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
@@ -40,13 +36,11 @@ static napi_value run_handler_fn(struct binding_handler *bh, napi_ref fn_ref, in
 		napi_value last_exception;
 		napi_get_and_clear_last_exception(env, &last_exception);
 		napi_fatal_exception(env, last_exception);
-		return 0;
+		return NULL;
 	}
 
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, NULL);
 
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
 
 	LIBUI_NODE_DEBUG("Method called");
 
@@ -56,30 +50,146 @@ static napi_value run_handler_fn(struct binding_handler *bh, napi_ref fn_ref, in
 static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 	struct binding_handler *bh = (struct binding_handler *)mh;
 
-	napi_value result = run_handler_fn(bh, bh->jsNumColumns, 0, NULL);
 	napi_env env = bh->env;
+
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
+
+	napi_value result = run_handler_fn(bh, bh->jsNumColumns, 0, NULL);
+
+	if (result == NULL) {
+		
+		return 0;
+	}
+
+	int32_t int_result;
+	status = napi_get_value_int32(env, result, &int_result);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+	
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, 0);
+
+	return int_result;
+}
+
+static uiTableValueType c_columnType(uiTableModelHandler *mh, uiTableModel *m, int column) {
+	struct binding_handler *bh = (struct binding_handler *)mh;
+	napi_env env = bh->env;
+
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
+
+	napi_value column_val;
+	status = napi_create_int32(bh->env, column, &column_val);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+
+	napi_value args[1] = {column_val};
+	napi_value result = run_handler_fn(bh, bh->jsColumnType, 1, args);
 
 	if (result == NULL) {
 		return 0;
 	}
 
 	int32_t int_result;
-	napi_status status = napi_get_value_int32(env, result, &int_result);
-	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, 0);
+ 	status = napi_get_value_int32(env, result, &int_result);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, 0);
+
+
+	return (uiTableValueType) int_result;
+}
+
+static int c_numRows(uiTableModelHandler *mh, uiTableModel *m) {
+	struct binding_handler *bh = (struct binding_handler *)mh;
+	napi_env env = bh->env;
+
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, 0);
+	
+	napi_value result = run_handler_fn(bh, bh->jsNumRows, 0, NULL);
+
+	if (result == NULL) {
+		return 0;
+	}
+
+	int32_t int_result;
+	status = napi_get_value_int32(env, result, &int_result);
+	CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, 0);
 
 	return int_result;
 }
 
-static uiTableValueType c_columnType(uiTableModelHandler *mh, uiTableModel *m, int column) {
-	return uiTableValueTypeInt;
-}
-
-static int c_numRows(uiTableModelHandler *mh, uiTableModel *m) {
-	return 1;
-}
-
 static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column) {
-	return uiNewTableValueInt(42);
+
+	struct binding_handler *bh = (struct binding_handler *)mh;
+	uiTableValueType type = c_columnType(mh, m, column);
+	
+	napi_env env = bh->env;
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
+	
+
+	napi_value column_val;
+	status = napi_create_int32(bh->env, column, &column_val);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+
+	napi_value row_val;
+	status = napi_create_int32(bh->env, row, &row_val);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+
+	napi_value args[2] = {row_val, column_val};
+	
+	napi_value result = run_handler_fn(bh, bh->jsCellValue, 2, args);
+
+	if (result == NULL) {
+		return 0;
+	}
+	uiTableValue* ret;
+
+	switch (type) {
+		case uiTableValueTypeString: {
+			size_t string_len;
+			napi_status status = napi_get_value_string_utf8(env, result, NULL, 0, &string_len); 
+			CHECK_STATUS_UNCAUGHT(status, napi_get_value_string_utf8, NULL);                                    
+			char *string = malloc(string_len + 1);                                                  
+			status = napi_get_value_string_utf8(env, result, string, string_len + 1, &string_len); 
+			CHECK_STATUS_UNCAUGHT(status, napi_get_value_string_utf8, NULL);                                    
+			ret = uiNewTableValueString(string);
+			free(string);
+			break;
+		}
+		case uiTableValueTypeImage: {
+			ret = NULL;
+			break;
+		}
+		case uiTableValueTypeInt: {
+			int32_t int_result;
+			napi_status status = napi_get_value_int32(env, result, &int_result);
+			CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+			ret = uiNewTableValueInt(int_result);
+			break;
+		}
+		case uiTableValueTypeColor: {
+			ret =  NULL;
+			break;
+		}
+		default: {
+			ret =  NULL;
+		}
+	}
+
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
+	return ret;
 }
 
 static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column,

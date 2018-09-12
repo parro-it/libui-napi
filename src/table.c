@@ -10,10 +10,10 @@ LIBUI_FUNCTION(create) {
 	ARG_POINTER(uiTableModel, model, 0);
 	
 	uiTableParams params = {model, -1};
-	printf("model: %p\n", params.Model);
 	uiControl *ctrl = uiControl(uiNewTable(&params));
-	uiTableAppendProgressBarColumn(ctrl, "testtt", 0);
-	printf("ctrl: %p\n", ctrl);
+	uiTableAppendTextColumn(uiTable(ctrl), "Nome", 0, 2, NULL);
+	uiTableAppendTextColumn(uiTable(ctrl), "Cognome", 1, 2, NULL);
+
 	return control_handle_new(env, ctrl, "table");
 }
 

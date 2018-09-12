@@ -28,6 +28,7 @@ class UiTable extends UiControl {
 	 */
 	constructor(model) {
 		super(mkTable(model));
+		this.model = model;
 	}
 }
 
