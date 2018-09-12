@@ -48,7 +48,7 @@ const {
 const {UiBox} = require('./js/box');
 const {SeparatorBase} = require('./js/separator-base');
 const {UiControl} = require('./js/ui-control');
-
+const {UiTable} = require('./js/table');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -146,7 +146,7 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 }
 
 // Takes about 3.5ms:
-applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
+applySetterGetter(UiTable, UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
 				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
 				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
 				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
@@ -159,6 +159,7 @@ applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
 Object.assign(libui, {
+	UiTable,
 	UiFontButton,
 	FontDescriptor,
 	FontAttribute,

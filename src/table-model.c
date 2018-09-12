@@ -17,9 +17,9 @@ struct binding_handler {
 	napi_ref jsSetCellValue;
 };
 
-static napi_value run_handler_fn(struct binding_handler *bh, int argc, napi_value *argv) {
+static napi_value run_handler_fn(struct binding_handler *bh, napi_ref fn_ref, int argc, napi_value *argv) {
 	napi_value fn;
-	napi_status status = napi_get_reference_value(bh->env, bh->jsNumColumns, &fn);
+	napi_status status = napi_get_reference_value(bh->env, fn_ref, &fn);
 
 	napi_env env = bh->env;
 
@@ -56,7 +56,7 @@ static napi_value run_handler_fn(struct binding_handler *bh, int argc, napi_valu
 static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 	struct binding_handler *bh = (struct binding_handler *)mh;
 
-	napi_value result = run_handler_fn(bh, 0, NULL);
+	napi_value result = run_handler_fn(bh, bh->jsNumColumns, 0, NULL);
 	napi_env env = bh->env;
 
 	if (result == NULL) {
@@ -75,11 +75,11 @@ static uiTableValueType c_columnType(uiTableModelHandler *mh, uiTableModel *m, i
 }
 
 static int c_numRows(uiTableModelHandler *mh, uiTableModel *m) {
-	return 0;
+	return 1;
 }
 
 static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column) {
-	return NULL;
+	return uiNewTableValueInt(42);
 }
 
 static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column,
@@ -134,7 +134,7 @@ LIBUI_FUNCTION(create) {
 	status = napi_create_external(env, model, on_model_gc, model_handler, &model_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
 
-	status = napi_create_reference(env, model_external, 0, &model_handler->model_ref);
+	status = napi_create_reference(env, model_external, 1, &model_handler->model_ref);
 	CHECK_STATUS_THROW(status, napi_create_reference);
 
 	return model_external;
