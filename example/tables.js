@@ -13,15 +13,20 @@ const tb = new libui.UiTable({
 		return 0;
 	},
 	numRows() {
-		return 5;
+		return 50;
 	},
 	cellValue(row, column) {
-		if (column >= 2) return 0;
+		if (column == 2 || column == 3) return 0;
 		const s = "val-" + row + '-' + column
 		return s;
 	}
 
 });
+
+libui.Table.appendTextColumn(tb.handle, "Nome", 0, 2, null);
+libui.Table.appendTextColumn(tb.handle, "Cognome", 1, 2, null);
+libui.Table.appendTextColumn(tb.handle, "Robe", 4, 2, null);
+
 win.setChild(tb);
 
 win.onClosing(() => {
