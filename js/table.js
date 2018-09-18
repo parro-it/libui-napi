@@ -14,7 +14,7 @@ class UiTable extends UiControl {
 	 */
 	constructor(model) {
 		super(Table.create(model.model));
-		this.model = model.model;
+		this.model = model;
 	}
 
 	appendTextColumn(name, textModelColumn, textEditableModelColumn, colorModelColumn) {
