@@ -30,6 +30,34 @@ class UiTable extends UiControl {
 		super(mkTable(model));
 		this.model = model;
 	}
+
+	appendTextColumn(name, textModelColumn, textEditableModelColumn) {
+		return Table.appendTextColumn(name, textModelColumn, textEditableModelColumn);			
+	}
+
+	appendImageColumn(name, imageModelColumn) {
+		return Table.appendImageColumn(name, imageModelColumn);			
+	}
+
+	appendImageTextColumn(name, imageModelColumn, textModelColumn, textEditableModelColumn, colorModelColumn) {
+		return Table.appendImageTextColumn(name, imageModelColumn, textModelColumn, textEditableModelColumn, colorModelColumn);			
+	}
+
+	appendCheckboxColumn(name, checkboxModelColumn, checkboxEditableModelColumn) {
+		return Table.appendCheckboxColumn(name, checkboxModelColumn, checkboxEditableModelColumn);			
+	}
+
+	appendCheckboxTextColumn(name, checkboxModelColumn, checkboxEditableModelColumn, textModelColumn, textEditableModelColumn, colorModelColumn) {
+		return Table.appendCheckboxTextColumn(name, checkboxModelColumn, checkboxEditableModelColumn, textModelColumn, textEditableModelColumn, colorModelColumn);			
+	}
+
+	appendProgressBarColumn(name, progressModelColumn) {
+		return Table.appendProgressBarColumn(name, progressModelColumn);			
+	}
+
+	appendButtonColumn(name, buttonModelColumn, buttonClickableModelColumn) {
+		return Table.appendButtonColumn(name, buttonModelColumn, buttonClickableModelColumn);		
+	}
 }
 
 module.exports = {UiTable};
