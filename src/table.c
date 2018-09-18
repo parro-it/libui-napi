@@ -60,12 +60,22 @@ LIBUI_FUNCTION(appendImageTextColumn) {
 	ARG_INT32(imageModelColumn, 2);
 	ARG_INT32(textModelColumn, 3);
 	ARG_INT32(textEditableModelColumn, 4);
-	ARG_INT32(colorModelColumn, 5);
 
 	ENSURE_NOT_DESTROYED();
 
-	uiTableTextColumnOptionalParams textParams = {colorModelColumn};
+	
+	uiTableTextColumnOptionalParams textParams;
+	uiTableTextColumnOptionalParams *textParamsP = NULL;
 
+	napi_valuetype arg_type;                                                                   
+	napi_status status = napi_typeof(env, argv[5], &arg_type);                           
+	CHECK_STATUS_THROW(status, napi_typeof);
+
+	if (arg_type == napi_number) {                                                               
+		ARG_INT32(colorModelColumn, 5);
+		textParams.ColorModelColumn = colorModelColumn;
+		textParamsP = &textParams;
+	}
 	uiTableAppendImageTextColumn(
 		uiTable(handle->control),
 		name,
@@ -100,12 +110,23 @@ LIBUI_FUNCTION(appendCheckboxTextColumn) {
 	ARG_INT32(checkboxEditableModelColumn, 3);
 	ARG_INT32(textModelColumn, 4);
 	ARG_INT32(textEditableModelColumn, 5);
-	ARG_INT32(colorModelColumn, 6);
 
 	ENSURE_NOT_DESTROYED();
 
-	uiTableTextColumnOptionalParams textParams = {colorModelColumn};
+	
+	uiTableTextColumnOptionalParams textParams;
+	uiTableTextColumnOptionalParams *textParamsP = NULL;
 
+	napi_valuetype arg_type;                                                                   
+	napi_status status = napi_typeof(env, argv[6], &arg_type);                           
+	CHECK_STATUS_THROW(status, napi_typeof);
+
+	if (arg_type == napi_number) {                                                               
+		ARG_INT32(colorModelColumn, 6);
+		textParams.ColorModelColumn = colorModelColumn;
+		textParamsP = &textParams;
+	}
+	
 	uiTableAppendCheckboxTextColumn(
 		uiTable(handle->control), 
 		name, 

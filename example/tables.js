@@ -23,9 +23,9 @@ const tb = new libui.UiTable({
 
 });
 
-libui.Table.appendTextColumn(tb.handle, "Nome", 0, 2, null);
-libui.Table.appendTextColumn(tb.handle, "Cognome", 1, 2, null);
-libui.Table.appendTextColumn(tb.handle, "Robe", 4, 2, null);
+tb.appendTextColumn("Nome", 0, 2, null);
+tb.appendTextColumn("Cognome", 1, 2, null);
+tb.appendTextColumn("Robe", 4, 2, null);
 
 win.setChild(tb);
 
