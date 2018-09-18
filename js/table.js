@@ -2,20 +2,6 @@ const {Table} = require('..');
 const {TableModel} = require('..');
 const {UiControl} = require('./ui-control');
 
-const noop = () => 0;
-
-function mkTable(model) {
-	const tableModel = TableModel.create(
-		model.numColumns || noop,
-		model.numRows || noop,
-		model.columnType || noop,
-		model.cellValue || noop,
-		model.setCellValue || noop
-	);
-
-	return Table.create(tableModel)
-}
-
 /**
  * A data table.
  * @extends UiControl
@@ -27,8 +13,8 @@ class UiTable extends UiControl {
 	 * @return {UiTable}
 	 */
 	constructor(model) {
-		super(mkTable(model));
-		this.model = model;
+		super(Table.create(model.model));
+		this.model = model.model;
 	}
 
 	appendTextColumn(name, textModelColumn, textEditableModelColumn, colorModelColumn) {

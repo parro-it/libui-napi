@@ -249,51 +249,40 @@ LIBUI_FUNCTION(create) {
 
 	return model_external;
 }
-/*
-LIBUI_FUNCTION(onClicked) {
+
+LIBUI_FUNCTION(rowInserted) {
 	INIT_ARGS(2);
-
-	ARG_POINTER(struct control_handle, handle, 0);
-	ENSURE_NOT_DESTROYED();
-	ARG_CB_REF(cb_ref, 1);
-
-	struct event_t *event = create_event(env, cb_ref, "onClicked");
-	if (event == NULL) {
-		return NULL;
-	}
-
-	install_event(handle->events, event);
-
-	uiButtonOnClicked(uiButton(handle->control), CALLBACK_OF(uiButton, control_event_cb), event);
-
+	ARG_POINTER(uiTableModel, handle, 0);
+	ARG_INT32(index, 1);
+	uiTableModelRowInserted(handle, index);
 	return NULL;
 }
 
-LIBUI_FUNCTION(setText) {
-	INIT_ARGS(2);
 
-	ARG_POINTER(struct control_handle, handle, 0);
-	ENSURE_NOT_DESTROYED();
-	ARG_STRING(value, 1);
-	uiButtonSetText(uiButton(handle->control), value);
-	free(value);
+LIBUI_FUNCTION(rowChanged) {
+	INIT_ARGS(2);
+	ARG_POINTER(uiTableModel, handle, 0);
+	ARG_INT32(index, 1);
+	uiTableModelRowChanged(handle, index);
 	return NULL;
 }
 
-LIBUI_FUNCTION(getText) {
-	INIT_ARGS(1);
 
-	ARG_POINTER(struct control_handle, handle, 0);
-	ENSURE_NOT_DESTROYED();
-	char *char_ptr = uiButtonText(uiButton(handle->control));
-	napi_value result = make_utf8_string(env, char_ptr);
-	uiFreeText(char_ptr);
-	return result;
+LIBUI_FUNCTION(rowDeleted) {
+	INIT_ARGS(2);
+	ARG_POINTER(uiTableModel, handle, 0);
+	ARG_INT32(index, 1);
+	uiTableModelRowDeleted(handle, index);
+	return NULL;
 }
-*/
+
 napi_value _libui_init_table_model(napi_env env, napi_value exports) {
 	DEFINE_MODULE();
 	LIBUI_EXPORT(create);
+
+	LIBUI_EXPORT(rowInserted);
+	LIBUI_EXPORT(rowChanged);
+	LIBUI_EXPORT(rowDeleted);
 
 	return module;
 }

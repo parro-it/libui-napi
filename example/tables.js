@@ -2,8 +2,7 @@ const libui = require('..');
 
 const win = new libui.UiWindow('Tables example', 320, 60, true);
 win.margined = true;
-
-const tb = new libui.UiTable({
+const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
 		return 2;
 	},
@@ -19,9 +18,10 @@ const tb = new libui.UiTable({
 		if (column == 2 || column == 3) return 0;
 		const s = "val-" + row + '-' + column
 		return s;
+	},
+	setCellValue(row, column, value) {
 	}
-
-});
+}));
 
 tb.appendTextColumn("Nome", 0, 2, null);
 tb.appendTextColumn("Cognome", 1, 2, null);
