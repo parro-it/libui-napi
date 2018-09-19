@@ -128,7 +128,6 @@ static int c_numRows(uiTableModelHandler *mh, uiTableModel *m) {
 }
 
 static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column) {
-
 	struct binding_handler *bh = (struct binding_handler *)mh;
 	uiTableValueType type = c_columnType(mh, m, column);
 	
@@ -193,7 +192,60 @@ static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int r
 }
 
 static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column,
-						   const uiTableValue *value) {}
+						   const uiTableValue *value) {
+	struct binding_handler *bh = (struct binding_handler *)mh;
+	uiTableValueType type = uiTableValueGetType(value);
+	
+	napi_env env = bh->env;
+	napi_handle_scope handle_scope;
+	napi_status status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
+
+	napi_value column_val;
+	status = napi_create_int32(bh->env, column, &column_val);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+
+	napi_value row_val;
+	status = napi_create_int32(bh->env, row, &row_val);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+
+	
+	napi_value ret;
+
+	switch (type) {
+		case uiTableValueTypeString: {
+			
+			const char* cell_value = uiTableValueString(value);
+			
+			ret = make_utf8_string(env, cell_value);
+			//free(cell_value);
+			break;
+		}
+		case uiTableValueTypeImage: {
+			ret = make_uint32(env, 0);
+			break;
+		}
+		case uiTableValueTypeInt: {
+			int32_t int_result = uiTableValueInt(value);
+			ret = make_int32(env, int_result);
+			break;
+		}
+		case uiTableValueTypeColor: {
+			ret = make_uint32(env, 0);
+			break;
+		}
+		default: {
+			ret = make_uint32(env, 0);
+		}
+	}
+
+	napi_value args[3] = {row_val, column_val, ret};
+	
+	napi_value result = run_handler_fn(bh, bh->jsSetCellValue, 3, args);
+	status = napi_close_handle_scope(env, handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
+
+}
 
 static void on_model_gc(napi_env env, void *finalize_data, void *finalize_hint) {
 	uiTableModel *model = (uiTableModel *)finalize_data;
