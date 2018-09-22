@@ -187,10 +187,17 @@ static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int r
 	return ret;
 }
 
+#define HACK_uiTableValueTypeNull 424242
+
 static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, int column,
 						   const uiTableValue *value) {
 	struct binding_handler *bh = (struct binding_handler *)mh;
-	uiTableValueType type = uiTableValueGetType(value);
+	uiTableValueType type;
+	if (value == NULL) {
+		type = HACK_uiTableValueTypeNull;
+	} else {
+		type = uiTableValueGetType(value);
+	}
 
 	napi_env env = bh->env;
 	napi_handle_scope handle_scope;
@@ -208,6 +215,11 @@ static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, in
 	napi_value ret;
 
 	switch (type) {
+	case HACK_uiTableValueTypeNull: {
+		napi_status status = napi_get_null(env, &ret);
+		CHECK_STATUS_UNCAUGHT(status, napi_get_null, );
+		break;
+	}
 	case uiTableValueTypeString: {
 
 		const char *cell_value = uiTableValueString(value);

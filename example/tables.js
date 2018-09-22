@@ -11,12 +11,13 @@ wd(process.cwd(), false, addTo);
 
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
+
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
 		return 3;
 	},
 	columnType(column) {
-		if (column == 3 || column == 4)
+		if (column == 3 || column == 4 || column == 6)
 			return 2;
 		return 0;
 	},
@@ -40,9 +41,16 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 			case 4: {
 				return 1;
 			}
+			case 5: {
+				return 'show details';
+			}
+			case 6: {
+				return 1;
+			}
 		}
 	},
 	setCellValue(row, column, value) {
+		console.log(row, column, value)
 		switch (column) {
 			case 0: {
 				dependencies[row].name = value;
@@ -56,6 +64,11 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 				dependencies[row].author = value;
 				break;
 			}
+			case 5: {
+				libui.UiDialogs.msgBox(win, 'Row details',
+									   JSON.stringify(dependencies[row], null, 4));
+				break;
+			}
 		}
 	}
 }));
@@ -63,8 +76,11 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 tb.appendTextColumn('name', 0, 3, null);
 tb.appendTextColumn('version', 1, 3, null);
 tb.appendTextColumn('author', 2, 4, null);
+tb.appendButtonColumn('details', 5, 6);
 
-win.setChild(tb);
+const vbox = new libui.UiVerticalBox();
+vbox.append(tb, true);
+win.setChild(vbox);
 
 win.onClosing(() => {
 	win.close();
