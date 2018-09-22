@@ -50,7 +50,6 @@ static napi_value run_handler_fn(struct binding_handler *bh, napi_ref fn_ref, in
 static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 	struct binding_handler *bh = (struct binding_handler *)mh;
 
-	napi_value result = run_handler_fn(bh, 0, NULL);
 	napi_env env = bh->env;
 
 	napi_handle_scope handle_scope;
@@ -196,15 +195,15 @@ static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, in
 	napi_env env = bh->env;
 	napi_handle_scope handle_scope;
 	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, );
 
 	napi_value column_val;
 	status = napi_create_int32(bh->env, column, &column_val);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, );
 
 	napi_value row_val;
 	status = napi_create_int32(bh->env, row, &row_val);
-	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, 0);
+	CHECK_STATUS_UNCAUGHT(status, napi_create_int32, );
 
 	napi_value ret;
 
@@ -235,9 +234,9 @@ static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, in
 
 	napi_value args[3] = {row_val, column_val, ret};
 
-	napi_value result = run_handler_fn(bh, bh->jsSetCellValue, 3, args);
+	run_handler_fn(bh, bh->jsSetCellValue, 3, args);
 	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
+	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, );
 }
 
 static void on_model_gc(napi_env env, void *finalize_data, void *finalize_hint) {
