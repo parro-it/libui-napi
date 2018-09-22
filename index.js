@@ -48,7 +48,7 @@ const {
 const {UiBox} = require('./js/box');
 const {SeparatorBase} = require('./js/separator-base');
 const {UiControl} = require('./js/ui-control');
-
+const {UiTable} = require('./js/table');
 const {UiButton} = require('./js/button');
 const {UiWindow} = require('./js/window');
 const {UiSlider} = require('./js/slider');
@@ -81,6 +81,7 @@ const {FontDescriptor} = require('./js/font-descriptor');
 const {FontAttribute} = require('./js/font-attribute');
 const {AttributedString} = require('./js/font-string');
 const {OpenTypeFeatures} = require('./js/font-opentype');
+const {UiTableModel} = require('./js/table-model');
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
@@ -146,19 +147,21 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 }
 
 // Takes about 3.5ms:
-applySetterGetter(UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid, UiMenuItem,
-				  UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
-				  UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry,
-				  UiSearchEntry, UiEditableCombobox, UiTimePicker, UiDatePicker,
-				  UiDateTimePicker, UiCombobox, UiColorButton, UiCheckbox, UiWindow,
-				  UiButton, UiLabel, UiForm, UiSlider, UiMultilineEntry, UiHorizontalBox,
-				  UiVerticalBox, UiTab, UiArea, DrawBrush, BrushGradientStop, UiDrawPath,
-				  DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent, UiAreaMouseEvent,
-				  UiFontButton, FontDescriptor, FontAttribute, DrawTextLayout);
+applySetterGetter(
+	UiTableModel, UiTable, UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid,
+	UiMenuItem, UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
+	UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry,
+	UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox,
+	UiColorButton, UiCheckbox, UiWindow, UiButton, UiLabel, UiForm, UiSlider,
+	UiMultilineEntry, UiHorizontalBox, UiVerticalBox, UiTab, UiArea, DrawBrush,
+	BrushGradientStop, UiDrawPath, DrawStrokeParams, UiDrawMatrix, UiAreaKeyEvent,
+	UiAreaMouseEvent, UiFontButton, FontDescriptor, FontAttribute, DrawTextLayout);
 applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
 Object.assign(libui, {
+	UiTableModel,
+	UiTable,
 	UiFontButton,
 	FontDescriptor,
 	FontAttribute,
