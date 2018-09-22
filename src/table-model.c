@@ -31,7 +31,7 @@ static napi_value run_handler_fn(struct binding_handler *bh, int argc, napi_valu
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
 
-	LIBUI_NODE_DEBUG("Calling numColumns method");
+	LIBUI_NODE_DEBUG("Calling model handler method");
 
 	napi_value result;
 	status = napi_make_callback(env, bh->context, resource_object, fn, argc, argv, &result);
@@ -57,11 +57,12 @@ static int c_numColumns(uiTableModelHandler *mh, uiTableModel *m) {
 	struct binding_handler *bh = (struct binding_handler *)mh;
 
 	napi_value result = run_handler_fn(bh, 0, NULL);
-	napi_env env = bh->env;
 
 	if (result == NULL) {
 		return 0;
 	}
+
+	napi_env env = bh->env;
 
 	int32_t int_result;
 	napi_status status = napi_get_value_int32(env, result, &int_result);
