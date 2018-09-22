@@ -17,7 +17,7 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 		return 3;
 	},
 	columnType(column) {
-		if (column == 3 || column == 4 || column == 41 || column == 6)
+		if (column == 3 || column == 4 || column == 41 || column == 6 || column == 50)
 			return 2;
 		return 0;
 	},
@@ -47,6 +47,10 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 			}
 			case 5: {
 				return 'show details';
+			}
+			case 50: {
+				return dependencies[row].version.split('.').map(Number).reduce((a, b) =>
+																				   a + b);
 			}
 			case 6: {
 				return 1;
@@ -91,6 +95,7 @@ tb.appendTextColumn('author', 2, 41, null);
 tb.appendCheckboxColumn('semver', 4, 41);
 tb.appendCheckboxTextColumn('version+semver', 4, 41, 1, 3, null);
 tb.appendButtonColumn('details', 5, 6);
+tb.appendProgressBarColumn('sum version', 50, 6);
 
 const vbox = new libui.UiVerticalBox();
 vbox.append(tb, true);
