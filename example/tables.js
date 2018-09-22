@@ -17,7 +17,7 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 		return 3;
 	},
 	columnType(column) {
-		if (column == 3 || column == 4 || column == 6)
+		if (column == 3 || column == 4 || column == 41 || column == 6)
 			return 2;
 		return 0;
 	},
@@ -25,6 +25,7 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 		return dependencies.length;
 	},
 	cellValue(row, column) {
+		console.log('cellValue', (row, column))
 		switch (column) {
 			case 0: {
 				return dependencies[row].name;
@@ -39,6 +40,9 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 				return 0;
 			}
 			case 4: {
+				return Number(!dependencies[row].version.startsWith('0'));
+			}
+			case 41: {
 				return 1;
 			}
 			case 5: {
@@ -64,6 +68,14 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 				dependencies[row].author = value;
 				break;
 			}
+			case 4: {
+				if (value) {
+					dependencies[row].version = '1' + dependencies[row].version.slice(1);
+				} else {
+					dependencies[row].version = '0' + dependencies[row].version.slice(1);
+				}
+				break;
+			}
 			case 5: {
 				libui.UiDialogs.msgBox(win, 'Row details',
 									   JSON.stringify(dependencies[row], null, 4));
@@ -75,7 +87,9 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 
 tb.appendTextColumn('name', 0, 3, null);
 tb.appendTextColumn('version', 1, 3, null);
-tb.appendTextColumn('author', 2, 4, null);
+tb.appendTextColumn('author', 2, 41, null);
+tb.appendCheckboxColumn('semver', 4, 41);
+tb.appendCheckboxTextColumn('version+semver', 4, 41, 1, 3, null);
 tb.appendButtonColumn('details', 5, 6);
 
 const vbox = new libui.UiVerticalBox();
