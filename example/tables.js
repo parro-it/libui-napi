@@ -15,6 +15,9 @@ const {ValueTypes} = libui.UiTableModel;
 
 console.log(ValueTypes.String)
 console.log(ValueTypes.Int)
+const img = new libui.UiImage(200, 216);
+const buffer = Buffer.alloc(200 * 216 * 4);
+img.append(buffer, 200, 216, 200 * 4);
 
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
@@ -23,6 +26,8 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 	columnType(column) {
 		if (column == 3 || column == 4 || column == 41 || column == 6)
 			return ValueTypes.Int;
+		if (column == 7)
+			return ValueTypes.Image;
 		return ValueTypes.String;
 	},
 	numRows() {
@@ -54,6 +59,9 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 			}
 			case 6: {
 				return 1;
+			}
+			case 7: {
+				return img;
 			}
 		}
 	},
@@ -95,6 +103,7 @@ tb.appendTextColumn('author', 2, 41, null);
 tb.appendCheckboxColumn('semver', 4, 41);
 tb.appendCheckboxTextColumn('version+semver', 4, 41, 1, 3, null);
 tb.appendButtonColumn('details', 5, 6);
+tb.appendImageColumn('img', 7);
 
 const vbox = new libui.UiVerticalBox();
 vbox.append(tb, true);

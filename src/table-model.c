@@ -165,13 +165,20 @@ static uiTableValue *c_cellValue(uiTableModelHandler *mh, uiTableModel *m, int r
 		break;
 	}
 	case uiTableValueTypeImage: {
-		ret = NULL;
+		napi_value image_ext;
+		napi_status status = napi_get_named_property(env, result, "_img", &image_ext);
+		CHECK_STATUS_UNCAUGHT(status, napi_get_named_property, NULL);
+		
+		uiImage *img;
+		status = napi_get_value_external(env, image_ext, (void **)&img);
+		CHECK_STATUS_UNCAUGHT(status, napi_get_value_external, NULL);
+		ret = uiNewTableValueImage(img);
 		break;
 	}
 	case uiTableValueTypeInt: {
 		int32_t int_result;
 		napi_status status = napi_get_value_int32(env, result, &int_result);
-		CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, 0);
+		CHECK_STATUS_UNCAUGHT(status, napi_get_value_int32, NULL);
 		ret = uiNewTableValueInt(int_result);
 		break;
 	}
@@ -223,7 +230,6 @@ static void c_setCellValue(uiTableModelHandler *mh, uiTableModel *m, int row, in
 	case uiTableValueTypeString: {
 
 		const char *cell_value = uiTableValueString(value);
-
 		ret = make_utf8_string(env, cell_value);
 		// free(cell_value);
 		break;
