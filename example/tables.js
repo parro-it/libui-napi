@@ -7,14 +7,11 @@ const addTo = (path, {name, version, author}) => {
 };
 wd(process.cwd(), false, addTo);
 
-// console.log(JSON.stringify(dependencies, null, 4));
 
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
 const {ValueTypes} = libui.UiTableModel;
 
-console.log(ValueTypes.String)
-console.log(ValueTypes.Int)
 let img;
 
 
@@ -34,7 +31,6 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 		return dependencies.length;
 	},
 	cellValue(row, column) {
-		console.log('cellValue', (row, column))
 		switch (column) {
 			case 0: {
 				return dependencies[row].name;
@@ -66,7 +62,6 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 		}
 	},
 	setCellValue(row, column, value) {
-		console.log(row, column, value)
 		switch (column) {
 			case 0: {
 				dependencies[row].name = value;
@@ -114,11 +109,12 @@ win.onClosing(() => {
 	libui.stopLoop();
 });
 
-
-
-libui.UiImage.loadFromPng(__dirname + '/lightning-orb.png').then(image => {
-	img = image
+async function run() {
+	img = await libui.UiImage.loadFromPng(__dirname + '/lightning-orb.png');
 	win.show();	
-}).catch(err => console.error(err));
+	libui.startLoop();
+}
 
-libui.startLoop();
+
+run().catch(err => console.error(err));
+
