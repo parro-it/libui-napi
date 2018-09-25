@@ -11,6 +11,10 @@ wd(process.cwd(), false, addTo);
 
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
+const {ValueTypes} = libui.UiTableModel;
+
+console.log(ValueTypes.String)
+console.log(ValueTypes.Int)
 
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
@@ -18,8 +22,8 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 	},
 	columnType(column) {
 		if (column == 3 || column == 4 || column == 41 || column == 6)
-			return 2;
-		return 0;
+			return ValueTypes.Int;
+		return ValueTypes.String;
 	},
 	numRows() {
 		return dependencies.length;
