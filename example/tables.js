@@ -15,9 +15,9 @@ const {ValueTypes} = libui.UiTableModel;
 
 console.log(ValueTypes.String)
 console.log(ValueTypes.Int)
-const img = new libui.UiImage(200, 216);
-const buffer = Buffer.alloc(200 * 216 * 4);
-img.append(buffer, 200, 216, 200 * 4);
+let img;
+
+
 
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
@@ -114,6 +114,11 @@ win.onClosing(() => {
 	libui.stopLoop();
 });
 
-win.show();
+
+
+libui.UiImage.loadFromPng(__dirname + '/lightning-orb.png').then(image => {
+	img = image
+	win.show();	
+}).catch(err => console.error(err));
 
 libui.startLoop();
