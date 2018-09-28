@@ -25,11 +25,6 @@ class UiTableModel {
 	}
 }
 
-UiTableModel.ValueTypes = {
-	String: 0,
-	Image: 1,
-	Int: 2,
-	Color: 3
-};
+
 
 module.exports = {UiTableModel};

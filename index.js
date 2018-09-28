@@ -83,7 +83,10 @@ const {AttributedString} = require('./js/font-string');
 const {OpenTypeFeatures} = require('./js/font-opentype');
 const {UiTableModel} = require('./js/table-model');
 const {UiImage} = require('./js/image');
+const fromMetadata = require('./js/table-model-from-metadata');
 
+UiTableModel.fromMetadata = fromMetadata;
+UiTableModel.ValueTypes = fromMetadata.ValueTypes;
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
