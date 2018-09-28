@@ -42,7 +42,7 @@ module.exports = function(project) {
 		buildUrl(opts, filename) {
 			var url = process.env[`NPM_CONFIG_${PROJECT}_MIRROR`] ||
 					  process.env[`${PROJECT}_MIRROR`] || opts.mirror ||
-					  `https://github.com/parro-it/${project}/releases/download/`;
+					  `https://github.com/andlabs/${project}/releases/download/`;
 
 			url += process.env[`${PROJECT}_CUSTOM_DIR`] || opts.customDir || opts.version;
 			url += '/';

@@ -4,31 +4,38 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const _debug = require('debug');
 const tar = require('tar');
+const unzipExtract = require('extract-zip');
+
 const {mkCacheDir, cacheDir, buildUrl, requestHttps, doDownload} =
 	require('./lib')('libui');
 
 const debug = _debug('libui-download');
 
 function nodePlatformToOS(arch) {
+
 	switch (arch) {
-		case 'darwin':
-			return 'osx';
 		case 'win32':
 			return 'windows';
-		case 'linux':
-			return 'linux';
 		default:
-			throw new Error('Unknown platform ' + arch);
+			return arch;
 	}
 }
 
 function download(opts) {
 	const platform = nodePlatformToOS(opts.platform || os.platform());
-	const arch = opts.arch || os.arch();
+	let arch = opts.arch || os.arch();
+	if (arch === 'x64') {
+		arch = 'amd64';
+	}
+
+	if (arch === 'ia32') {
+		arch = '386';
+	}
+
 	const version = opts.version;
 	const symbols = opts.symbols || false;
-	const filename = 'libui-shared-' + platform + '-' + arch + '-' + version +
-					 (symbols ? '-symbols' : '') + '.tar.gz';
+	const filename = 'libui-' + version + '-' + platform + '-' + arch + '-shared' +
+		(platform === 'windows' ? '.zip' : '.tgz');
 
 	if (!version) {
 		throw new Error('must specify needed version of libui in package.json');
@@ -78,7 +85,17 @@ function download(opts) {
 function main() {
 	return download({version: process.env.npm_package_libui}).then(zipPath => {
 		console.log('Downloaded zip:', zipPath);
-		tar.extract({file: zipPath, sync: true});
+		if (os.platform() === 'win32') {
+			return new Promise((resolve, reject) => unzipExtract(zipPath, {dir: process.cwd()}, err => {
+				if (err) {
+					return reject(err);
+				}
+				resolve();
+				console.log('Libui binaries extracted to:', process.cwd());
+			}));
+		} else {
+			tar.extract({file: zipPath, sync: true});
+		}
 		console.log('Libui binaries extracted to:', process.cwd());
 	});
 }
