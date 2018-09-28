@@ -11,6 +11,38 @@ const ValueTypes = {
 	Color: 3
 };
 
+const Text = {
+	getter: ({key}) => (data, row) => data[row][key],
+	setter: ({key}) => (data, row, value) => data[row][key] = value,
+	cellType: () => ValueTypes.String,
+	adder: (column) => tb => tb.appendTextColumn(column.header, column.idx, column.idx + 1, null)
+};
+
+const Image = {
+	getter: ({value}) => {
+		if (value instanceof UiImage) {
+			return always(column.value);
+		};
+
+		if (typeof value === 'function') {
+			return value;
+		} 
+		
+		return (data, row) => data[row][key];
+		
+	},
+	setter: () => noop,
+	cellType: () => ValueTypes.Image,
+	adder: (column) => tb => tb.appendImageColumn(column.header, column.idx)
+};
+
+const Bool = {
+	getter: ({key}) => (data, row) => Number(data[row][key]),
+	setter: ({key}) => (data, row, value) => data[row][key] = Boolean(value),
+	cellType: () => ValueTypes.Int,
+	adder: (column) => tb => tb.appendCheckboxColumn(column.header, column.idx, column.idx + 1)
+};
+
 function fromMetadata(model) {
 	const numColumns = Object.keys(model).length;
 	const columnTypes = [];
@@ -19,41 +51,17 @@ function fromMetadata(model) {
 
 	for (const [key, column] of Object.entries(model)) {
 		const idx = columnTypes.length;
-		
-		if (column.type === String) {
-			columnTypes[idx] = ValueTypes.String;
-			cellGetters[idx] = (data, row) => {
-				debugger
-				return data[row][key]
-			};
-			cellSetters[idx] = (data, row, value) => {
-				debugger
-				data[row][key] = value
-			};
-			column.adder = tb => tb.appendTextColumn(column.header, idx, idx + 1, null);
+		column.key = key;
+		column.idx = idx;
 
-		} else if (column.type === 'Image') {
-			columnTypes[idx] = ValueTypes.Image;
-			debugger
-			if (column.value instanceof UiImage) {
-				cellGetters[idx] = () => {
-					debugger
-					return column.value;
-				};
-			} else if (typeof column.value === 'function') {
-				cellGetters[idx] = column.value;
-			} else {
-				cellGetters[idx] = (data, row) => data[row][key];
-			}
-			column.adder = tb => tb.appendImageColumn(column.header, idx);
-
-			cellSetters[idx] = noop;
-		} 
+		columnTypes[idx] = column.type.cellType(column);
+		cellGetters[idx] = column.type.getter(column);
+		cellSetters[idx] = column.type.setter(column);
+		column.adder = column.type.adder(column);
 		
 		if (typeof column.editable === 'function') {
 			columnTypes[idx + 1] = ValueTypes.Int;
 			cellGetters[idx + 1] = (data, row) => column.editable(data[row]);
-			
 		} else {
 			columnTypes[idx + 1] = ValueTypes.Int;
 			cellGetters[idx + 1] = always(Number(Boolean(column.editable)));
@@ -94,4 +102,10 @@ function fromMetadata(model) {
 }
 
 fromMetadata.ValueTypes = ValueTypes;
+fromMetadata.Fields = {
+	Text,
+	Image,
+	Bool
+};
+
 module.exports = fromMetadata;

@@ -87,6 +87,7 @@ const fromMetadata = require('./js/table-model-from-metadata');
 
 UiTableModel.fromMetadata = fromMetadata;
 UiTableModel.ValueTypes = fromMetadata.ValueTypes;
+UiTableModel.Fields = fromMetadata.Fields;
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {

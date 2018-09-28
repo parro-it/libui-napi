@@ -11,19 +11,27 @@ wd(process.cwd(), false, addTo);
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
 
+const {Text, Image, Bool} = libui.UiTableModel.Fields;
+
+
 
 
 const model =  libui.UiTableModel.fromMetadata({
 	name: {
-		type: String,
+		type: Text,
 		editable: true,
 		header: 'Name'
 	},
 	surname: {
-		type: String
+		type: Text
+	},
+	male: {
+		type: Bool,
+		editable: true,
+		header: 'Is a male?'
 	},
 	picture: {
-		type: 'Image',
+		type: Image,
 		value: () => {
 			debugger
 			return img
@@ -32,15 +40,17 @@ const model =  libui.UiTableModel.fromMetadata({
 });
 const data = [{
 	name: 'Andrea',
-	surname: 'Parodi'
+	surname: 'Parodi',
+	male: true
 }, {
-	name: 'Giorgio',
-	surname: 'Parodi'
+	name: 'Giorgia',
+	surname: 'Parodi',
+	male: false
 }];
 
 
 const tb = new libui.UiTable(model.bind(data));
-model.addColumns(tb, 'name', 'surname', 'picture');
+model.addColumns(tb, 'name', 'surname', 'picture', 'male');
 /*
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
