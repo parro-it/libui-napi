@@ -150,7 +150,6 @@ LIBUI_FUNCTION(appendButtonColumn) {
 
 	ENSURE_NOT_DESTROYED();
 
-	printf("appendButtonColumn %s: %d %d", name, buttonModelColumn, buttonClickableModelColumn);
 	uiTableAppendButtonColumn(uiTable(handle->control), name, buttonModelColumn,
 							  buttonClickableModelColumn);
 	free(name);

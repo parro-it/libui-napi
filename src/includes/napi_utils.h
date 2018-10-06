@@ -59,6 +59,22 @@
 		}                                                                                          \
 	}
 
+#define ARG_BUFFER(ARG_NAME, ARG_IDX)                                                              \
+	void *ARG_NAME##__ptr;                                                                         \
+	size_t ARG_NAME##__len;                                                                        \
+	{                                                                                              \
+		napi_status status =                                                                       \
+			napi_get_buffer_info(env, argv[ARG_IDX], &ARG_NAME##__ptr, &ARG_NAME##__len);          \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_DOUBLE(ARG_NAME, ARG_IDX)                                                              \
 	double ARG_NAME;                                                                               \
 	{                                                                                              \

@@ -82,6 +82,12 @@ const {FontAttribute} = require('./js/font-attribute');
 const {AttributedString} = require('./js/font-string');
 const {OpenTypeFeatures} = require('./js/font-opentype');
 const {UiTableModel} = require('./js/table-model');
+const {UiImage} = require('./js/image');
+const fromMetadata = require('./js/table-model-from-metadata');
+
+UiTableModel.fromMetadata = fromMetadata;
+UiTableModel.ValueTypes = fromMetadata.ValueTypes;
+UiTableModel.Fields = fromMetadata.Fields;
 
 function applySetterGetter(...classConstructors) {
 	for (const classConstructor of classConstructors) {
@@ -148,7 +154,7 @@ function applySetterGetterAll(doSetter, ...classConstructors) {
 
 // Takes about 3.5ms:
 applySetterGetter(
-	UiTableModel, UiTable, UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid,
+	UiImage, UiTableModel, UiTable, UiEntryBase, UiBox, SeparatorBase, UiControl, UiGrid,
 	UiMenuItem, UiMenu, UiSpinbox, UiHorizontalSeparator, UiVerticalSeparator,
 	UiRadioButtons, UiProgressBar, UiGroup, UiEntry, UiPasswordEntry, UiSearchEntry,
 	UiEditableCombobox, UiTimePicker, UiDatePicker, UiDateTimePicker, UiCombobox,
@@ -160,6 +166,7 @@ applySetterGetterAll(true, Point, Color, Size);
 applySetterGetterAll(false, AreaDrawParams, UiAreaMouseEvent, UiAreaKeyEvent);
 
 Object.assign(libui, {
+	UiImage,
 	UiTableModel,
 	UiTable,
 	UiFontButton,

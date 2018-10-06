@@ -7,25 +7,47 @@ const addTo = (path, {name, version, author}) => {
 };
 wd(process.cwd(), false, addTo);
 
-// console.log(JSON.stringify(dependencies, null, 4));
-
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
 
+const {Text, Image, Bool} = libui.UiTableModel.Fields;
+
+const model = libui.UiTableModel.fromMetadata({
+	name: {type: Text, editable: true, header: 'Name'},
+	surname: {type: Text},
+	male: {type: Bool, editable: true, header: 'Is a male?'},
+	picture: {
+		type: Image,
+		value: () => {
+			debugger
+			return img
+		}
+	}
+});
+const data = [
+	{name: 'Andrea', surname: 'Parodi', male: true},
+	{name: 'Giorgia', surname: 'Parodi', male: false}
+];
+
+const tb = new libui.UiTable(model.bind(data));
+model.addColumns(tb, 'name', 'surname', 'picture', 'male');
+/*
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
 		return 3;
 	},
 	columnType(column) {
-		if (column == 3 || column == 4 || column == 41 || column == 6 || column == 50)
-			return 2;
-		return 0;
+
+		if (column == 3 || column == 4 || column == 41 || column == 6)
+			return ValueTypes.Int;
+		if (column == 7)
+			return ValueTypes.Image;
+		return ValueTypes.String;
 	},
 	numRows() {
 		return dependencies.length;
 	},
 	cellValue(row, column) {
-		console.log('cellValue', (row, column))
 		switch (column) {
 			case 0: {
 				return dependencies[row].name;
@@ -55,10 +77,12 @@ const tb = new libui.UiTable(new libui.UiTableModel({
 			case 6: {
 				return 1;
 			}
+			case 7: {
+				return img;
+			}
 		}
 	},
 	setCellValue(row, column, value) {
-		console.log(row, column, value)
 		switch (column) {
 			case 0: {
 				dependencies[row].name = value;
@@ -96,7 +120,8 @@ tb.appendCheckboxColumn('semver', 4, 41);
 tb.appendCheckboxTextColumn('version+semver', 4, 41, 1, 3, null);
 tb.appendButtonColumn('details', 5, 6);
 tb.appendProgressBarColumn('sum version', 50, 6);
-
+tb.appendImageColumn('img', 7);
+*/
 const vbox = new libui.UiVerticalBox();
 vbox.append(tb, true);
 win.setChild(vbox);
@@ -106,6 +131,11 @@ win.onClosing(() => {
 	libui.stopLoop();
 });
 
-win.show();
+let img = null;
+async function run() {
+	img = await libui.UiImage.loadFromPng(__dirname + '/lightning-orb.png');
+	win.show();
+	libui.startLoop();
+}
 
-libui.startLoop();
+run().catch(err => console.error(err));
