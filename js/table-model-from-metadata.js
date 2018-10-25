@@ -36,7 +36,7 @@ const Image = {
 	adder: (column) => tb => tb.appendImageColumn(column.header, column.idx)
 };
 
-const Bool = {
+const Checkbox = {
 	getter: ({key}) => (data, row) => Number(data[row][key]),
 	setter: ({key}) => (data, row, value) => data[row][key] = Boolean(value),
 	cellType: () => ValueTypes.Int,
@@ -78,7 +78,8 @@ function fromMetadata(model) {
 		fields: model,
 		addColumns(tb, ...columnNames) {
 			for (const columnName of columnNames) {
-				debugger this.fields[columnName].adder(tb);
+				debugger;
+				this.fields[columnName].adder(tb);
 			}
 		},
 		bind(data) {
@@ -103,7 +104,7 @@ fromMetadata.ValueTypes = ValueTypes;
 fromMetadata.Fields = {
 	Text,
 	Image,
-	Bool
+	Checkbox
 };
 
 module.exports = fromMetadata;

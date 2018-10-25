@@ -10,12 +10,12 @@ wd(process.cwd(), false, addTo);
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
 
-const {Text, Image, Bool} = libui.UiTableModel.Fields;
+const {Text, Image, Checkbox} = libui.UiTableModel.Fields;
 
 const model = libui.UiTableModel.fromMetadata({
 	name: {type: Text, editable: true, header: 'Name'},
 	surname: {type: Text},
-	male: {type: Bool, editable: true, header: 'Is a male?'},
+	male: {type: Checkbox, editable: true, header: 'Is a male?'},
 	picture: {
 		type: Image,
 		value: () => {
