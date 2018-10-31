@@ -35,7 +35,7 @@ function download(opts) {
 	const version = opts.version;
 	const symbols = opts.symbols || false;
 	const filename = 'libui-' + version + '-' + platform + '-' + arch + '-shared' +
-		(platform === 'windows' ? '.zip' : '.tgz');
+					 (platform === 'windows' ? '.zip' : '.tgz');
 
 	if (!version) {
 		throw new Error('must specify needed version of libui in package.json');
@@ -86,13 +86,14 @@ function main() {
 	return download({version: process.env.npm_package_libui}).then(zipPath => {
 		console.log('Downloaded zip:', zipPath);
 		if (os.platform() === 'win32') {
-			return new Promise((resolve, reject) => unzipExtract(zipPath, {dir: process.cwd()}, err => {
-				if (err) {
-					return reject(err);
-				}
-				resolve();
-				console.log('Libui binaries extracted to:', process.cwd());
-			}));
+			return new Promise(
+				(resolve, reject) => unzipExtract(zipPath, {dir: process.cwd()}, err => {
+					if (err) {
+						return reject(err);
+					}
+					resolve();
+					console.log('Libui binaries extracted to:', process.cwd());
+				}));
 		} else {
 			tar.extract({file: zipPath, sync: true});
 		}
