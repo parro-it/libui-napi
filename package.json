@@ -49,8 +49,8 @@
     "now": "^11.1.11",
     "p-map": "^1.2.0",
     "rimraf": "^2.6.2",
-    "screenshot-tester": "^0.2.0",
-    "tap-spec": "^4.1.2",
+    "screenshot-tester": "^0.3.0",
+    "tap-spec": "^5.0.0",
     "tape": "^4.9.0",
     "tape-async": "^2.3.0",
     "to-dot-case": "^1.0.0"
