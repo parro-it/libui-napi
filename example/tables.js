@@ -16,14 +16,9 @@ const model = libui.UiTableModel.fromMetadata({
 	name: {type: Text, editable: true, header: 'Name'},
 	surname: {type: Text},
 	male: {type: Checkbox, editable: true, header: 'Is a male?'},
-	picture: {
-		type: Image,
-		value: () => {
-			debugger
-			return img
-		}
-	}
+	picture: {type: Image, value: () => img}
 });
+
 const data = [
 	{name: 'Andrea', surname: 'Parodi', male: true},
 	{name: 'Giorgia', surname: 'Parodi', male: false}
