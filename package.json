@@ -52,7 +52,6 @@
     "screenshot-tester": "^0.3.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.0",
-    "tape-async": "^2.3.0",
     "to-dot-case": "^1.0.0"
   },
   "files": [
