@@ -36,7 +36,7 @@ function download(opts) {
 	const filename = `${version}-${platform}-${arch}.tar.gz`;
 
 	const url = buildUrl(opts, filename);
-	const cache = cacheDir(opts.cache);
+	const cache = cacheDir(opts);
 	const actualCache = mkCacheDir(cache);
 
 	debug('info', {cache: cache, filename: filename, url: url});
@@ -78,7 +78,7 @@ function download(opts) {
 			return resRedirect;
 		})
 		.then(resRedirect => requestHttps(resRedirect.headers.location))
-		.then(res => doDownload(res, url, target, cachedZip))
+		.then(res => doDownload(res, url, target, cachedZip));
 }
 
 function main() {

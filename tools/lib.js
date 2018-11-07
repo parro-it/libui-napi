@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const mv = require('mv');
 const https = require('https');
-const homePath = require('home-path');
+const cachedir = require('cachedir');
 const mkdirp = require('mkdirp');
 
 const debug = require('debug')('libui-download');
@@ -35,9 +35,7 @@ module.exports = function(project) {
 			}
 		},
 		cacheDir(opts) {
-			opts = opts || {};
-			var homeDir = homePath();
-			return opts.cache || path.join(homeDir, './.' + project);
+			return opts.cache || cachedir(project);
 		},
 		buildUrl(opts, filename) {
 			var url = process.env[`NPM_CONFIG_${PROJECT}_MIRROR`] ||
