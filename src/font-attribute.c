@@ -95,11 +95,7 @@ LIBUI_FUNCTION(getUnderlineColor) {
 
 	napi_value obj;
 
-	napi_handle_scope scope;
-	napi_status status = napi_open_handle_scope(env, &scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	status = napi_create_object(env, &obj);
+	napi_status status = napi_create_object(env, &obj);
 	CHECK_STATUS_THROW(status, napi_create_object);
 
 	status = napi_set_named_property(env, obj, "color", make_color(env, r, g, b, a));
@@ -107,9 +103,6 @@ LIBUI_FUNCTION(getUnderlineColor) {
 
 	status = napi_set_named_property(env, obj, "type", make_int32(env, type));
 	CHECK_STATUS_THROW(status, napi_set_named_property);
-
-	status = napi_close_handle_scope(env, scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
 
 	return obj;
 }

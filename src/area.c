@@ -103,7 +103,7 @@ static void event_draw_cb(uiAreaHandler *h, uiArea *a, uiAreaDrawParams *p) {
 	napi_value event_args[1];
 	event_args[0] = create_draw_params(env, p);
 
-	fire_event_args(handle->events->head->event, 1, event_args);
+	fire_event_args_unscoped(handle->events->head->event, 1, event_args);
 
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
@@ -125,7 +125,7 @@ static void event_mouse_cb(uiAreaHandler *h, uiArea *a, uiAreaMouseEvent *e) {
 	napi_value event_args[1];
 	event_args[0] = create_mouse_event(env, e);
 
-	fire_event_args(handle->events->head->DUP(1, next->) event, 1, event_args);
+	fire_event_args_unscoped(handle->events->head->DUP(1, next->) event, 1, event_args);
 
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, /*void*/);
@@ -164,7 +164,8 @@ static int event_key_cb(uiAreaHandler *h, uiArea *a, uiAreaKeyEvent *e) {
 	event_args[0] = create_key_event(env, e);
 
 	bool v_i;
-	napi_value v = fire_event_args(handle->events->head->DUP(4, next->) event, 1, event_args);
+	napi_value v =
+		fire_event_args_unscoped(handle->events->head->DUP(4, next->) event, 1, event_args);
 
 	status = napi_coerce_to_bool(env, v, &v);
 	CHECK_STATUS_UNCAUGHT(status, napi_coerce_to_bool, 0);

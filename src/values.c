@@ -7,11 +7,7 @@ extern napi_ref Color, Point, Size;
 napi_value make_size_int(napi_env env, int width, int height) {
 	napi_value size, constructor;
 
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	status = napi_get_reference_value(env, Size, &constructor);
+	napi_status status = napi_get_reference_value(env, Size, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	napi_value args[2] = {make_int32(env, width), make_int32(env, height)};
@@ -19,20 +15,13 @@ napi_value make_size_int(napi_env env, int width, int height) {
 	status = napi_new_instance(env, constructor, 2, args, &size);
 	CHECK_STATUS_THROW(status, napi_new_instance);
 
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
 	return size;
 }
 
 napi_value make_size_double(napi_env env, double width, double height) {
 	napi_value size, constructor;
 
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	status = napi_get_reference_value(env, Size, &constructor);
+	napi_status status = napi_get_reference_value(env, Size, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	napi_value args[2] = {make_double(env, width), make_double(env, height)};
@@ -40,20 +29,13 @@ napi_value make_size_double(napi_env env, double width, double height) {
 	status = napi_new_instance(env, constructor, 2, args, &size);
 	CHECK_STATUS_THROW(status, napi_new_instance);
 
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
 	return size;
 }
 
 napi_value make_point(napi_env env, double x, double y) {
 	napi_value point, constructor;
 
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	status = napi_get_reference_value(env, Point, &constructor);
+	napi_status status = napi_get_reference_value(env, Point, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	napi_value args[2] = {make_double(env, x), make_double(env, y)};
@@ -61,20 +43,13 @@ napi_value make_point(napi_env env, double x, double y) {
 	status = napi_new_instance(env, constructor, 2, args, &point);
 	CHECK_STATUS_THROW(status, napi_new_instance);
 
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
-
 	return point;
 }
 
 napi_value make_color(napi_env env, double r, double g, double b, double a) {
 	napi_value color, constructor;
 
-	napi_handle_scope handle_scope;
-	napi_status status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_THROW(status, napi_open_handle_scope);
-
-	status = napi_get_reference_value(env, Color, &constructor);
+	napi_status status = napi_get_reference_value(env, Color, &constructor);
 	CHECK_STATUS_THROW(status, napi_get_reference_value);
 
 	napi_value args[4] = {make_double(env, r), make_double(env, g), make_double(env, b),
@@ -82,9 +57,6 @@ napi_value make_color(napi_env env, double r, double g, double b, double a) {
 
 	status = napi_new_instance(env, constructor, 4, args, &color);
 	CHECK_STATUS_THROW(status, napi_new_instance);
-
-	status = napi_close_handle_scope(env, handle_scope);
-	CHECK_STATUS_THROW(status, napi_close_handle_scope);
 
 	return color;
 }

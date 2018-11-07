@@ -65,6 +65,10 @@ function handlerDraw(area, p) {
 
 function noop() {}
 
+function onKey() {
+	console.log(arguments);
+}
+
 function main() {
 	const mainwin = new libui.UiWindow('Area Advanced', 400, 400, 1);
 	mainwin.margined = true;
@@ -73,11 +77,10 @@ function main() {
 		libui.stopLoop();
 	});
 
-	const textDrawArea = new libui.UiArea(handlerDraw, noop, noop, noop, noop);
+	const textDrawArea = new libui.UiArea(handlerDraw, noop, noop, noop, onKey);
 	const wrapper = new libui.UiVerticalBox();
 	wrapper.append(textDrawArea, true);
 	mainwin.setChild(wrapper);
-
 	mainwin.show();
 
 	libui.startLoop();

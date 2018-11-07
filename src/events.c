@@ -4,7 +4,7 @@
 static const char *MODULE = "EventsInternal";
 #endif
 
-napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
+napi_value fire_event_args_unscoped(struct event_t *event, int argc, napi_value *argv) {
 	if (event->is_empty) {
 		return NULL;
 	}
@@ -12,18 +12,10 @@ napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
 	napi_status status;
 	napi_env env = event->env;
 
-	napi_handle_scope handle_scope;
-	status = napi_open_handle_scope(env, &handle_scope);
-	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
-
 	napi_value resource_object;
 	status = napi_create_object(env, &resource_object);
 	CHECK_STATUS_UNCAUGHT(status, napi_create_object, NULL);
-	/*
-		napi_callback_scope scope;
-		status = napi_open_callback_scope(env, resource_object, event->context, &scope);
-		CHECK_STATUS_UNCAUGHT(status, napi_open_callback_scope, NULL);
-	*/
+
 	napi_value cb;
 	status = napi_get_reference_value(env, event->cb_ref, &cb);
 	CHECK_STATUS_UNCAUGHT(status, napi_get_reference_value, NULL);
@@ -41,14 +33,22 @@ napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
 	}
 
 	CHECK_STATUS_UNCAUGHT(status, napi_make_callback, NULL);
-	/*
-		status = napi_close_callback_scope(env, scope);
-		CHECK_STATUS_UNCAUGHT(status, napi_close_callback_scope, NULL);
-	*/
+
+	return result;
+}
+
+napi_value fire_event_args(struct event_t *event, int argc, napi_value *argv) {
+	napi_status status;
+	napi_env env = event->env;
+
+	napi_handle_scope handle_scope;
+	status = napi_open_handle_scope(env, &handle_scope);
+	CHECK_STATUS_UNCAUGHT(status, napi_open_handle_scope, NULL);
+
+	napi_value result = fire_event_args_unscoped(event, argc, argv);
+
 	status = napi_close_handle_scope(env, handle_scope);
 	CHECK_STATUS_UNCAUGHT(status, napi_close_handle_scope, NULL);
-
-	LIBUI_NODE_DEBUG("Fired event");
 
 	return result;
 }

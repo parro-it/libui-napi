@@ -12,7 +12,6 @@ const {mkCacheDir, cacheDir, buildUrl, requestHttps, doDownload} =
 const debug = _debug('libui-download');
 
 function nodePlatformToOS(arch) {
-
 	switch (arch) {
 		case 'win32':
 			return 'windows';
@@ -41,7 +40,7 @@ function download(opts) {
 		throw new Error('must specify needed version of libui in package.json');
 	}
 	const url = buildUrl(opts, filename);
-	const cache = cacheDir(opts.cache);
+	const cache = cacheDir(opts);
 	const actualCache = mkCacheDir(cache);
 
 	debug('info', {cache: cache, filename: filename, url: url});
@@ -79,7 +78,7 @@ function download(opts) {
 			return resRedirect;
 		})
 		.then(resRedirect => requestHttps(resRedirect.headers.location))
-		.then(res => doDownload(res, url, target, cachedZip))
+		.then(res => doDownload(res, url, target, cachedZip));
 }
 
 function main() {
