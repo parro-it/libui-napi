@@ -27,8 +27,7 @@ os:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update         ; fi
-  # uninstalling oclint beacuse of https://github.com/travis-ci/travis-ci/issues/8826
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask uninstall oclint && brew upgrade python ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew upgrade python ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip3 install click pyobjc-framework-Quartz; fi
 
 install:
