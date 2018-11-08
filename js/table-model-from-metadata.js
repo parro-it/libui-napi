@@ -57,11 +57,42 @@ const LabeledCheckbox = {
 	}
 };
 
+const LabeledImage = {
+	getter: ({value}) => {
+		if (value instanceof UiImage) {
+			return always(column.value);
+		}
+
+		if (typeof value === 'function') {
+			return value;
+		}
+
+		return (data, row) => data[row][key];
+	},
+	setter: ({key}) => () => 0,
+	cellType: () => ValueTypes.Image,
+	adder: column => tb => {
+		const textModelColumn = -1;
+		const textEditableModelColumn = -1;
+
+		tb.appendImageTextColumn(column.header, column.idx, column.idx + 1,
+								 textModelColumn, textEditableModelColumn, null);
+	}
+};
+
 const ProgressBar = {
 	getter: ({key}) => (data, row) => Number(data[row][key]),
 	setter: ({key}) => (data, row, value) => (data[row][key] = Number(value)),
 	cellType: () => ValueTypes.Int,
 	adder: column => tb => tb.appendProgressBarColumn(column.header, column.idx)
+};
+
+const Button = {
+	getter: ({label}) => () => 1,
+	setter: ({key, click}) => (data, row) => click(data[row]),
+	cellType: () => ValueTypes.Int,
+	adder: column => tb =>
+		tb.appendButtonColumn(column.header, column.idx, column.idx + 1)
 };
 
 function fromMetadata(model) {
@@ -125,7 +156,9 @@ fromMetadata.Fields = {
 	Text,
 	Image,
 	Checkbox,
-	ProgressBar
+	ProgressBar,
+	LabeledCheckbox,
+	Button
 };
 
 module.exports = fromMetadata;
