@@ -13,9 +13,9 @@ const ValueTypes = {
 
 const Text = {
 	getter: ({key}) => (data, row) => data[row][key],
-	setter: ({key}) => (data, row, value) => data[row][key] = value,
+	setter: ({key}) => (data, row, value) => (data[row][key] = value),
 	cellType: () => ValueTypes.String,
-	adder: (column) => tb =>
+	adder: column => tb =>
 		tb.appendTextColumn(column.header, column.idx, column.idx + 1, null)
 };
 
@@ -23,7 +23,7 @@ const Image = {
 	getter: ({value}) => {
 		if (value instanceof UiImage) {
 			return always(column.value);
-		};
+		}
 
 		if (typeof value === 'function') {
 			return value;
@@ -33,15 +33,35 @@ const Image = {
 	},
 	setter: () => noop,
 	cellType: () => ValueTypes.Image,
-	adder: (column) => tb => tb.appendImageColumn(column.header, column.idx)
+	adder: column => tb => tb.appendImageColumn(column.header, column.idx)
 };
 
 const Checkbox = {
 	getter: ({key}) => (data, row) => Number(data[row][key]),
-	setter: ({key}) => (data, row, value) => data[row][key] = Boolean(value),
+	setter: ({key}) => (data, row, value) => (data[row][key] = Boolean(value)),
 	cellType: () => ValueTypes.Int,
-	adder: (column) => tb =>
+	adder: column => tb =>
 		tb.appendCheckboxColumn(column.header, column.idx, column.idx + 1)
+};
+
+const LabeledCheckbox = {
+	getter: ({key}) => (data, row) => Number(data[row][key]),
+	setter: ({key}) => (data, row, value) => (data[row][key] = Boolean(value)),
+	cellType: () => ValueTypes.Int,
+	adder: column => tb => {
+		const textModelColumn = -1;
+		const textEditableModelColumn = -1;
+
+		tb.appendCheckboxTextColumn(column.header, column.idx, column.idx + 1,
+									textModelColumn, textEditableModelColumn, null);
+	}
+};
+
+const ProgressBar = {
+	getter: ({key}) => (data, row) => Number(data[row][key]),
+	setter: ({key}) => (data, row, value) => (data[row][key] = Number(value)),
+	cellType: () => ValueTypes.Int,
+	adder: column => tb => tb.appendProgressBarColumn(column.header, column.idx)
 };
 
 function fromMetadata(model) {
@@ -88,9 +108,9 @@ function fromMetadata(model) {
 				columnType: column => columnTypes[column],
 				numRows: () => data.length,
 				cellValue: (row, column) => {
-					console.log({row, column})
-					const value = cellGetters[column](data, row)
-					console.log(value)
+					console.log({row, column});
+					const value = cellGetters[column](data, row);
+					console.log(value);
 					return value;
 				},
 				setCellValue: (row, column, value) =>
@@ -104,7 +124,8 @@ fromMetadata.ValueTypes = ValueTypes;
 fromMetadata.Fields = {
 	Text,
 	Image,
-	Checkbox
+	Checkbox,
+	ProgressBar
 };
 
 module.exports = fromMetadata;

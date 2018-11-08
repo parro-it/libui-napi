@@ -10,22 +10,23 @@ wd(process.cwd(), false, addTo);
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
 
-const {Text, Image, Checkbox} = libui.UiTableModel.Fields;
+const {Text, Image, Checkbox, ProgressBar} = libui.UiTableModel.Fields;
 
 const model = libui.UiTableModel.fromMetadata({
 	name: {type: Text, editable: true, header: 'Name'},
 	surname: {type: Text},
 	male: {type: Checkbox, editable: true, header: 'Is a male?'},
-	picture: {type: Image, value: () => img}
+	picture: {type: Image, value: () => img},
+	completed: {type: ProgressBar},
 });
 
 const data = [
-	{name: 'Andrea', surname: 'Parodi', male: true},
-	{name: 'Giorgia', surname: 'Parodi', male: false}
+	{name: 'Andrea', surname: 'Parodi', male: true, completed: 30},
+	{name: 'Giorgia', surname: 'Parodi', male: false, completed: 75}
 ];
 
 const tb = new libui.UiTable(model.bind(data));
-model.addColumns(tb, 'name', 'surname', 'picture', 'male');
+model.addColumns(tb, 'name', 'surname', 'picture', 'male', 'completed');
 /*
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
