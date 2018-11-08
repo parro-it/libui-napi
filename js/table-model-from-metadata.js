@@ -88,9 +88,9 @@ const ProgressBar = {
 };
 
 const Button = {
-	getter: ({label}) => () => 1,
+	getter: ({label}) => () => String(label),
 	setter: ({key, click}) => (data, row) => click(data[row]),
-	cellType: () => ValueTypes.Int,
+	cellType: () => ValueTypes.String,
 	adder: column => tb =>
 		tb.appendButtonColumn(column.header, column.idx, column.idx + 1)
 };

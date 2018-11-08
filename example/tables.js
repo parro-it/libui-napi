@@ -21,7 +21,8 @@ const model = libui.UiTableModel.fromMetadata({
 	sayhi: {
 		type: Button,
 		editable: () => 1,
-		click: obj => console.log(obj.name, obj.surname)
+		label: 'Say Hi',
+		click: obj => libui.UiDialogs.msgBox(win, 'HI', obj.name + ' ' + obj.surname)
 	}
 });
 
@@ -31,7 +32,7 @@ const data = [
 ];
 
 const tb = new libui.UiTable(model.bind(data));
-model.addColumns(tb, /*'name', 'surname', 'picture', 'male', 'completed',*/ 'sayhi');
+model.addColumns(tb, 'name', 'surname', 'picture', 'male', 'completed', 'sayhi');
 /*
 const tb = new libui.UiTable(new libui.UiTableModel({
 	numColumns() {
