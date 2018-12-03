@@ -60,5 +60,6 @@
     "index.js",
     "src",
     "binding.gyp"
-  ]
+  ],
+  "types": "libui-napi.d.ts"
 }
