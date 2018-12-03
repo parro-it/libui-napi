@@ -143,6 +143,46 @@ export const enum extKeys {
 }
 
 /**
+ * An object that contains information on a system font.
+ */
+export class FontDescriptor {
+	/**
+	 * Create a new FontDescriptor object.
+	 * @param family - the name of the font, e.g. "Helvetica". `object` type is for internal use
+	 * @param size - size in point of the font
+	 * @param weight - weight of the font
+	 * @param italic - 1 if the font is italic, otherwise 0
+	 * @param stretch - horizontal stretch value for the font
+	 */
+	constructor(family: string | object, size: number, weight: number, italic: number, stretch: number);
+
+	/**
+	 * Return the name of the font, e.g. "Helvetica".
+	 */
+	readonly family: string;
+
+	/**
+	 * Return the size in point of the font.
+	 */
+	readonly size: number;
+
+	/**
+	 * Return weight of the font.
+	 */
+	readonly weight: number;
+
+	/**
+	 * Return `1` if the font is italic, otherwise `0`.
+	 */
+	readonly italic: 1 | 0;
+
+	/**
+	 * Return horizontal stretch value for the font.
+	 */
+	readonly stretch: number;
+}
+
+/**
  * Stop Libui event loop
  */
 export function stopLoop(): void;
@@ -150,6 +190,8 @@ export function stopLoop(): void;
  * Start Libui event loop
  */
 export function startLoop(): void;
+
+export function startTimer(): void;
 
 export class FontAttribute {
   constructor(other: FontAttribute);
@@ -339,6 +381,75 @@ export abstract class UiControl {
    * Create a new UiControl object.
    */
   constructor(handle: any);
+}
+/**
+ * An area to draw on.
+ */
+export class UiArea extends UiControl {
+	/**
+	 * Create a new UiArea object.
+	 * @param draw - callback to draw onto area
+	 * @param mouse - callback for mouse events
+	 * @param mouseCrossed - callback for entering or leaving the area
+	 * @param dragBroken - callback
+	 * @param keyEvent - callback for key events
+   * @param width Width of this UiArea
+   * @param height height of this UiArea
+	 */
+	constructor(
+    draw: (uiArea: UiArea, p: any) => any,
+    mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+    mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+    dragBroken: (uiArea: UiArea) => any,
+    key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any,
+    width: number,
+    height: number
+  );
+
+	/**
+	 * Force a redraw of the area (calls draw callback).
+	 */
+	queueRedrawAll(): void;
+
+	/**
+	 * Let the mouse move the window (only callable in the draw callback)
+	 */
+	beginWindowMove(): void;
+
+	/**
+	 * Let the mouse resize the window (only callable in the draw callback)
+	 * @param edge - the size which is held by the mouse
+	 */
+	beginWindowResize(edge: number): void;
+
+	setSize(w: number, h: number): void;
+
+	scrollTo(x: number, y: number, w: number, h: number): void;
+}
+
+export class UiAreaMouseEvent {
+	constructor(x: number, y: number, areaWidth: number, areaHeight: number, down: boolean, up: boolean, count: number, modifiers: any, held1To64: any) {
+		this.x = x;
+		this.y = y;
+		this.areaWidth = areaWidth;
+		this.areaHeight = areaHeight;
+		this.down = down;
+		this.up = up;
+		this.count = count;
+		this.modifiers = modifiers;
+		this.held1To64 = held1To64;
+	}
+}
+
+export class UiAreaKeyEvent {
+	constructor(key: number, extKey: number, modifier: string, modifiers: any, up: boolean);
+}
+
+export const UiDialogs: {
+  openFile(parent: any): any;
+  saveFile(parent: any): any;
+  msgBox(parent: any, title: string, description: string): any;
+  msgBoxError(parent: any, title: string, description: string): any;
 }
 
 /**
@@ -717,6 +828,28 @@ export class UiColorButton extends UiControl {
 	 * changed the selected color.
 	 *
 	 * @param callback - callback to execute when the event is fired.
+	 */
+	onChanged(callback: () => void): void;
+}
+
+/**
+ * A button that opens a popup to choose a font.
+ */
+export class UiFontButton extends UiControl {
+	/**
+	 * Create a new UiFontButton object.
+	 */
+	constructor();
+
+	/**
+	 * Return the FontButton font value.
+	 */
+	readonly font: FontDescriptor
+
+	/**
+	 * Add a listener to the `changed` event. Emitted whenever the user changed the selected font.
+	 *
+	 * @param  {Function} callback - callback to execute when the event is fired.
 	 */
 	onChanged(callback: () => void): void;
 }
