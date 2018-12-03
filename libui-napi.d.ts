@@ -1212,9 +1212,7 @@ export class UiMenuItem {
    Menu.appendSeparator(menu.handle);
    ```
 	 */
-	constructor(handle: any) {
-		this.handle = handle;
-	}
+	constructor(handle: any);
 
 	/**
 	 * Enable this menu item.
