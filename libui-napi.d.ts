@@ -428,17 +428,7 @@ export class UiArea extends UiControl {
 }
 
 export class UiAreaMouseEvent {
-	constructor(x: number, y: number, areaWidth: number, areaHeight: number, down: boolean, up: boolean, count: number, modifiers: any, held1To64: any) {
-		this.x = x;
-		this.y = y;
-		this.areaWidth = areaWidth;
-		this.areaHeight = areaHeight;
-		this.down = down;
-		this.up = up;
-		this.count = count;
-		this.modifiers = modifiers;
-		this.held1To64 = held1To64;
-	}
+	constructor(x: number, y: number, areaWidth: number, areaHeight: number, down: boolean, up: boolean, count: number, modifiers: any, held1To64: any);
 }
 
 export class UiAreaKeyEvent {
@@ -450,6 +440,119 @@ export const UiDialogs: {
   saveFile(parent: any): any;
   msgBox(parent: any, title: string, description: string): any;
   msgBoxError(parent: any, title: string, description: string): any;
+}
+
+/**
+ * A draw brush
+ */
+export class DrawBrush {
+	constructor();
+
+	color: Color;
+
+	type: brushType;
+
+	/**
+	 * The gradient stops
+	 */
+	stops: BrushGradientStop[];
+
+	/**
+	 * Set the start position of the gradient
+	 * (Radial gradients: the inner circle's center)
+	 * @param pos - the coordinates
+	 */
+	start: Point;
+
+	/**
+	 * The end position of the gradient
+	 * (Radial gradients: the outer circle's center)
+	 */
+	end: Point;
+
+	/**
+	 * The radius of the gradient's outer circle (radial gradients only)
+	 */
+	outerRadius: number;
+}
+
+export class UiDrawPath {
+
+  began: boolean;
+
+  ended: boolean;
+
+	constructor(mode?: fillMode);
+
+	addRectangle(x: number, y: number, width: number, height: number): void;
+
+	newFigure(x: number, y: number): void;
+
+	newFigureWithArc(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: number): void;
+
+	lineTo(x: number, y: number): void;
+
+	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: number): void
+
+	bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number, endY: number): void;
+
+	closeFigure(): void;
+
+	end(): void;
+}
+
+export class DrawStrokeParams {
+
+	thickness: number;
+
+	cap: number;
+
+	join: number;
+
+	miterLimit: number;
+
+	dashes: number;
+
+	dashPhase: number;
+}
+
+export class UiDrawMatrix {
+	constructor();
+
+	setIdentity(): void;
+
+	scale(xCenter: number, yCenter: number, x: number, y: number): void;
+
+	translate(x: number, y: number): void;
+
+	rotate(x: number, y: number, amount: number): void;
+
+	skew(x: number, y: number, xAmount: number, yAmount: number): void;
+
+	multiply(m: number): void;
+
+	invertible(m: number): void;
+
+	/**
+   * returns true it it worked
+   */
+	invert(m: number): boolean;
+
+	set(i: number, j: number, v: number): void;
+
+	get(i: number, j: number): any;
+
+  readonly 0: [number];
+
+	readonly 1: [number];
+
+	readonly 2: [number];
+}
+
+export class DrawTextLayout {
+	constructor(str: AttributedString, font: FontDescriptor, width: number, align: textAlign);
+
+	readonly extents: any;
 }
 
 /**
@@ -1134,55 +1237,4 @@ export class UiMenuItem {
 	 * whether it is checked or not.
 	 */
 	checked: boolean;
-}
-
-/**
- * A container that show each chidren in a separate tab.
- */
-export class UiTab extends UiControl {
-	/**
-	 * Create a new UiTab object.
-	 */
-	constructor();
-
-	/**
-	 * Return whether an internal margin is added to a page of the tab.
-	 * @param index - the index of the page to check.
-	 * @return `true` if the page has margins
-	 */
-	getMargined(index: number): boolean;
-
-	/**
-	 * Add an internal margin to a page of the Tab.
-	 * @param index - the index of the page to set the margin on.
-	 * @param value - whether to enable or disable the margin.
-	 */
-	setMargined(index: number, value: boolean): void;
-
-	/**
-	 * Append a new child control as last tab page.
-	 * @param label - the text to show for the new page caption.
-	 * @param control - the control to add as a child.
-	 */
-	append(label: string, control: UiControl): void;
-
-	/**
-	 * Insert a new child control before specified position.
-	 * @param label - the text to show for the new page caption.
-	 * @param before - the control will be inserted before this position
-	 * @param control - the control to insert
-	 */
-	insertAt(label: string, before: number, control: UiControl): void;
-
-	/**
-	 * Return the total number of tab pages contained in the control.
-	 * @return number of pages
-	 */
-	numPages(): number;
-
-	/**
-	 * Remove the tab and control at specified position.
-	 * @param index - the index of the tab to remove.
-	 */
-	deleteAt(index: number): void;
 }
