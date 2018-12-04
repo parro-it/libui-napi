@@ -57,6 +57,7 @@
   "files": [
     "tools",
     "js",
+    "libui-napi.d.ts",
     "index.js",
     "src",
     "binding.gyp"
