@@ -1,145 +1,145 @@
-export const enum textWeight {
-  minimum = 0,
-  thin = 100,
-  ultraLight = 200,
-  light = 300,
-  book = 350,
-  normal = 400,
-  medium = 500,
-  semiBold = 600,
-  bold = 700,
-  ultraBold = 800,
-  heavy = 900,
-  ultraHeavy = 950,
-  maximum = 1000
+export enum textWeight {
+  minimum,
+  thin,
+  ultraLight,
+  light,
+  book,
+  normal,
+  medium,
+  semiBold,
+  bold,
+  ultraBold,
+  heavy,
+  ultraHeavy,
+  maximum
 }
 
-export const enum textItalic {
-  normal = 0,
-  oblique = 1,
-  italic = 2
+export enum textItalic {
+  normal,
+  oblique,
+  italic
 }
 
-export const enum textStretch {
-  ultraCondensed = 0,
-  extraCondensed = 1,
-  condensed = 2,
-  semiCondensed = 3,
-  normal = 4,
-  semiExpanded = 5,
-  expanded = 6,
-  extraExpanded = 7,
-  ultraExpanded = 8
+export enum textStretch {
+  ultraCondensed,
+  extraCondensed,
+  condensed,
+  semiCondensed,
+  normal,
+  semiExpanded,
+  expanded,
+  extraExpanded,
+  ultraExpanded
 }
 
-export const enum textAttributeType {
-  family = 0,
-  size = 1,
-  weight = 2,
-  italic = 3,
-  stretch = 4,
-  color = 5,
-  background = 6,
-  underline = 7,
-  underlineColor = 8,
-  features = 9
+export enum textAttributeType {
+  family,
+  size,
+  weight,
+  italic,
+  stretch,
+  color,
+  background,
+  underline,
+  underlineColor,
+  features
 }
 
-export const enum textUnderline {
-  none = 0,
-  single = 1,
-  double = 2,
-  suggestion = 3
+export enum textUnderline {
+  none,
+  single,
+  double,
+  suggestion
 }
 
-export const enum textUnderlineColor {
-  custom = 0,
-  spelling = 1,
-  grammar = 2,
-  auxiliary = 3
+export enum textUnderlineColor {
+  custom,
+  spelling,
+  grammar,
+  auxiliary
 }
 
-export const enum textAlign {
-  left = 0,
-  center = 1,
-  right = 2
+export enum textAlign {
+  left,
+  center,
+  right
 }
 
-export const enum forEach {
-  continue = 0,
-  stop = 1
+export enum forEach {
+  continue,
+  stop
 }
 
-export const enum brushType {
-  solid = 0,
-  linearGradient = 1,
-  radialGradient = 2
+export enum brushType {
+  solid,
+  linearGradient,
+  radialGradient
   // IMPL uiDrawBrushTypeImage = 3
 }
-export const enum lineCap {
-  flat = 0,
-  round = 1,
-  square = 2
+export enum lineCap {
+  flat,
+  round,
+  square
 }
 
-export const enum lineJoin {
-  miter = 0,
-  round = 1,
-  bevel = 2
+export enum lineJoin {
+  miter,
+  round,
+  bevel
 }
 
-export const enum fillMode {
-  winding = 0,
-  alternate = 1
+export enum fillMode {
+  winding,
+  alternate
 }
 
-export const enum modifierKeys {
-  ctrl = 1 << 0,
-  alt = 1 << 1,
-  shift = 1 << 2,
-  super = 1 << 3
+export enum modifierKeys {
+  ctrl,
+  alt,
+  shift,
+  super
 }
 
-export const enum extKeys {
-  escape = 1,
-  insert = 2, // equivalent to "Help" on Apple keyboards
-  delete = 3,
-  home = 4,
-  end = 5,
-  pageUp = 6,
-  pageDown = 7,
-  up = 8,
-  down = 9,
-  left = 10,
-  right = 11,
-  f1 = 12, // F1..F12 are guaranteed to be consecutive
-  f2 = 13,
-  f3 = 14,
-  f4 = 15,
-  f5 = 16,
-  f6 = 17,
-  f7 = 18,
-  f8 = 19,
-  f9 = 20,
-  f10 = 21,
-  f11 = 22,
-  f12 = 23,
-  n0 = 24, // numpad keys; independent of Num Lock state
-  n1 = 25, // N0..N9 are guaranteed to be consecutive
-  n2 = 26,
-  n3 = 27,
-  n4 = 28,
-  n5 = 29,
-  n6 = 30,
-  n7 = 31,
-  n8 = 32,
-  n9 = 33,
-  nDot = 34,
-  nEnter = 35,
-  nAdd = 36,
-  nSubtract = 37,
-  nMultiply = 38,
-  nDivide = 39
+export enum extKeys {
+  escape,
+  insert, // equivalent to "Help" on Apple keyboards
+  delete,
+  home,
+  end,
+  pageUp,
+  pageDown,
+  up,
+  down,
+  left,
+  right,
+  f1, // F1..F12 are guaranteed to be consecutive
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  f9,
+  f10,
+  f11,
+  f12,
+  n0, // numpad keys; independent of Num Lock state
+  n1, // N0..N9 are guaranteed to be consecutive
+  n2,
+  n3,
+  n4,
+  n5,
+  n6,
+  n7,
+  n8,
+  n9,
+  nDot,
+  nEnter,
+  nAdd,
+  nSubtract,
+  nMultiply,
+  nDivide
 }
 
 /**
@@ -169,12 +169,12 @@ export class FontDescriptor {
 	/**
 	 * Return weight of the font.
 	 */
-	readonly weight: number;
+	readonly weight: textWeight;
 
 	/**
 	 * Return `1` if the font is italic, otherwise `0`.
 	 */
-	readonly italic: 1 | 0;
+	readonly italic: textItalic;
 
 	/**
 	 * Return horizontal stretch value for the font.
@@ -195,9 +195,19 @@ export function startTimer(): void;
 
 export class FontAttribute {
   constructor(other: FontAttribute);
+  static newFamily(v: string): FontAttribute;
+  static newSize(v: number): FontAttribute;
+  static newWeight(v: textWeight): FontAttribute;
+  static newItalic(v: textItalic): FontAttribute;
+  static newStretch(v: textStretch): FontAttribute;
+  static newColor(c: Color): FontAttribute;
+  static newBackgroundColor(c: Color): FontAttribute;
+  static newUnderline(v: textUnderline): FontAttribute;
   static newUnderlineColor(
     type: textUnderlineColor,
-    color: Color): FontAttribute;
+    color?: Color): FontAttribute;
+  static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
+
   static getFamily(): string | null;
   static getSize(): number | null;
   static getWeight(): textWeight | null;
@@ -210,6 +220,12 @@ export class FontAttribute {
     color: Color | null;
   } | null;
   static getOTFeatures(): OpenTypeFeatures | null;
+
+  static readonly weight: textWeight;
+  static readonly italic: textItalic;
+  static readonly stretch: textStretch;
+  static readonly underline: textUnderline;
+  static readonly underlineColor: textUnderlineColor;
 }
 export class OpenTypeFeatures {
   add(tag: string, value: number): void;
@@ -265,14 +281,13 @@ export class AttributedString {
   constructor(str: string);
   toString(): string;
   toStringLen(): number;
-  appendAttributed(str: string): void;
+  appendAttributed(str: string, ...attribute: FontAttribute[]): void;
   appendUnattributed(str: string): void;
-  insertAttributed(str: string, start: number): void;
+  insertAttributed(str: string, start: number, ...attribute: FontAttribute[]): void;
   insertUnattributed(str: string, at: number): void;
   deleteString(start: number, end: number): void;
   setAttribute(attr: FontAttribute, start: number, end: number): void;
-  // TODO: add cb parameters
-  forEach(cb: () => void): void;
+  forEach(cb: (str: AttributedString, attr: FontAttribute, start: number, end: number) => void): void;
   numGraphemes(): number;
   byteIndexToGrapheme(pos: number): number;
   graphemeToByteIndex(pos: number): number;
@@ -343,7 +358,7 @@ export class UiWindow {
    * @param control - the control to add as child.
    * @param stretchy - whever the control should fill all the available space.
    */
-  setChild(control: UiControl, stretchy: boolean): void;
+  setChild(control: UiControl): void;
 
   /**
    * When true, an internal margin is added to the window.
@@ -387,23 +402,41 @@ export abstract class UiControl {
  */
 export class UiArea extends UiControl {
 	/**
-	 * Create a new UiArea object.
+	 * Create a new scrolling UiArea object.
 	 * @param draw - callback to draw onto area
 	 * @param mouse - callback for mouse events
 	 * @param mouseCrossed - callback for entering or leaving the area
 	 * @param dragBroken - callback
 	 * @param keyEvent - callback for key events
-   * @param width Width of this UiArea
-   * @param height height of this UiArea
 	 */
 	constructor(
+    //TODO params
+    draw: (uiArea: UiArea, p: any) => any,
+    mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+    mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+    dragBroken: (uiArea: UiArea) => any,
+    key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any,
+  );
+
+  /**
+   * Create a new UiArea object.
+   * @param draw - callback to draw onto area
+   * @param mouse - callback for mouse events
+   * @param mouseCrossed - callback for entering or leaving the area
+   * @param dragBroken - callback
+   * @param keyEvent - callback for key events
+   * @param width Width of this UiArea
+   * @param height height of this UiArea
+   */
+  constructor(
+    //TODO params
     draw: (uiArea: UiArea, p: any) => any,
     mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
     mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
     dragBroken: (uiArea: UiArea) => any,
     key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any,
     width: number,
-    height: number
+    height: number,
   );
 
 	/**
@@ -429,10 +462,29 @@ export class UiArea extends UiControl {
 
 export class UiAreaMouseEvent {
 	constructor(x: number, y: number, areaWidth: number, areaHeight: number, down: boolean, up: boolean, count: number, modifiers: any, held1To64: any);
+
+  readonly x: number;
+  readonly y: number;
+  readonly areaWidth: number;
+  readonly areaHeight: number;
+  readonly down: number;
+  readonly up: number;
+  readonly count: number;
+  readonly modifiers: number;
+  readonly held1To64: number;
 }
 
 export class UiAreaKeyEvent {
 	constructor(key: number, extKey: number, modifier: string, modifiers: any, up: boolean);
+
+  key: string;
+  extKey: extKeys;
+  modifier: modifierKeys;
+  modifiers: number;
+  up: number;
+
+  static readonly modifierKeys: modifierKeys;
+  static readonly extKeys: extKeys;
 }
 
 export const UiDialogs: {
@@ -477,11 +529,6 @@ export class DrawBrush {
 }
 
 export class UiDrawPath {
-
-  began: boolean;
-
-  ended: boolean;
-
 	constructor(mode?: fillMode);
 
 	addRectangle(x: number, y: number, width: number, height: number): void;
@@ -492,7 +539,7 @@ export class UiDrawPath {
 
 	lineTo(x: number, y: number): void;
 
-	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: number): void
+	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: boolean): void
 
 	bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number, endY: number): void;
 
@@ -502,16 +549,18 @@ export class UiDrawPath {
 }
 
 export class DrawStrokeParams {
+  static readonly lineCap: lineCap;
+  static readonly lineJoin: lineJoin;
 
 	thickness: number;
 
-	cap: number;
+	cap: lineCap;
 
-	join: number;
+	join: lineJoin;
 
 	miterLimit: number;
 
-	dashes: number;
+	dashes: number[];
 
 	dashPhase: number;
 }
@@ -737,10 +786,8 @@ export class UiGroup extends UiControl {
    * more, you have to use [Containers](containers.md).
    *
    * @param control - the control to add as child.
-   * @param stretchy - whever the control should fill all the
-   * available space.
    */
-  setChild(control: UiControl, stretchy: boolean): void;
+  setChild(control: UiControl): void;
 
   /**
    * When true, an internal margin is added to the group.
@@ -748,27 +795,39 @@ export class UiGroup extends UiControl {
   margined: boolean;
 }
 
+
+declare enum GridAlign {
+  fill = 0,
+  start = 1,
+  center = 2,
+  end = 3
+}
+
+declare enum GridAt {
+  leading = 0,
+  top = 1,
+  trailing = 2,
+  bottom = 3,
+}
+
 /**
  * A powerful container that allow to specify size and position of each children.
  */
 export class UiGrid extends UiControl {
-
-  static align: {
-    fill: 0;
-    start: 1;
-    center: 2;
-    end: 3;
-  };
+  /**
+   * Create a new UiGrid object.
+   */
+  constructor();
 
   /**
-   * Enum defining poistion where to add / insert a control into a grid
+   * Enum defining the alignment of a control
    */
-  static at: {
-    leading: 0,
-    top: 1,
-    trailing: 2,
-    bottom: 3,
-  };
+  static readonly align: GridAlign;
+
+  /**
+   * Enum defining the position where to insert a control into a grid
+   */
+  static readonly at: GridAt;
 
   /**
    * If true, the container inserts some space between children.
@@ -787,7 +846,7 @@ export class UiGrid extends UiControl {
    * @param vexpand - whether the component can expand vertically.
    * @param valign - whether the component is aligned with the other components in the row.
    */
-  insertAt(child: UiControl, before: UiControl, at: number, xspan: number, yspan: number, hexpand: number, halign: number, vexpan, valign: number): void;
+  insertAt(child: UiControl, before: UiControl, at: GridAt, xspan: number, yspan: number, hexpand: number, halign: GridAlign, vexpan, valign: GridAlign): void;
 
   /**
    * Insert a new child control.
@@ -805,7 +864,7 @@ export class UiGrid extends UiControl {
    * @param vexpand - whether the component can expand vertically.
    * @param valign - whether the component is aligned with the other components in the row.
    */
-  append(child: UiControl, left: number, top: number, xspan: number, yspan: number, hexpand: number, halign: number, vexpand: number, valign: number): void;
+  append(child: UiControl, left: number, top: number, xspan: number, yspan: number, hexpand: number, halign: GridAlign, vexpand: number, valign: GridAlign): void;
 }
 
 /**
@@ -1062,6 +1121,36 @@ export class UiCombobox extends UiControl {
 }
 
 /**
+ * A drop down combo box that allows to select an item from list or to specify a custom
+ * value.
+ */
+export class UiEditableCombobox extends UiControl {
+  /**
+   * Create a new UiEditableCombobox object.
+   */
+  constructor();
+
+  /**
+   * Return or set the current text.
+   */
+  text: string;
+
+  /**
+   * Append a new text item to the drop down list.
+   * @param text - the item to append.
+   */
+  append(text: string);
+
+  /**
+   * Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
+   *
+   * @param callback - callback to execute when the event is
+   * fired.
+   */
+  onChanged(callback: () => any): void;
+}
+
+/**
  * Base class for vertical and horizontal separator
  */
 export abstract class SeparatorBase extends UiControl {}
@@ -1093,7 +1182,7 @@ export abstract class DateTimePickerBase extends UiControl {
 	/**
 	 * Set or return the date/time represented by the control.
 	 */
-	time(): Date;
+	time: Date;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry contents changed.
