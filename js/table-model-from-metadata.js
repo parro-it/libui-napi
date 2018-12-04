@@ -48,9 +48,21 @@ const LabeledCheckbox = {
 	getter: ({key}) => (data, row) => Number(data[row][key]),
 	setter: ({key}) => (data, row, value) => (data[row][key] = Boolean(value)),
 	cellType: () => ValueTypes.Int,
+	addFurtherColumns: ({column, columnTypes, cellGetters, cellSetters}) => {
+		const labelIdx = column.idx + 1000;
+		columnTypes[labelIdx] = ValueTypes.String;
+		cellGetters[labelIdx] = () => column.label;
+		cellSetters[labelIdx] = noop;
+
+		columnTypes[labelIdx + 1] = ValueTypes.Int;
+		cellGetters[labelIdx + 1] = () => 0;
+		cellSetters[labelIdx + 1] = noop;
+
+		column.labelIdx = labelIdx;
+	},
 	adder: column => tb => {
-		const textModelColumn = -1;
-		const textEditableModelColumn = -1;
+		const textModelColumn = column.labelIdx;
+		const textEditableModelColumn = column.labelIdx + 1;
 
 		tb.appendCheckboxTextColumn(column.header, column.idx, column.idx + 1,
 									textModelColumn, textEditableModelColumn, null);
@@ -71,9 +83,21 @@ const LabeledImage = {
 	},
 	setter: ({key}) => () => 0,
 	cellType: () => ValueTypes.Image,
+	addFurtherColumns: ({column, columnTypes, cellGetters, cellSetters}) => {
+		const labelIdx = column.idx + 1000;
+		columnTypes[labelIdx] = ValueTypes.String;
+		cellGetters[labelIdx] = () => column.label;
+		cellSetters[labelIdx] = noop;
+
+		columnTypes[labelIdx + 1] = ValueTypes.Int;
+		cellGetters[labelIdx + 1] = () => 0;
+		cellSetters[labelIdx + 1] = noop;
+
+		column.labelIdx = labelIdx;
+	},
 	adder: column => tb => {
-		const textModelColumn = -1;
-		const textEditableModelColumn = -1;
+		const textModelColumn = column.labelIdx;
+		const textEditableModelColumn = column.labelIdx + 1;
 
 		tb.appendImageTextColumn(column.header, column.idx, column.idx + 1,
 								 textModelColumn, textEditableModelColumn, null);
@@ -110,6 +134,11 @@ function fromMetadata(model) {
 		cellGetters[idx] = column.type.getter(column);
 		cellSetters[idx] = column.type.setter(column);
 		column.adder = column.type.adder(column);
+
+		if (typeof column.type.addFurtherColumns === 'function') {
+			column.type.addFurtherColumns(
+				{columnTypes, cellGetters, cellSetters, column});
+		}
 
 		if (typeof column.editable === 'function') {
 			columnTypes[idx + 1] = ValueTypes.Int;
@@ -158,6 +187,7 @@ fromMetadata.Fields = {
 	Checkbox,
 	ProgressBar,
 	LabeledCheckbox,
+	LabeledImage,
 	Button
 };
 

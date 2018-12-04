@@ -1,5 +1,6 @@
 const libui = require('..');
-const {Text, Image, Checkbox, ProgressBar, Button} = libui.UiTableModel.Fields;
+const {Text, Image, Checkbox, ProgressBar, Button, LabeledCheckbox, LabeledImage} =
+	libui.UiTableModel.Fields;
 
 const win = new libui.UiWindow('Tables example', 800, 600, true);
 win.margined = true;
@@ -10,6 +11,8 @@ const model = libui.UiTableModel.fromMetadata({
 	male: {type: Checkbox, editable: true, header: 'Is a male?'},
 	picture: {type: Image, value: () => img},
 	completed: {type: ProgressBar},
+	someProp: {type: LabeledCheckbox, editable: true, label: 'some props'},
+	otherProp: {type: LabeledImage, value: () => img, label: 'an Image'},
 	sayhi: {
 		type: Button,
 		editable: () => 1,
@@ -19,12 +22,13 @@ const model = libui.UiTableModel.fromMetadata({
 });
 
 const data = [
-	{name: 'Andrea', surname: 'Parodi', male: true, completed: 30},
-	{name: 'Giorgia', surname: 'Parodi', male: false, completed: 75}
+	{name: 'Andrea', surname: 'Parodi', male: true, completed: 30, someProp: true},
+	{name: 'Giorgia', surname: 'Parodi', male: false, completed: 75, someProp: false}
 ];
 
 const tb = new libui.UiTable(model.bind(data));
-model.addColumns(tb, 'name', 'surname', 'picture', 'male', 'completed', 'sayhi');
+model.addColumns(tb, 'name', 'surname', 'picture', 'male', 'completed', 'sayhi',
+				 'someProp', 'otherProp');
 
 const vbox = new libui.UiVerticalBox();
 vbox.append(tb, true);
