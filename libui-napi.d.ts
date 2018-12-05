@@ -121,11 +121,11 @@ export class FontAttribute {
 	static getUnderlineColor(): {type: textAttributeType; color: Color | null;}|null;
 	static getOTFeatures(): OpenTypeFeatures|null;
 
-	static readonly weight: textWeight;
-	static readonly italic: textItalic;
-	static readonly stretch: textStretch;
-	static readonly underline: textUnderline;
-	static readonly underlineColor: textUnderlineColor;
+	static readonly weight = textWeight;
+	static readonly italic = textItalic;
+	static readonly stretch = textStretch;
+	static readonly underline = textUnderline;
+	static readonly underlineColor = textUnderlineColor;
 }
 
 export class OpenTypeFeatures {
@@ -414,8 +414,8 @@ export class UiAreaKeyEvent {
 	modifiers: number;
 	up: number;
 
-	static readonly modifierKeys: modifierKeys;
-	static readonly extKeys: extKeys;
+	static readonly modifierKeys = modifierKeys;
+	static readonly extKeys = extKeys;
 }
 
 export const UiDialogs: {
@@ -490,8 +490,8 @@ export class UiDrawPath {
 }
 
 export class DrawStrokeParams {
-	static readonly lineCap: lineCap;
-	static readonly lineJoin: lineJoin;
+	static readonly lineCap = lineCap;
+	static readonly lineJoin = lineJoin;
 
 	thickness: number;
 	cap: lineCap;
@@ -741,12 +741,12 @@ export class UiGrid extends UiControl {
 	/**
 	 * Enum defining the alignment of a control
 	 */
-	static readonly align: GridAlign;
+	static readonly align = GridAlign;
 
 	/**
 	 * Enum defining the position where to insert a control into a grid
 	 */
-	static readonly at: GridAt;
+	static readonly at = GridAt;
 
 	/**
 	 * If true, the container inserts some space between children.
