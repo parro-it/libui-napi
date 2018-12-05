@@ -98,6 +98,8 @@ export function startLoop(): void;
 
 export function startTimer(): void;
 
+export function onShouldQuit(cb: () => void): void;
+
 export class FontAttribute {
 	constructor(other: FontAttribute);
 	static newFamily(v: string): FontAttribute;
@@ -541,6 +543,8 @@ export class DrawTextLayout {
  */
 export class UiLabel extends UiControl {
 	constructor(label?: string);
+
+	text: any;
 }
 
 /**
@@ -563,7 +567,7 @@ export class UiForm extends UiControl {
 	 * @param control - the control to add as child.
 	 * @param stretchy - whether the control should fill all the available space.
 	 */
-	append(label: string, control: UiControl, stretchy: boolean): void;
+	append(label: string, control: UiControl, stretchy?: boolean): void;
 
 	/**
 	 * Remove a child control at the specified position.
@@ -670,7 +674,7 @@ export abstract class UiBox extends UiControl {
 	 * @param control - the control to add as a child.
 	 * @param stretchy - whever the control should fill all the available space.
 	 */
-	append(control: UiControl, stretchy: boolean): void;
+	append(control: UiControl, stretchy?: boolean): void;
 
 	/**
 	 * Remove a child control at specified position.
@@ -1133,6 +1137,16 @@ export class UiDateTimePicker extends DateTimePickerBase {
 export class UiTimePicker extends DateTimePickerBase {
 	/**
 	 * Create a new UiTimePicker object.
+	 */
+	constructor();
+}
+
+/**
+ * A control to set a date.
+ */
+export class UiDatePicker extends DateTimePickerBase {
+	/**
+	 * Create a new UiDatePicker object.
 	 */
 	constructor();
 }
