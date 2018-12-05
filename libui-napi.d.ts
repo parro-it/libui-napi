@@ -1,146 +1,49 @@
-export enum textWeight {
-  minimum,
-  thin,
-  ultraLight,
-  light,
-  book,
-  normal,
-  medium,
-  semiBold,
-  bold,
-  ultraBold,
-  heavy,
-  ultraHeavy,
-  maximum
+declare enum textWeight {
+	minimum,
+	thin,
+	ultraLight,
+	light,
+	book,
+	normal,
+	medium,
+	semiBold,
+	bold,
+	ultraBold,
+	heavy,
+	ultraHeavy,
+	maximum
 }
 
-export enum textItalic {
-  normal,
-  oblique,
-  italic
+declare enum textItalic { normal, oblique, italic }
+
+declare enum textStretch {
+	ultraCondensed,
+	extraCondensed,
+	condensed,
+	semiCondensed,
+	normal,
+	semiExpanded,
+	expanded,
+	extraExpanded,
+	ultraExpanded
 }
 
-export enum textStretch {
-  ultraCondensed,
-  extraCondensed,
-  condensed,
-  semiCondensed,
-  normal,
-  semiExpanded,
-  expanded,
-  extraExpanded,
-  ultraExpanded
+declare enum textAttributeType {
+	family,
+	size,
+	weight,
+	italic,
+	stretch,
+	color,
+	background,
+	underline,
+	underlineColor,
+	features
 }
 
-export enum textAttributeType {
-  family,
-  size,
-  weight,
-  italic,
-  stretch,
-  color,
-  background,
-  underline,
-  underlineColor,
-  features
-}
+declare enum textUnderline { none, single, double, suggestion }
 
-export enum textUnderline {
-  none,
-  single,
-  double,
-  suggestion
-}
-
-export enum textUnderlineColor {
-  custom,
-  spelling,
-  grammar,
-  auxiliary
-}
-
-export enum textAlign {
-  left,
-  center,
-  right
-}
-
-export enum forEach {
-  continue,
-  stop
-}
-
-export enum brushType {
-  solid,
-  linearGradient,
-  radialGradient
-  // IMPL uiDrawBrushTypeImage = 3
-}
-export enum lineCap {
-  flat,
-  round,
-  square
-}
-
-export enum lineJoin {
-  miter,
-  round,
-  bevel
-}
-
-export enum fillMode {
-  winding,
-  alternate
-}
-
-export enum modifierKeys {
-  ctrl,
-  alt,
-  shift,
-  super
-}
-
-export enum extKeys {
-  escape,
-  insert, // equivalent to "Help" on Apple keyboards
-  delete,
-  home,
-  end,
-  pageUp,
-  pageDown,
-  up,
-  down,
-  left,
-  right,
-  f1, // F1..F12 are guaranteed to be consecutive
-  f2,
-  f3,
-  f4,
-  f5,
-  f6,
-  f7,
-  f8,
-  f9,
-  f10,
-  f11,
-  f12,
-  n0, // numpad keys; independent of Num Lock state
-  n1, // N0..N9 are guaranteed to be consecutive
-  n2,
-  n3,
-  n4,
-  n5,
-  n6,
-  n7,
-  n8,
-  n9,
-  nDot,
-  nEnter,
-  nAdd,
-  nSubtract,
-  nMultiply,
-  nDivide
-}
+declare enum textUnderlineColor { custom, spelling, grammar, auxiliary }
 
 /**
  * An object that contains information on a system font.
@@ -148,13 +51,15 @@ export enum extKeys {
 export class FontDescriptor {
 	/**
 	 * Create a new FontDescriptor object.
-	 * @param family - the name of the font, e.g. "Helvetica". `object` type is for internal use
+	 * @param family - the name of the font, e.g. "Helvetica". `object` type is for
+	 * internal use
 	 * @param size - size in point of the font
 	 * @param weight - weight of the font
 	 * @param italic - 1 if the font is italic, otherwise 0
 	 * @param stretch - horizontal stretch value for the font
 	 */
-	constructor(family: string | object, size: number, weight: number, italic: number, stretch: number);
+	constructor(family: string|object, size: number, weight: number, italic: number,
+				stretch: number);
 
 	/**
 	 * Return the name of the font, e.g. "Helvetica".
@@ -194,103 +99,86 @@ export function startLoop(): void;
 export function startTimer(): void;
 
 export class FontAttribute {
-  constructor(other: FontAttribute);
-  static newFamily(v: string): FontAttribute;
-  static newSize(v: number): FontAttribute;
-  static newWeight(v: textWeight): FontAttribute;
-  static newItalic(v: textItalic): FontAttribute;
-  static newStretch(v: textStretch): FontAttribute;
-  static newColor(c: Color): FontAttribute;
-  static newBackgroundColor(c: Color): FontAttribute;
-  static newUnderline(v: textUnderline): FontAttribute;
-  static newUnderlineColor(
-    type: textUnderlineColor,
-    color?: Color): FontAttribute;
-  static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
+	constructor(other: FontAttribute);
+	static newFamily(v: string): FontAttribute;
+	static newSize(v: number): FontAttribute;
+	static newWeight(v: textWeight): FontAttribute;
+	static newItalic(v: textItalic): FontAttribute;
+	static newStretch(v: textStretch): FontAttribute;
+	static newColor(c: Color): FontAttribute;
+	static newBackgroundColor(c: Color): FontAttribute;
+	static newUnderline(v: textUnderline): FontAttribute;
+	static newUnderlineColor(type: textUnderlineColor, color?: Color): FontAttribute;
+	static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
 
-  static getFamily(): string | null;
-  static getSize(): number | null;
-  static getWeight(): textWeight | null;
-  static getItalic(): textItalic | null;
-  static getStretch(): textStretch | null;
-  static getColor(): Color | null;
-  static getUnderline(): textUnderline | null;
-  static getUnderlineColor(): {
-    type: textAttributeType;
-    color: Color | null;
-  } | null;
-  static getOTFeatures(): OpenTypeFeatures | null;
+	static getFamily(): string|null;
+	static getSize(): number|null;
+	static getWeight(): textWeight|null;
+	static getItalic(): textItalic|null;
+	static getStretch(): textStretch|null;
+	static getColor(): Color|null;
+	static getUnderline(): textUnderline|null;
+	static getUnderlineColor(): {type: textAttributeType; color: Color | null;}|null;
+	static getOTFeatures(): OpenTypeFeatures|null;
 
-  static readonly weight: textWeight;
-  static readonly italic: textItalic;
-  static readonly stretch: textStretch;
-  static readonly underline: textUnderline;
-  static readonly underlineColor: textUnderlineColor;
+	static readonly weight: textWeight;
+	static readonly italic: textItalic;
+	static readonly stretch: textStretch;
+	static readonly underline: textUnderline;
+	static readonly underlineColor: textUnderlineColor;
 }
+
 export class OpenTypeFeatures {
-  add(tag: string, value: number): void;
-  remove(tag: string): void;
-  get(tag: string): number;
-  forEach(
-    cb: (feat: OpenTypeFeatures, str: string, val: number) => void): void;
-  static clone(feat: OpenTypeFeatures): OpenTypeFeatures;
+	add(tag: string, value: number): void;
+	remove(tag: string): void;
+	get(tag: string): number;
+	forEach(cb: (feat: OpenTypeFeatures, str: string, val: number) => boolean): void;
+	clone(): OpenTypeFeatures;
 }
 
 export class Color {
-  public r: number;
-  public g: number;
-  public b: number;
-  public a: number;
-  constructor(r: number, g: number, b: number, a: number);
-  constructor(other: Color);
+	r: number;
+	g: number;
+	b: number;
+	a: number;
+	constructor(r: number, g: number, b: number, a: number);
+	constructor(other: Color);
 }
 
 export class Point {
-  public x: number;
-  public y: number;
-  constructor(x: number, y: number);
-  constructor(other: Point);
+	x: number;
+	y: number;
+	constructor(x: number, y: number);
+	constructor(other: Point);
 }
 
 export class Size {
-  public w: number;
-  public h: number;
-  constructor(w: number, h: number);
-}
-
-export class PointDouble {
-  public x: number;
-  public y: number;
-  constructor(x: number, y: number);
-  constructor(other: PointDouble);
-}
-
-export class SizeDouble {
-  public w: number;
-  public h: number;
-  constructor(w: number, h: number);
+	w: number;
+	h: number;
+	constructor(w: number, h: number);
 }
 
 export class BrushGradientStop {
-  public pos: number;
-  public color: Color;
-  constructor(pos: number, color: Color);
+	pos: number;
+	color: Color;
+	constructor(pos: number, color: Color);
 }
 
 export class AttributedString {
-  constructor(str: string);
-  toString(): string;
-  toStringLen(): number;
-  appendAttributed(str: string, ...attribute: FontAttribute[]): void;
-  appendUnattributed(str: string): void;
-  insertAttributed(str: string, start: number, ...attribute: FontAttribute[]): void;
-  insertUnattributed(str: string, at: number): void;
-  deleteString(start: number, end: number): void;
-  setAttribute(attr: FontAttribute, start: number, end: number): void;
-  forEach(cb: (str: AttributedString, attr: FontAttribute, start: number, end: number) => void): void;
-  numGraphemes(): number;
-  byteIndexToGrapheme(pos: number): number;
-  graphemeToByteIndex(pos: number): number;
+	constructor(str: string);
+	toString(): string;
+	toStringLen(): number;
+	appendAttributed(str: string, ...attribute: FontAttribute[]): void;
+	appendUnattributed(str: string): void;
+	insertAttributed(str: string, start: number, ...attribute: FontAttribute[]): void;
+	insertUnattributed(str: string, at: number): void;
+	deleteString(start: number, end: number): void;
+	setAttribute(attr: FontAttribute, start: number, end: number): void;
+	forEach(cb: (str: AttributedString, attr: FontAttribute, start: number,
+				 end: number) => boolean): void;
+	numGraphemes(): number;
+	byteIndexToGrapheme(pos: number): number;
+	graphemeToByteIndex(pos: number): number;
 }
 
 /**
@@ -299,103 +187,103 @@ export class AttributedString {
  * more than one, you have to use [Containers](containers.md).
  */
 export class UiWindow {
-  /**
-   * Create a new UiWindow object.
-   *
-   * @param title - text to show in window title bar.
-   * @param width - width of window in pixels.
-   * @param height -  height of window in pixels.
-   * @param hasMenubar - whether this window has a menu bar.
-   * See [Menu](#menubar).
-   */
-  constructor(title: string, width: number, height: number, hasMenubar: boolean);
+	/**
+	 * Create a new UiWindow object.
+	 *
+	 * @param title - text to show in window title bar.
+	 * @param width - width of window in pixels.
+	 * @param height -  height of window in pixels.
+	 * @param hasMenubar - whether this window has a menu bar.
+	 * See [Menu](#menubar).
+	 */
+	constructor(title: string, width: number, height: number, hasMenubar: boolean);
 
-  /**
-   * Show the window.
-   * LibUi always returns null
-   */
-  show(): void;
+	/**
+	 * Show the window.
+	 * LibUi always returns null
+	 */
+	show(): void;
 
-  /**
-   * Add a listener to the `closing` event. This event is emitted when the OS
-   * window close button is clicked. You are responsible for closing the
-   * window in response to this event.
-   *
-   * @param callback - callback to execute when the event is fired.
-   */
-  onClosing(callback: () => any): void;
+	/**
+	 * Add a listener to the `closing` event. This event is emitted when the OS
+	 * window close button is clicked. You are responsible for closing the
+	 * window in response to this event.
+	 *
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onClosing(callback: () => any): void;
 
-  /**
-   * Add a listener to the `contentSizeChanged` event. This event is emitted
-   * when window content size change.
-   *
-   * @param callback - callback to execute when the event is fired.
-   */
-  onContentSizeChanged(callback: Function): void;
+	/**
+	 * Add a listener to the `contentSizeChanged` event. This event is emitted
+	 * when window content size change.
+	 *
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onContentSizeChanged(callback: Function): void;
 
-  /**
-   * Close the window.
-   */
-  close(): void
+	/**
+	 * Close the window.
+	 */
+	close(): void;
 
-  /**
-   * Set or return the text to show in window title bar.
-   */
-  title: string;
+	/**
+	 * Set or return the text to show in window title bar.
+	 */
+	title: string;
 
-  /**
-   * Set or return the size in pixel of the content area of the window
-   * (excluding the size of the window decoration). This mean that if you set window
-   * size to 0,0 you still see title bar and OS window buttons.
-   */
-  contentSize: { width: number; height: number };
+	/**
+	 * Set or return the size in pixel of the content area of the window
+	 * (excluding the size of the window decoration). This mean that if you set window
+	 * size to 0,0 you still see title bar and OS window buttons.
+	 */
+	contentSize: {width: number; height: number};
 
-  /**
-   * Set the control to show in this window content area.
-   * UiWindow instances can contain only one child. If you need
-   * more, you have to use [Containers](containers.md).
-   *
-   * @param control - the control to add as child.
-   * @param stretchy - whever the control should fill all the available space.
-   */
-  setChild(control: UiControl): void;
+	/**
+	 * Set the control to show in this window content area.
+	 * UiWindow instances can contain only one child. If you need
+	 * more, you have to use [Containers](containers.md).
+	 *
+	 * @param control - the control to add as child.
+	 * @param stretchy - whever the control should fill all the available space.
+	 */
+	setChild(control: UiControl): void;
 
-  /**
-   * When true, an internal margin is added to the window.
-   */
-  margined: boolean;
+	/**
+	 * When true, an internal margin is added to the window.
+	 */
+	margined: boolean;
 
-  /**
-   * When true, the window is displayed without a border.
-   */
-  borderless: boolean;
+	/**
+	 * When true, the window is displayed without a border.
+	 */
+	borderless: boolean;
 
-  /**
-   * When true, the window is displayed in full screen mode.
-   */
-  fullscreen: boolean;
+	/**
+	 * When true, the window is displayed in full screen mode.
+	 */
+	fullscreen: boolean;
 }
 
 /**
  * Base class of all controls except UiWindow
  */
 export abstract class UiControl {
-  /**
-  * Set or return whether the control is enabled.
-  */
-  enabled: boolean;
-  /**
-  * Set or return whether the control is visible.
-  */
-  visible: boolean;
-  /**
-  * Set or return whether the control is a top level one.
-  */
-  toplevel: boolean;
-  /**
-   * Create a new UiControl object.
-   */
-  constructor(handle: any);
+	/**
+	 * Set or return whether the control is enabled.
+	 */
+	enabled: boolean;
+	/**
+	 * Set or return whether the control is visible.
+	 */
+	visible: boolean;
+	/**
+	 * Set or return whether the control is a top level one.
+	 */
+	toplevel: boolean;
+	/**
+	 * Create a new UiControl object.
+	 */
+	constructor(handle: any);
 }
 /**
  * An area to draw on.
@@ -410,34 +298,30 @@ export class UiArea extends UiControl {
 	 * @param keyEvent - callback for key events
 	 */
 	constructor(
-    //TODO params
-    draw: (uiArea: UiArea, p: any) => any,
-    mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-    mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-    dragBroken: (uiArea: UiArea) => any,
-    key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any,
-  );
+		// TODO params
+		draw: (uiArea: UiArea, p: any) => any,
+		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+		dragBroken: (uiArea: UiArea) => any,
+		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any);
 
-  /**
-   * Create a new UiArea object.
-   * @param draw - callback to draw onto area
-   * @param mouse - callback for mouse events
-   * @param mouseCrossed - callback for entering or leaving the area
-   * @param dragBroken - callback
-   * @param keyEvent - callback for key events
-   * @param width Width of this UiArea
-   * @param height height of this UiArea
-   */
-  constructor(
-    //TODO params
-    draw: (uiArea: UiArea, p: any) => any,
-    mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-    mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-    dragBroken: (uiArea: UiArea) => any,
-    key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any,
-    width: number,
-    height: number,
-  );
+	/**
+	 * Create a new UiArea object.
+	 * @param draw - callback to draw onto area
+	 * @param mouse - callback for mouse events
+	 * @param mouseCrossed - callback for entering or leaving the area
+	 * @param dragBroken - callback
+	 * @param keyEvent - callback for key events
+	 * @param width Width of this UiArea
+	 * @param height height of this UiArea
+	 */
+	constructor(
+		// TODO params
+		draw: (uiArea: UiArea, p: any) => any,
+		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
+		dragBroken: (uiArea: UiArea) => any,
+		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any, width: number, height: number);
 
 	/**
 	 * Force a redraw of the area (calls draw callback).
@@ -461,38 +345,90 @@ export class UiArea extends UiControl {
 }
 
 export class UiAreaMouseEvent {
-	constructor(x: number, y: number, areaWidth: number, areaHeight: number, down: boolean, up: boolean, count: number, modifiers: any, held1To64: any);
+	constructor(x: number, y: number, areaWidth: number, areaHeight: number,
+				down: boolean, up: boolean, count: number, modifiers: any,
+				held1To64: any);
 
-  readonly x: number;
-  readonly y: number;
-  readonly areaWidth: number;
-  readonly areaHeight: number;
-  readonly down: number;
-  readonly up: number;
-  readonly count: number;
-  readonly modifiers: number;
-  readonly held1To64: number;
+	readonly x: number;
+	readonly y: number;
+	readonly areaWidth: number;
+	readonly areaHeight: number;
+	readonly down: number;
+	readonly up: number;
+	readonly count: number;
+	readonly modifiers: number;
+	readonly held1To64: number;
+}
+
+declare enum modifierKeys { ctrl, alt, shift, super }
+
+declare enum extKeys {
+	escape,
+	insert, // equivalent to "Help" on Apple keyboards
+	delete,
+	home,
+	end,
+	pageUp,
+	pageDown,
+	up,
+	down,
+	left,
+	right,
+	f1, // F1..F12 are guaranteed to be consecutive
+	f2,
+	f3,
+	f4,
+	f5,
+	f6,
+	f7,
+	f8,
+	f9,
+	f10,
+	f11,
+	f12,
+	n0, // numpad keys; independent of Num Lock state
+	n1, // N0..N9 are guaranteed to be consecutive
+	n2,
+	n3,
+	n4,
+	n5,
+	n6,
+	n7,
+	n8,
+	n9,
+	nDot,
+	nEnter,
+	nAdd,
+	nSubtract,
+	nMultiply,
+	nDivide
 }
 
 export class UiAreaKeyEvent {
-	constructor(key: number, extKey: number, modifier: string, modifiers: any, up: boolean);
+	constructor(key: number, extKey: number, modifier: string, modifiers: any,
+				up: boolean);
 
-  key: string;
-  extKey: extKeys;
-  modifier: modifierKeys;
-  modifiers: number;
-  up: number;
+	key: string;
+	extKey: extKeys;
+	modifier: modifierKeys;
+	modifiers: number;
+	up: number;
 
-  static readonly modifierKeys: modifierKeys;
-  static readonly extKeys: extKeys;
+	static readonly modifierKeys: modifierKeys;
+	static readonly extKeys: extKeys;
 }
 
 export const UiDialogs: {
-  openFile(parent: any): any;
-  saveFile(parent: any): any;
-  msgBox(parent: any, title: string, description: string): any;
-  msgBoxError(parent: any, title: string, description: string): any;
-}
+	openFile(parent: UiWindow): string|null; saveFile(parent: UiWindow): string | null;
+	msgBox(parent: UiWindow, title: string, description: string): void;
+	msgBoxError(parent: UiWindow, title: string, description: string): void;
+};
+
+declare enum brushType { solid, linearGradient, radialGradient }
+
+declare enum lineCap { flat, round, square }
+
+declare enum lineJoin { miter, round, bevel }
 
 /**
  * A draw brush
@@ -528,6 +464,8 @@ export class DrawBrush {
 	outerRadius: number;
 }
 
+declare enum fillMode { winding, alternate }
+
 export class UiDrawPath {
 	constructor(mode?: fillMode);
 
@@ -535,13 +473,16 @@ export class UiDrawPath {
 
 	newFigure(x: number, y: number): void;
 
-	newFigureWithArc(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: number): void;
+	newFigureWithArc(xCenter: number, yCenter: number, radius: number, startAngle: number,
+					 sweep: number, negative: number): void;
 
 	lineTo(x: number, y: number): void;
 
-	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number, sweep: number, negative: boolean): void
+	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number,
+		  sweep: number, negative: boolean): void;
 
-	bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number, endY: number): void;
+	bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number,
+			 endY: number): void;
 
 	closeFigure(): void;
 
@@ -549,19 +490,15 @@ export class UiDrawPath {
 }
 
 export class DrawStrokeParams {
-  static readonly lineCap: lineCap;
-  static readonly lineJoin: lineJoin;
+	static readonly lineCap: lineCap;
+	static readonly lineJoin: lineJoin;
 
 	thickness: number;
-
 	cap: lineCap;
-
 	join: lineJoin;
-
 	miterLimit: number;
 
 	dashes: number[];
-
 	dashPhase: number;
 }
 
@@ -571,137 +508,131 @@ export class UiDrawMatrix {
 	setIdentity(): void;
 
 	scale(xCenter: number, yCenter: number, x: number, y: number): void;
-
 	translate(x: number, y: number): void;
-
 	rotate(x: number, y: number, amount: number): void;
-
 	skew(x: number, y: number, xAmount: number, yAmount: number): void;
-
 	multiply(m: number): void;
-
 	invertible(m: number): void;
 
 	/**
-   * returns true it it worked
-   */
+	 * returns true it it worked
+	 */
 	invert(m: number): boolean;
 
 	set(i: number, j: number, v: number): void;
+	get(i: number, j: number): number;
 
-	get(i: number, j: number): any;
-
-  readonly 0: [number];
-
+	readonly 0: [number];
 	readonly 1: [number];
-
 	readonly 2: [number];
 }
 
-export class DrawTextLayout {
-	constructor(str: AttributedString, font: FontDescriptor, width: number, align: textAlign);
+declare enum textAlign { left, center, right }
 
-	readonly extents: any;
+export class DrawTextLayout {
+	constructor(str: AttributedString, font: FontDescriptor, width: number,
+				align: textAlign);
+
+	readonly extents: Size;
 }
 
 /**
  * A static text label.
  */
 export class UiLabel extends UiControl {
-
-  constructor(label?: string);
+	constructor(label?: string);
 }
 
 /**
  * A container that organizes children as labeled fields.
  */
 export class UiForm extends UiControl {
-  /**
-   * Create a new UiForm object.
-   */
-  constructor();
+	/**
+	 * Create a new UiForm object.
+	 */
+	constructor();
 
-  /**
-   * If true, the container inserts some space between children.
-   */
-  padded: boolean;
+	/**
+	 * If true, the container inserts some space between children.
+	 */
+	padded: boolean;
 
-  /**
-   * Append a new child control as the last field with the specified label.
-   * @param label - the text to use as label of the field.
-   * @param control - the control to add as child.
-   * @param stretchy - whether the control should fill all the available space.
-   */
-  append(label: string, control: UiControl, stretchy: boolean): void;
+	/**
+	 * Append a new child control as the last field with the specified label.
+	 * @param label - the text to use as label of the field.
+	 * @param control - the control to add as child.
+	 * @param stretchy - whether the control should fill all the available space.
+	 */
+	append(label: string, control: UiControl, stretchy: boolean): void;
 
-  /**
-   * Remove a child control at the specified position.
-   * @param index - the index of the control to remove
-   */
-  deleteAt(index: number): void;
+	/**
+	 * Remove a child control at the specified position.
+	 * @param index - the index of the control to remove
+	 */
+	deleteAt(index: number): void;
 }
 
 /**
  * A base class for text related entries.
  */
 export abstract class UiEntryBase extends UiControl {
+	/**
+	 * Set or return the the content of the entry.
+	 */
+	text: string;
 
-  /**
-   * Set or return the the content of the entry.
-   */
-  text: string;
-
-  /**
-   * Whether the user is allowed to change the entry's contents.
-   */
-  readOnly: boolean;
-  /**
-   * Add a listener to the `changed` event. Emitted whenever the entry contents
-   * changed.
-   * @param callback - callback to execute when the event is fired.
-   */
-  onChanged(callback: () => any): void;
+	/**
+	 * Whether the user is allowed to change the entry's contents.
+	 */
+	readOnly: boolean;
+	/**
+	 * Add a listener to the `changed` event. Emitted whenever the entry contents
+	 * changed.
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onChanged(callback: () => any): void;
 }
 
 /**
  * A simple, single line text entry control.
  */
 export class UiEntry extends UiEntryBase {
-  constructor();
+	constructor();
 }
 
 /**
  * A multiline text entry.
  */
 export class UiMultilineEntry extends UiControl {
-  /**
-   * Create a new UiMultilineEntry object.
-   * @param wrapping - whether the multiline entry wrap text. Defaults to false.
-   */
-  constructor(wrapping?: boolean);
+	/**
+	 * Create a new UiMultilineEntry object.
+	 * @param wrapping - whether the multiline entry wrap text. Defaults to false.
+	 */
+	constructor(wrapping?: boolean);
 
-  /**
-   * Set or return the the content of the multiline entry.
-   */
-  text: string;
+	/**
+	 * Set or return the the content of the multiline entry.
+	 */
+	text: string;
 
-  /**
-   * Whether the user is allowed to change the entry's contents.
-   */
-  readOnly: boolean;
+	/**
+	 * Whether the user is allowed to change the entry's contents.
+	 */
+	readOnly: boolean;
 
-  /**
-   * Append the specified text to the entry's contents.
-   * @param text - the text to append.
-   */
-  append(text: string): void;
+	/**
+	 * Append the specified text to the entry's contents.
+	 * @param text - the text to append.
+	 */
+	append(text: string): void;
 
-  /**
-   * Add a listener to the `changed` event. Emitted whenever the entry's contents changed.
-   *
-   * @param callback - callback to execute when the event is fired.
-   */
-  onChanged(callback: () => any): void;
+	/**
+	 * Add a listener to the `changed` event. Emitted whenever the entry's contents
+	 * changed.
+	 *
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onChanged(callback: () => any): void;
 }
 
 /**
@@ -729,37 +660,37 @@ export class UiSearchEntry extends UiEntryBase {
  * Base class for vertical and horizontal boxes
  */
 export abstract class UiBox extends UiControl {
-  /**
-   * If true, the container inserts some space between children.
-   */
-  padded: boolean;
+	/**
+	 * If true, the container inserts some space between children.
+	 */
+	padded: boolean;
 
-  /**
-   * Append a new child control as the last child.
-   * @param control - the control to add as a child.
-   * @param stretchy - whever the control should fill all the available space.
-   */
-  append(control: UiControl, stretchy: boolean): void;
+	/**
+	 * Append a new child control as the last child.
+	 * @param control - the control to add as a child.
+	 * @param stretchy - whever the control should fill all the available space.
+	 */
+	append(control: UiControl, stretchy: boolean): void;
 
-  /**
-   * Remove a child control at specified position.
-   * @param index - the index of the control to remove
-   */
-  deleteAt(index: number): void;
+	/**
+	 * Remove a child control at specified position.
+	 * @param index - the index of the control to remove
+	 */
+	deleteAt(index: number): void;
 }
 
 /**
  * A container that stacks its chidren horizontally.
  */
 export class UiHorizontalBox extends UiBox {
-  constructor();
+	constructor();
 }
 
 /**
  * A container that stacks its children vertically.
  */
 export class UiVerticalBox extends UiBox {
-  constructor();
+	constructor();
 }
 
 /**
@@ -767,186 +698,178 @@ export class UiVerticalBox extends UiBox {
  * it's child.
  */
 export class UiGroup extends UiControl {
+	/**
+	 * Create a new UiGroup object.
+	 *
+	 * @param title - text to show in Group title bar. Default is `''`
+	 */
+	constructor(title?: string);
 
-  /**
-   * Create a new UiGroup object.
-   *
-   * @param title - text to show in Group title bar. Default is `''`
-   */
-  constructor(title?: string);
+	/**
+	 * Set or return the text to show in group caption.
+	 */
+	title: string;
 
-  /**
-   * Set or return the text to show in group caption.
-   */
-  title: string;
+	/**
+	 * Set the control to show in this group content area.
+	 * UiGroup instances can contain only one control. If you need
+	 * more, you have to use [Containers](containers.md).
+	 *
+	 * @param control - the control to add as child.
+	 */
+	setChild(control: UiControl): void;
 
-  /**
-   * Set the control to show in this group content area.
-   * UiGroup instances can contain only one control. If you need
-   * more, you have to use [Containers](containers.md).
-   *
-   * @param control - the control to add as child.
-   */
-  setChild(control: UiControl): void;
-
-  /**
-   * When true, an internal margin is added to the group.
-   */
-  margined: boolean;
+	/**
+	 * When true, an internal margin is added to the group.
+	 */
+	margined: boolean;
 }
 
+declare enum GridAlign { fill, start, center, end }
 
-declare enum GridAlign {
-  fill = 0,
-  start = 1,
-  center = 2,
-  end = 3
-}
-
-declare enum GridAt {
-  leading = 0,
-  top = 1,
-  trailing = 2,
-  bottom = 3,
-}
+declare enum GridAt { leading, top, trailing, bottom }
 
 /**
  * A powerful container that allow to specify size and position of each children.
  */
 export class UiGrid extends UiControl {
-  /**
-   * Create a new UiGrid object.
-   */
-  constructor();
+	/**
+	 * Create a new UiGrid object.
+	 */
+	constructor();
 
-  /**
-   * Enum defining the alignment of a control
-   */
-  static readonly align: GridAlign;
+	/**
+	 * Enum defining the alignment of a control
+	 */
+	static readonly align: GridAlign;
 
-  /**
-   * Enum defining the position where to insert a control into a grid
-   */
-  static readonly at: GridAt;
+	/**
+	 * Enum defining the position where to insert a control into a grid
+	 */
+	static readonly at: GridAt;
 
-  /**
-   * If true, the container inserts some space between children.
-   */
-  padded: boolean;
+	/**
+	 * If true, the container inserts some space between children.
+	 */
+	padded: boolean;
 
-  /**
-   * Insert a new child control before specified control.
-   * @param child - the control to insert
-   * @param before - the control will be inserted before this position
-   * @param at      [description]
-   * @param xspan - How many columns the component takes off.
-   * @param yspan - How many rows the component takes off.
-   * @param hexpand - whether the component can expand horizontally.
-   * @param halign - whether the component is aligned with the other components in the column.
-   * @param vexpand - whether the component can expand vertically.
-   * @param valign - whether the component is aligned with the other components in the row.
-   */
-  insertAt(child: UiControl, before: UiControl, at: GridAt, xspan: number, yspan: number, hexpand: number, halign: GridAlign, vexpan, valign: GridAlign): void;
+	/**
+	 * Insert a new child control before specified control.
+	 * @param child - the control to insert
+	 * @param before - the control will be inserted before this position
+	 * @param at      [description]
+	 * @param xspan - How many columns the component takes off.
+	 * @param yspan - How many rows the component takes off.
+	 * @param hexpand - whether the component can expand horizontally.
+	 * @param halign - whether the component is aligned with the other components in the
+	 * column.
+	 * @param vexpand - whether the component can expand vertically.
+	 * @param valign - whether the component is aligned with the other components in the
+	 * row.
+	 */
+	insertAt(child: UiControl, before: UiControl, at: GridAt, xspan: number,
+			 yspan: number, hexpand: number, halign: GridAlign, vexpan,
+			 valign: GridAlign): void;
 
-  /**
-   * Insert a new child control.
-   *
-   * > UIGrid expand does not work correctly when both align horizontal and align
-   * vertical are set. You must choose one so libui knows which direction to expand.
-   *
-   * @param child - the control to add as child.
-   * @param left - What column the component resides in.
-   * @param top - What row the component resides in.
-   * @param xspan - How many columns the component takes off.
-   * @param yspan - How many rows the component takes off.
-   * @param hexpand - whether the component can expand horizontally.
-   * @param halign - whether the component is aligned with the other components in the column.
-   * @param vexpand - whether the component can expand vertically.
-   * @param valign - whether the component is aligned with the other components in the row.
-   */
-  append(child: UiControl, left: number, top: number, xspan: number, yspan: number, hexpand: number, halign: GridAlign, vexpand: number, valign: GridAlign): void;
+	/**
+	 * Insert a new child control.
+	 *
+	 * > UIGrid expand does not work correctly when both align horizontal and align
+	 * vertical are set. You must choose one so libui knows which direction to expand.
+	 *
+	 * @param child - the control to add as child.
+	 * @param left - What column the component resides in.
+	 * @param top - What row the component resides in.
+	 * @param xspan - How many columns the component takes off.
+	 * @param yspan - How many rows the component takes off.
+	 * @param hexpand - whether the component can expand horizontally.
+	 * @param halign - whether the component is aligned with the other components in the
+	 * column.
+	 * @param vexpand - whether the component can expand vertically.
+	 * @param valign - whether the component is aligned with the other components in the
+	 * row.
+	 */
+	append(child: UiControl, left: number, top: number, xspan: number, yspan: number,
+		   hexpand: number, halign: GridAlign, vexpand: number, valign: GridAlign): void;
 }
 
 /**
  * A container that show each chidren in a separate tab.
  */
 export class UiTab extends UiControl {
+	constructor();
 
-  constructor();
+	/**
+	 * Return whether an internal margin is added to a page of the tab.
+	 * @param index - the index of the page to check.
+	 * @return `true` - whether the page has margins
+	 */
+	getMargined(index: number): boolean;
 
-  /**
-   * Return whether an internal margin is added to a page of the tab.
-   * @param index - the index of the page to check.
-   * @return `true` - whether the page has margins
-   */
-  getMargined(index: number): boolean;
+	/**
+	 * Add an internal margin to a page of the Tab.
+	 * @param index - the index of the page to set the margin on.
+	 * @param value - whether to enable or disable the margin.
+	 */
+	setMargined(index: number, value: boolean): void;
 
-  /**
-   * Add an internal margin to a page of the Tab.
-   * @param index - the index of the page to set the margin on.
-   * @param value - whether to enable or disable the margin.
-   */
-  setMargined(index: number, value: boolean): void;
+	/**
+	 * Append a new child control as last tab page.
+	 * @param label - the text to show for the new page caption.
+	 * @param control - the control to add as a child.
+	 */
+	append(label: string, control: UiControl): void;
 
-  /**
-   * Append a new child control as last tab page.
-   * @param label - the text to show for the new page caption.
-   * @param control - the control to add as a child.
-   */
-  append(label: string, control: UiControl): void;
+	/**
+	 * Insert a new child control before specified position.
+	 * @param label - the text to show for the new page caption.
+	 * @param before - the control will be inserted before this position
+	 * @param control - the control to insert
+	 */
+	insertAt(label: string, before: number, control: UiControl): void;
 
-  /**
-   * Insert a new child control before specified position.
-   * @param label - the text to show for the new page caption.
-   * @param before - the control will be inserted before this position
-   * @param control - the control to insert
-   */
-  insertAt(label: string, before: number, control: UiControl): void;
+	/**
+	 * Return the total number of tab pages contained in the control.
+	 */
+	numPages(): number;
 
-  /**
-   * Return the total number of tab pages contained in the control.
-   */
-  numPages(): number;
-
-  /**
-   * Remove the tab and control at specified position.
-   * @param index - the index of the tab to remove.
-   */
-  deleteAt(index: number): void
+	/**
+	 * Remove the tab and control at specified position.
+	 * @param index - the index of the tab to remove.
+	 */
+	deleteAt(index: number): void;
 }
-
 
 /**
  * A simple button.
  */
 export class UiButton extends UiControl {
-  /**
-   * Create a new UiButton object.
-   */
-  constructor(label?: string);
+	/**
+	 * Create a new UiButton object.
+	 */
+	constructor(label?: string);
 
-  /**
-   * Set or return the text of the button.
-   */
-  text: string;
+	/**
+	 * Set or return the text of the button.
+	 */
+	text: string;
 
-  /**
-   * Emitted when the button is clicked
-   *
-   * @param callback - callback to execute when the event is fired.
-   */
-  onClicked(callback: () => any): void;
+	/**
+	 * Emitted when the button is clicked
+	 *
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onClicked(callback: () => any): void;
 }
 
 /**
  * A control that represents a group of single-choise options.
  */
 export class UiRadioButtons extends UiControl {
-
-  /**
-   * Number of items in this radio buttons set
-   */
-  itemsCount: number;
+	/**
+	 * Number of items in this radio buttons set
+	 */
+	itemsCount: number;
 	/**
 	 * Create a new UiRadioButtons object.
 	 */
@@ -964,7 +887,8 @@ export class UiRadioButtons extends UiControl {
 	append(text: string): void;
 
 	/**
-	 * Add a listener to the `selected` event. Emitted whenever the selected option changes.
+	 * Add a listener to the `selected` event. Emitted whenever the selected option
+	 * changes.
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
@@ -1006,10 +930,11 @@ export class UiFontButton extends UiControl {
 	/**
 	 * Return the FontButton font value.
 	 */
-	readonly font: FontDescriptor
+	readonly font: FontDescriptor;
 
 	/**
-	 * Add a listener to the `changed` event. Emitted whenever the user changed the selected font.
+	 * Add a listener to the `changed` event. Emitted whenever the user changed the
+	 * selected font.
 	 *
 	 * @param  {Function} callback - callback to execute when the event is fired.
 	 */
@@ -1049,7 +974,7 @@ export class UiSpinbox extends UiControl {
 	 * @param min - minimum value of the spinbox. defaults to `0`
 	 * @param max - maximum value of the spinbox. defaults to `100`
 	 */
-	constructor(min: number, max?: number);
+	constructor(min?: number, max?: number);
 
 	/**
 	 * Set or return the the content of spinbox.
@@ -1068,56 +993,56 @@ export class UiSpinbox extends UiControl {
  * A checkbox control.
  */
 export class UiCheckbox extends UiControl {
-  /**
-   * Create a new UiCheckbox object.
-   */
-  constructor(label?: string);
+	/**
+	 * Create a new UiCheckbox object.
+	 */
+	constructor(label?: string);
 
-  /**
-   * Set or return the text label for the checkbox.
-   */
-  text: string;
+	/**
+	 * Set or return the text label for the checkbox.
+	 */
+	text: string;
 
-  /**
-   * Whether the control is checked.
-   */
-  checked: boolean;
+	/**
+	 * Whether the control is checked.
+	 */
+	checked: boolean;
 
-  /**
-   * Add a listener to the `toggled` event. Emitted whenever the control
-   * `checked` state change.
-   * @param callback - callback to execute when the event is fired.
-   */
-  onToggled(callback: () => any): void;
+	/**
+	 * Add a listener to the `toggled` event. Emitted whenever the control
+	 * `checked` state change.
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onToggled(callback: () => any): void;
 }
 
 /**
  * A drop down combo box that allow list selection only.
  */
 export class UiCombobox extends UiControl {
-  /**
-   * Create a new UiCombobox object.
-   */
-  constructor();
+	/**
+	 * Create a new UiCombobox object.
+	 */
+	constructor();
 
-  /**
-   * Return or set the current selected item by index.
-   */
-  selected: number;
+	/**
+	 * Return or set the current selected item by index.
+	 */
+	selected: number;
 
-  /**
-   * Append a new text item to the drop down list.
-   * @param text - the item to append.
-   */
-  append(text: string): void;
+	/**
+	 * Append a new text item to the drop down list.
+	 * @param text - the item to append.
+	 */
+	append(text: string): void;
 
-  /**
-   * Add a listener to the `selected` event. Emitted whenever the selected
-   * item changes.
-   *
-   * @param callback - callback to execute when the event is fired.
-   */
-  onSelected(callback: () => any): void;
+	/**
+	 * Add a listener to the `selected` event. Emitted whenever the selected
+	 * item changes.
+	 *
+	 * @param callback - callback to execute when the event is fired.
+	 */
+	onSelected(callback: () => any): void;
 }
 
 /**
@@ -1125,29 +1050,29 @@ export class UiCombobox extends UiControl {
  * value.
  */
 export class UiEditableCombobox extends UiControl {
-  /**
-   * Create a new UiEditableCombobox object.
-   */
-  constructor();
+	/**
+	 * Create a new UiEditableCombobox object.
+	 */
+	constructor();
 
-  /**
-   * Return or set the current text.
-   */
-  text: string;
+	/**
+	 * Return or set the current text.
+	 */
+	text: string;
 
-  /**
-   * Append a new text item to the drop down list.
-   * @param text - the item to append.
-   */
-  append(text: string);
+	/**
+	 * Append a new text item to the drop down list.
+	 * @param text - the item to append.
+	 */
+	append(text: string): void;
 
-  /**
-   * Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
-   *
-   * @param callback - callback to execute when the event is
-   * fired.
-   */
-  onChanged(callback: () => any): void;
+	/**
+	 * Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
+	 *
+	 * @param callback - callback to execute when the event is
+	 * fired.
+	 */
+	onChanged(callback: () => any): void;
 }
 
 /**
@@ -1223,12 +1148,11 @@ export class UiProgressBar extends UiControl {
 
 	/**
 	 * The current position of the progress bar.
-   * 
-   * Can be set to `-1` to create an indeterminate progress bar.
+	 *
+	 * Can be set to `-1` to create an indeterminate progress bar.
 	 */
 	value: number;
 }
-
 
 /**
  * The top bar on a window that can have multiple items.
@@ -1257,25 +1181,25 @@ export class UiMenu {
 	appendCheckItem(caption: string): UiMenuItem;
 
 	/**
-	 * Append a Quit button. This accepts no text, the caption defaults to `Quit`.
+	 * Append an OS-provided quit button.
 	 * @return the new appended UiMenuItem
 	 */
 	appendQuitItem(): UiMenuItem;
 
 	/**
-	 * Append a Preferences button. This accepts no text, the caption defaults to `Preferences`.
+	 * Append a OS-provided preferences button.
 	 * @return the new appended UiMenuItem
 	 */
 	appendPreferencesItem(): UiMenuItem;
 
 	/**
-	 * Append an About button. This accepts no text, the caption defaults to `About`.
+	 * Append an OS-provided about button.
 	 * @return the new appended UiMenuItem
 	 */
 	appendAboutItem(): UiMenuItem;
 
 	/**
-	 * Append a Separator between menu items.
+	 * Append a separator between menu items.
 	 * @return the new appended UiMenuItem
 	 */
 	appendSeparator(): UiMenuItem;
@@ -1285,24 +1209,6 @@ export class UiMenu {
  * A single button contained in a menu.
  */
 export class UiMenuItem {
-	/**
-	 * Create a new UiMenuItem object.
-   * @param handle Libui handle. Exected to be created with handle from following method from libui:
-   * 
-   *
-   ```
-   import * as Menu from 'libui-node';
-
-   Menu.appendItem(menu.handle, caption: string);
-   Menu.appendCheckItem(menu.handle, caption: string);
-   Menu.appendQuitItem(menu.handle);
-   Menu.appendPreferencesItem(menu.handle);
-   Menu.appendAboutItem(menu.handle);
-   Menu.appendSeparator(menu.handle);
-   ```
-	 */
-	constructor(handle: any);
-
 	/**
 	 * Enable this menu item.
 	 */
