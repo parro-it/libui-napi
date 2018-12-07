@@ -48,3 +48,13 @@ If you are new to the framework, you should start reading basic documentation on
 * [UiColorButton](colorbutton.md) - A button that opens a color palette popup.
 * [UiFontButton](fontbutton.md) - A button that opens a font chooser.
 
+## Buttons
+
+* [UiButton](button.md) - A simple button.
+* [UiColorButton](colorbutton.md) - A button that opens a color palette popup.
+* [UiFontButton](fontbutton.md) - A button that opens a font chooser.
+
+## Menus
+
+* [UiMenu](menu.md) - A window menu.
+* [UiMenuItem](menu-item.md) - A single menu item.
