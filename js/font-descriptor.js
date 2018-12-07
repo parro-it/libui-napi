@@ -40,15 +40,15 @@ class FontDescriptor {
 
 	/**
 	 * Return weight of the font.
-	 * @return {number}
+	 * @return {FontAttribute.weight}
 	 */
 	get weight() {
 		return FontDescriptorC.getWeight(this.handle);
 	}
 
 	/**
-	 * Return 1 if the font is italic, otherwise 0.
-	 * @return {number}
+	 * Return the italic attribute of the font
+	 * @return {FontAttribute.italic}
 	 */
 	get italic() {
 		return FontDescriptorC.getItalic(this.handle);
