@@ -364,6 +364,63 @@ export abstract class UiControl {
 	public getToplevel(): boolean;
 	public setToplevel(value: boolean): void;
 }
+
+export class AreaDrawContext {
+	/**
+	 * Draw a path (the outline).
+	 * @param path - the path to draw
+	 * @param brush - the brush to draw with
+	 * @param stroke - the stroke params to draw with
+	 */
+	public stroke(path: UiDrawPath, brush: DrawBrush, stroke: DrawStrokeParams): void;
+
+	/**
+	 * Draw a path (filled).
+	 * @param path - the path to draw
+	 * @param brush - the brush to draw with
+	 */
+	public fill(path: UiDrawPath, brush: DrawBrush): void;
+
+	/**
+	 * Apply a matrix transformation
+	 * @param matrix - the matrix to apply
+	 */
+	public transform(matrix: UiDrawMatrix): void;
+
+	public clip(path: UiDrawPath): void;
+
+	/**
+	 * Save a transformation state.
+	 */
+	public save(): void;
+
+	/**
+	 * Restore a transformation state.
+	 */
+	public restore(): void;
+
+	public text(x: number, y: number, textLayout: DrawTextLayout): void;
+}
+
+declare class AreaDrawParams {
+	public context: AreaDrawContext;
+	public areaWidth: number;
+	public areaHeight: number;
+	public clipX: number;
+	public clipY: number;
+	public clipWidth: number;
+	public clipHeight: number;
+
+	/* getters for public properties */
+	public getContext(): AreaDrawContext;
+	public getAreaWidth(): number;
+	public getAreaHeight(): number;
+	public getClipX(): number;
+	public getClipY(): number;
+	public getClipWidth(): number;
+	public getClipHeight(): number;
+}
+
 /**
  * An area to draw on.
  */
@@ -377,12 +434,12 @@ export class UiArea extends UiControl {
 	 * @param keyEvent - callback for key events
 	 */
 	constructor(
-		// TODO params
-		draw: (uiArea: UiArea, p: any) => any,
-		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-		dragBroken: (uiArea: UiArea) => any,
-		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any);
+		draw: (uiArea: UiArea, p: AreaDrawParams) => void,
+		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => void,
+		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => void,
+		dragBroken: (uiArea: UiArea) => void,
+		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => void,
+	);
 
 	/**
 	 * Create a new UiArea object.
