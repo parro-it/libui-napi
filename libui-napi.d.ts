@@ -297,7 +297,7 @@ export class UiWindow {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	public onClosing(callback: () => any): void;
+	public onClosing(callback: () => void): void;
 
 	/**
 	 * Add a listener to the `contentSizeChanged` event. This event is emitted
