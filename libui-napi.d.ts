@@ -646,13 +646,13 @@ export class DrawStrokeParams {
 
 export class UiDrawMatrix {
 
-	public readonly 0: [number];
-	public readonly 1: [number];
-	public readonly 2: [number];
+	public readonly 0: number;
+	public readonly 1: number;
+	public readonly 2: number;
 	constructor();
-	public get0(): [number];
-	public get1(): [number];
-	public get2(): [number];
+	public get0(): number;
+	public get1(): number;
+	public get2(): number;
 
 	public setIdentity(): void;
 
@@ -687,12 +687,12 @@ export class DrawTextLayout {
  */
 export class UiLabel extends UiControl {
 
-	public text: any;
+	public text: string;
 	constructor(label?: string);
 
 	/* getter/setters for public properties */
-	public getText(): any;
-	public setText(value: any): void;
+	public getText(): string;
+	public setText(value: string): void;
 }
 
 /**
