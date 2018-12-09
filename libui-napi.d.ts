@@ -123,11 +123,15 @@ export class FontAttribute {
 	static getUnderlineColor(): {type: textAttributeType; color: Color | null;}|null;
 	static getOTFeatures(): OpenTypeFeatures|null;
 
-	static readonly weight = textWeight;
-	static readonly italic = textItalic;
-	static readonly stretch = textStretch;
-	static readonly underline = textUnderline;
-	static readonly underlineColor = textUnderlineColor;
+	
+}
+
+export namespace FontAttribute {
+	type weight = textWeight;
+	type italic = textItalic;
+	type stretch = textStretch;
+	type underline = textUnderline;
+	type underlineColor = textUnderlineColor;
 }
 
 export class OpenTypeFeatures {
@@ -362,48 +366,50 @@ export class UiAreaMouseEvent {
 	readonly held1To64: number;
 }
 
-declare enum modifierKeys { ctrl, alt, shift, super }
+export namespace UiAreaKeyEvent {
+	enum modifierKeys { ctrl, alt, shift, super }
 
-declare enum extKeys {
-	escape,
-	insert, // equivalent to "Help" on Apple keyboards
-	delete,
-	home,
-	end,
-	pageUp,
-	pageDown,
-	up,
-	down,
-	left,
-	right,
-	f1, // F1..F12 are guaranteed to be consecutive
-	f2,
-	f3,
-	f4,
-	f5,
-	f6,
-	f7,
-	f8,
-	f9,
-	f10,
-	f11,
-	f12,
-	n0, // numpad keys; independent of Num Lock state
-	n1, // N0..N9 are guaranteed to be consecutive
-	n2,
-	n3,
-	n4,
-	n5,
-	n6,
-	n7,
-	n8,
-	n9,
-	nDot,
-	nEnter,
-	nAdd,
-	nSubtract,
-	nMultiply,
-	nDivide
+	enum extKeys {
+		escape,
+		insert, // equivalent to "Help" on Apple keyboards
+		delete,
+		home,
+		end,
+		pageUp,
+		pageDown,
+		up,
+		down,
+		left,
+		right,
+		f1, // F1..F12 are guaranteed to be consecutive
+		f2,
+		f3,
+		f4,
+		f5,
+		f6,
+		f7,
+		f8,
+		f9,
+		f10,
+		f11,
+		f12,
+		n0, // numpad keys; independent of Num Lock state
+		n1, // N0..N9 are guaranteed to be consecutive
+		n2,
+		n3,
+		n4,
+		n5,
+		n6,
+		n7,
+		n8,
+		n9,
+		nDot,
+		nEnter,
+		nAdd,
+		nSubtract,
+		nMultiply,
+		nDivide
+	}
 }
 
 export class UiAreaKeyEvent {
@@ -411,14 +417,15 @@ export class UiAreaKeyEvent {
 				up: boolean);
 
 	key: string;
-	extKey: extKeys;
-	modifier: modifierKeys;
+	extKey: UiAreaKeyEvent.extKeys;
+	modifier: UiAreaKeyEvent.modifierKeys;
 	modifiers: number;
 	up: number;
 
-	static readonly modifierKeys = modifierKeys;
-	static readonly extKeys = extKeys;
+	
 }
+
+
 
 export const UiDialogs: {
 	openFile(parent: UiWindow): string|null; saveFile(parent: UiWindow): string | null;
@@ -426,11 +433,16 @@ export const UiDialogs: {
 	msgBoxError(parent: UiWindow, title: string, description: string): void;
 };
 
-declare enum brushType { solid, linearGradient, radialGradient }
 
-declare enum lineCap { flat, round, square }
+export namespace DrawBrush {
+	enum brushType { solid, linearGradient, radialGradient }
+}
 
-declare enum lineJoin { miter, round, bevel }
+export namespace DrawStrokeParams {
+	enum lineCap { flat, round, square }
+
+	enum lineJoin { miter, round, bevel }
+}
 
 /**
  * A draw brush
@@ -440,7 +452,7 @@ export class DrawBrush {
 
 	color: Color;
 
-	type: brushType;
+	type: DrawBrush.brushType;
 
 	/**
 	 * The gradient stops
@@ -492,12 +504,10 @@ export class UiDrawPath {
 }
 
 export class DrawStrokeParams {
-	static readonly lineCap = lineCap;
-	static readonly lineJoin = lineJoin;
 
 	thickness: number;
-	cap: lineCap;
-	join: lineJoin;
+	cap: DrawStrokeParams.lineCap;
+	join: DrawStrokeParams.lineJoin;
 	miterLimit: number;
 
 	dashes: number[];
@@ -729,9 +739,17 @@ export class UiGroup extends UiControl {
 	margined: boolean;
 }
 
-declare enum GridAlign { fill, start, center, end }
+export namespace UiGrid {
+	/**
+	 * Enum defining the alignment of a control
+	 */
+	enum GridAlign { fill, start, center, end }
 
-declare enum GridAt { leading, top, trailing, bottom }
+	/**
+	 * Enum defining the position where to insert a control into a grid
+	 */
+	enum GridAt { leading, top, trailing, bottom }
+}
 
 /**
  * A powerful container that allow to specify size and position of each children.
@@ -741,16 +759,6 @@ export class UiGrid extends UiControl {
 	 * Create a new UiGrid object.
 	 */
 	constructor();
-
-	/**
-	 * Enum defining the alignment of a control
-	 */
-	static readonly align = GridAlign;
-
-	/**
-	 * Enum defining the position where to insert a control into a grid
-	 */
-	static readonly at = GridAt;
 
 	/**
 	 * If true, the container inserts some space between children.
@@ -771,9 +779,9 @@ export class UiGrid extends UiControl {
 	 * @param valign - whether the component is aligned with the other components in the
 	 * row.
 	 */
-	insertAt(child: UiControl, before: UiControl, at: GridAt, xspan: number,
-			 yspan: number, hexpand: number, halign: GridAlign, vexpan,
-			 valign: GridAlign): void;
+	insertAt(child: UiControl, before: UiControl, at: UiGrid.GridAt, xspan: number,
+			 yspan: number, hexpand: number, halign: UiGrid.GridAlign, vexpan,
+			 valign: UiGrid.GridAlign): void;
 
 	/**
 	 * Insert a new child control.
@@ -794,7 +802,7 @@ export class UiGrid extends UiControl {
 	 * row.
 	 */
 	append(child: UiControl, left: number, top: number, xspan: number, yspan: number,
-		   hexpand: number, halign: GridAlign, vexpand: number, valign: GridAlign): void;
+		   hexpand: number, halign: UiGrid.GridAlign, vexpand: number, valign: UiGrid.GridAlign): void;
 }
 
 /**
