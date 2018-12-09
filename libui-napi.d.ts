@@ -85,6 +85,13 @@ export class FontDescriptor {
 	 */
 	constructor(family: string|object, size: number, weight: number, italic: number,
 				stretch: number);
+
+	/* getter/setters for public properties */
+	public getFamily(): string;
+	public getSize(): number;
+	public getWeight(): textWeight;
+	public getItalic(): textItalic;
+	public getStretch(): number;
 }
 
 /**
@@ -153,6 +160,16 @@ export class Color {
 	public a: number;
 	constructor(r: number, g: number, b: number, a: number);
 	constructor(other: Color);
+
+	/* getter/setters for public properties */
+	public getR(): number;
+	public setR(value: number): void;
+	public getG(): number;
+	public setG(value: number): void;
+	public getB(): number;
+	public setB(value: number): void;
+	public getA(): number;
+	public setA(value: number): void;
 }
 
 export class Point {
@@ -160,18 +177,36 @@ export class Point {
 	public y: number;
 	constructor(x: number, y: number);
 	constructor(other: Point);
+
+	/* getter/setters for public properties */
+	public getX(): number;
+	public setX(value: number): void;
+	public getY(): number;
+	public setY(value: number): void;
 }
 
 export class Size {
 	public w: number;
 	public h: number;
 	constructor(w: number, h: number);
+
+	/* getter/setters for public properties */
+	public getW(): number;
+	public setW(value: number): void;
+	public getH(): number;
+	public setH(value: number): void;
 }
 
 export class BrushGradientStop {
 	public pos: number;
 	public color: Color;
 	constructor(pos: number, color: Color);
+
+	/* getter/setters for public properties */
+	public getPos(): number;
+	public setPos(value: number): void;
+	public getColor(): Color;
+	public setColor(value: Color): void;
 }
 
 export class AttributedString {
@@ -236,6 +271,18 @@ export class UiWindow {
 	 */
 	constructor(title: string, width: number, height: number, hasMenubar: boolean);
 
+	/* getter/setters for public properties */
+	public getTitle(): string;
+	public setTitle(value: string): void;
+	public getContentSize(): {width: number; height: number};
+	public setContentSize(value: {width: number; height: number}): void;
+	public getMargined(): boolean;
+	public setMargined(value: boolean): void;
+	public getBorderless(): boolean;
+	public setBorderless(value: boolean): void;
+	public getFullscreen(): boolean;
+	public setFullscreen(value: boolean): void;
+
 	/**
 	 * Show the window.
 	 * LibUi always returns null
@@ -295,6 +342,14 @@ export abstract class UiControl {
 	 * Create a new UiControl object.
 	 */
 	constructor(handle: any);
+
+	/* getter/setters for public properties */
+	public getEnabled(): boolean;
+	public setEnabled(value: boolean): void;
+	public getVisible(): boolean;
+	public setVisible(value: boolean): void;
+	public getToplevel(): boolean;
+	public setToplevel(value: boolean): void;
 }
 /**
  * An area to draw on.
@@ -369,6 +424,17 @@ export class UiAreaMouseEvent {
 	constructor(x: number, y: number, areaWidth: number, areaHeight: number,
 				down: boolean, up: boolean, count: number, modifiers: any,
 				held1To64: any);
+
+	/* getter/setters for public properties */
+	public getX(): number;
+	public getY(): number;
+	public getAreaWidth(): number;
+	public getAreaHeight(): number;
+	public getDown(): number;
+	public getUp(): number;
+	public getCount(): number;
+	public getModifiers(): number;
+	public getHeld1To64(): number;
 }
 
 export namespace UiAreaKeyEvent {
@@ -431,6 +497,18 @@ export class UiAreaKeyEvent {
 	public up: number;
 	constructor(key: number, extKey: number, modifier: string, modifiers: any,
 				up: boolean);
+
+	/* getter/setters for public properties */
+	public getKey(): string;
+	public setKey(value: string): void;
+	public getExtKey(): UiAreaKeyEvent.extKeys;
+	public setExtKey(value: UiAreaKeyEvent.extKeys): void;
+	public getModifier(): UiAreaKeyEvent.modifierKeys;
+	public setModifier(value: UiAreaKeyEvent.modifierKeys): void;
+	public getModifiers(): number;
+	public setModifiers(value: number): void;
+	public getUp(): number;
+	public setUp(value: number): void;
 }
 
 export const UiDialogs: {
@@ -493,6 +571,20 @@ export class DrawBrush {
 	 */
 	public outerRadius: number;
 	constructor();
+
+	/* getter/setters for public properties */
+	public getColor(): Color;
+	public setColor(value: Color): void;
+	public getType(): DrawBrush.brushType;
+	public setType(value: DrawBrush.brushType): void;
+	public getStops(): BrushGradientStop[];
+	public setStops(value: BrushGradientStop[]): void;
+	public getStart(): Point;
+	public setStart(value: Point): void;
+	public getEnd(): Point;
+	public setEnd(value: Point): void;
+	public getOuterRadius(): number;
+	public setOuterRadius(value: number): void;
 }
 
 declare enum fillMode { winding, alternate }
@@ -535,6 +627,20 @@ export class DrawStrokeParams {
 
 	public dashes: number[];
 	public dashPhase: number;
+
+	/* getter/setters for public properties */
+	public getThickness(): number;
+	public setThickness(value: number): void;
+	public getCap(): DrawStrokeParams.lineCap;
+	public setCap(value: DrawStrokeParams.lineCap): void;
+	public getJoin(): DrawStrokeParams.lineJoin;
+	public setJoin(value: DrawStrokeParams.lineJoin): void;
+	public getMiterLimit(): number;
+	public setMiterLimit(value: number): void;
+	public getDashes(): number[];
+	public setDashes(value: number[]): void;
+	public getDashPhase(): number;
+	public setDashPhase(value: number): void;
 }
 
 export class UiDrawMatrix {
@@ -543,6 +649,9 @@ export class UiDrawMatrix {
 	public readonly 1: [number];
 	public readonly 2: [number];
 	constructor();
+	public get0(): [number];
+	public get1(): [number];
+	public get2(): [number];
 
 	public setIdentity(): void;
 
@@ -569,6 +678,7 @@ export class DrawTextLayout {
 	public readonly extents: Size;
 	constructor(str: AttributedString, font: FontDescriptor, width: number,
 				align: textAlign);
+	public getExtents(): Size;
 }
 
 /**
@@ -578,6 +688,10 @@ export class UiLabel extends UiControl {
 
 	public text: any;
 	constructor(label?: string);
+
+	/* getter/setters for public properties */
+	public getText(): any;
+	public setText(value: any): void;
 }
 
 /**
@@ -593,6 +707,10 @@ export class UiForm extends UiControl {
 	 * Create a new UiForm object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Append a new child control as the last field with the specified label.
@@ -622,6 +740,13 @@ export abstract class UiEntryBase extends UiControl {
 	 * Whether the user is allowed to change the entry's contents.
 	 */
 	public readOnly: boolean;
+
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getReadOnly(): boolean;
+	public setReadOnly(value: boolean): void;
+
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry contents
 	 * changed.
@@ -656,6 +781,12 @@ export class UiMultilineEntry extends UiControl {
 	 * @param wrapping - whether the multiline entry wrap text. Defaults to false.
 	 */
 	constructor(wrapping?: boolean);
+
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getReadOnly(): boolean;
+	public setReadOnly(value: boolean): void;
 
 	/**
 	 * Append the specified text to the entry's contents.
@@ -701,6 +832,10 @@ export abstract class UiBox extends UiControl {
 	 * If true, the container inserts some space between children.
 	 */
 	public padded: boolean;
+
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Append a new child control as the last child.
@@ -752,6 +887,12 @@ export class UiGroup extends UiControl {
 	 */
 	constructor(title?: string);
 
+	/* getter/setters for public properties */
+	public getTitle(): string;
+	public setTitle(value: string): void;
+	public getMargined(): boolean;
+	public setMargined(value: boolean): void;
+
 	/**
 	 * Set the control to show in this group content area.
 	 * UiGroup instances can contain only one control. If you need
@@ -793,10 +934,15 @@ export class UiGrid extends UiControl {
 	 * If true, the container inserts some space between children.
 	 */
 	public padded: boolean;
+
 	/**
 	 * Create a new UiGrid object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Insert a new child control before specified control.
@@ -908,6 +1054,10 @@ export class UiButton extends UiControl {
 	 */
 	constructor(label?: string);
 
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+
 	/**
 	 * Emitted when the button is clicked
 	 *
@@ -929,10 +1079,17 @@ export class UiRadioButtons extends UiControl {
 	 * Return or set the currently selected item by index.
 	 */
 	public selected: string;
+
 	/**
 	 * Create a new UiRadioButtons object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getItemsCount(): number;
+	public setItemsCount(value: number): void;
+	public getSelected(): string;
+	public setSelected(value: string): void;
 
 	/**
 	 * Append a new radio option as the last item with the specified text.
@@ -963,6 +1120,10 @@ export class UiColorButton extends UiControl {
 	 */
 	constructor();
 
+	/* getter/setters for public properties */
+	public getColor(): Color;
+	public setColor(value: Color): void;
+
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the user
 	 * changed the selected color.
@@ -985,6 +1146,9 @@ export class UiFontButton extends UiControl {
 	 * Create a new UiFontButton object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getFont(): FontDescriptor;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the user changed the
@@ -1011,6 +1175,10 @@ export class UiSlider extends UiControl {
 	 */
 	constructor(min?: number, max?: number);
 
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
+
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the slider value changed.
 	 *
@@ -1028,12 +1196,17 @@ export class UiSpinbox extends UiControl {
 	 * Set or return the the content of spinbox.
 	 */
 	public value: number;
+
 	/**
 	 * Create a new UiSpinbox object.
 	 * @param min - minimum value of the spinbox. defaults to `0`
 	 * @param max - maximum value of the spinbox. defaults to `100`
 	 */
 	constructor(min?: number, max?: number);
+
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
@@ -1062,6 +1235,12 @@ export class UiCheckbox extends UiControl {
 	 */
 	constructor(label?: string);
 
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getChecked(): boolean;
+	public setChecked(value: boolean): void;
+
 	/**
 	 * Add a listener to the `toggled` event. Emitted whenever the control
 	 * `checked` state change.
@@ -1083,6 +1262,10 @@ export class UiCombobox extends UiControl {
 	 * Create a new UiCombobox object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getSelected(): number;
+	public setSelected(value: number): void;
 
 	/**
 	 * Append a new text item to the drop down list.
@@ -1113,6 +1296,10 @@ export class UiEditableCombobox extends UiControl {
 	 * Create a new UiEditableCombobox object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
 
 	/**
 	 * Append a new text item to the drop down list.
@@ -1162,6 +1349,10 @@ export abstract class DateTimePickerBase extends UiControl {
 	 * Set or return the date/time represented by the control.
 	 */
 	public time: Date;
+
+	/* getter/setters for public properties */
+	public getTime(): Date;
+	public setTime(value: Date): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry contents changed.
@@ -1216,6 +1407,10 @@ export class UiProgressBar extends UiControl {
 	 * Create a new UiProgressBar object.
 	 */
 	constructor();
+
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
 }
 
 /**
@@ -1278,6 +1473,10 @@ export class UiMenuItem {
 	 * whether it is checked or not.
 	 */
 	public checked: boolean;
+
+	/* getter/setters for public properties */
+	public getChecked(): boolean;
+	public setChecked(value: boolean): void;
 
 	/**
 	 * Enable this menu item.

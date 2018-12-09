@@ -7,6 +7,7 @@ win.onClosing(() => {
 });
 
 const btn = new UiButton('full');
+btn.setText('full screen');
 btn.onClicked(() => {
     win.fullscreen = !win.fullscreen;
     btn.text = win.fullscreen ? 'normal' : 'fullscreen';
