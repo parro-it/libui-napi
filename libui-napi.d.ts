@@ -1,50 +1,3 @@
-declare enum textWeight {
-	minimum,
-	thin,
-	ultraLight,
-	light,
-	book,
-	normal,
-	medium,
-	semiBold,
-	bold,
-	ultraBold,
-	heavy,
-	ultraHeavy,
-	maximum,
-}
-
-declare enum textItalic { normal, oblique, italic }
-
-declare enum textStretch {
-	ultraCondensed,
-	extraCondensed,
-	condensed,
-	semiCondensed,
-	normal,
-	semiExpanded,
-	expanded,
-	extraExpanded,
-	ultraExpanded,
-}
-
-declare enum textAttributeType {
-	family,
-	size,
-	weight,
-	italic,
-	stretch,
-	color,
-	background,
-	underline,
-	underlineColor,
-	features,
-}
-
-declare enum textUnderline { none, single, double, suggestion }
-
-declare enum textUnderlineColor { custom, spelling, grammar, auxiliary }
-
 /**
  * An object that contains information on a system font.
  */
@@ -63,12 +16,12 @@ export class FontDescriptor {
 	/**
 	 * Return weight of the font.
 	 */
-	public readonly weight: textWeight;
+	public readonly weight: FontAttribute.weight;
 
 	/**
 	 * Return `1` if the font is italic, otherwise `0`.
 	 */
-	public readonly italic: textItalic;
+	public readonly italic: FontAttribute.italic;
 
 	/**
 	 * Return horizontal stretch value for the font.
@@ -89,8 +42,8 @@ export class FontDescriptor {
 	/* getter/setters for public properties */
 	public getFamily(): string;
 	public getSize(): number;
-	public getWeight(): textWeight;
-	public getItalic(): textItalic;
+	public getWeight(): FontAttribute.weight;
+	public getItalic(): FontAttribute.italic;
 	public getStretch(): number;
 }
 
@@ -107,49 +60,108 @@ export function startTimer(): void;
 
 export function onShouldQuit(cb: () => void): void;
 
-type UnderlineColor = {
-	type: textAttributeType; color: Color | null;
-}|null;
+interface UnderlineColor {
+	type: FontAttribute.type;
+	color: Color|null;
+}
 
 export class FontAttribute {
 	public static newFamily(v: string): FontAttribute;
 	public static newSize(v: number): FontAttribute;
-	public static newWeight(v: textWeight): FontAttribute;
-	public static newItalic(v: textItalic): FontAttribute;
-	public static newStretch(v: textStretch): FontAttribute;
+	public static newWeight(v: FontAttribute.weight): FontAttribute;
+	public static newItalic(v: FontAttribute.italic): FontAttribute;
+	public static newStretch(v: FontAttribute.stretch): FontAttribute;
 	public static newColor(c: Color): FontAttribute;
 	public static newBackgroundColor(c: Color): FontAttribute;
-	public static newUnderline(v: textUnderline): FontAttribute;
-	public static newUnderlineColor(type: textUnderlineColor,
+	public static newUnderline(v: FontAttribute.underline): FontAttribute;
+	public static newUnderlineColor(type: FontAttribute.underlineColor,
 									color?: Color): FontAttribute;
 	public static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
 
-	public static getFamily(): string|null;
-	public static getSize(): number|null;
-	public static getWeight(): textWeight|null;
-	public static getItalic(): textItalic|null;
-	public static getStretch(): textStretch|null;
-	public static getColor(): Color|null;
-	public static getUnderline(): textUnderline|null;
-	public static getUnderlineColor(): UnderlineColor;
-	public static getOTFeatures(): OpenTypeFeatures|null;
 	constructor(other: FontAttribute);
+
+	public getFamily(): string|null;
+	public getSize(): number|null;
+	public getWeight(): FontAttribute.weight|null;
+	public getItalic(): FontAttribute.italic|null;
+	public getStretch(): FontAttribute.stretch|null;
+	public getColor(): Color|null;
+	public getUnderline(): FontAttribute.underline|null;
+	public getUnderlineColor(): UnderlineColor|null;
+	public getOTFeatures(): OpenTypeFeatures|null;
+
+	public getAttributeType(): FontAttribute.type;
 }
 
 export namespace FontAttribute {
-type weight = textWeight;
-type italic = textItalic;
-type stretch = textStretch;
-type underline = textUnderline;
-type underlineColor = textUnderlineColor;
+export enum weight {
+	minimum,
+	thin,
+	ultraLight,
+	light,
+	book,
+	normal,
+	medium,
+	semiBold,
+	bold,
+	ultraBold,
+	heavy,
+	ultraHeavy,
+	maximum,
+}
+
+export enum italic {
+	normal,
+	oblique,
+	italic,
+}
+
+export enum stretch {
+	ultraCondensed,
+	extraCondensed,
+	condensed,
+	semiCondensed,
+	normal,
+	semiExpanded,
+	expanded,
+	extraExpanded,
+	ultraExpanded,
+}
+
+export enum type {
+	family,
+	size,
+	weight,
+	italic,
+	stretch,
+	color,
+	background,
+	underline,
+	underlineColor,
+	features,
+}
+
+export enum underline {
+	none,
+	single,
+	double,
+	suggestion,
+}
+
+export enum underlineColor {
+	custom,
+	spelling,
+	grammar,
+	auxiliary,
+}
 }
 
 export class OpenTypeFeatures {
 	public add(tag: string, value: number): void;
 	public remove(tag: string): void;
 	public get(tag: string): number;
-	public forEach(cb: (feat: OpenTypeFeatures, str: string, val: number) => boolean):
-		void;
+	public forEach(cb: (feat: OpenTypeFeatures, str: string, val: number) => boolean |
+																			 void): void;
 	public clone(): OpenTypeFeatures;
 }
 
@@ -221,7 +233,7 @@ export class AttributedString {
 	public deleteString(start: number, end: number): void;
 	public setAttribute(attr: FontAttribute, start: number, end: number): void;
 	public forEach(cb: (str: AttributedString, attr: FontAttribute, start: number,
-						end: number) => boolean): void;
+						end: number) => boolean | void): void;
 	public numGraphemes(): number;
 	public byteIndexToGrapheme(pos: number): number;
 	public graphemeToByteIndex(pos: number): number;
@@ -518,7 +530,7 @@ export const UiDialogs: {
 };
 
 export namespace DrawBrush {
-enum brushType {
+export enum type {
 	solid,
 	linearGradient,
 	radialGradient,
@@ -546,7 +558,7 @@ export class DrawBrush {
 
 	public color: Color;
 
-	public type: DrawBrush.brushType;
+	public type: DrawBrush.type;
 
 	/**
 	 * The gradient stops
@@ -575,8 +587,8 @@ export class DrawBrush {
 	/* getter/setters for public properties */
 	public getColor(): Color;
 	public setColor(value: Color): void;
-	public getType(): DrawBrush.brushType;
-	public setType(value: DrawBrush.brushType): void;
+	public getType(): DrawBrush.type;
+	public setType(value: DrawBrush.type): void;
 	public getStops(): BrushGradientStop[];
 	public setStops(value: BrushGradientStop[]): void;
 	public getStart(): Point;
@@ -587,10 +599,8 @@ export class DrawBrush {
 	public setOuterRadius(value: number): void;
 }
 
-declare enum fillMode { winding, alternate }
-
 export class UiDrawPath {
-	constructor(mode?: fillMode);
+	constructor(mode?: UiDrawPath.fillMode);
 
 	public addRectangle(x: number, y: number, width: number, height: number): void;
 
@@ -616,6 +626,13 @@ export class UiDrawPath {
 	public closeFigure(): void;
 
 	public end(): void;
+}
+
+export namespace UiDrawPath {
+export enum fillMode {
+	winding,
+	alternate,
+}
 }
 
 export class DrawStrokeParams {
@@ -907,7 +924,7 @@ export namespace UiGrid {
 /**
  * Enum defining the alignment of a control
  */
-enum GridAlign {
+export enum align {
 	fill,
 	start,
 	center,
@@ -917,7 +934,7 @@ enum GridAlign {
 /**
  * Enum defining the position where to insert a control into a grid
  */
-enum GridAt {
+export enum at {
 	leading,
 	top,
 	trailing,
@@ -958,9 +975,9 @@ export class UiGrid extends UiControl {
 	 * @param valign - whether the component is aligned with the other components in the
 	 * row.
 	 */
-	public insertAt(child: UiControl, before: UiControl, at: UiGrid.GridAt, xspan: number,
-					yspan: number, hexpand: number, halign: UiGrid.GridAlign, vexpan,
-					valign: UiGrid.GridAlign): void;
+	public insertAt(child: UiControl, before: UiControl, at: UiGrid.at, xspan: number,
+					yspan: number, hexpand: number, halign: UiGrid.align, vexpan,
+					valign: UiGrid.align): void;
 
 	/**
 	 * Insert a new child control.
@@ -987,9 +1004,9 @@ export class UiGrid extends UiControl {
 		xspan: number,
 		yspan: number,
 		hexpand: number,
-		halign: UiGrid.GridAlign,
+		halign: UiGrid.align,
 		vexpand: number,
-		valign: UiGrid.GridAlign,
+		valign: UiGrid.align,
 		): void;
 }
 
