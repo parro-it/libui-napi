@@ -98,12 +98,13 @@ export class FontDescriptor {
  * Stop Libui event loop
  */
 export function stopLoop(): void;
+
 /**
  * Start Libui event loop
  */
 export function startLoop(): void;
 
-export function startTimer(): void;
+export function startTimer(timeoutMs: number, callback: () => number): void;
 
 export function onShouldQuit(cb: () => void): void;
 
