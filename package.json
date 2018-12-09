@@ -26,6 +26,7 @@
     "install": "npm run --silent download-libui && npm run --silent download-libui-napi || npm run build",
     "test": "cross-env LIBUI_TARGET=test node-gyp configure build && cross-env LIBUI_TARGET=test DEBUG=ControlInternal tape tests/*.js | tap-spec",
     "precommit": "check-clang-format \"'npm run lint'\"",
+    "tslint": "tslint libui-napi.d.ts",
     "lint": "clang-format -i --glob='{tests/**/*.{h,c,m,js},example/*.js,js/**/*.js,src/**/*.{h,c,m},index.js,example.js,libui-napi.d.ts,test.js,example/gallery/src/**/*.js,tools/**/*.js,test_ui.js}'"
   },
   "dependencies": {
@@ -52,7 +53,9 @@
     "screenshot-tester": "^0.3.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.0",
-    "to-dot-case": "^1.0.0"
+    "to-dot-case": "^1.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.2.2"
   },
   "files": [
     "tools",
