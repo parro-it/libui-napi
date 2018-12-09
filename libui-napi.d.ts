@@ -51,12 +51,13 @@ export class FontDescriptor {
  * Stop Libui event loop
  */
 export function stopLoop(): void;
+
 /**
  * Start Libui event loop
  */
 export function startLoop(): void;
 
-export function startTimer(): void;
+export function startTimer(timeoutMs: number, callback: () => number): void;
 
 export function onShouldQuit(cb: () => void): void;
 
@@ -308,7 +309,7 @@ export class UiWindow {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	public onClosing(callback: () => any): void;
+	public onClosing(callback: () => void): void;
 
 	/**
 	 * Add a listener to the `contentSizeChanged` event. This event is emitted
@@ -662,13 +663,13 @@ export class DrawStrokeParams {
 
 export class UiDrawMatrix {
 
-	public readonly 0: [number];
-	public readonly 1: [number];
-	public readonly 2: [number];
+	public readonly 0: number;
+	public readonly 1: number;
+	public readonly 2: number;
 	constructor();
-	public get0(): [number];
-	public get1(): [number];
-	public get2(): [number];
+	public get0(): number;
+	public get1(): number;
+	public get2(): number;
 
 	public setIdentity(): void;
 
@@ -703,12 +704,12 @@ export class DrawTextLayout {
  */
 export class UiLabel extends UiControl {
 
-	public text: any;
+	public text: string;
 	constructor(label?: string);
 
 	/* getter/setters for public properties */
-	public getText(): any;
-	public setText(value: any): void;
+	public getText(): string;
+	public setText(value: string): void;
 }
 
 /**
@@ -1095,7 +1096,7 @@ export class UiRadioButtons extends UiControl {
 	/**
 	 * Return or set the currently selected item by index.
 	 */
-	public selected: string;
+	public selected: number;
 
 	/**
 	 * Create a new UiRadioButtons object.
@@ -1105,8 +1106,8 @@ export class UiRadioButtons extends UiControl {
 	/* getter/setters for public properties */
 	public getItemsCount(): number;
 	public setItemsCount(value: number): void;
-	public getSelected(): string;
-	public setSelected(value: string): void;
+	public getSelected(): number;
+	public setSelected(value: number): void;
 
 	/**
 	 * Append a new radio option as the last item with the specified text.
@@ -1296,7 +1297,7 @@ export class UiCombobox extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	public onSelected(callback: () => any): void;
+	public onSelected(callback: () => void): void;
 }
 
 /**
@@ -1330,7 +1331,7 @@ export class UiEditableCombobox extends UiControl {
 	 * @param callback - callback to execute when the event is
 	 * fired.
 	 */
-	public onChanged(callback: () => any): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
