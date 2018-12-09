@@ -2,7 +2,7 @@
 const libui = require('..');
 
 const win = new libui.UiWindow('Forms window', 800, 600, false);
-win.margined = 1;
+win.margined = true;
 win.onClosing(() => {
 	libui.stopLoop();
 });

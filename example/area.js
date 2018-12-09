@@ -2,7 +2,7 @@
 const libui = require('..');
 
 const win = new libui.UiWindow('Area window', 600, 400, false);
-win.margined = 1;
+win.margined = true;
 win.onClosing(() => {
 	libui.stopLoop();
 });
@@ -27,15 +27,9 @@ brushRed.color = new libui.Color(1, 0, 0, 1);
 const brushBrown = new libui.DrawBrush();
 brushBrown.color = new libui.Color(0.7, 0.5, 0, 1);
 const brushLinear = new libui.DrawBrush();
-brushLinear.type = libui.brushType.linearGradient;
-brushLinear.start = {
-	x: 10,
-	y: 10
-};
-brushLinear.end = {
-	x: 110,
-	y: 110
-};
+brushLinear.type = libui.DrawBrush.type.linearGradient;
+brushLinear.start = new libui.Point(10, 10);
+brushLinear.end = new libui.Point(110, 110);
 brushLinear.stops = [
 	new libui.BrushGradientStop(0, new libui.Color(1, 0, 0, 1)),
 	new libui.BrushGradientStop(1, new libui.Color(0, 0, 1, 1))
@@ -43,17 +37,13 @@ brushLinear.stops = [
 console.log(brushLinear.stops.map(v => ({pos: v.pos, c: v.color})));
 
 const brushRadial = new libui.DrawBrush();
-brushRadial.type = libui.brushType.radialGradient;
-brushRadial.start = {
-	x: 210,
-	y: 45
-};
-brushRadial.end = {
-	x: 210,
-	y: 85
-};
-brushRadial.stops =
-	[new libui.BrushGradientStop(0, {r: 1}), new libui.BrushGradientStop(1, {b: 1})];
+brushRadial.type = libui.DrawBrush.type.radialGradient;
+brushRadial.start = new libui.Point(210, 45);
+brushRadial.end = new libui.Point(210, 85);
+brushRadial.stops = [
+	new libui.BrushGradientStop(0, new libui.Color(1, 0, 0, 1)),
+	new libui.BrushGradientStop(1, new libui.Color(0, 0, 1, 1))
+];
 brushRadial.outerRadius = 50;
 
 const sp = new libui.DrawStrokeParams();
@@ -96,7 +86,8 @@ const area = new libui.UiArea(
 							matrix.translate(0, 350);
 						},
 						() => {
-							const path = new libui.UiDrawPath(libui.fillMode.alternate);
+							const path =
+								new libui.UiDrawPath(libui.UiDrawPath.fillMode.alternate);
 							path.newFigure(230, 230);
 							path.lineTo(5, 230);
 							path.lineTo(5, 5);
