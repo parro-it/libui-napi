@@ -4,6 +4,11 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "indent": [true, "tabs"],
+        "max-classes-per-file": false,
+        "align": [false, "parameters"],
+        "no-namespace": false
+    },
     "rulesDirectory": []
 }
