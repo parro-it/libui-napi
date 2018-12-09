@@ -8,7 +8,8 @@
         "indent": [true, "spaces", 4],
         "max-classes-per-file": false,
         "align": [false, "parameters"],
-        "no-namespace": false
+        "no-namespace": false,
+        "quotemark": [true, "single", "jsx-double"]
     },
     "rulesDirectory": []
 }
