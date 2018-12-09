@@ -1079,7 +1079,7 @@ export class UiRadioButtons extends UiControl {
 	/**
 	 * Return or set the currently selected item by index.
 	 */
-	public selected: string;
+	public selected: number;
 
 	/**
 	 * Create a new UiRadioButtons object.
@@ -1089,8 +1089,8 @@ export class UiRadioButtons extends UiControl {
 	/* getter/setters for public properties */
 	public getItemsCount(): number;
 	public setItemsCount(value: number): void;
-	public getSelected(): string;
-	public setSelected(value: string): void;
+	public getSelected(): number;
+	public setSelected(value: number): void;
 
 	/**
 	 * Append a new radio option as the last item with the specified text.
