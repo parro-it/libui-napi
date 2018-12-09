@@ -1314,7 +1314,7 @@ export class UiEditableCombobox extends UiControl {
 	 * @param callback - callback to execute when the event is
 	 * fired.
 	 */
-	public onChanged(callback: () => any): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
