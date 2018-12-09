@@ -1280,7 +1280,7 @@ export class UiCombobox extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	public onSelected(callback: () => any): void;
+	public onSelected(callback: () => void): void;
 }
 
 /**
