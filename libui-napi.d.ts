@@ -1,54 +1,32 @@
-declare enum textWeight {
-	minimum,
-	thin,
-	ultraLight,
-	light,
-	book,
-	normal,
-	medium,
-	semiBold,
-	bold,
-	ultraBold,
-	heavy,
-	ultraHeavy,
-	maximum
-}
-
-declare enum textItalic { normal, oblique, italic }
-
-declare enum textStretch {
-	ultraCondensed,
-	extraCondensed,
-	condensed,
-	semiCondensed,
-	normal,
-	semiExpanded,
-	expanded,
-	extraExpanded,
-	ultraExpanded
-}
-
-declare enum textAttributeType {
-	family,
-	size,
-	weight,
-	italic,
-	stretch,
-	color,
-	background,
-	underline,
-	underlineColor,
-	features
-}
-
-declare enum textUnderline { none, single, double, suggestion }
-
-declare enum textUnderlineColor { custom, spelling, grammar, auxiliary }
-
 /**
  * An object that contains information on a system font.
  */
 export class FontDescriptor {
+
+	/**
+	 * Return the name of the font, e.g. "Helvetica".
+	 */
+	public readonly family: string;
+
+	/**
+	 * Return the size in point of the font.
+	 */
+	public readonly size: number;
+
+	/**
+	 * Return weight of the font.
+	 */
+	public readonly weight: FontAttribute.weight;
+
+	/**
+	 * Return `1` if the font is italic, otherwise `0`.
+	 */
+	public readonly italic: FontAttribute.italic;
+
+	/**
+	 * Return horizontal stretch value for the font.
+	 */
+	public readonly stretch: number;
 	/**
 	 * Create a new FontDescriptor object.
 	 * @param family - the name of the font, e.g. "Helvetica". `object` type is for
@@ -61,126 +39,205 @@ export class FontDescriptor {
 	constructor(family: string|object, size: number, weight: number, italic: number,
 				stretch: number);
 
-	/**
-	 * Return the name of the font, e.g. "Helvetica".
-	 */
-	readonly family: string;
-
-	/**
-	 * Return the size in point of the font.
-	 */
-	readonly size: number;
-
-	/**
-	 * Return weight of the font.
-	 */
-	readonly weight: textWeight;
-
-	/**
-	 * Return `1` if the font is italic, otherwise `0`.
-	 */
-	readonly italic: textItalic;
-
-	/**
-	 * Return horizontal stretch value for the font.
-	 */
-	readonly stretch: number;
+	/* getter/setters for public properties */
+	public getFamily(): string;
+	public getSize(): number;
+	public getWeight(): FontAttribute.weight;
+	public getItalic(): FontAttribute.italic;
+	public getStretch(): number;
 }
 
 /**
  * Stop Libui event loop
  */
 export function stopLoop(): void;
+
 /**
  * Start Libui event loop
  */
 export function startLoop(): void;
 
-export function startTimer(): void;
+export function startTimer(timeoutMs: number, callback: () => number): void;
 
 export function onShouldQuit(cb: () => void): void;
 
+interface UnderlineColor {
+	type: FontAttribute.type;
+	color: Color|null;
+}
+
 export class FontAttribute {
+	public static newFamily(v: string): FontAttribute;
+	public static newSize(v: number): FontAttribute;
+	public static newWeight(v: FontAttribute.weight): FontAttribute;
+	public static newItalic(v: FontAttribute.italic): FontAttribute;
+	public static newStretch(v: FontAttribute.stretch): FontAttribute;
+	public static newColor(c: Color): FontAttribute;
+	public static newBackgroundColor(c: Color): FontAttribute;
+	public static newUnderline(v: FontAttribute.underline): FontAttribute;
+	public static newUnderlineColor(type: FontAttribute.underlineColor,
+									color?: Color): FontAttribute;
+	public static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
+
 	constructor(other: FontAttribute);
-	static newFamily(v: string): FontAttribute;
-	static newSize(v: number): FontAttribute;
-	static newWeight(v: textWeight): FontAttribute;
-	static newItalic(v: textItalic): FontAttribute;
-	static newStretch(v: textStretch): FontAttribute;
-	static newColor(c: Color): FontAttribute;
-	static newBackgroundColor(c: Color): FontAttribute;
-	static newUnderline(v: textUnderline): FontAttribute;
-	static newUnderlineColor(type: textUnderlineColor, color?: Color): FontAttribute;
-	static newOTFeatures(otf: OpenTypeFeatures): FontAttribute;
 
-	static getFamily(): string|null;
-	static getSize(): number|null;
-	static getWeight(): textWeight|null;
-	static getItalic(): textItalic|null;
-	static getStretch(): textStretch|null;
-	static getColor(): Color|null;
-	static getUnderline(): textUnderline|null;
-	static getUnderlineColor(): {type: textAttributeType; color: Color | null;}|null;
-	static getOTFeatures(): OpenTypeFeatures|null;
+	public getFamily(): string|null;
+	public getSize(): number|null;
+	public getWeight(): FontAttribute.weight|null;
+	public getItalic(): FontAttribute.italic|null;
+	public getStretch(): FontAttribute.stretch|null;
+	public getColor(): Color|null;
+	public getUnderline(): FontAttribute.underline|null;
+	public getUnderlineColor(): UnderlineColor|null;
+	public getOTFeatures(): OpenTypeFeatures|null;
 
-	static readonly weight = textWeight;
-	static readonly italic = textItalic;
-	static readonly stretch = textStretch;
-	static readonly underline = textUnderline;
-	static readonly underlineColor = textUnderlineColor;
+	public getAttributeType(): FontAttribute.type;
+}
+
+export namespace FontAttribute {
+export enum weight {
+	minimum,
+	thin,
+	ultraLight,
+	light,
+	book,
+	normal,
+	medium,
+	semiBold,
+	bold,
+	ultraBold,
+	heavy,
+	ultraHeavy,
+	maximum,
+}
+
+export enum italic {
+	normal,
+	oblique,
+	italic,
+}
+
+export enum stretch {
+	ultraCondensed,
+	extraCondensed,
+	condensed,
+	semiCondensed,
+	normal,
+	semiExpanded,
+	expanded,
+	extraExpanded,
+	ultraExpanded,
+}
+
+export enum type {
+	family,
+	size,
+	weight,
+	italic,
+	stretch,
+	color,
+	background,
+	underline,
+	underlineColor,
+	features,
+}
+
+export enum underline {
+	none,
+	single,
+	double,
+	suggestion,
+}
+
+export enum underlineColor {
+	custom,
+	spelling,
+	grammar,
+	auxiliary,
+}
 }
 
 export class OpenTypeFeatures {
-	add(tag: string, value: number): void;
-	remove(tag: string): void;
-	get(tag: string): number;
-	forEach(cb: (feat: OpenTypeFeatures, str: string, val: number) => boolean): void;
-	clone(): OpenTypeFeatures;
+	public add(tag: string, value: number): void;
+	public remove(tag: string): void;
+	public get(tag: string): number;
+	public forEach(cb: (feat: OpenTypeFeatures, str: string, val: number) => boolean |
+																			 void): void;
+	public clone(): OpenTypeFeatures;
 }
 
 export class Color {
-	r: number;
-	g: number;
-	b: number;
-	a: number;
+	public r: number;
+	public g: number;
+	public b: number;
+	public a: number;
 	constructor(r: number, g: number, b: number, a: number);
 	constructor(other: Color);
+
+	/* getter/setters for public properties */
+	public getR(): number;
+	public setR(value: number): void;
+	public getG(): number;
+	public setG(value: number): void;
+	public getB(): number;
+	public setB(value: number): void;
+	public getA(): number;
+	public setA(value: number): void;
 }
 
 export class Point {
-	x: number;
-	y: number;
+	public x: number;
+	public y: number;
 	constructor(x: number, y: number);
 	constructor(other: Point);
+
+	/* getter/setters for public properties */
+	public getX(): number;
+	public setX(value: number): void;
+	public getY(): number;
+	public setY(value: number): void;
 }
 
 export class Size {
-	w: number;
-	h: number;
+	public w: number;
+	public h: number;
 	constructor(w: number, h: number);
+
+	/* getter/setters for public properties */
+	public getW(): number;
+	public setW(value: number): void;
+	public getH(): number;
+	public setH(value: number): void;
 }
 
 export class BrushGradientStop {
-	pos: number;
-	color: Color;
+	public pos: number;
+	public color: Color;
 	constructor(pos: number, color: Color);
+
+	/* getter/setters for public properties */
+	public getPos(): number;
+	public setPos(value: number): void;
+	public getColor(): Color;
+	public setColor(value: Color): void;
 }
 
 export class AttributedString {
 	constructor(str: string);
-	toString(): string;
-	toStringLen(): number;
-	appendAttributed(str: string, ...attribute: FontAttribute[]): void;
-	appendUnattributed(str: string): void;
-	insertAttributed(str: string, start: number, ...attribute: FontAttribute[]): void;
-	insertUnattributed(str: string, at: number): void;
-	deleteString(start: number, end: number): void;
-	setAttribute(attr: FontAttribute, start: number, end: number): void;
-	forEach(cb: (str: AttributedString, attr: FontAttribute, start: number,
-				 end: number) => boolean): void;
-	numGraphemes(): number;
-	byteIndexToGrapheme(pos: number): number;
-	graphemeToByteIndex(pos: number): number;
+	public toString(): string;
+	public toStringLen(): number;
+	public appendAttributed(str: string, ...attribute: FontAttribute[]): void;
+	public appendUnattributed(str: string): void;
+	public insertAttributed(str: string, start: number,
+							...attribute: FontAttribute[]): void;
+	public insertUnattributed(str: string, at: number): void;
+	public deleteString(start: number, end: number): void;
+	public setAttribute(attr: FontAttribute, start: number, end: number): void;
+	public forEach(cb: (str: AttributedString, attr: FontAttribute, start: number,
+						end: number) => boolean | void): void;
+	public numGraphemes(): number;
+	public byteIndexToGrapheme(pos: number): number;
+	public graphemeToByteIndex(pos: number): number;
 }
 
 /**
@@ -189,6 +246,33 @@ export class AttributedString {
  * more than one, you have to use [Containers](containers.md).
  */
 export class UiWindow {
+
+	/**
+	 * Set or return the text to show in window title bar.
+	 */
+	public title: string;
+
+	/**
+	 * Set or return the size in pixel of the content area of the window
+	 * (excluding the size of the window decoration). This mean that if you set window
+	 * size to 0,0 you still see title bar and OS window buttons.
+	 */
+	public contentSize: {width: number; height: number};
+
+	/**
+	 * When true, an internal margin is added to the window.
+	 */
+	public margined: boolean;
+
+	/**
+	 * When true, the window is displayed without a border.
+	 */
+	public borderless: boolean;
+
+	/**
+	 * When true, the window is displayed in full screen mode.
+	 */
+	public fullscreen: boolean;
 	/**
 	 * Create a new UiWindow object.
 	 *
@@ -200,11 +284,23 @@ export class UiWindow {
 	 */
 	constructor(title: string, width: number, height: number, hasMenubar: boolean);
 
+	/* getter/setters for public properties */
+	public getTitle(): string;
+	public setTitle(value: string): void;
+	public getContentSize(): {width: number; height: number};
+	public setContentSize(value: {width: number; height: number}): void;
+	public getMargined(): boolean;
+	public setMargined(value: boolean): void;
+	public getBorderless(): boolean;
+	public setBorderless(value: boolean): void;
+	public getFullscreen(): boolean;
+	public setFullscreen(value: boolean): void;
+
 	/**
 	 * Show the window.
 	 * LibUi always returns null
 	 */
-	show(): void;
+	public show(): void;
 
 	/**
 	 * Add a listener to the `closing` event. This event is emitted when the OS
@@ -213,7 +309,7 @@ export class UiWindow {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onClosing(callback: () => any): void;
+	public onClosing(callback: () => void): void;
 
 	/**
 	 * Add a listener to the `contentSizeChanged` event. This event is emitted
@@ -221,24 +317,12 @@ export class UiWindow {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onContentSizeChanged(callback: Function): void;
+	public onContentSizeChanged(callback: () => void): void;
 
 	/**
 	 * Close the window.
 	 */
-	close(): void;
-
-	/**
-	 * Set or return the text to show in window title bar.
-	 */
-	title: string;
-
-	/**
-	 * Set or return the size in pixel of the content area of the window
-	 * (excluding the size of the window decoration). This mean that if you set window
-	 * size to 0,0 you still see title bar and OS window buttons.
-	 */
-	contentSize: {width: number; height: number};
+	public close(): void;
 
 	/**
 	 * Set the control to show in this window content area.
@@ -248,22 +332,7 @@ export class UiWindow {
 	 * @param control - the control to add as child.
 	 * @param stretchy - whever the control should fill all the available space.
 	 */
-	setChild(control: UiControl): void;
-
-	/**
-	 * When true, an internal margin is added to the window.
-	 */
-	margined: boolean;
-
-	/**
-	 * When true, the window is displayed without a border.
-	 */
-	borderless: boolean;
-
-	/**
-	 * When true, the window is displayed in full screen mode.
-	 */
-	fullscreen: boolean;
+	public setChild(control: UiControl): void;
 }
 
 /**
@@ -273,20 +342,85 @@ export abstract class UiControl {
 	/**
 	 * Set or return whether the control is enabled.
 	 */
-	enabled: boolean;
+	public enabled: boolean;
 	/**
 	 * Set or return whether the control is visible.
 	 */
-	visible: boolean;
+	public visible: boolean;
 	/**
 	 * Set or return whether the control is a top level one.
 	 */
-	toplevel: boolean;
+	public toplevel: boolean;
 	/**
 	 * Create a new UiControl object.
 	 */
 	constructor(handle: any);
+
+	/* getter/setters for public properties */
+	public getEnabled(): boolean;
+	public setEnabled(value: boolean): void;
+	public getVisible(): boolean;
+	public setVisible(value: boolean): void;
+	public getToplevel(): boolean;
+	public setToplevel(value: boolean): void;
 }
+
+export class AreaDrawContext {
+	/**
+	 * Draw a path (the outline).
+	 * @param path - the path to draw
+	 * @param brush - the brush to draw with
+	 * @param stroke - the stroke params to draw with
+	 */
+	public stroke(path: UiDrawPath, brush: DrawBrush, stroke: DrawStrokeParams): void;
+
+	/**
+	 * Draw a path (filled).
+	 * @param path - the path to draw
+	 * @param brush - the brush to draw with
+	 */
+	public fill(path: UiDrawPath, brush: DrawBrush): void;
+
+	/**
+	 * Apply a matrix transformation
+	 * @param matrix - the matrix to apply
+	 */
+	public transform(matrix: UiDrawMatrix): void;
+
+	public clip(path: UiDrawPath): void;
+
+	/**
+	 * Save a transformation state.
+	 */
+	public save(): void;
+
+	/**
+	 * Restore a transformation state.
+	 */
+	public restore(): void;
+
+	public text(x: number, y: number, textLayout: DrawTextLayout): void;
+}
+
+declare class AreaDrawParams {
+	public context: AreaDrawContext;
+	public areaWidth: number;
+	public areaHeight: number;
+	public clipX: number;
+	public clipY: number;
+	public clipWidth: number;
+	public clipHeight: number;
+
+	/* getters for public properties */
+	public getContext(): AreaDrawContext;
+	public getAreaWidth(): number;
+	public getAreaHeight(): number;
+	public getClipX(): number;
+	public getClipY(): number;
+	public getClipWidth(): number;
+	public getClipHeight(): number;
+}
+
 /**
  * An area to draw on.
  */
@@ -300,12 +434,12 @@ export class UiArea extends UiControl {
 	 * @param keyEvent - callback for key events
 	 */
 	constructor(
-		// TODO params
-		draw: (uiArea: UiArea, p: any) => any,
-		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => any,
-		dragBroken: (uiArea: UiArea) => any,
-		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => any);
+		draw: (uiArea: UiArea, p: AreaDrawParams) => void,
+		mouse: (uiArea: UiArea, evt: UiAreaMouseEvent) => void,
+		mouseCrossed: (uiArea: UiArea, evt: UiAreaMouseEvent) => void,
+		dragBroken: (uiArea: UiArea) => void,
+		key: (uiArea: UiArea, evt: UiAreaKeyEvent) => void,
+	);
 
 	/**
 	 * Create a new UiArea object.
@@ -328,43 +462,60 @@ export class UiArea extends UiControl {
 	/**
 	 * Force a redraw of the area (calls draw callback).
 	 */
-	queueRedrawAll(): void;
+	public queueRedrawAll(): void;
 
 	/**
 	 * Let the mouse move the window (only callable in the draw callback)
 	 */
-	beginWindowMove(): void;
+	public beginWindowMove(): void;
 
 	/**
 	 * Let the mouse resize the window (only callable in the draw callback)
 	 * @param edge - the size which is held by the mouse
 	 */
-	beginWindowResize(edge: number): void;
+	public beginWindowResize(edge: number): void;
 
-	setSize(w: number, h: number): void;
+	public setSize(w: number, h: number): void;
 
-	scrollTo(x: number, y: number, w: number, h: number): void;
+	public scrollTo(x: number, y: number, w: number, h: number): void;
 }
 
 export class UiAreaMouseEvent {
+
+	public readonly x: number;
+	public readonly y: number;
+	public readonly areaWidth: number;
+	public readonly areaHeight: number;
+	public readonly down: number;
+	public readonly up: number;
+	public readonly count: number;
+	public readonly modifiers: number;
+	public readonly held1To64: number;
 	constructor(x: number, y: number, areaWidth: number, areaHeight: number,
 				down: boolean, up: boolean, count: number, modifiers: any,
 				held1To64: any);
 
-	readonly x: number;
-	readonly y: number;
-	readonly areaWidth: number;
-	readonly areaHeight: number;
-	readonly down: number;
-	readonly up: number;
-	readonly count: number;
-	readonly modifiers: number;
-	readonly held1To64: number;
+	/* getter/setters for public properties */
+	public getX(): number;
+	public getY(): number;
+	public getAreaWidth(): number;
+	public getAreaHeight(): number;
+	public getDown(): number;
+	public getUp(): number;
+	public getCount(): number;
+	public getModifiers(): number;
+	public getHeld1To64(): number;
 }
 
-declare enum modifierKeys { ctrl, alt, shift, super }
+export namespace UiAreaKeyEvent {
+enum modifierKeys {
+	ctrl,
+	alt,
+	shift,
+	super,
+}
 
-declare enum extKeys {
+enum extKeys {
 	escape,
 	insert, // equivalent to "Help" on Apple keyboards
 	delete,
@@ -403,21 +554,31 @@ declare enum extKeys {
 	nAdd,
 	nSubtract,
 	nMultiply,
-	nDivide
+	nDivide,
+}
 }
 
 export class UiAreaKeyEvent {
+
+	public key: string;
+	public extKey: UiAreaKeyEvent.extKeys;
+	public modifier: UiAreaKeyEvent.modifierKeys;
+	public modifiers: number;
+	public up: number;
 	constructor(key: number, extKey: number, modifier: string, modifiers: any,
 				up: boolean);
 
-	key: string;
-	extKey: extKeys;
-	modifier: modifierKeys;
-	modifiers: number;
-	up: number;
-
-	static readonly modifierKeys = modifierKeys;
-	static readonly extKeys = extKeys;
+	/* getter/setters for public properties */
+	public getKey(): string;
+	public setKey(value: string): void;
+	public getExtKey(): UiAreaKeyEvent.extKeys;
+	public setExtKey(value: UiAreaKeyEvent.extKeys): void;
+	public getModifier(): UiAreaKeyEvent.modifierKeys;
+	public setModifier(value: UiAreaKeyEvent.modifierKeys): void;
+	public getModifiers(): number;
+	public setModifiers(value: number): void;
+	public getUp(): number;
+	public setUp(value: number): void;
 }
 
 export const UiDialogs: {
@@ -426,140 +587,204 @@ export const UiDialogs: {
 	msgBoxError(parent: UiWindow, title: string, description: string): void;
 };
 
-declare enum brushType { solid, linearGradient, radialGradient }
+export namespace DrawBrush {
+export enum type {
+	solid,
+	linearGradient,
+	radialGradient,
+}
+}
 
-declare enum lineCap { flat, round, square }
+export namespace DrawStrokeParams {
+enum lineCap {
+	flat,
+	round,
+	square,
+}
 
-declare enum lineJoin { miter, round, bevel }
+enum lineJoin {
+	miter,
+	round,
+	bevel,
+}
+}
 
 /**
  * A draw brush
  */
 export class DrawBrush {
-	constructor();
 
-	color: Color;
+	public color: Color;
 
-	type: brushType;
+	public type: DrawBrush.type;
 
 	/**
 	 * The gradient stops
 	 */
-	stops: BrushGradientStop[];
+	public stops: BrushGradientStop[];
 
 	/**
 	 * Set the start position of the gradient
 	 * (Radial gradients: the inner circle's center)
 	 * @param pos - the coordinates
 	 */
-	start: Point;
+	public start: Point;
 
 	/**
 	 * The end position of the gradient
 	 * (Radial gradients: the outer circle's center)
 	 */
-	end: Point;
+	public end: Point;
 
 	/**
 	 * The radius of the gradient's outer circle (radial gradients only)
 	 */
-	outerRadius: number;
+	public outerRadius: number;
+	constructor();
+
+	/* getter/setters for public properties */
+	public getColor(): Color;
+	public setColor(value: Color): void;
+	public getType(): DrawBrush.type;
+	public setType(value: DrawBrush.type): void;
+	public getStops(): BrushGradientStop[];
+	public setStops(value: BrushGradientStop[]): void;
+	public getStart(): Point;
+	public setStart(value: Point): void;
+	public getEnd(): Point;
+	public setEnd(value: Point): void;
+	public getOuterRadius(): number;
+	public setOuterRadius(value: number): void;
 }
 
-declare enum fillMode { winding, alternate }
-
 export class UiDrawPath {
-	constructor(mode?: fillMode);
+	constructor(mode?: UiDrawPath.fillMode);
 
-	addRectangle(x: number, y: number, width: number, height: number): void;
+	public addRectangle(x: number, y: number, width: number, height: number): void;
 
-	newFigure(x: number, y: number): void;
+	public newFigure(x: number, y: number): void;
 
-	newFigureWithArc(xCenter: number, yCenter: number, radius: number, startAngle: number,
-					 sweep: number, negative: number): void;
+	public newFigureWithArc(xCenter: number, yCenter: number, radius: number,
+							startAngle: number, sweep: number, negative: number): void;
 
-	lineTo(x: number, y: number): void;
+	public lineTo(x: number, y: number): void;
 
-	arcTo(xCenter: number, yCenter: number, radius: number, startAngle: number,
-		  sweep: number, negative: boolean): void;
+	public arcTo(
+		xCenter: number,
+		yCenter: number,
+		radius: number,
+		startAngle: number,
+		sweep: number,
+		negative: boolean,
+		): void;
 
-	bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number,
-			 endY: number): void;
+	public bezierTo(c1x: number, c1y: number, c2x: number, c2y: number, endX: number,
+					endY: number): void;
 
-	closeFigure(): void;
+	public closeFigure(): void;
 
-	end(): void;
+	public end(): void;
+}
+
+export namespace UiDrawPath {
+export enum fillMode {
+	winding,
+	alternate,
+}
 }
 
 export class DrawStrokeParams {
-	static readonly lineCap = lineCap;
-	static readonly lineJoin = lineJoin;
 
-	thickness: number;
-	cap: lineCap;
-	join: lineJoin;
-	miterLimit: number;
+	public thickness: number;
+	public cap: DrawStrokeParams.lineCap;
+	public join: DrawStrokeParams.lineJoin;
+	public miterLimit: number;
 
-	dashes: number[];
-	dashPhase: number;
+	public dashes: number[];
+	public dashPhase: number;
+
+	/* getter/setters for public properties */
+	public getThickness(): number;
+	public setThickness(value: number): void;
+	public getCap(): DrawStrokeParams.lineCap;
+	public setCap(value: DrawStrokeParams.lineCap): void;
+	public getJoin(): DrawStrokeParams.lineJoin;
+	public setJoin(value: DrawStrokeParams.lineJoin): void;
+	public getMiterLimit(): number;
+	public setMiterLimit(value: number): void;
+	public getDashes(): number[];
+	public setDashes(value: number[]): void;
+	public getDashPhase(): number;
+	public setDashPhase(value: number): void;
 }
 
 export class UiDrawMatrix {
+	public readonly 0: [number, number, number];
+	public readonly 1: [number, number, number];
+	public readonly 2: [number, number, number];
 	constructor();
+	public get0(): number;
+	public get1(): number;
+	public get2(): number;
 
-	setIdentity(): void;
+	public setIdentity(): void;
 
-	scale(xCenter: number, yCenter: number, x: number, y: number): void;
-	translate(x: number, y: number): void;
-	rotate(x: number, y: number, amount: number): void;
-	skew(x: number, y: number, xAmount: number, yAmount: number): void;
-	multiply(m: number): void;
-	invertible(m: number): void;
+	public scale(xCenter: number, yCenter: number, x: number, y: number): void;
+	public translate(x: number, y: number): void;
+	public rotate(x: number, y: number, amount: number): void;
+	public skew(x: number, y: number, xAmount: number, yAmount: number): void;
+	public multiply(m: number): void;
+	public invertible(m: number): void;
 
 	/**
 	 * returns true it it worked
 	 */
-	invert(m: number): boolean;
+	public invert(m: number): boolean;
 
-	set(i: number, j: number, v: number): void;
-	get(i: number, j: number): number;
-
-	readonly 0: [number];
-	readonly 1: [number];
-	readonly 2: [number];
+	public set(i: number, j: number, v: number): void;
+	public get(i: number, j: number): number;
 }
 
 declare enum textAlign { left, center, right }
 
 export class DrawTextLayout {
+
+	public readonly extents: Size;
 	constructor(str: AttributedString, font: FontDescriptor, width: number,
 				align: textAlign);
-
-	readonly extents: Size;
+	public getExtents(): Size;
 }
 
 /**
  * A static text label.
  */
 export class UiLabel extends UiControl {
+
+	public text: string;
 	constructor(label?: string);
 
-	text: any;
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
 }
 
 /**
  * A container that organizes children as labeled fields.
  */
 export class UiForm extends UiControl {
+
+	/**
+	 * If true, the container inserts some space between children.
+	 */
+	public padded: boolean;
 	/**
 	 * Create a new UiForm object.
 	 */
 	constructor();
 
-	/**
-	 * If true, the container inserts some space between children.
-	 */
-	padded: boolean;
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Append a new child control as the last field with the specified label.
@@ -567,13 +792,13 @@ export class UiForm extends UiControl {
 	 * @param control - the control to add as child.
 	 * @param stretchy - whether the control should fill all the available space.
 	 */
-	append(label: string, control: UiControl, stretchy?: boolean): void;
+	public append(label: string, control: UiControl, stretchy?: boolean): void;
 
 	/**
 	 * Remove a child control at the specified position.
 	 * @param index - the index of the control to remove
 	 */
-	deleteAt(index: number): void;
+	public deleteAt(index: number): void;
 }
 
 /**
@@ -583,18 +808,25 @@ export abstract class UiEntryBase extends UiControl {
 	/**
 	 * Set or return the the content of the entry.
 	 */
-	text: string;
+	public text: string;
 
 	/**
 	 * Whether the user is allowed to change the entry's contents.
 	 */
-	readOnly: boolean;
+	public readOnly: boolean;
+
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getReadOnly(): boolean;
+	public setReadOnly(value: boolean): void;
+
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry contents
 	 * changed.
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => any): void;
+	public onChanged(callback: () => any): void;
 }
 
 /**
@@ -608,27 +840,33 @@ export class UiEntry extends UiEntryBase {
  * A multiline text entry.
  */
 export class UiMultilineEntry extends UiControl {
+
+	/**
+	 * Set or return the the content of the multiline entry.
+	 */
+	public text: string;
+
+	/**
+	 * Whether the user is allowed to change the entry's contents.
+	 */
+	public readOnly: boolean;
 	/**
 	 * Create a new UiMultilineEntry object.
 	 * @param wrapping - whether the multiline entry wrap text. Defaults to false.
 	 */
 	constructor(wrapping?: boolean);
 
-	/**
-	 * Set or return the the content of the multiline entry.
-	 */
-	text: string;
-
-	/**
-	 * Whether the user is allowed to change the entry's contents.
-	 */
-	readOnly: boolean;
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getReadOnly(): boolean;
+	public setReadOnly(value: boolean): void;
 
 	/**
 	 * Append the specified text to the entry's contents.
 	 * @param text - the text to append.
 	 */
-	append(text: string): void;
+	public append(text: string): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry's contents
@@ -636,7 +874,7 @@ export class UiMultilineEntry extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => any): void;
+	public onChanged(callback: () => any): void;
 }
 
 /**
@@ -667,20 +905,24 @@ export abstract class UiBox extends UiControl {
 	/**
 	 * If true, the container inserts some space between children.
 	 */
-	padded: boolean;
+	public padded: boolean;
+
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Append a new child control as the last child.
 	 * @param control - the control to add as a child.
 	 * @param stretchy - whever the control should fill all the available space.
 	 */
-	append(control: UiControl, stretchy?: boolean): void;
+	public append(control: UiControl, stretchy?: boolean): void;
 
 	/**
 	 * Remove a child control at specified position.
 	 * @param index - the index of the control to remove
 	 */
-	deleteAt(index: number): void;
+	public deleteAt(index: number): void;
 }
 
 /**
@@ -702,6 +944,16 @@ export class UiVerticalBox extends UiBox {
  * it's child.
  */
 export class UiGroup extends UiControl {
+
+	/**
+	 * Set or return the text to show in group caption.
+	 */
+	public title: string;
+
+	/**
+	 * When true, an internal margin is added to the group.
+	 */
+	public margined: boolean;
 	/**
 	 * Create a new UiGroup object.
 	 *
@@ -709,10 +961,11 @@ export class UiGroup extends UiControl {
 	 */
 	constructor(title?: string);
 
-	/**
-	 * Set or return the text to show in group caption.
-	 */
-	title: string;
+	/* getter/setters for public properties */
+	public getTitle(): string;
+	public setTitle(value: string): void;
+	public getMargined(): boolean;
+	public setMargined(value: boolean): void;
 
 	/**
 	 * Set the control to show in this group content area.
@@ -721,41 +974,49 @@ export class UiGroup extends UiControl {
 	 *
 	 * @param control - the control to add as child.
 	 */
-	setChild(control: UiControl): void;
-
-	/**
-	 * When true, an internal margin is added to the group.
-	 */
-	margined: boolean;
+	public setChild(control: UiControl): void;
 }
 
-declare enum GridAlign { fill, start, center, end }
+export namespace UiGrid {
+/**
+ * Enum defining the alignment of a control
+ */
+export enum align {
+	fill,
+	start,
+	center,
+	end,
+}
 
-declare enum GridAt { leading, top, trailing, bottom }
+/**
+ * Enum defining the position where to insert a control into a grid
+ */
+export enum at {
+	leading,
+	top,
+	trailing,
+	bottom,
+}
+}
 
 /**
  * A powerful container that allow to specify size and position of each children.
  */
 export class UiGrid extends UiControl {
+
+	/**
+	 * If true, the container inserts some space between children.
+	 */
+	public padded: boolean;
+
 	/**
 	 * Create a new UiGrid object.
 	 */
 	constructor();
 
-	/**
-	 * Enum defining the alignment of a control
-	 */
-	static readonly align = GridAlign;
-
-	/**
-	 * Enum defining the position where to insert a control into a grid
-	 */
-	static readonly at = GridAt;
-
-	/**
-	 * If true, the container inserts some space between children.
-	 */
-	padded: boolean;
+	/* getter/setters for public properties */
+	public getPadded(): boolean;
+	public setPadded(value: boolean): void;
 
 	/**
 	 * Insert a new child control before specified control.
@@ -771,9 +1032,9 @@ export class UiGrid extends UiControl {
 	 * @param valign - whether the component is aligned with the other components in the
 	 * row.
 	 */
-	insertAt(child: UiControl, before: UiControl, at: GridAt, xspan: number,
-			 yspan: number, hexpand: number, halign: GridAlign, vexpan,
-			 valign: GridAlign): void;
+	public insertAt(child: UiControl, before: UiControl, at: UiGrid.at, xspan: number,
+					yspan: number, hexpand: number, halign: UiGrid.align, vexpan,
+					valign: UiGrid.align): void;
 
 	/**
 	 * Insert a new child control.
@@ -793,8 +1054,17 @@ export class UiGrid extends UiControl {
 	 * @param valign - whether the component is aligned with the other components in the
 	 * row.
 	 */
-	append(child: UiControl, left: number, top: number, xspan: number, yspan: number,
-		   hexpand: number, halign: GridAlign, vexpand: number, valign: GridAlign): void;
+	public append(
+		child: UiControl,
+		left: number,
+		top: number,
+		xspan: number,
+		yspan: number,
+		hexpand: number,
+		halign: UiGrid.align,
+		vexpand: number,
+		valign: UiGrid.align,
+		): void;
 }
 
 /**
@@ -808,21 +1078,21 @@ export class UiTab extends UiControl {
 	 * @param index - the index of the page to check.
 	 * @return `true` - whether the page has margins
 	 */
-	getMargined(index: number): boolean;
+	public getMargined(index: number): boolean;
 
 	/**
 	 * Add an internal margin to a page of the Tab.
 	 * @param index - the index of the page to set the margin on.
 	 * @param value - whether to enable or disable the margin.
 	 */
-	setMargined(index: number, value: boolean): void;
+	public setMargined(index: number, value: boolean): void;
 
 	/**
 	 * Append a new child control as last tab page.
 	 * @param label - the text to show for the new page caption.
 	 * @param control - the control to add as a child.
 	 */
-	append(label: string, control: UiControl): void;
+	public append(label: string, control: UiControl): void;
 
 	/**
 	 * Insert a new child control before specified position.
@@ -830,40 +1100,44 @@ export class UiTab extends UiControl {
 	 * @param before - the control will be inserted before this position
 	 * @param control - the control to insert
 	 */
-	insertAt(label: string, before: number, control: UiControl): void;
+	public insertAt(label: string, before: number, control: UiControl): void;
 
 	/**
 	 * Return the total number of tab pages contained in the control.
 	 */
-	numPages(): number;
+	public numPages(): number;
 
 	/**
 	 * Remove the tab and control at specified position.
 	 * @param index - the index of the tab to remove.
 	 */
-	deleteAt(index: number): void;
+	public deleteAt(index: number): void;
 }
 
 /**
  * A simple button.
  */
 export class UiButton extends UiControl {
+
+	/**
+	 * Set or return the text of the button.
+	 */
+	public text: string;
 	/**
 	 * Create a new UiButton object.
 	 */
 	constructor(label?: string);
 
-	/**
-	 * Set or return the text of the button.
-	 */
-	text: string;
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
 
 	/**
 	 * Emitted when the button is clicked
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onClicked(callback: () => any): void;
+	public onClicked(callback: () => any): void;
 }
 
 /**
@@ -873,22 +1147,29 @@ export class UiRadioButtons extends UiControl {
 	/**
 	 * Number of items in this radio buttons set
 	 */
-	itemsCount: number;
+	public itemsCount: number;
+
+	/**
+	 * Return or set the currently selected item by index.
+	 */
+	public selected: number;
+
 	/**
 	 * Create a new UiRadioButtons object.
 	 */
 	constructor();
 
-	/**
-	 * Return or set the currently selected item by index.
-	 */
-	selected: string;
+	/* getter/setters for public properties */
+	public getItemsCount(): number;
+	public setItemsCount(value: number): void;
+	public getSelected(): number;
+	public setSelected(value: number): void;
 
 	/**
 	 * Append a new radio option as the last item with the specified text.
 	 * @param text - the text to append.
 	 */
-	append(text: string): void;
+	public append(text: string): void;
 
 	/**
 	 * Add a listener to the `selected` event. Emitted whenever the selected option
@@ -896,22 +1177,26 @@ export class UiRadioButtons extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onSelected(callback: () => void): void;
+	public onSelected(callback: () => void): void;
 }
 
 /**
  * A button that opens a color palette popup.
  */
 export class UiColorButton extends UiControl {
+
+	/**
+	 * Set or return the ColorButton color value.
+	 */
+	public color: Color;
 	/**
 	 * Create a new UiColorButton object.
 	 */
 	constructor();
 
-	/**
-	 * Set or return the ColorButton color value.
-	 */
-	color: Color;
+	/* getter/setters for public properties */
+	public getColor(): Color;
+	public setColor(value: Color): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the user
@@ -919,22 +1204,25 @@ export class UiColorButton extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => void): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
  * A button that opens a popup to choose a font.
  */
 export class UiFontButton extends UiControl {
+
+	/**
+	 * Return the FontButton font value.
+	 */
+	public readonly font: FontDescriptor;
 	/**
 	 * Create a new UiFontButton object.
 	 */
 	constructor();
 
-	/**
-	 * Return the FontButton font value.
-	 */
-	readonly font: FontDescriptor;
+	/* getter/setters for public properties */
+	public getFont(): FontDescriptor;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the user changed the
@@ -942,13 +1230,18 @@ export class UiFontButton extends UiControl {
 	 *
 	 * @param  {Function} callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => void): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
  * Horizontal slider to set numerical values.
  */
 export class UiSlider extends UiControl {
+
+	/**
+	 * Set or return the the content of the slider.
+	 */
+	public value: number;
 	/**
 	 * Create a new UiSlider object.
 	 * @param min - minimum value of the slider. default to `0`
@@ -956,23 +1249,28 @@ export class UiSlider extends UiControl {
 	 */
 	constructor(min?: number, max?: number);
 
-	/**
-	 * Set or return the the content of the slider.
-	 */
-	value: number;
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the slider value changed.
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => void): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
  * An entry control for numerical values.
  */
 export class UiSpinbox extends UiControl {
+
+	/**
+	 * Set or return the the content of spinbox.
+	 */
+	public value: number;
+
 	/**
 	 * Create a new UiSpinbox object.
 	 * @param min - minimum value of the spinbox. defaults to `0`
@@ -980,65 +1278,74 @@ export class UiSpinbox extends UiControl {
 	 */
 	constructor(min?: number, max?: number);
 
-	/**
-	 * Set or return the the content of spinbox.
-	 */
-	value: number;
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the spinbox value changed.
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => void): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
  * A checkbox control.
  */
 export class UiCheckbox extends UiControl {
+
+	/**
+	 * Set or return the text label for the checkbox.
+	 */
+	public text: string;
+
+	/**
+	 * Whether the control is checked.
+	 */
+	public checked: boolean;
 	/**
 	 * Create a new UiCheckbox object.
 	 */
 	constructor(label?: string);
 
-	/**
-	 * Set or return the text label for the checkbox.
-	 */
-	text: string;
-
-	/**
-	 * Whether the control is checked.
-	 */
-	checked: boolean;
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
+	public getChecked(): boolean;
+	public setChecked(value: boolean): void;
 
 	/**
 	 * Add a listener to the `toggled` event. Emitted whenever the control
 	 * `checked` state change.
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onToggled(callback: () => any): void;
+	public onToggled(callback: () => any): void;
 }
 
 /**
  * A drop down combo box that allow list selection only.
  */
 export class UiCombobox extends UiControl {
+
+	/**
+	 * Return or set the current selected item by index.
+	 */
+	public selected: number;
 	/**
 	 * Create a new UiCombobox object.
 	 */
 	constructor();
 
-	/**
-	 * Return or set the current selected item by index.
-	 */
-	selected: number;
+	/* getter/setters for public properties */
+	public getSelected(): number;
+	public setSelected(value: number): void;
 
 	/**
 	 * Append a new text item to the drop down list.
 	 * @param text - the item to append.
 	 */
-	append(text: string): void;
+	public append(text: string): void;
 
 	/**
 	 * Add a listener to the `selected` event. Emitted whenever the selected
@@ -1046,7 +1353,7 @@ export class UiCombobox extends UiControl {
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onSelected(callback: () => any): void;
+	public onSelected(callback: () => void): void;
 }
 
 /**
@@ -1054,21 +1361,25 @@ export class UiCombobox extends UiControl {
  * value.
  */
 export class UiEditableCombobox extends UiControl {
+
+	/**
+	 * Return or set the current text.
+	 */
+	public text: string;
 	/**
 	 * Create a new UiEditableCombobox object.
 	 */
 	constructor();
 
-	/**
-	 * Return or set the current text.
-	 */
-	text: string;
+	/* getter/setters for public properties */
+	public getText(): string;
+	public setText(value: string): void;
 
 	/**
 	 * Append a new text item to the drop down list.
 	 * @param text - the item to append.
 	 */
-	append(text: string): void;
+	public append(text: string): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the text (or item) changes.
@@ -1076,7 +1387,7 @@ export class UiEditableCombobox extends UiControl {
 	 * @param callback - callback to execute when the event is
 	 * fired.
 	 */
-	onChanged(callback: () => any): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
@@ -1111,14 +1422,18 @@ export abstract class DateTimePickerBase extends UiControl {
 	/**
 	 * Set or return the date/time represented by the control.
 	 */
-	time: Date;
+	public time: Date;
+
+	/* getter/setters for public properties */
+	public getTime(): Date;
+	public setTime(value: Date): void;
 
 	/**
 	 * Add a listener to the `changed` event. Emitted whenever the entry contents changed.
 	 *
 	 * @param callback - callback to execute when the event is fired.
 	 */
-	onChanged(callback: () => any): void;
+	public onChanged(callback: () => void): void;
 }
 
 /**
@@ -1155,17 +1470,21 @@ export class UiDatePicker extends DateTimePickerBase {
  * Progress bar control.
  */
 export class UiProgressBar extends UiControl {
-	/**
-	 * Create a new UiProgressBar object.
-	 */
-	constructor();
 
 	/**
 	 * The current position of the progress bar.
 	 *
 	 * Can be set to `-1` to create an indeterminate progress bar.
 	 */
-	value: number;
+	public value: number;
+	/**
+	 * Create a new UiProgressBar object.
+	 */
+	constructor();
+
+	/* getter/setters for public properties */
+	public getValue(): number;
+	public setValue(value: number): void;
 }
 
 /**
@@ -1185,38 +1504,38 @@ export class UiMenu {
 	 * @param caption - The caption of the menu item.
 	 * @return the new appended UiMenuItem
 	 */
-	appendItem(caption: string): UiMenuItem;
+	public appendItem(caption: string): UiMenuItem;
 
 	/**
 	 * Append a menu button with a checkable option.
 	 * @param caption - The caption of the menu item.
 	 * @return the new appended UiMenuItem
 	 */
-	appendCheckItem(caption: string): UiMenuItem;
+	public appendCheckItem(caption: string): UiMenuItem;
 
 	/**
 	 * Append an OS-provided quit button.
 	 * @return the new appended UiMenuItem
 	 */
-	appendQuitItem(): UiMenuItem;
+	public appendQuitItem(): UiMenuItem;
 
 	/**
 	 * Append a OS-provided preferences button.
 	 * @return the new appended UiMenuItem
 	 */
-	appendPreferencesItem(): UiMenuItem;
+	public appendPreferencesItem(): UiMenuItem;
 
 	/**
 	 * Append an OS-provided about button.
 	 * @return the new appended UiMenuItem
 	 */
-	appendAboutItem(): UiMenuItem;
+	public appendAboutItem(): UiMenuItem;
 
 	/**
 	 * Append a separator between menu items.
 	 * @return the new appended UiMenuItem
 	 */
-	appendSeparator(): UiMenuItem;
+	public appendSeparator(): UiMenuItem;
 }
 
 /**
@@ -1224,24 +1543,28 @@ export class UiMenu {
  */
 export class UiMenuItem {
 	/**
+	 * If the item is created using appendCheckItem, then set
+	 * whether it is checked or not.
+	 */
+	public checked: boolean;
+
+	/* getter/setters for public properties */
+	public getChecked(): boolean;
+	public setChecked(value: boolean): void;
+
+	/**
 	 * Enable this menu item.
 	 */
-	enable(): void;
+	public enable(): void;
 
 	/**
 	 * Disable this menu item
 	 */
-	disable(): void;
+	public disable(): void;
 
 	/**
 	 * Register a callback for the click event of the menu item.
 	 * @param callback - the function to register as callback for the event.
 	 */
-	onClicked(callback: () => void): void;
-
-	/**
-	 * If the item is created using appendCheckItem, then set
-	 * whether it is checked or not.
-	 */
-	checked: boolean;
+	public onClicked(callback: () => void): void;
 }

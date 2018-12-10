@@ -8,7 +8,7 @@ let lastTimeout = 0;
 let setIntervalLast = Date.now();
 console.log(libui.UiWindow)
 const win = new libui.UiWindow('Event loop tests', 800, 600, false);
-win.margined = 1;
+win.margined = true;
 console.log(2)
 const box = new libui.UiVerticalBox();
 box.padded = true;
@@ -25,13 +25,13 @@ console.log({setIntervalMs})
 
 const sliderLabel = new libui.UiLabel('0');
 
-sliderbox.append(setIntervalMs, 1);
-sliderbox.append(sliderLabel, 0);
+sliderbox.append(setIntervalMs, true);
+sliderbox.append(sliderLabel, false);
 
 const form = new libui.UiForm();
 form.padded = true;
-form.append('setInterval', sliderbox, 0);
-form.append('actions', makeToolbar(), 0);
+form.append('setInterval', sliderbox, false);
+form.append('actions', makeToolbar(), false);
 box.append(form, false);
 
 const log = new libui.UiMultilineEntry();
@@ -71,7 +71,7 @@ function setIntervalChanged() {
 	if (Math.abs(ms - lastTimeout) < 100) {
 		return;
 	}
-	sliderLabel.text = ms;
+	sliderLabel.text = String(ms);
 	lastTimeout = ms;
 	if (setIntervalHandle !== null) {
 		clearInterval(setIntervalHandle);

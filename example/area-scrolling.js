@@ -2,14 +2,14 @@
 const libui = require('..');
 
 const win = new libui.UiWindow('Area window', 600, 400, false);
-win.margined = 1;
+win.margined = true;
 win.onClosing(() => {
 	libui.stopLoop();
 });
 
 const hBox = new libui.UiHorizontalBox();
 
-const brushRed = new libui.DrawBrush(1, 0, 0);
+const brushRed = new libui.DrawBrush();
 brushRed.color = new libui.Color(1, 0, 0, 1);
 
 const area = new libui.UiArea(

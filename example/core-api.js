@@ -18,12 +18,12 @@ menuEdit.appendItem('Cut');
 menuEdit.appendItem('Paste');
 
 const win = new libui.UiWindow('Test window', 800, 600, true);
-win.margined = 1;
+win.margined = true;
 
 const box = new libui.UiVerticalBox();
 const hBox = new libui.UiHorizontalBox();
 const e1 = new libui.UiEntry();
-e1.enabled = 0;
+e1.enabled = false;
 const lblCiao = new libui.UiLabel('ciao');
 hBox.append(lblCiao, false);
 

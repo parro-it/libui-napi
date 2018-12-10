@@ -1,0 +1,21 @@
+{
+  "name": "gallery-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "lint": "tslint *.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "libui-napi": "file:../..",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0"
+  }
+}
