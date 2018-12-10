@@ -59,6 +59,22 @@
 		}                                                                                          \
 	}
 
+#define ARG_BUFFER(ARG_NAME, ARG_IDX)                                                              \
+	void *ARG_NAME##__ptr;                                                                         \
+	size_t ARG_NAME##__len;                                                                        \
+	{                                                                                              \
+		napi_status status =                                                                       \
+			napi_get_buffer_info(env, argv[ARG_IDX], &ARG_NAME##__ptr, &ARG_NAME##__len);          \
+		if (status != napi_ok) {                                                                   \
+			const napi_extended_error_info *result;                                                \
+			napi_get_last_error_info(env, &result);                                                \
+			char err[1024];                                                                        \
+			snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);              \
+			napi_throw_type_error(env, NULL, err);                                                 \
+			return NULL;                                                                           \
+		}                                                                                          \
+	}
+
 #define ARG_DOUBLE(ARG_NAME, ARG_IDX)                                                              \
 	double ARG_NAME;                                                                               \
 	{                                                                                              \
@@ -139,8 +155,31 @@ extern napi_ref null_ref;
 		if (arg_type == napi_null) {                                                               \
 			ARG_NAME = null_ref;                                                                   \
 		} else {                                                                                   \
+			napi_value global;                                                                     \
+			status = napi_get_global(env, &global);                                                \
+			CHECK_STATUS_THROW(status, napi_get_global);                                           \
+                                                                                                   \
+			napi_value function_constructor;                                                       \
+			status = napi_get_named_property(env, global, "Function", &function_constructor);      \
+			CHECK_STATUS_THROW(status, napi_get_named_property);                                   \
+                                                                                                   \
+			bool is_function = false;                                                              \
+			status = napi_instanceof(env, argv[ARG_IDX], function_constructor, &is_function);      \
+			if (status != napi_ok || !is_function) {                                               \
+				napi_throw_type_error(env, NULL,                                                   \
+									  "Argument " #ARG_NAME ": a function was expected");          \
+				return NULL;                                                                       \
+			}                                                                                      \
+                                                                                                   \
 			status = napi_create_reference(env, argv[ARG_IDX], 1, &ARG_NAME);                      \
-			CHECK_STATUS_THROW(status, napi_create_reference);                                     \
+			if (status != napi_ok) {                                                               \
+				const napi_extended_error_info *result;                                            \
+				napi_get_last_error_info(env, &result);                                            \
+				char err[1024];                                                                    \
+				snprintf(err, 1024, "Argument " #ARG_NAME ": %s", result->error_message);          \
+				napi_throw_type_error(env, NULL, err);                                             \
+				return NULL;                                                                       \
+			}                                                                                      \
 		}                                                                                          \
 	}
 
