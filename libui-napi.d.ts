@@ -719,10 +719,9 @@ export class DrawStrokeParams {
 }
 
 export class UiDrawMatrix {
-
-	public readonly 0: number;
-	public readonly 1: number;
-	public readonly 2: number;
+	public readonly 0: [number, number, number];
+	public readonly 1: [number, number, number];
+	public readonly 2: [number, number, number];
 	constructor();
 	public get0(): number;
 	public get1(): number;
