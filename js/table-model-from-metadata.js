@@ -91,7 +91,8 @@ const LabeledImage = {
 		cellGetters[labelIdx] = () => {
 			console.log('column.label', column.label);
 			return column.label;
-		} cellSetters[labelIdx] = noop;
+		};
+		cellSetters[labelIdx] = noop;
 
 		columnTypes[labelIdx + 1] = ValueTypes.Int;
 		cellGetters[labelIdx + 1] = () => 0;
