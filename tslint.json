@@ -8,7 +8,8 @@
         "indent": [true, "tabs"],
         "max-classes-per-file": false,
         "align": [false, "parameters"],
-        "no-namespace": false
+        "no-namespace": false,
+        "interface-name": [false]
     },
     "rulesDirectory": []
 }
