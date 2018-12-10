@@ -49,7 +49,8 @@ const LabeledCheckbox = {
 	setter: ({key}) => (data, row, value) => (data[row][key] = Boolean(value)),
 	cellType: () => ValueTypes.Int,
 	addFurtherColumns: ({column, columnTypes, cellGetters, cellSetters}) => {
-		const labelIdx = column.idx + 1000;
+		const labelIdx = columnTypes.length;
+		console.log('LabeledCheckbox labelIdx', column.idx, labelIdx);
 		columnTypes[labelIdx] = ValueTypes.String;
 		cellGetters[labelIdx] = () => column.label;
 		cellSetters[labelIdx] = noop;
@@ -84,10 +85,13 @@ const LabeledImage = {
 	setter: ({key}) => () => 0,
 	cellType: () => ValueTypes.Image,
 	addFurtherColumns: ({column, columnTypes, cellGetters, cellSetters}) => {
-		const labelIdx = column.idx + 1000;
+		const labelIdx = columnTypes.length;
+		console.log('LabeledImage labelIdx', column.idx, labelIdx);
 		columnTypes[labelIdx] = ValueTypes.String;
-		cellGetters[labelIdx] = () => column.label;
-		cellSetters[labelIdx] = noop;
+		cellGetters[labelIdx] = () => {
+			console.log('column.label', column.label);
+			return column.label;
+		} cellSetters[labelIdx] = noop;
 
 		columnTypes[labelIdx + 1] = ValueTypes.Int;
 		cellGetters[labelIdx + 1] = () => 0;
@@ -96,11 +100,12 @@ const LabeledImage = {
 		column.labelIdx = labelIdx;
 	},
 	adder: column => tb => {
+		console.log('adder', column.labelIdx)
 		const textModelColumn = column.labelIdx;
 		const textEditableModelColumn = column.labelIdx + 1;
 
-		tb.appendImageTextColumn(column.header, column.idx, column.idx + 1,
-								 textModelColumn, textEditableModelColumn, null);
+		tb.appendImageTextColumn(column.header, column.idx, textModelColumn,
+								 textEditableModelColumn, null);
 	}
 };
 
@@ -135,11 +140,6 @@ function fromMetadata(model) {
 		cellSetters[idx] = column.type.setter(column);
 		column.adder = column.type.adder(column);
 
-		if (typeof column.type.addFurtherColumns === 'function') {
-			column.type.addFurtherColumns(
-				{columnTypes, cellGetters, cellSetters, column});
-		}
-
 		if (typeof column.editable === 'function') {
 			columnTypes[idx + 1] = ValueTypes.Int;
 			cellGetters[idx + 1] = (data, row) => column.editable(data[row]);
@@ -148,6 +148,12 @@ function fromMetadata(model) {
 			cellGetters[idx + 1] = always(Number(Boolean(column.editable)));
 		}
 		cellSetters[idx + 1] = noop;
+
+		if (typeof column.type.addFurtherColumns === 'function') {
+
+			column.type.addFurtherColumns(
+				{columnTypes, cellGetters, cellSetters, column});
+		}
 
 		if (column.header === undefined) {
 			column.header = key;
@@ -168,9 +174,7 @@ function fromMetadata(model) {
 				columnType: column => columnTypes[column],
 				numRows: () => data.length,
 				cellValue: (row, column) => {
-					console.log({row, column});
 					const value = cellGetters[column](data, row);
-					console.log(value);
 					return value;
 				},
 				setCellValue: (row, column, value) =>
