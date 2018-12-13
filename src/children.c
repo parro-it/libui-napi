@@ -232,3 +232,63 @@ napi_status add_child(napi_env env, struct children_list *list, struct control_h
 
 	return napi_ok;
 }
+
+static void on_node_gc(napi_env env, void *finalize_data, void *finalize_hint) {}
+
+LIBUI_FUNCTION(getChildNodeAt) {
+	INIT_ARGS(2);
+	ARG_POINTER(struct control_handle, handle, 0);
+	ENSURE_NOT_DESTROYED();
+	ARG_INT32(index, 1);
+
+	if (index < 0) {
+		napi_throw_error(env, NULL, "Index should be great than 0.");
+		return NULL;
+	}
+
+	const char *not_found = "Index should be less than number of children.";
+	struct children_node *node = handle->children->head;
+	int current_idx = 0;
+
+	while (current_idx < index) {
+		if (node == NULL) {
+			napi_throw_error(env, NULL, not_found);
+			return NULL;
+		}
+		node = node->next;
+		current_idx++;
+	}
+
+	if (node == NULL) {
+		napi_throw_error(env, NULL, not_found);
+		return NULL;
+	}
+
+	napi_value node_external;
+	napi_status status = napi_create_external(env, node, on_node_gc, NULL, &node_external);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
+	return node_external;
+}
+
+LIBUI_FUNCTION(controlFromChildNode) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct children_node, handle, 0);
+
+	return NULL;
+}
+
+LIBUI_FUNCTION(nextChildNode) {
+	INIT_ARGS(1);
+	ARG_POINTER(struct children_node, handle, 0);
+
+	return NULL;
+}
+
+napi_value _libui_init_ui_control_children(napi_env env, napi_value exports) {
+	DEFINE_MODULE();
+	LIBUI_EXPORT(getChildNodeAt);
+	LIBUI_EXPORT(nextChildNode);
+	LIBUI_EXPORT(controlFromChildNode);
+	return module;
+}

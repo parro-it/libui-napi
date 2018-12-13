@@ -39,6 +39,7 @@ static napi_value init_all(napi_env env, napi_value exports) {
 	_libui_init_area_matrix(env, exports);
 	_libui_init_grid(env, exports);
 	_libui_init_dialogs(env, exports);
+	_libui_init_ui_control_children(env, exports);
 
 	_libui_init_tests(env, exports);
 
