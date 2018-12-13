@@ -233,7 +233,14 @@ napi_status add_child(napi_env env, struct children_list *list, struct control_h
 	return napi_ok;
 }
 
-static void on_node_gc(napi_env env, void *finalize_data, void *finalize_hint) {}
+static void on_node_gc(napi_env env, void *finalize_data, void *finalize_hint) {
+	// TODO: children_node should be unmarked as
+	// used by js side, so that it can be freed
+	// by C side when needed.
+	// Also, if the C side has already tryied to free it,
+	// it should have marked it as 'disposable'
+	// in that case, it should be fred here.
+}
 
 LIBUI_FUNCTION(getChildNodeAt) {
 	INIT_ARGS(2);
@@ -264,6 +271,11 @@ LIBUI_FUNCTION(getChildNodeAt) {
 		return NULL;
 	}
 
+	// TODO: children_node should be marked as
+	// used by js side, because it should not be freed
+	// by C side until its external is garbage collected by
+	// js side
+
 	napi_value node_external;
 	napi_status status = napi_create_external(env, node, on_node_gc, NULL, &node_external);
 	CHECK_STATUS_THROW(status, napi_create_external);
@@ -273,9 +285,15 @@ LIBUI_FUNCTION(getChildNodeAt) {
 
 LIBUI_FUNCTION(controlFromChildNode) {
 	INIT_ARGS(1);
-	ARG_POINTER(struct children_node, handle, 0);
+	ARG_POINTER(struct children_node, node, 0);
 
-	return NULL;
+	napi_ref ctrl_ref = node->handle->ctrl_ref;
+	napi_value handle_external;
+
+	napi_status status = napi_get_reference_value(env, ctrl_ref, &handle_external);
+	CHECK_STATUS_THROW(status, napi_get_reference_value);
+
+	return handle_external;
 }
 
 LIBUI_FUNCTION(nextChildNode) {
