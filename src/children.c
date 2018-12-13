@@ -300,6 +300,16 @@ LIBUI_FUNCTION(nextChildNode) {
 	INIT_ARGS(1);
 	ARG_POINTER(struct children_node, handle, 0);
 
+	struct children_node *node = children_node->next;
+
+	if (node == NULL) {
+		return NULL;
+	}
+
+	napi_value node_external;
+	napi_status status = napi_create_external(env, node, on_node_gc, NULL, &node_external);
+	CHECK_STATUS_THROW(status, napi_create_external);
+
 	return NULL;
 }
 
