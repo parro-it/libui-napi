@@ -78,7 +78,8 @@ test('ui', t => {
 			const NODE_MAJOR = process.version.substr(1).split('.')[0];
 			if (PR_REPO && Number(PR_NUM)) {
 				tester.pushToServer('https://sts.mischnic.ml', PR_REPO, PR_NUM,
-									NODE_MAJOR !== '11', ' - Node ' + NODE_MAJOR);
+									NODE_MAJOR !== '11' || NODE_MAJOR !== '10',
+									' - Node ' + NODE_MAJOR);
 			}
 		})
 		.then(() => {
