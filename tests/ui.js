@@ -17,7 +17,6 @@ function tapLogger(type, file, err) {
 			break;
 		case 'FAILED':
 		case 'ERROR':
-
 			if (!isCI && file == 'core-api.js - "Test window"') {
 				total++;
 				passed++;
@@ -36,6 +35,14 @@ function tapLogger(type, file, err) {
 			total++;
 			passed++;
 			console.log(`ok ${total} - ${file}`);
+			break;
+		case 'PUSH':
+			if (err) {
+				console.error(`Sending report to: ${file} failed`);
+				console.error('\t', err);
+			} else {
+				console.log(`Sent report to: ${file}`);
+			}
 			break;
 	}
 }
@@ -63,6 +70,17 @@ test('ui', t => {
 		.then(() => tester('example/node-pad.js', 'Node Pad'))
 		.then(() => tester('example/text.js', 'textDrawArea Example'))
 		.then(() => tester.generateHTML())
+		.then(() => {
+			const PR_REPO =
+				process.env.TRAVIS_REPO_SLUG || process.env.APPVEYOR_REPO_NAME;
+			const PR_NUM = process.env.TRAVIS_PULL_REQUEST ||
+						   process.env.APPVEYOR_PULL_REQUEST_NUMBER;
+			const NODE_MAJOR = process.version.substr(1).split('.')[0];
+			if (PR_REPO && Number(PR_NUM)) {
+				tester.pushToServer('https://sts.mischnic.ml', PR_REPO, PR_NUM,
+									NODE_MAJOR !== '11', ' - Node ' + NODE_MAJOR);
+			}
+		})
 		.then(() => {
 			test.getHarness()._results.count += total - start;
 			test.getHarness()._results.pass += passed;
