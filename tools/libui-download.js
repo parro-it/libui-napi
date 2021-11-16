@@ -82,7 +82,10 @@ function download(opts) {
 }
 
 function main() {
-	return download({version: process.env.npm_package_libui}).then(zipPath => {
+	const version = process.env.npm_package_json ?
+		require(process.env.npm_package_json).libui :
+		process.env.npm_package_libui;
+	return download({version}).then(zipPath => {
 		console.log('Downloaded zip:', zipPath);
 		if (os.platform() === 'win32') {
 			return new Promise(
